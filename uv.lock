@@ -819,11 +819,15 @@ name = "fondontology"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "rdflib" },
     { name = "semantica", extra = ["explorer"] },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "semantica", extras = ["explorer"], specifier = ">=0.6.6" }]
+requires-dist = [
+    { name = "rdflib", specifier = ">=7.6.0" },
+    { name = "semantica", extras = ["explorer"], specifier = ">=0.6.6" },
+]
 
 [[package]]
 name = "fonttools"

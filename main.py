@@ -1,5 +1,4 @@
-def main():
-    print("Hello from fondontology!")
+from fondontology.cli import main
 
 
 if __name__ == "__main__":

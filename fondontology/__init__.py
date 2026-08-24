@@ -1,0 +1,1 @@
+"""Domestic financial ontology foundation."""
