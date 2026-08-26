@@ -13,7 +13,7 @@ from typing import Iterable
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
-from rdflib import Graph
+from rdflib import Graph, URIRef
 from rdflib.namespace import OWL, RDF, RDFS
 
 
@@ -29,6 +29,7 @@ class FiboTBoxConfig:
     entrypoint: str = "AboutFIBOProd-TBoxOnly.rdf"
     output_path: Path = Path("artifacts/fibo/fibo-prod-tbox.ttl")
     manifest_path: Path = Path("artifacts/fibo/fibo-prod-tbox-manifest.json")
+    explorer_output_path: Path = Path("artifacts/fibo/fibo-prod-tbox-explorer.json")
     external_cache_path: Path = Path("artifacts/fibo/external")
     fetch_external: bool = False
     allow_unresolved: bool = False
@@ -185,6 +186,144 @@ class FiboTBox:
         ontology = ingest_ontology(manifest["output_path"], method="file", format="turtle")
         return manifest, ontology
 
+    def export_explorer(self) -> dict[str, object]:
+        """Export the T-BOX's ontology structure to Semantica Explorer JSON."""
+        source_path = self._project_path(self.config.output_path)
+        if not source_path.is_file():
+            self.build()
+
+        graph = Graph()
+        graph.parse(source_path, format="turtle")
+
+        core_predicates = (
+            RDFS.subClassOf,
+            RDFS.subPropertyOf,
+            RDFS.domain,
+            RDFS.range,
+        )
+        type_predicates = (
+            OWL.Class,
+            RDFS.Class,
+            OWL.ObjectProperty,
+            OWL.DatatypeProperty,
+            OWL.AnnotationProperty,
+            RDF.Property,
+            RDFS.Datatype,
+        )
+
+        resources: set[URIRef] = set()
+        for resource_type in type_predicates:
+            resources.update(
+                subject
+                for subject in graph.subjects(RDF.type, resource_type)
+                if isinstance(subject, URIRef)
+            )
+        for predicate in core_predicates:
+            resources.update(
+                subject
+                for subject in graph.subjects(predicate, None)
+                if isinstance(subject, URIRef)
+            )
+            resources.update(
+                target
+                for target in graph.objects(None, predicate)
+                if isinstance(target, URIRef)
+            )
+
+        def local_name(value: URIRef | str) -> str:
+            text = str(value).rstrip("/#")
+            return text.rsplit("#", 1)[-1].rsplit("/", 1)[-1] or text
+
+        def compact_type(resource: URIRef) -> str:
+            types = set(graph.objects(resource, RDF.type))
+            if OWL.Class in types or RDFS.Class in types:
+                return "owl:Class"
+            if OWL.ObjectProperty in types:
+                return "owl:ObjectProperty"
+            if OWL.DatatypeProperty in types:
+                return "owl:DatatypeProperty"
+            if OWL.AnnotationProperty in types:
+                return "owl:AnnotationProperty"
+            if RDF.Property in types:
+                return "rdf:Property"
+            if RDFS.Datatype in types:
+                return "rdfs:Datatype"
+            return "ontology_resource"
+
+        nodes: list[dict[str, object]] = []
+        for resource in sorted(resources, key=str):
+            labels = [str(value) for value in graph.objects(resource, RDFS.label)]
+            comments = [str(value) for value in graph.objects(resource, RDFS.comment)]
+            resource_type = compact_type(resource)
+            nodes.append(
+                {
+                    "id": str(resource),
+                    "type": resource_type,
+                    "content": labels[0] if labels else local_name(resource),
+                    "properties": {
+                        "iri": str(resource),
+                        "rdfs:label": labels[0] if labels else local_name(resource),
+                        "rdfs:comment": comments[0] if comments else "",
+                        "rdf:type": resource_type,
+                        "local_name": local_name(resource),
+                        "source": "FIBO",
+                    },
+                }
+            )
+
+        node_ids = {node["id"] for node in nodes}
+        predicate_labels = {
+            RDFS.subClassOf: "rdfs:subClassOf",
+            RDFS.subPropertyOf: "rdfs:subPropertyOf",
+            RDFS.domain: "rdfs:domain",
+            RDFS.range: "rdfs:range",
+        }
+        edges: list[dict[str, object]] = []
+        for predicate in core_predicates:
+            edge_type = predicate_labels[predicate]
+            for source, target in graph.subject_objects(predicate):
+                if not isinstance(source, URIRef) or not isinstance(target, URIRef):
+                    continue
+                if str(source) not in node_ids or str(target) not in node_ids:
+                    continue
+                edges.append(
+                    {
+                        "source": str(source),
+                        "target": str(target),
+                        "type": edge_type,
+                        "weight": 1.0,
+                        "properties": {"predicate": str(predicate)},
+                    }
+                )
+
+        output_path = self._project_path(self.config.explorer_output_path)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        payload = {
+            "graph_id": "fibo-prod-tbox",
+            "nodes": nodes,
+            "edges": edges,
+        }
+        output_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+        return {
+            "output_path": str(output_path),
+            "node_count": len(nodes),
+            "edge_count": len(edges),
+            "class_node_count": sum(node["type"] == "owl:Class" for node in nodes),
+            "property_node_count": sum(
+                node["type"] in {
+                    "owl:ObjectProperty",
+                    "owl:DatatypeProperty",
+                    "owl:AnnotationProperty",
+                    "rdf:Property",
+                }
+                for node in nodes
+            ),
+            "edge_types": {
+                edge_type: sum(edge["type"] == edge_type for edge in edges)
+                for edge_type in predicate_labels.values()
+            },
+        }
+
     def _project_path(self, path: Path) -> Path:
         if path.is_absolute():
             return path
@@ -218,11 +357,12 @@ def default_fibo_root() -> Path:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Build the FIBO production T-BOX for Semantica")
-    parser.add_argument("command", choices=["inspect", "build", "ingest"])
+    parser.add_argument("command", choices=["inspect", "build", "ingest", "export-explorer"])
     parser.add_argument("--fibo-root", type=Path, default=default_fibo_root())
     parser.add_argument("--entrypoint", default="AboutFIBOProd-TBoxOnly.rdf")
     parser.add_argument("--output", type=Path, default=Path("artifacts/fibo/fibo-prod-tbox.ttl"))
     parser.add_argument("--manifest", type=Path, default=Path("artifacts/fibo/fibo-prod-tbox-manifest.json"))
+    parser.add_argument("--explorer-output", type=Path, default=Path("artifacts/fibo/fibo-prod-tbox-explorer.json"))
     parser.add_argument("--external-cache", type=Path, default=Path("artifacts/fibo/external"))
     parser.add_argument("--fetch-external", action="store_true", help="Fetch missing OMG/LCC imports into the local cache")
     parser.add_argument("--allow-unresolved", action="store_true", help="Build even when imports cannot be resolved")
@@ -236,6 +376,7 @@ def run(argv: Iterable[str] | None = None) -> int:
         entrypoint=args.entrypoint,
         output_path=args.output,
         manifest_path=args.manifest,
+        explorer_output_path=args.explorer_output,
         external_cache_path=args.external_cache,
         fetch_external=args.fetch_external,
         allow_unresolved=args.allow_unresolved,
@@ -246,7 +387,7 @@ def run(argv: Iterable[str] | None = None) -> int:
         print(json.dumps(tbox.inspect(), indent=2))
     elif args.command == "build":
         print(json.dumps(tbox.build(), indent=2))
-    else:
+    elif args.command == "ingest":
         manifest, ontology = tbox.ingest_with_semantica()
         print(json.dumps({
             "manifest": manifest,
@@ -256,6 +397,8 @@ def run(argv: Iterable[str] | None = None) -> int:
                 "property_count": len(ontology.data.get("properties", [])),
             },
         }, indent=2))
+    else:
+        print(json.dumps(tbox.export_explorer(), indent=2))
     return 0
 
 
