@@ -1,9 +1,4 @@
 @prefix cnfo: <https://ontology.example.cn/cnfo/ontology/> .
-@prefix fibo-funds: <https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/> .
-@prefix fibo-pools: <https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/> .
-@prefix fibo-fbc: <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/> .
-@prefix fibo-contracts: <https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/> .
-@prefix commons-roles: <https://www.omg.org/spec/Commons/RolesAndCompositions/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -12,7 +7,7 @@
 cnfo:ChinaFundOntology
     a owl:Ontology ;
     rdfs:label "中国基金领域本体"@zh ;
-    rdfs:comment "基于 FIBO 继承和扩展的中国基金领域 T-BOX 首版。"@zh .
+    rdfs:comment "独立的中国基金领域 T-BOX 首版。"@zh .
 
 ### Fund core entities
 
@@ -22,9 +17,8 @@ cnfo:FundObject
 
 cnfo:Fund
     a owl:Class ;
-    rdfs:subClassOf cnfo:FundObject, fibo-funds:CollectiveInvestmentVehicle ;
+    rdfs:subClassOf cnfo:FundObject ;
     rdfs:label "基金"@zh ;
-    skos:closeMatch fibo-funds:CollectiveInvestmentVehicle ;
     skos:definition "在中国基金行业语境下依法设立、募集或形成并开展投资运作的基金对象。"@zh .
 
 cnfo:FundProduct
@@ -42,7 +36,7 @@ cnfo:PublicFund
 
 cnfo:PrivateFund
     a owl:Class ;
-    rdfs:subClassOf cnfo:Fund, fibo-pools:PrivateFund ;
+    rdfs:subClassOf cnfo:Fund ;
     rdfs:label "私募基金"@zh ;
     skos:definition "依法向合格投资者非公开募集并按照适用规则登记备案的基金。"@zh .
 
@@ -96,17 +90,15 @@ cnfo:GovernmentGuidanceFund
 
 cnfo:OpenEndedFund
     a owl:Class ;
-    rdfs:subClassOf cnfo:Fund, fibo-funds:OpenEndInvestment ;
+    rdfs:subClassOf cnfo:Fund ;
     rdfs:label "开放式基金"@zh ;
-    skos:closeMatch fibo-funds:OpenEndInvestment ;
     skos:definition "基金份额总额不固定，可以按照基金合同办理申购和赎回的基金。"@zh ;
     owl:disjointWith cnfo:ClosedEndedFund .
 
 cnfo:ClosedEndedFund
     a owl:Class ;
-    rdfs:subClassOf cnfo:Fund, fibo-funds:ClosedEndInvestment ;
+    rdfs:subClassOf cnfo:Fund ;
     rdfs:label "封闭式基金"@zh ;
-    skos:closeMatch fibo-funds:ClosedEndInvestment ;
     skos:definition "合同期限内基金份额总额固定，通常不办理日常赎回的基金。"@zh .
 
 cnfo:PeriodicOpenEndedFund
@@ -138,16 +130,14 @@ cnfo:HybridFund
 
 cnfo:FundOfFunds
     a owl:Class ;
-    rdfs:subClassOf cnfo:Fund, fibo-funds:FundOfFunds ;
+    rdfs:subClassOf cnfo:Fund ;
     rdfs:label "基金中基金"@zh ;
-    skos:closeMatch fibo-funds:FundOfFunds ;
     skos:definition "主要投资其他基金份额的基金，也称 FOF。"@zh .
 
 cnfo:ExchangeTradedFund
     a owl:Class ;
-    rdfs:subClassOf cnfo:OpenEndedFund, fibo-funds:ExchangeTradedFund ;
+    rdfs:subClassOf cnfo:OpenEndedFund ;
     rdfs:label "交易型开放式指数基金"@zh ;
-    skos:closeMatch fibo-funds:ExchangeTradedFund ;
     skos:altLabel "ETF"@zh .
 
 cnfo:ListedOpenEndedFund
@@ -203,24 +193,24 @@ cnfo:PartnershipFundStructure a owl:Class ; rdfs:subClassOf cnfo:FundLegalStruct
 cnfo:FundEstate a owl:Class ; rdfs:subClassOf cnfo:FundObject ; rdfs:label "基金财产"@zh ; skos:definition "独立于管理人、托管人固有财产的基金资产、权利和负债集合。"@zh .
 cnfo:FundPortfolio a owl:Class ; rdfs:subClassOf cnfo:FundObject ; rdfs:label "基金投资组合"@zh ; skos:definition "基金财产中按投资目标和投资政策组织的资产与头寸集合。"@zh .
 cnfo:PortfolioPosition a owl:Class ; rdfs:subClassOf cnfo:FundObject ; rdfs:label "投资组合持仓"@zh .
-cnfo:FundUnit a owl:Class ; rdfs:subClassOf cnfo:FundObject, fibo-funds:FundUnit ; rdfs:label "基金份额"@zh ; skos:closeMatch fibo-funds:FundUnit .
+cnfo:FundUnit a owl:Class ; rdfs:subClassOf cnfo:FundObject ; rdfs:label "基金份额"@zh .
 cnfo:FundUnitClass a owl:Class ; rdfs:subClassOf cnfo:FundObject ; rdfs:label "基金份额类别"@zh .
-cnfo:FundPosition a owl:Class ; rdfs:subClassOf cnfo:FundObject, fibo-funds:FundPosition ; rdfs:label "基金份额持仓"@zh .
+cnfo:FundPosition a owl:Class ; rdfs:subClassOf cnfo:FundObject ; rdfs:label "基金份额持仓"@zh .
 
 cnfo:FundParty a owl:Class ; rdfs:label "基金参与主体"@zh .
 cnfo:FundRole a owl:Class ; rdfs:subClassOf cnfo:FundParty ; rdfs:label "基金角色"@zh .
 cnfo:Investor a owl:Class ; rdfs:subClassOf cnfo:FundParty ; rdfs:label "基金投资者"@zh .
 cnfo:QualifiedInvestor a owl:Class ; rdfs:subClassOf cnfo:Investor ; rdfs:label "合格投资者"@zh .
-cnfo:FundHolderRole a owl:Class ; rdfs:subClassOf cnfo:FundRole ; rdfs:label "基金份额持有人角色"@zh ; skos:closeMatch fibo-funds:FundHolder .
-cnfo:FundManagerRole a owl:Class ; rdfs:subClassOf cnfo:FundRole ; rdfs:label "基金管理人角色"@zh ; skos:closeMatch fibo-funds:FundManager .
-cnfo:FundManagementCompany a owl:Class ; rdfs:subClassOf cnfo:FundParty ; rdfs:label "基金管理公司"@zh ; skos:closeMatch fibo-fbc:InvestmentCompany .
+cnfo:FundHolderRole a owl:Class ; rdfs:subClassOf cnfo:FundRole ; rdfs:label "基金份额持有人角色"@zh .
+cnfo:FundManagerRole a owl:Class ; rdfs:subClassOf cnfo:FundRole ; rdfs:label "基金管理人角色"@zh .
+cnfo:FundManagementCompany a owl:Class ; rdfs:subClassOf cnfo:FundParty ; rdfs:label "基金管理公司"@zh .
 cnfo:FundDepositaryRole a owl:Class ; rdfs:subClassOf cnfo:FundRole ; rdfs:label "基金托管人角色"@zh .
 cnfo:FundDistributorRole a owl:Class ; rdfs:subClassOf cnfo:FundRole ; rdfs:label "基金销售机构角色"@zh .
 cnfo:FundRegistrarRole a owl:Class ; rdfs:subClassOf cnfo:FundRole ; rdfs:label "基金份额登记机构角色"@zh .
 cnfo:FundValuationServiceProviderRole a owl:Class ; rdfs:subClassOf cnfo:FundRole ; rdfs:label "基金估值服务机构角色"@zh .
 cnfo:FundSupervisor a owl:Class ; rdfs:subClassOf cnfo:FundParty ; rdfs:label "基金监管机构"@zh .
 
-cnfo:FundContract a owl:Class ; rdfs:subClassOf fibo-funds:FundContract ; rdfs:label "基金合同"@zh .
+cnfo:FundContract a owl:Class ; rdfs:subClassOf cnfo:FundObject ; rdfs:label "基金合同"@zh .
 cnfo:FundProspectus a owl:Class ; rdfs:label "基金招募说明书"@zh .
 cnfo:FundPeriodicReport a owl:Class ; rdfs:label "基金定期报告"@zh .
 cnfo:FundFilingDocument a owl:Class ; rdfs:label "基金备案文件"@zh .

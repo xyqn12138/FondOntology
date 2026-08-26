@@ -1,11 +1,12 @@
 [project]
 name = "fondontology"
 version = "0.1.0"
-description = "Domestic financial ontology foundation based on FIBO and Semantica"
+description = "Independent China fund ontology with an OWL 2 RL viewer"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "rdflib>=7.6.0",
+    "owlrl>=7.1.4",
     "semantica[explorer]>=0.6.6",
 ]
 
