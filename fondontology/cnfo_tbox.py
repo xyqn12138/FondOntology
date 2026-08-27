@@ -50,6 +50,11 @@ class CnfoFundTBox:
         classes = set(graph.subjects(RDF.type, OWL.Class))
         object_properties = set(graph.subjects(RDF.type, OWL.ObjectProperty))
         datatype_properties = set(graph.subjects(RDF.type, OWL.DatatypeProperty))
+        restrictions = set(graph.subjects(RDF.type, OWL.Restriction))
+        subproperties = set(graph.subjects(RDFS.subPropertyOf, None))
+        inverse_properties = set(graph.subjects(OWL.inverseOf, None))
+        disjoint_class_pairs = set(graph.subjects(OWL.disjointWith, None))
+        disjoint_class_groups = set(graph.subjects(RDF.type, OWL.AllDisjointClasses))
         manifest = {
             "ontology": "China Fund Ontology (CNFO)",
             "status": "independent",
@@ -59,6 +64,11 @@ class CnfoFundTBox:
             "class_count": len(classes),
             "object_property_count": len(object_properties),
             "datatype_property_count": len(datatype_properties),
+            "restriction_count": len(restrictions),
+            "subproperty_count": len(subproperties),
+            "inverse_property_count": len(inverse_properties),
+            "disjoint_class_pair_count": len(disjoint_class_pairs),
+            "disjoint_class_group_count": len(disjoint_class_groups),
             "cnfo_namespace": CNFO_BASE_IRI,
             "external_ontology_iris": [],
         }
@@ -67,14 +77,22 @@ class CnfoFundTBox:
 
     def inspect(self) -> dict[str, object]:
         graph = self._load_graph()
+        classes = set(graph.subjects(RDF.type, OWL.Class))
+        object_properties = set(graph.subjects(RDF.type, OWL.ObjectProperty))
+        datatype_properties = set(graph.subjects(RDF.type, OWL.DatatypeProperty))
         return {
             "ontology": "China Fund Ontology (CNFO)",
             "status": "independent",
             "source_path": str(self._project_path(self.config.source_path)),
             "triple_count": len(graph),
-            "class_count": len(set(graph.subjects(RDF.type, OWL.Class))),
-            "object_property_count": len(set(graph.subjects(RDF.type, OWL.ObjectProperty))),
-            "datatype_property_count": len(set(graph.subjects(RDF.type, OWL.DatatypeProperty))),
+            "class_count": len(classes),
+            "object_property_count": len(object_properties),
+            "datatype_property_count": len(datatype_properties),
+            "restriction_count": len(set(graph.subjects(RDF.type, OWL.Restriction))),
+            "subproperty_count": len(set(graph.subjects(RDFS.subPropertyOf, None))),
+            "inverse_property_count": len(set(graph.subjects(OWL.inverseOf, None))),
+            "disjoint_class_pair_count": len(set(graph.subjects(OWL.disjointWith, None))),
+            "disjoint_class_group_count": len(set(graph.subjects(RDF.type, OWL.AllDisjointClasses))),
             "cnfo_namespace": CNFO_BASE_IRI,
             "external_ontology_iris": [],
         }
@@ -148,6 +166,22 @@ class CnfoFundTBox:
                             "source": str(source), "target": str(target),
                             "type": predicate_labels[predicate], "weight": 1.0,
                             "properties": {"predicate": str(predicate)},
+                        })
+        for group in graph.subjects(RDF.type, OWL.AllDisjointClasses):
+            members: list[URIRef] = []
+            head = graph.value(group, OWL.members)
+            while head and head != RDF.nil:
+                member = graph.value(head, RDF.first)
+                if isinstance(member, URIRef):
+                    members.append(member)
+                head = graph.value(head, RDF.rest)
+            for index, source in enumerate(members):
+                for target in members[index + 1:]:
+                    if str(source) in node_ids and str(target) in node_ids:
+                        edges.append({
+                            "source": str(source), "target": str(target),
+                            "type": "owl:disjointWith", "weight": 1.0,
+                            "properties": {"predicate": str(OWL.disjointWith), "source_group": "owl:AllDisjointClasses"},
                         })
         output_path = self._project_path(self.config.explorer_output_path)
         output_path.parent.mkdir(parents=True, exist_ok=True)

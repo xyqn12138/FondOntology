@@ -187,6 +187,34 @@ class OntologyViewerSession:
             key=lambda item: (item["source"] != "CNFO", str(item["label"]).lower()),
         )
 
+    def _rdf_list_values(self, head: URIRef | BNode | None) -> list[URIRef]:
+        values: list[URIRef] = []
+        seen: set[URIRef | BNode] = set()
+        while isinstance(head, (URIRef, BNode)) and head != RDF.nil and head not in seen:
+            seen.add(head)
+            value = self.graph.value(head, RDF.first)
+            if isinstance(value, URIRef):
+                values.append(value)
+            head = self.graph.value(head, RDF.rest)
+        return values
+
+    def _disjoint_targets(self, iri: URIRef) -> set[URIRef]:
+        targets = {
+            target
+            for target in self.graph.objects(iri, OWL.disjointWith)
+            if isinstance(target, URIRef)
+        }
+        targets.update(
+            source
+            for source in self.graph.subjects(OWL.disjointWith, iri)
+            if isinstance(source, URIRef)
+        )
+        for group in self.graph.subjects(RDF.type, OWL.AllDisjointClasses):
+            members = self._rdf_list_values(self.graph.value(group, OWL.members))
+            if iri in members:
+                targets.update(member for member in members if member != iri)
+        return {target for target in targets if target in self.class_ids}
+
     def search(self, query: str, scope: str, limit: int) -> list[dict[str, object]]:
         normalized = query.strip().lower()
         candidates = self.class_ids
@@ -404,16 +432,16 @@ class OntologyViewerSession:
             (SKOS.closeMatch, "closeMatch"),
             (SKOS.relatedMatch, "relatedMatch"),
         ):
-            for target in self.graph.objects(iri, predicate):
-                if isinstance(target, URIRef) and target in self.class_ids:
+            for target in self.source_graph.objects(iri, predicate):
+                if isinstance(target, URIRef) and target in self.class_ids and target != iri:
                     relations.append({
                         "direction": "outgoing",
                         "predicate": str(predicate),
                         "label": label,
                         "target": self._node(target),
                     })
-            for source in self.graph.subjects(predicate, iri):
-                if isinstance(source, URIRef) and source in self.class_ids:
+            for source in self.source_graph.subjects(predicate, iri):
+                if isinstance(source, URIRef) and source in self.class_ids and source != iri:
                     relations.append({
                         "direction": "incoming",
                         "predicate": str(predicate),
@@ -426,23 +454,32 @@ class OntologyViewerSession:
             (SKOS.closeMatch, "近似匹配"),
             (SKOS.relatedMatch, "相关匹配"),
         ):
-            for target in self.graph.objects(iri, predicate):
-                if isinstance(target, URIRef):
+            for target in self.source_graph.objects(iri, predicate):
+                if isinstance(target, URIRef) and target != iri:
                     alignments.append({"relation": label, "predicate": str(predicate), "target": self._node(target)})
-            for source in self.graph.subjects(predicate, iri):
-                if isinstance(source, URIRef):
+            for source in self.source_graph.subjects(predicate, iri):
+                if isinstance(source, URIRef) and source != iri:
                     alignments.append({"relation": label, "predicate": str(predicate), "target": self._node(source)})
         property_groups = self._property_groups_for(iri)
         logical_constraints: list[dict[str, object]] = []
-        for predicate, label in ((OWL.disjointWith, "disjointWith"), (OWL.complementOf, "complementOf")):
+        seen_constraints: set[tuple[str, URIRef]] = set()
+        for target in self._disjoint_targets(iri):
+            seen_constraints.add(("disjointWith", target))
+            logical_constraints.append({
+                "relation": "disjointWith",
+                "target": self._node(target),
+            })
+        for predicate, label in ((OWL.complementOf, "complementOf"),):
             for target in self.graph.objects(iri, predicate):
-                if isinstance(target, URIRef):
+                if isinstance(target, URIRef) and target in self.class_ids and (label, target) not in seen_constraints:
+                    seen_constraints.add((label, target))
                     logical_constraints.append({
                         "relation": label,
                         "target": self._node(target),
                     })
             for source in self.graph.subjects(predicate, iri):
-                if isinstance(source, URIRef):
+                if isinstance(source, URIRef) and source in self.class_ids and (label, source) not in seen_constraints:
+                    seen_constraints.add((label, source))
                     logical_constraints.append({
                         "relation": label,
                         "target": self._node(source),
