@@ -1,0 +1,54 @@
+@prefix cnfom: <https://ontology.example.cn/cnfo/module/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cnfom:CNFOModuleVocabulary a owl:Ontology ;
+    rdfs:label "CNFO 模块接口词汇"@zh ;
+    dcterms:modified "2026-08-27"^^xsd:date ;
+    owl:versionInfo "0.2.0" ;
+    skos:changeNote "v0.2.0 增加标准映射标注属性 cnfom:standardName / cnfom:standardRef，用于记录概念与国内数据标准（JR/T 0304.1/0304.2、JR/T 0176.4）的对应关系。"@zh ;
+    skos:definition "用于描述 CNFO 本地模块入口、层级、文件和术语归属的技术词汇，不属于基金业务概念层。"@zh .
+
+cnfom:OntologyModule a owl:Class ;
+    rdfs:label "本体模块"@zh ;
+    skos:definition "一个可独立加载、可通过 owl:imports 组合的本体文件或逻辑入口。"@zh .
+
+cnfom:standardName a owl:DatatypeProperty ;
+    rdfs:label "标准英文名称"@zh ;
+    rdfs:domain rdfs:Resource ;
+    rdfs:range xsd:string ;
+    skos:definition "概念对应的国内数据标准英文名称/代码（如基金代码 FUND_CDE）。取自 JR/T 0304.1-2024 数据元英文名称或按 JR/T 0176.4-2022 英文词根规则推导。"@zh .
+
+cnfom:standardRef a owl:DatatypeProperty ;
+    rdfs:label "标准出处"@zh ;
+    rdfs:domain rdfs:Resource ;
+    rdfs:range xsd:string ;
+    skos:definition "概念对应的标准依据：标准编号、章节、数据元编号（BDxxxxxx）或代码表编号（DBDxxxxx）。"@zh .
+
+cnfom:moduleParent a owl:ObjectProperty ;
+    rdfs:label "模块上级"@zh ;
+    rdfs:domain cnfom:OntologyModule ;
+    rdfs:range cnfom:OntologyModule .
+
+cnfom:containsTerm a owl:ObjectProperty ;
+    rdfs:label "包含术语"@zh ;
+    rdfs:domain cnfom:OntologyModule ;
+    rdfs:range rdfs:Resource .
+
+cnfom:moduleFile a owl:DatatypeProperty ;
+    rdfs:label "模块文件"@zh ;
+    rdfs:domain cnfom:OntologyModule ;
+    rdfs:range xsd:string .
+
+cnfom:moduleKind a owl:DatatypeProperty ;
+    rdfs:label "模块类型"@zh ;
+    rdfs:domain cnfom:OntologyModule ;
+    rdfs:range xsd:string .
+
+cnfom:moduleOrder a owl:DatatypeProperty ;
+    rdfs:label "模块顺序"@zh ;
+    rdfs:domain cnfom:OntologyModule ;
+    rdfs:range xsd:integer .

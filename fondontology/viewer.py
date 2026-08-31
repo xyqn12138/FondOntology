@@ -9,13 +9,17 @@ from urllib.parse import unquote
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from rdflib import BNode, Graph, URIRef
+from rdflib import BNode, Graph, Namespace, URIRef
 from rdflib.namespace import OWL, RDF, RDFS, SKOS
 from owlrl import DeductiveClosure, OWLRL_Semantics
+
+from .ontology_loader import load_ontology_graph
 
 
 CNFO_BASE_IRI = "https://ontology.example.cn/cnfo/ontology/"
 CNFO_NAMESPACE = CNFO_BASE_IRI
+CNFO_MODULE_BASE_IRI = "https://ontology.example.cn/cnfo/module/"
+CNFOM = Namespace(CNFO_MODULE_BASE_IRI)
 BUILTIN_NAMESPACE_PREFIXES = (
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "http://www.w3.org/2000/01/rdf-schema#",
@@ -32,8 +36,7 @@ class OntologyViewerSession:
         self.ttl_path = Path(ttl_path).expanduser().resolve()
         if not self.ttl_path.is_file():
             raise FileNotFoundError(f"Ontology Turtle file not found: {self.ttl_path}")
-        self.source_graph = Graph()
-        self.source_graph.parse(self.ttl_path, format="turtle")
+        self.source_graph = load_ontology_graph(self.ttl_path)
         self.graph = Graph()
         self.graph += self.source_graph
         DeductiveClosure(
@@ -43,6 +46,7 @@ class OntologyViewerSession:
         ).expand(self.graph)
         self.class_ids = self._find_classes()
         self.property_ids = self._find_properties()
+        self.module_ids = self._find_modules()
         self._ancestor_cache: dict[URIRef, set[URIRef]] = {}
 
     def _find_classes(self) -> set[URIRef]:
@@ -83,6 +87,83 @@ class OntologyViewerSession:
             if isinstance(subject, URIRef)
         )
         return {resource for resource in properties if str(resource).startswith(CNFO_NAMESPACE)}
+
+    def _find_modules(self) -> set[URIRef]:
+        return {
+            subject
+            for subject in self.source_graph.subjects(RDF.type, CNFOM.OntologyModule)
+            if isinstance(subject, URIRef)
+        }
+
+    def _module_descendants(self, module_iri: URIRef) -> set[URIRef]:
+        descendants = {module_iri}
+        pending = [module_iri]
+        while pending:
+            current = pending.pop()
+            for child in self.module_ids:
+                if child in descendants:
+                    continue
+                if (child, CNFOM.moduleParent, current) in self.source_graph:
+                    descendants.add(child)
+                    pending.append(child)
+        return descendants
+
+    def _module_terms(self, module_iri: URIRef) -> set[URIRef]:
+        terms: set[URIRef] = set()
+        for module in self._module_descendants(module_iri):
+            terms.update(
+                term
+                for term in self.source_graph.objects(module, CNFOM.containsTerm)
+                if isinstance(term, URIRef)
+            )
+        return terms
+
+    def _module_node(self, module_iri: URIRef) -> dict[str, object]:
+        parent = self.source_graph.value(module_iri, CNFOM.moduleParent)
+        term_ids = self._module_terms(module_iri)
+        class_count = len(term_ids & self.class_ids)
+        property_count = len(term_ids & self.property_ids)
+        order = self.source_graph.value(module_iri, CNFOM.moduleOrder)
+        return {
+            "iri": str(module_iri),
+            "local_name": self._local_name(module_iri),
+            "label": self._label(module_iri),
+            "definition": self._definition(module_iri),
+            "source": "CNFO模块",
+            "file": str(self.source_graph.value(module_iri, CNFOM.moduleFile) or ""),
+            "kind": str(self.source_graph.value(module_iri, CNFOM.moduleKind) or ""),
+            "parent": str(parent) if isinstance(parent, URIRef) else "",
+            "order": int(order) if order is not None else 0,
+            "term_count": len(term_ids),
+            "class_count": class_count,
+            "property_count": property_count,
+        }
+
+    def _module_tree_node(self, module_iri: URIRef) -> dict[str, object]:
+        node = self._module_node(module_iri)
+        children = [
+            child for child in self.module_ids
+            if self.source_graph.value(child, CNFOM.moduleParent) == module_iri
+        ]
+        node["children"] = [
+            self._module_tree_node(child)
+            for child in sorted(children, key=lambda item: (self._module_node(item)["order"], str(item)))
+        ]
+        return node
+
+    def modules(self) -> dict[str, object]:
+        roots = [
+            module for module in self.module_ids
+            if not any(
+                parent in self.module_ids
+                for parent in self.source_graph.objects(module, CNFOM.moduleParent)
+            )
+        ]
+        roots.sort(key=lambda item: (self._module_node(item)["order"], str(item)))
+        return {
+            "roots": [self._module_tree_node(module) for module in roots],
+            "module_count": len(self.module_ids),
+        }
 
     def _ancestors(self, iri: URIRef, include_self: bool = True) -> set[URIRef]:
         """Return the RDFS class closure used for display-time inference."""
@@ -166,6 +247,8 @@ class OntologyViewerSession:
         resource_text = str(resource)
         if resource_text.startswith(CNFO_NAMESPACE):
             return "CNFO"
+        if resource_text.startswith(CNFO_MODULE_BASE_IRI):
+            return "CNFO模块"
         if resource_text.startswith(BUILTIN_NAMESPACE_PREFIXES):
             return "内置类型"
         return "外部参考"
@@ -215,11 +298,13 @@ class OntologyViewerSession:
                 targets.update(member for member in members if member != iri)
         return {target for target in targets if target in self.class_ids}
 
-    def search(self, query: str, scope: str, limit: int) -> list[dict[str, object]]:
+    def search(self, query: str, scope: str, limit: int, module_iri: str = "") -> list[dict[str, object]]:
         normalized = query.strip().lower()
         candidates = self.class_ids
         if scope == "cnfo":
             candidates = {item for item in candidates if self._source(item) == "CNFO"}
+        if module_iri:
+            candidates &= self._module_terms(URIRef(unquote(module_iri))) & self.class_ids
 
         ranked: list[tuple[int, dict[str, object]]] = []
         for resource in candidates:
@@ -274,13 +359,54 @@ class OntologyViewerSession:
             for ancestor in self._ancestor_order(iri):
                 if ancestor in domains and property_iri not in direct_domain:
                     direct_domain[property_iri] = None if ancestor == iri else ancestor
-            for ancestor in self._ancestor_order(iri):
-                if ancestor in ranges and property_iri not in direct_range:
-                    direct_range[property_iri] = None if ancestor == iri else ancestor
+            if iri in ranges:
+                direct_range[property_iri] = None
         return {
-            "outgoing": [self._property_node(item, direct_domain[item]) for item in sorted(direct_domain, key=str)],
-            "incoming": [self._property_node(item, direct_range[item]) for item in sorted(direct_range, key=str)],
+            "outgoing": [
+                {"direction": "outgoing", **self._property_node(item, direct_domain[item])}
+                for item in sorted(direct_domain, key=str)
+            ],
+            "incoming": [
+                {"direction": "incoming", **self._property_node(item, direct_range[item])}
+                for item in sorted(direct_range, key=str)
+            ],
         }
+
+    def _property_sections_for(self, iri: URIRef) -> list[dict[str, object]]:
+        """Group declared relations by the class that declares their endpoint.
+
+        This keeps inherited properties on the parent section instead of
+        flattening the whole effective property set onto the current class.
+        A range on a parent class is not treated as a range on every subclass.
+        """
+        sections: list[dict[str, object]] = []
+        for class_iri in self._ancestor_order(iri):
+            outgoing: list[dict[str, object]] = []
+            incoming: list[dict[str, object]] = []
+            datatype_outgoing: list[dict[str, object]] = []
+            for property_iri in sorted(self.property_ids, key=str):
+                domains, ranges = self._property_schema(property_iri)
+                property_node = self._property_node(property_iri)
+                property_node["direction"] = "outgoing"
+                if class_iri in domains:
+                    if property_node["type"] == "datatype":
+                        datatype_outgoing.append(property_node)
+                    else:
+                        outgoing.append(property_node)
+                if class_iri in ranges:
+                    property_node = self._property_node(property_iri)
+                    property_node["direction"] = "incoming"
+                    incoming.append(property_node)
+            if outgoing or incoming or datatype_outgoing:
+                sections.append({
+                    "class": self._node(class_iri),
+                    "current": class_iri == iri,
+                    "outgoing": outgoing,
+                    "incoming": incoming,
+                    "datatype_outgoing": datatype_outgoing,
+                    "relation_count": len(outgoing) + len(incoming) + len(datatype_outgoing),
+                })
+        return sections
 
     def _property_groups_for(self, iri: URIRef) -> dict[str, dict[str, list[dict[str, object]]]]:
         properties = self._properties_for(iri)
@@ -494,6 +620,7 @@ class OntologyViewerSession:
             },
             "relations": relations,
             "properties": self._properties_for(iri),
+            "property_sections": self._property_sections_for(iri),
             "object_properties": property_groups["object"],
             "datatype_properties": property_groups["datatype"],
             "annotation_properties": property_groups["annotation"],
@@ -507,10 +634,16 @@ class OntologyViewerSession:
                 "types": self._values(iri, RDF.type),
                 "subclasses": [str(item["iri"]) for item in self._nodes(parents)],
             },
+            "modules": [
+                self._module_node(module)
+                for module in sorted(self.module_ids, key=str)
+                if iri in self._module_terms(module)
+            ],
         }
 
     def summary(self) -> dict[str, object]:
         cnfo_count = sum(self._source(item) == "CNFO" for item in self.class_ids)
+        module_summary = self.modules()
         return {
             "ontology_file": str(self.ttl_path),
             "triple_count": len(self.graph),
@@ -524,6 +657,7 @@ class OntologyViewerSession:
             "class_count": len(self.class_ids),
             "property_count": len(self.property_ids),
             "cnfo_class_count": cnfo_count,
+            "module_count": module_summary["module_count"],
             "external_runtime_dependency": False,
         }
 
@@ -537,15 +671,28 @@ def create_viewer_app(session: OntologyViewerSession) -> FastAPI:
     async def ontology_summary():
         return session.summary()
 
+    @app.get("/api/ontology/modules")
+    async def ontology_modules():
+        return session.modules()
+
     @app.get("/api/ontology/search")
     async def ontology_search(
         q: str = Query(default=""),
         scope: str = Query(default="all"),
         limit: int = Query(default=30, ge=1, le=100),
+        module: str = Query(default=""),
     ):
         if scope not in {"all", "cnfo"}:
             raise HTTPException(status_code=400, detail="Invalid ontology scope")
-        return {"query": q, "scope": scope, "results": session.search(q, scope, limit)}
+        module_iri = unquote(module)
+        if module_iri and URIRef(module_iri) not in session.module_ids:
+            raise HTTPException(status_code=400, detail="Invalid ontology module")
+        return {
+            "query": q,
+            "scope": scope,
+            "module": module_iri,
+            "results": session.search(q, scope, limit, module_iri),
+        }
 
     @app.get("/api/ontology/class")
     async def ontology_class(iri: str):

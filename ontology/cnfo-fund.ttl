@@ -1,1202 +1,2034 @@
-@prefix cnfo: <https://ontology.example.cn/cnfo/ontology/> .
+﻿@prefix cnfo: <https://ontology.example.cn/cnfo/ontology/> .
+@prefix cnfom: <https://ontology.example.cn/cnfo/module/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-cnfo:ChinaFundOntology
-    a owl:Ontology ;
-    rdfs:label "中国基金领域本体"@zh ;
-    rdfs:comment "参考 FIBO Funds 与 CollectiveInvestmentVehicles 模块、以中国基金语境定义的独立基金领域 T-BOX。"@zh ;
-    owl:versionInfo "0.2.0" ;
+cnfo:ChinaFundOntology a owl:Ontology ;
+    rdfs:label "中国基金领域本体兼容入口"@zh ;
     dcterms:modified "2026-08-27"^^xsd:date ;
-    skos:changeNote "v0.2.0 补充基金对象分层、属性继承、逆属性和 OWL 结构约束。"@zh .
+    owl:imports cnfo:CNFOFundOntology ;
+    owl:versionInfo "0.4.0" ;
+    skos:definition "兼容旧入口标识；完整基金业务术语定义位于 CNFO 基金本体模块。"@zh .
 
-### Fund core entities
+cnfo:ActiveInvestmentStrategy a owl:Class ;
+    rdfs:label "主动投资策略"@zh ;
+    rdfs:subClassOf cnfo:FundInvestmentStrategy ;
+    skos:definition "通过主动研究和交易选择投资标的、配置比例或交易时机，以争取超越基准收益的基金投资策略。"@zh .
 
-cnfo:FundObject
-    a owl:Class ;
-    rdfs:label "基金领域对象"@zh ;
-    skos:definition "基金领域中可被识别、描述、关联或记录的业务对象。"@zh .
+cnfo:AssetValuationActivity a owl:Class ;
+    rdfs:label "基金资产估值活动"@zh ;
+    rdfs:subClassOf cnfo:FundActivity ;
+    skos:definition "按照适用规则对基金资产、负债或相关权益进行价值计量的基金业务活动。"@zh .
 
-cnfo:FundRecord
-    a owl:Class ;
-    rdfs:subClassOf cnfo:FundObject ;
-    rdfs:label "基金业务记录"@zh ;
-    skos:definition "用于记录基金在特定日期或期间的状态、估值或其他事实的对象。"@zh .
-
-cnfo:FundTemporalRecord
-    a owl:Class ;
-    rdfs:subClassOf cnfo:FundRecord ;
-    rdfs:label "基金时态记录"@zh ;
-    skos:definition "带有生效起止时间、用于表达基金随时间变化事实的业务记录。"@zh .
-
-cnfo:FundDocument
-    a owl:Class ;
-    rdfs:subClassOf cnfo:FundObject ;
-    rdfs:label "基金文件"@zh ;
-    skos:definition "用于设立、募集、运作、披露或备案的基金业务文件。"@zh .
-
-cnfo:FundInvestmentSpecification
-    a owl:Class ;
-    rdfs:subClassOf cnfo:FundObject ;
-    rdfs:label "基金投资说明"@zh ;
-    skos:definition "描述基金投资目标、政策或策略的语义对象。"@zh .
-
-cnfo:Fund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:FundObject ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:hasLegalStructure ;
-        owl:someValuesFrom cnfo:FundLegalStructure
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:hasLegalStructure ;
-        owl:maxQualifiedCardinality 1 ;
-        owl:onClass cnfo:FundLegalStructure
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:hasFundManagerRole ;
-        owl:someValuesFrom cnfo:FundManagerRole
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:hasFundStatusRecord ;
-        owl:someValuesFrom cnfo:FundStatusRecord
-    ] ;
-    rdfs:label "基金"@zh ;
-    skos:definition "在中国基金行业语境下依法设立、募集或形成并开展投资运作的基金对象。"@zh .
-
-cnfo:FundProduct
-    a owl:Class ;
-    rdfs:subClassOf cnfo:FundObject ;
-    rdfs:label "基金产品"@zh ;
-    skos:definition "由基金名称、目标、策略、份额、费率和运作规则共同定义的基金产品。"@zh .
-
-cnfo:PublicFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:Fund ;
-    rdfs:label "公募基金"@zh ;
-    skos:definition "依法公开募集并按照适用规则注册、运作的基金。"@zh ;
-    owl:disjointWith cnfo:PrivateFund ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:isPrivate ;
-        owl:hasValue false
-    ] .
-
-cnfo:PrivateFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:Fund ;
-    rdfs:label "私募基金"@zh ;
-    skos:definition "依法向合格投资者非公开募集并按照适用规则登记备案的基金。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:isPrivate ;
-        owl:hasValue true
-    ] .
-
-cnfo:SecuritiesInvestmentFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:Fund ;
-    rdfs:label "证券投资基金"@zh ;
-    skos:definition "以证券及其衍生品等规定标的为主要投资对象的基金。"@zh .
-
-cnfo:PublicSecuritiesInvestmentFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:PublicFund, cnfo:SecuritiesInvestmentFund ;
-    rdfs:label "公募证券投资基金"@zh ;
-    skos:definition "公开募集且主要投资证券及其衍生品等规定标的的基金。"@zh .
-
-cnfo:PrivateSecuritiesInvestmentFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:PrivateFund, cnfo:SecuritiesInvestmentFund ;
-    rdfs:label "私募证券投资基金"@zh ;
-    skos:definition "主要投资证券及其衍生品等规定标的的私募基金。"@zh .
-
-cnfo:PrivateEquityFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:PrivateFund ;
-    rdfs:label "私募股权投资基金"@zh ;
-    skos:definition "主要投资未上市企业股权等规定标的的私募基金。"@zh .
-
-cnfo:VentureCapitalFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:PrivateFund ;
-    rdfs:label "创业投资基金"@zh ;
-    skos:definition "主要投资未上市成长性或创新创业企业，并符合适用监管认定条件的基金。"@zh .
-
-cnfo:PrivateRealEstateInvestmentFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:PrivateFund ;
-    rdfs:label "不动产私募投资基金"@zh ;
-    skos:definition "以不动产或不动产相关权益为主要投资对象的私募基金。"@zh .
-
-cnfo:GovernmentInvestmentFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:Fund ;
-    rdfs:label "政府投资基金"@zh ;
-    skos:definition "由政府出资设立、采用市场化方式投资并服务政策目标的基金。"@zh .
-
-cnfo:GovernmentGuidanceFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:GovernmentInvestmentFund ;
-    rdfs:label "政府引导基金"@zh ;
-    skos:definition "通过政府资金撬动社会资本、服务特定政策目标的基金或基金安排。"@zh .
-
-### Orthogonal fund classifications
-
-cnfo:OpenEndedFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:Fund ;
-    rdfs:label "开放式基金"@zh ;
-    skos:definition "基金份额总额不固定，可以按照基金合同办理申购和赎回的基金。"@zh ;
-    owl:disjointWith cnfo:ClosedEndedFund ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:isOpenEnded ;
-        owl:hasValue true
-    ] .
-
-cnfo:ClosedEndedFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:Fund ;
-    rdfs:label "封闭式基金"@zh ;
-    skos:definition "合同期限内基金份额总额固定，通常不办理日常赎回的基金。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:isOpenEnded ;
-        owl:hasValue false
-    ] .
-
-cnfo:PeriodicOpenEndedFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:OpenEndedFund ;
-    rdfs:label "定期开放式基金"@zh ;
-    skos:definition "在约定开放期办理申购赎回、其他期间限制交易的开放式基金。"@zh .
-
-cnfo:EquityFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:Fund ;
-    rdfs:label "股票基金"@zh ;
-    skos:definition "以股票等权益类资产为主要投资对象的基金分类。"@zh .
-
-cnfo:BondFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:Fund ;
+cnfo:BondFund a owl:Class ;
     rdfs:label "债券基金"@zh ;
+    rdfs:subClassOf cnfo:Fund ;
     skos:definition "以债券等固定收益类资产为主要投资对象的基金分类。"@zh .
 
-cnfo:MoneyMarketFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:Fund ;
-    rdfs:label "货币市场基金"@zh ;
-    skos:definition "主要投资于货币市场工具并以保持流动性和稳健性为主要特征的基金。"@zh .
+cnfo:CNFOFundOntology a owl:Ontology,
+        cnfom:OntologyModule ;
+    rdfs:label "基金本体"@zh ;
+    rdfs:comment "参考本地 FIBO SEC/Funds 模块、以中国基金业务语境独立定义的基金领域 T-BOX。"@zh ;
+    dcterms:modified "2026-08-27"^^xsd:date ;
+    owl:imports cnfom:CNFOModuleVocabulary ;
+    owl:versionInfo "0.4.0" ;
+    skos:changeNote "v0.4.0 依据国内数据标准（JR/T 0304.1-2024 基础数据元规范、JR/T 0304.2-2024 基础代码、JR/T 0176.4-2022 基金公司逻辑模型）完成命名标准化：对齐中文标签（基金分红方式、基金组织形式、股票型基金、债券类投资资产、业绩比较基准、基金分类概念等），补充标准英文名称 cnfom:standardName 与标准出处 cnfom:standardRef 标注及建议别名。"@zh ;
+    skos:definition "当前唯一已实际建模的 CNFO 基金业务模块，包含基金、基金产品、基金参与方、基金活动、基金资产、基金份额、组合、持仓和净值记录等概念及其约束。"@zh ;
+    cnfom:containsTerm cnfo:ActiveInvestmentStrategy,
+        cnfo:AssetValuationActivity,
+        cnfo:BondFund,
+        cnfo:ClosedEndedFund,
+        cnfo:ConceptNature,
+        cnfo:ContractualFundStructure,
+        cnfo:CorporateFundStructure,
+        cnfo:DebtInvestmentAsset,
+        cnfo:DesignedStatus,
+        cnfo:EquityFund,
+        cnfo:EquityInvestmentAsset,
+        cnfo:ExchangeTradedFund,
+        cnfo:FiledStatus,
+        cnfo:Fund,
+        cnfo:FundAccountantRole,
+        cnfo:FundActivity,
+        cnfo:FundAdministratorRole,
+        cnfo:FundBenchmark,
+        cnfo:FundCashDistributionPolicy,
+        cnfo:FundClassification,
+        cnfo:FundClassificationScheme,
+        cnfo:FundClassifier,
+        cnfo:FundContract,
+        cnfo:FundDepositaryRole,
+        cnfo:FundDistributionMethod,
+        cnfo:FundDistributionPolicy,
+        cnfo:FundDistributorRole,
+        cnfo:FundDocument,
+        cnfo:FundEstate,
+        cnfo:FundFilingActivity,
+        cnfo:FundFilingDocument,
+        cnfo:FundHolderRole,
+        cnfo:FundInvestmentAsset,
+        cnfo:FundInvestmentObjective,
+        cnfo:FundInvestmentPolicy,
+        cnfo:FundInvestmentRestriction,
+        cnfo:FundInvestmentSpecification,
+        cnfo:FundInvestmentStrategy,
+        cnfo:FundJurisdiction,
+        cnfo:FundLegalStructure,
+        cnfo:FundLifecycleStatus,
+        cnfo:FundLiquidationActivity,
+        cnfo:FundManagementCompany,
+        cnfo:FundManagerRole,
+        cnfo:FundObject,
+        cnfo:FundOfFunds,
+        cnfo:FundParty,
+        cnfo:FundPeriodicReport,
+        cnfo:FundPortfolio,
+        cnfo:FundPortfolioInvestmentLimitation,
+        cnfo:FundPortfolioInvestmentPolicy,
+        cnfo:FundPosition,
+        cnfo:FundProcessingTerms,
+        cnfo:FundProduct,
+        cnfo:FundProspectus,
+        cnfo:FundPurchaseActivity,
+        cnfo:FundRaisingActivity,
+        cnfo:FundRecord,
+        cnfo:FundRedemptionActivity,
+        cnfo:FundRedemptionTerms,
+        cnfo:FundRegistrarRole,
+        cnfo:FundRegistrationActivity,
+        cnfo:FundReinvestmentPolicy,
+        cnfo:FundRiskLevel,
+        cnfo:FundRole,
+        cnfo:FundRoleAssignment,
+        cnfo:FundServiceProviderRole,
+        cnfo:FundStatusRecord,
+        cnfo:FundSubscriptionActivity,
+        cnfo:FundSubscriptionTerms,
+        cnfo:FundSupervisor,
+        cnfo:FundTemporalRecord,
+        cnfo:FundTransferAgentRole,
+        cnfo:FundUnit,
+        cnfo:FundUnitClass,
+        cnfo:FundUnitDistributionPolicy,
+        cnfo:FundUnitInvestmentAsset,
+        cnfo:FundValuationServiceProviderRole,
+        cnfo:GovernmentGuidanceFund,
+        cnfo:GovernmentInvestmentFund,
+        cnfo:GrowthObjective,
+        cnfo:HybridFund,
+        cnfo:IncomeDistributionActivity,
+        cnfo:IncomeObjective,
+        cnfo:IndexTrackingStrategy,
+        cnfo:InformationDisclosureActivity,
+        cnfo:InfrastructurePublicREIT,
+        cnfo:Investor,
+        cnfo:LiquidatingStatus,
+        cnfo:ListedOpenEndedFund,
+        cnfo:MarketConventionType,
+        cnfo:MoneyMarketFund,
+        cnfo:NetAssetValueCalculationActivity,
+        cnfo:NetAssetValueRecord,
+        cnfo:OpenEndedFund,
+        cnfo:OperatingStatus,
+        cnfo:PartnershipFundStructure,
+        cnfo:PassiveInvestmentStrategy,
+        cnfo:PensionTargetFund,
+        cnfo:PeriodicOpenEndedFund,
+        cnfo:PortfolioPosition,
+        cnfo:PrivateEquityFund,
+        cnfo:PrivateFund,
+        cnfo:PrivateRealEstateInvestmentFund,
+        cnfo:PrivateSecuritiesInvestmentFund,
+        cnfo:PublicFund,
+        cnfo:PublicSecuritiesInvestmentFund,
+        cnfo:QDIIFund,
+        cnfo:QualifiedInvestor,
+        cnfo:RaisingStatus,
+        cnfo:RegisteredStatus,
+        cnfo:RegistrationPendingStatus,
+        cnfo:RegulatoryProductType,
+        cnfo:SecuritiesInvestmentFund,
+        cnfo:StatutoryFundType,
+        cnfo:SuspendedStatus,
+        cnfo:TerminatedStatus,
+        cnfo:VentureCapitalFund,
+        cnfo:activityOfFund,
+        cnfo:appliesToFundUnit,
+        cnfo:assetHasPortfolioPosition,
+        cnfo:assignmentForFund,
+        cnfo:assignmentPlayedBy,
+        cnfo:assignsFundRole,
+        cnfo:baseCurrency,
+        cnfo:benchmarkName,
+        cnfo:classificationCode,
+        cnfo:classifiesFund,
+        cnfo:definedInProspectus,
+        cnfo:definesClassification,
+        cnfo:definesInvestmentRestriction,
+        cnfo:describedBy,
+        cnfo:describesFund,
+        cnfo:distributionWithReinvestment,
+        cnfo:effectiveFrom,
+        cnfo:effectiveTo,
+        cnfo:filingDate,
+        cnfo:filingNumber,
+        cnfo:fundCode,
+        cnfo:fundEstateOf,
+        cnfo:fundName,
+        cnfo:fundNetAssetValue,
+        cnfo:fundProductOf,
+        cnfo:fundShortName,
+        cnfo:fundTypeCode,
+        cnfo:fundUnitClassOf,
+        cnfo:fundUnitCode,
+        cnfo:fundUnitNetAssetValue,
+        cnfo:governedBy,
+        cnfo:governsFund,
+        cnfo:governsInvestmentStrategy,
+        cnfo:hasApplicableJurisdiction,
+        cnfo:hasConceptNature,
+        cnfo:hasDistributionMethod,
+        cnfo:hasDistributionPolicy,
+        cnfo:hasFundAccountantRole,
+        cnfo:hasFundActivity,
+        cnfo:hasFundAdministratorRole,
+        cnfo:hasFundClassifier,
+        cnfo:hasFundDepositaryRole,
+        cnfo:hasFundDistributorRole,
+        cnfo:hasFundDocument,
+        cnfo:hasFundEstate,
+        cnfo:hasFundManagerRole,
+        cnfo:hasFundObject,
+        cnfo:hasFundParty,
+        cnfo:hasFundPortfolio,
+        cnfo:hasFundPortfolioPosition,
+        cnfo:hasFundPosition,
+        cnfo:hasFundProduct,
+        cnfo:hasFundRecord,
+        cnfo:hasFundRedemptionTerms,
+        cnfo:hasFundRegistrarRole,
+        cnfo:hasFundRole,
+        cnfo:hasFundRoleAssignment,
+        cnfo:hasFundServiceProviderRole,
+        cnfo:hasFundStatus,
+        cnfo:hasFundStatusRecord,
+        cnfo:hasFundSubscriptionTerms,
+        cnfo:hasFundSupervisor,
+        cnfo:hasFundTransferAgentRole,
+        cnfo:hasFundUnit,
+        cnfo:hasFundUnitClass,
+        cnfo:hasIntendedRiskLevel,
+        cnfo:hasInvestmentObjective,
+        cnfo:hasInvestmentPolicy,
+        cnfo:hasInvestmentRestriction,
+        cnfo:hasInvestmentSpecification,
+        cnfo:hasInvestor,
+        cnfo:hasLegalStructure,
+        cnfo:hasNetAssetValueRecord,
+        cnfo:hasPortfolioInvestmentStrategy,
+        cnfo:hasStatusValue,
+        cnfo:hasUnderlyingFund,
+        cnfo:heldByInvestor,
+        cnfo:holdsFundPosition,
+        cnfo:implementsInvestmentPolicy,
+        cnfo:inceptionDate,
+        cnfo:investmentAssetTypeCode,
+        cnfo:investmentFocus,
+        cnfo:isClassifiedBy,
+        cnfo:isExchangeTraded,
+        cnfo:isOpenEnded,
+        cnfo:isPrivate,
+        cnfo:issuedByFund,
+        cnfo:issuesFundUnit,
+        cnfo:jurisdictionCode,
+        cnfo:legalStructureOf,
+        cnfo:maximumInvestmentPercentage,
+        cnfo:minimumInvestmentPercentage,
+        cnfo:objectiveOfFund,
+        cnfo:outlinesObjective,
+        cnfo:playsFundRole,
+        cnfo:policyOfFund,
+        cnfo:portfolioOfFund,
+        cnfo:positionAsOfDate,
+        cnfo:positionCurrency,
+        cnfo:positionInAsset,
+        cnfo:positionInFundUnit,
+        cnfo:positionMarketValue,
+        cnfo:positionOfPortfolio,
+        cnfo:positionQuantity,
+        cnfo:providesCustodyForFundUnit,
+        cnfo:realizesFundProduct,
+        cnfo:recordForFund,
+        cnfo:redemptionInAmountAllowed,
+        cnfo:redemptionMinimumUnits,
+        cnfo:redemptionTermsForFund,
+        cnfo:registrationNumber,
+        cnfo:riskLevelCode,
+        cnfo:roleInFund,
+        cnfo:rolePlayedBy,
+        cnfo:sourceIdentifier,
+        cnfo:statedIn,
+        cnfo:statusOfFund,
+        cnfo:statusRecordForFund,
+        cnfo:stipulatesBenchmark,
+        cnfo:strategyOfFund,
+        cnfo:subscriptionMinimumAmount,
+        cnfo:subscriptionMinimumUnits,
+        cnfo:subscriptionTermsForFund,
+        cnfo:supervisesFund,
+        cnfo:terminationDate,
+        cnfo:underlyingFundOf,
+        cnfo:unitCurrency,
+        cnfo:unitQuantity,
+        cnfo:usesInvestmentStrategy,
+        cnfo:valuationCurrency,
+        cnfo:valuationDate ;
+    cnfom:moduleFile "cnfo-fund.ttl" ;
+    cnfom:moduleKind "ontology" ;
+    cnfom:moduleOrder 10 ;
+    cnfom:moduleParent cnfo:CNFODomain .
 
-cnfo:HybridFund
-    a owl:Class ;
+cnfo:DebtInvestmentAsset a owl:Class ;
+    rdfs:label "债券类投资资产"@zh ;
+    rdfs:subClassOf cnfo:FundInvestmentAsset ;
+    skos:definition "以债券、债权或其他具有债务属性的金融工具为代表的基金投资资产。"@zh .
+
+cnfo:EquityFund a owl:Class ;
+    rdfs:label "股票型基金"@zh ;
     rdfs:subClassOf cnfo:Fund ;
+    skos:definition "以股票等权益类资产为主要投资对象的基金分类。"@zh .
+
+cnfo:EquityInvestmentAsset a owl:Class ;
+    rdfs:label "权益类投资资产"@zh ;
+    rdfs:subClassOf cnfo:FundInvestmentAsset ;
+    skos:definition "以股票、股权或其他具有权益属性的金融工具为代表的基金投资资产。"@zh .
+
+cnfo:ExchangeTradedFund a owl:Class ;
+    rdfs:label "交易型开放式指数基金"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:hasValue true ;
+            owl:onProperty cnfo:isExchangeTraded ],
+        cnfo:OpenEndedFund ;
+    skos:altLabel "ETF"@zh ;
+    skos:definition "以交易所交易和指数化投资为主要特征、可在交易所上市交易的开放式基金。"@zh .
+
+cnfo:FundFilingActivity a owl:Class ;
+    rdfs:label "基金备案活动"@zh ;
+    rdfs:subClassOf cnfo:FundActivity ;
+    skos:definition "向适用登记备案机构提交基金备案材料并完成备案手续的基金业务活动。"@zh .
+
+cnfo:FundFilingDocument a owl:Class ;
+    rdfs:label "基金备案文件"@zh ;
+    rdfs:subClassOf cnfo:FundDocument ;
+    skos:definition "用于证明或支持基金登记备案事项的业务文件。"@zh .
+
+cnfo:FundHolderRole a owl:Class ;
+    rdfs:label "基金份额持有人角色"@zh ;
+    rdfs:subClassOf cnfo:FundRole ;
+    skos:definition "由基金份额持有人承担、表示其在特定基金中持有基金份额权利的基金角色。"@zh .
+
+cnfo:FundLiquidationActivity a owl:Class ;
+    rdfs:label "基金清算活动"@zh ;
+    rdfs:subClassOf cnfo:FundActivity ;
+    skos:definition "基金终止后对基金财产进行清理、分配并办理注销等事项的基金业务活动。"@zh .
+
+cnfo:FundManagementCompany a owl:Class ;
+    rdfs:label "基金管理公司"@zh ;
+    rdfs:subClassOf cnfo:FundParty ;
+    skos:definition "依法设立并承担基金管理职责或提供基金管理服务的基金参与主体。"@zh .
+
+cnfo:FundPeriodicReport a owl:Class ;
+    rdfs:label "基金定期报告"@zh ;
+    rdfs:subClassOf cnfo:FundDocument ;
+    skos:definition "按照规定定期披露基金资产、投资运作、财务状况和其他重要事项的基金报告。"@zh .
+
+cnfo:FundPurchaseActivity a owl:Class ;
+    rdfs:label "基金申购活动"@zh ;
+    rdfs:subClassOf cnfo:FundActivity ;
+    skos:definition "基金份额持有人按照适用规则申请并完成基金份额申购的业务活动。"@zh .
+
+cnfo:FundRaisingActivity a owl:Class ;
+    rdfs:label "基金募集活动"@zh ;
+    rdfs:subClassOf cnfo:FundActivity ;
+    skos:definition "基金面向投资者发售或募集基金份额的业务活动。"@zh .
+
+cnfo:FundRedemptionActivity a owl:Class ;
+    rdfs:label "基金赎回活动"@zh ;
+    rdfs:subClassOf cnfo:FundActivity ;
+    skos:definition "基金份额持有人按照适用规则申请并完成基金份额赎回的业务活动。"@zh .
+
+cnfo:FundRegistrationActivity a owl:Class ;
+    rdfs:label "基金注册活动"@zh ;
+    rdfs:subClassOf cnfo:FundActivity ;
+    skos:definition "依法向适用注册机构提交基金注册材料并完成注册程序的基金业务活动。"@zh .
+
+cnfo:FundSubscriptionActivity a owl:Class ;
+    rdfs:label "基金认购活动"@zh ;
+    rdfs:subClassOf cnfo:FundActivity ;
+    skos:definition "投资者按照基金募集安排申请并完成基金份额认购的业务活动。"@zh .
+
+cnfo:FundUnitInvestmentAsset a owl:Class ;
+    rdfs:label "基金份额类投资资产"@zh ;
+    rdfs:subClassOf cnfo:FundInvestmentAsset,
+        cnfo:FundUnit ;
+    skos:definition "以其他基金份额或基金单位形式存在的基金投资资产。"@zh .
+
+cnfo:FundValuationServiceProviderRole a owl:Class ;
+    rdfs:label "基金估值服务机构角色"@zh ;
+    rdfs:subClassOf cnfo:FundServiceProviderRole ;
+    skos:definition "由基金估值服务机构承担、负责基金资产或份额估值相关服务的基金服务机构角色。"@zh .
+
+cnfo:GovernmentGuidanceFund a owl:Class ;
+    rdfs:label "政府引导基金"@zh ;
+    rdfs:subClassOf cnfo:GovernmentInvestmentFund ;
+    skos:definition "通过政府资金撬动社会资本、服务特定政策目标的基金或基金安排。"@zh .
+
+cnfo:GrowthObjective a owl:Class ;
+    rdfs:label "增长型投资目标"@zh ;
+    rdfs:subClassOf cnfo:FundInvestmentObjective ;
+    skos:definition "以资本增值或长期资产增长为主要取向的基金投资目标。"@zh .
+
+cnfo:HybridFund a owl:Class ;
     rdfs:label "混合基金"@zh ;
+    rdfs:subClassOf cnfo:Fund ;
     skos:definition "同时配置股票、债券或其他多类资产，且不属于单一资产类别基金的基金。"@zh .
 
-cnfo:FundOfFunds
-    a owl:Class ;
-    rdfs:subClassOf cnfo:Fund ;
-    rdfs:label "基金中基金"@zh ;
-    skos:definition "主要投资其他基金份额的基金，也称 FOF。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:hasUnderlyingFund ;
-        owl:someValuesFrom cnfo:Fund
-    ] .
+cnfo:IncomeDistributionActivity a owl:Class ;
+    rdfs:label "基金收益分配活动"@zh ;
+    rdfs:subClassOf cnfo:FundActivity ;
+    skos:definition "按照基金合同或适用规则计算并实施基金收益分配的业务活动。"@zh .
 
-cnfo:ExchangeTradedFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:OpenEndedFund ;
-    rdfs:label "交易型开放式指数基金"@zh ;
-    skos:altLabel "ETF"@zh ;
-    skos:definition "以交易所交易和指数化投资为主要特征、可在交易所上市交易的开放式基金。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:isExchangeTraded ;
-        owl:hasValue true
-    ] .
+cnfo:IncomeObjective a owl:Class ;
+    rdfs:label "收入型投资目标"@zh ;
+    rdfs:subClassOf cnfo:FundInvestmentObjective ;
+    skos:definition "以获得利息、股息、分红或其他稳定收益为主要取向的基金投资目标。"@zh .
 
-cnfo:ListedOpenEndedFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:OpenEndedFund ;
+cnfo:IndexTrackingStrategy a owl:Class ;
+    rdfs:label "指数跟踪策略"@zh ;
+    rdfs:subClassOf cnfo:PassiveInvestmentStrategy ;
+    skos:definition "以复制、跟踪特定指数表现为主要方法的被动投资策略。"@zh .
+
+cnfo:InformationDisclosureActivity a owl:Class ;
+    rdfs:label "基金信息披露活动"@zh ;
+    rdfs:subClassOf cnfo:FundActivity ;
+    skos:definition "按照适用规则编制、提交或向投资者公开基金信息的业务活动。"@zh .
+
+cnfo:InfrastructurePublicREIT a owl:Class ;
+    rdfs:label "基础设施公募 REIT"@zh ;
+    rdfs:subClassOf cnfo:PublicFund ;
+    skos:definition "依法公开募集并主要通过资产支持证券等安排投资基础设施项目的证券投资基金。"@zh .
+
+cnfo:ListedOpenEndedFund a owl:Class ;
     rdfs:label "上市开放式基金"@zh ;
+    rdfs:subClassOf cnfo:OpenEndedFund ;
     skos:altLabel "LOF"@zh ;
     skos:definition "基金份额可在证券交易场所上市交易，同时按照规则办理申购或赎回的开放式基金。"@zh .
 
-cnfo:QDIIFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:PublicFund ;
+cnfo:MarketConventionType a owl:Class ;
+    rdfs:label "市场惯用类型"@zh ;
+    rdfs:subClassOf cnfo:ConceptNature ;
+    skos:definition "在基金市场实践中形成并被广泛使用、但不必然构成法定分类的概念类型。"@zh .
+
+cnfo:MoneyMarketFund a owl:Class ;
+    rdfs:label "货币市场基金"@zh ;
+    rdfs:subClassOf cnfo:Fund ;
+    skos:definition "主要投资于货币市场工具并以保持流动性和稳健性为主要特征的基金。"@zh .
+
+cnfo:NetAssetValueCalculationActivity a owl:Class ;
+    rdfs:label "基金净值计算活动"@zh ;
+    rdfs:subClassOf cnfo:FundActivity ;
+    skos:definition "按照适用规则计算基金资产净值或基金份额净值的业务活动。"@zh .
+
+cnfo:PensionTargetFund a owl:Class ;
+    rdfs:label "养老目标基金"@zh ;
+    rdfs:subClassOf cnfo:FundOfFunds,
+        cnfo:PublicFund ;
+    skos:definition "以养老目标为导向并按照适用规则通过资产配置或基金组合进行长期投资的基金。"@zh .
+
+cnfo:PeriodicOpenEndedFund a owl:Class ;
+    rdfs:label "定期开放式基金"@zh ;
+    rdfs:subClassOf cnfo:OpenEndedFund ;
+    skos:definition "在约定开放期办理申购赎回、其他期间限制交易的开放式基金。"@zh .
+
+cnfo:PrivateEquityFund a owl:Class ;
+    rdfs:label "私募股权投资基金"@zh ;
+    rdfs:subClassOf cnfo:PrivateFund ;
+    skos:definition "主要投资未上市企业股权等规定标的的私募基金。"@zh .
+
+cnfo:PrivateRealEstateInvestmentFund a owl:Class ;
+    rdfs:label "不动产私募投资基金"@zh ;
+    rdfs:subClassOf cnfo:PrivateFund ;
+    skos:definition "以不动产或不动产相关权益为主要投资对象的私募基金。"@zh .
+
+cnfo:PrivateSecuritiesInvestmentFund a owl:Class ;
+    rdfs:label "私募证券投资基金"@zh ;
+    rdfs:subClassOf cnfo:PrivateFund,
+        cnfo:SecuritiesInvestmentFund ;
+    skos:definition "主要投资证券及其衍生品等规定标的的私募基金。"@zh .
+
+cnfo:PublicSecuritiesInvestmentFund a owl:Class ;
+    rdfs:label "公募证券投资基金"@zh ;
+    rdfs:subClassOf cnfo:PublicFund,
+        cnfo:SecuritiesInvestmentFund ;
+    skos:definition "公开募集且主要投资证券及其衍生品等规定标的的基金。"@zh .
+
+cnfo:QDIIFund a owl:Class ;
     rdfs:label "合格境内机构投资者基金"@zh ;
+    rdfs:subClassOf cnfo:PublicFund ;
     skos:altLabel "QDII 基金"@zh ;
     skos:definition "在境内募集资金并按照批准范围投资境外证券市场的基金。"@zh .
 
-cnfo:InfrastructurePublicREIT
-    a owl:Class ;
-    rdfs:subClassOf cnfo:PublicFund ;
-    rdfs:label "基础设施公募 REIT"@zh ;
-    skos:definition "依法公开募集并主要通过资产支持证券等安排投资基础设施项目的证券投资基金。"@zh .
+cnfo:QualifiedInvestor a owl:Class ;
+    rdfs:label "合格投资者"@zh ;
+    rdfs:subClassOf cnfo:Investor ;
+    skos:definition "符合适用法律法规或监管规则所规定资格条件的基金投资者。"@zh .
 
-cnfo:PensionTargetFund
-    a owl:Class ;
-    rdfs:subClassOf cnfo:PublicFund, cnfo:FundOfFunds ;
-    rdfs:label "养老目标基金"@zh ;
-    skos:definition "以养老目标为导向并按照适用规则通过资产配置或基金组合进行长期投资的基金。"@zh .
+cnfo:RegulatoryProductType a owl:Class ;
+    rdfs:label "监管产品类型"@zh ;
+    rdfs:subClassOf cnfo:ConceptNature ;
+    skos:definition "由监管规则、登记备案制度或产品监管口径定义的基金产品类型。"@zh .
 
-cnfo:ConceptNature
-    a owl:Class ;
+cnfo:StatutoryFundType a owl:Class ;
+    rdfs:label "法定基金类型"@zh ;
+    rdfs:subClassOf cnfo:ConceptNature ;
+    skos:definition "由法律、行政法规或正式监管规范直接规定的基金类型。"@zh .
+
+cnfo:VentureCapitalFund a owl:Class ;
+    rdfs:label "创业投资基金"@zh ;
+    rdfs:subClassOf cnfo:PrivateFund ;
+    skos:definition "主要投资未上市成长性或创新创业企业，并符合适用监管认定条件的基金。"@zh .
+
+cnfo:baseCurrency a owl:DatatypeProperty ;
+    rdfs:label "基础币种"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range xsd:string .
+
+cnfo:benchmarkName a owl:DatatypeProperty ;
+    rdfs:label "业绩比较基准名称"@zh ;
+    rdfs:domain cnfo:FundBenchmark ;
+    rdfs:range xsd:string .
+
+cnfo:classificationCode a owl:DatatypeProperty ;
+    rdfs:label "分类代码"@zh ;
+    rdfs:domain cnfo:FundClassifier ;
+    rdfs:range xsd:string .
+
+cnfo:filingDate a owl:DatatypeProperty ;
+    rdfs:label "备案日期"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range xsd:date .
+
+cnfo:filingNumber a owl:DatatypeProperty ;
+    rdfs:label "备案编号"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range xsd:string .
+
+cnfo:fundCode a owl:DatatypeProperty ;
+    rdfs:label "基金代码"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range xsd:string .
+
+cnfo:fundName a owl:DatatypeProperty ;
+    rdfs:label "基金名称"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range xsd:string .
+
+cnfo:fundNetAssetValue a owl:DatatypeProperty ;
+    rdfs:label "基金资产净值"@zh ;
+    rdfs:domain cnfo:NetAssetValueRecord ;
+    rdfs:range xsd:decimal .
+
+cnfo:fundShortName a owl:DatatypeProperty ;
+    rdfs:label "基金简称"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range xsd:string .
+
+cnfo:fundTypeCode a owl:DatatypeProperty ;
+    rdfs:label "基金类型代码"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range xsd:string .
+
+cnfo:fundUnitCode a owl:DatatypeProperty ;
+    rdfs:label "基金份额代码"@zh ;
+    rdfs:domain cnfo:FundUnit ;
+    rdfs:range xsd:string .
+
+cnfo:fundUnitNetAssetValue a owl:DatatypeProperty ;
+    rdfs:label "基金份额净值"@zh ;
+    rdfs:domain cnfo:NetAssetValueRecord ;
+    rdfs:range xsd:decimal .
+
+cnfo:hasConceptNature a owl:ObjectProperty ;
+    rdfs:label "具有概念性质"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:ConceptNature .
+
+cnfo:hasFundAccountantRole a owl:ObjectProperty ;
+    rdfs:label "具有基金会计服务机构角色"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundAccountantRole ;
+    rdfs:subPropertyOf cnfo:hasFundServiceProviderRole .
+
+cnfo:hasFundAdministratorRole a owl:ObjectProperty ;
+    rdfs:label "具有基金行政管理机构角色"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundAdministratorRole ;
+    rdfs:subPropertyOf cnfo:hasFundServiceProviderRole .
+
+cnfo:hasFundDepositaryRole a owl:ObjectProperty ;
+    rdfs:label "具有基金托管人角色"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundDepositaryRole ;
+    rdfs:subPropertyOf cnfo:hasFundServiceProviderRole .
+
+cnfo:hasFundDistributorRole a owl:ObjectProperty ;
+    rdfs:label "具有基金销售机构角色"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundDistributorRole ;
+    rdfs:subPropertyOf cnfo:hasFundServiceProviderRole .
+
+cnfo:hasFundRegistrarRole a owl:ObjectProperty ;
+    rdfs:label "具有基金份额登记机构角色"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundRegistrarRole ;
+    rdfs:subPropertyOf cnfo:hasFundServiceProviderRole .
+
+cnfo:hasFundTransferAgentRole a owl:ObjectProperty ;
+    rdfs:label "具有基金过户登记代理角色"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundTransferAgentRole ;
+    rdfs:subPropertyOf cnfo:hasFundServiceProviderRole .
+
+cnfo:hasInvestor a owl:ObjectProperty ;
+    rdfs:label "具有投资者"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:Investor ;
+    rdfs:subPropertyOf cnfo:hasFundParty .
+
+cnfo:inceptionDate a owl:DatatypeProperty ;
+    rdfs:label "成立日期"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range xsd:date .
+
+cnfo:investmentAssetTypeCode a owl:DatatypeProperty ;
+    rdfs:label "投资资产类型代码"@zh ;
+    rdfs:domain cnfo:FundPortfolioInvestmentLimitation ;
+    rdfs:range xsd:string .
+
+cnfo:investmentFocus a owl:DatatypeProperty ;
+    rdfs:label "投资重点"@zh ;
+    rdfs:domain cnfo:FundInvestmentStrategy ;
+    rdfs:range xsd:string .
+
+cnfo:isClassifiedBy a owl:ObjectProperty ;
+    rdfs:label "被分类为"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundClassifier ;
+    rdfs:subPropertyOf cnfo:hasFundClassifier .
+
+cnfo:issuesFundUnit a owl:ObjectProperty ;
+    rdfs:label "发行基金份额"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundUnit ;
+    rdfs:subPropertyOf cnfo:hasFundUnit .
+
+cnfo:jurisdictionCode a owl:DatatypeProperty ;
+    rdfs:label "法域代码"@zh ;
+    rdfs:domain cnfo:FundJurisdiction ;
+    rdfs:range xsd:string .
+
+cnfo:maximumInvestmentPercentage a owl:DatatypeProperty ;
+    rdfs:label "最高投资比例"@zh ;
+    rdfs:domain cnfo:FundPortfolioInvestmentLimitation ;
+    rdfs:range xsd:decimal .
+
+cnfo:minimumInvestmentPercentage a owl:DatatypeProperty ;
+    rdfs:label "最低投资比例"@zh ;
+    rdfs:domain cnfo:FundPortfolioInvestmentLimitation ;
+    rdfs:range xsd:decimal .
+
+cnfo:positionCurrency a owl:DatatypeProperty ;
+    rdfs:label "持仓币种"@zh ;
+    rdfs:domain cnfo:PortfolioPosition ;
+    rdfs:range xsd:string .
+
+cnfo:positionMarketValue a owl:DatatypeProperty ;
+    rdfs:label "持仓市值"@zh ;
+    rdfs:domain cnfo:PortfolioPosition ;
+    rdfs:range xsd:decimal .
+
+cnfo:realizesFundProduct a owl:ObjectProperty ;
+    rdfs:label "实现基金产品"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundProduct ;
+    rdfs:subPropertyOf cnfo:hasFundProduct .
+
+cnfo:redemptionInAmountAllowed a owl:DatatypeProperty ;
+    rdfs:label "是否允许按金额赎回"@zh ;
+    rdfs:domain cnfo:FundRedemptionTerms ;
+    rdfs:range xsd:boolean .
+
+cnfo:redemptionMinimumUnits a owl:DatatypeProperty ;
+    rdfs:label "最低赎回份额"@zh ;
+    rdfs:domain cnfo:FundRedemptionTerms ;
+    rdfs:range xsd:decimal .
+
+cnfo:registrationNumber a owl:DatatypeProperty ;
+    rdfs:label "注册编号"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range xsd:string .
+
+cnfo:riskLevelCode a owl:DatatypeProperty ;
+    rdfs:label "风险等级代码"@zh ;
+    rdfs:domain cnfo:FundRiskLevel ;
+    rdfs:range xsd:string .
+
+cnfo:sourceIdentifier a owl:DatatypeProperty ;
+    rdfs:label "来源标识"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range xsd:string .
+
+cnfo:subscriptionMinimumAmount a owl:DatatypeProperty ;
+    rdfs:label "最低认购金额"@zh ;
+    rdfs:domain cnfo:FundSubscriptionTerms ;
+    rdfs:range xsd:decimal .
+
+cnfo:subscriptionMinimumUnits a owl:DatatypeProperty ;
+    rdfs:label "最低认购份额"@zh ;
+    rdfs:domain cnfo:FundSubscriptionTerms ;
+    rdfs:range xsd:decimal .
+
+cnfo:terminationDate a owl:DatatypeProperty ;
+    rdfs:label "终止日期"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range xsd:date .
+
+cnfo:unitQuantity a owl:DatatypeProperty ;
+    rdfs:label "份额数量"@zh ;
+    rdfs:domain cnfo:FundUnit ;
+    rdfs:range xsd:decimal .
+
+cnfo:ClosedEndedFund a owl:Class ;
+    rdfs:label "封闭式基金"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:hasValue false ;
+            owl:onProperty cnfo:isOpenEnded ],
+        cnfo:Fund ;
+    skos:definition "合同期限内基金份额总额固定，通常不办理日常赎回的基金。"@zh .
+
+cnfo:ContractualFundStructure a owl:Class ;
+    rdfs:label "契约型基金结构"@zh ;
+    rdfs:subClassOf cnfo:FundLegalStructure ;
+    skos:definition "通过基金合同约定基金当事人权利义务和基金运作规则的基金法律结构。"@zh .
+
+cnfo:CorporateFundStructure a owl:Class ;
+    rdfs:label "公司型基金结构"@zh ;
+    rdfs:subClassOf cnfo:FundLegalStructure ;
+    skos:definition "以公司法人作为基金组织载体并依公司治理规则运作的基金法律结构。"@zh .
+
+cnfo:DesignedStatus a owl:Class ;
+    rdfs:label "已设计"@zh ;
+    rdfs:subClassOf cnfo:FundLifecycleStatus ;
+    skos:definition "基金已完成产品设计但尚未进入注册、备案或募集阶段的生命周期状态。"@zh .
+
+cnfo:FiledStatus a owl:Class ;
+    rdfs:label "已备案"@zh ;
+    rdfs:subClassOf cnfo:FundLifecycleStatus ;
+    skos:definition "基金已完成适用的备案程序并进入备案后运作或后续管理阶段的生命周期状态。"@zh .
+
+cnfo:FundAccountantRole a owl:Class ;
+    rdfs:label "基金会计服务机构角色"@zh ;
+    rdfs:subClassOf cnfo:FundServiceProviderRole ;
+    skos:definition "由基金会计服务机构承担、负责基金会计核算或相关财务记录工作的基金服务机构角色。"@zh .
+
+cnfo:FundAdministratorRole a owl:Class ;
+    rdfs:label "基金行政管理机构角色"@zh ;
+    rdfs:subClassOf cnfo:FundServiceProviderRole ;
+    skos:definition "由基金行政管理机构承担、负责基金运营支持、记录维护或行政管理工作的基金服务机构角色。"@zh .
+
+cnfo:FundCashDistributionPolicy a owl:Class ;
+    rdfs:label "基金现金分红政策"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:hasValue false ;
+            owl:onProperty cnfo:distributionWithReinvestment ],
+        cnfo:FundUnitDistributionPolicy ;
+    skos:definition "约定基金收益以现金形式向基金份额持有人进行分配的份额分配政策。"@zh .
+
+cnfo:FundClassificationScheme a owl:Class ;
+    rdfs:label "基金分类体系"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cnfo:definesClassification ;
+            owl:someValuesFrom cnfo:FundClassification ],
+        cnfo:FundObject ;
+    skos:definition "规定基金分类维度、分类规则及分类概念集合的基金分类体系。"@zh .
+
+cnfo:FundDistributionPolicy a owl:Class ;
+    rdfs:label "基金收益分配政策"@zh ;
+    rdfs:subClassOf cnfo:FundInvestmentSpecification ;
+    skos:definition "规定基金收益分配原则、条件、频率或处理方式的政策对象。"@zh .
+
+cnfo:FundDistributorRole a owl:Class ;
+    rdfs:label "基金销售机构角色"@zh ;
+    rdfs:subClassOf cnfo:FundServiceProviderRole ;
+    skos:definition "由基金销售机构承担、负责基金份额发售、申购或赎回服务的基金服务机构角色。"@zh .
+
+cnfo:FundRegistrarRole a owl:Class ;
+    rdfs:label "基金份额登记机构角色"@zh ;
+    rdfs:subClassOf cnfo:FundServiceProviderRole ;
+    skos:definition "由基金份额登记机构承担、负责基金份额登记、持有人名册和相关记录管理的服务机构角色。"@zh .
+
+cnfo:FundReinvestmentPolicy a owl:Class ;
+    rdfs:label "基金收益再投资政策"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:hasValue true ;
+            owl:onProperty cnfo:distributionWithReinvestment ],
+        cnfo:FundUnitDistributionPolicy ;
+    skos:definition "约定基金收益分配后将收益用于再投资或增加基金份额的份额分配政策。"@zh .
+
+cnfo:FundTransferAgentRole a owl:Class ;
+    rdfs:label "基金过户登记代理角色"@zh ;
+    rdfs:subClassOf cnfo:FundServiceProviderRole ;
+    skos:definition "由基金过户登记代理机构承担、负责份额过户或相关登记代理服务的基金服务机构角色。"@zh .
+
+cnfo:GovernmentInvestmentFund a owl:Class ;
+    rdfs:label "政府投资基金"@zh ;
+    rdfs:subClassOf cnfo:Fund ;
+    skos:definition "由政府出资设立、采用市场化方式投资并服务政策目标的基金。"@zh .
+
+cnfo:LiquidatingStatus a owl:Class ;
+    rdfs:label "清算中"@zh ;
+    rdfs:subClassOf cnfo:FundLifecycleStatus ;
+    skos:definition "基金已进入清算程序，正在处置资产、清偿债务或分配剩余财产的生命周期状态。"@zh .
+
+cnfo:OperatingStatus a owl:Class ;
+    rdfs:label "运作中"@zh ;
+    rdfs:subClassOf cnfo:FundLifecycleStatus ;
+    skos:definition "基金已完成设立或募集程序并处于正常投资运作阶段的生命周期状态。"@zh .
+
+cnfo:PartnershipFundStructure a owl:Class ;
+    rdfs:label "合伙型基金结构"@zh ;
+    rdfs:subClassOf cnfo:FundLegalStructure ;
+    skos:definition "以合伙企业作为组织载体并依合伙协议及合伙法律关系运作的基金法律结构。"@zh .
+
+cnfo:PassiveInvestmentStrategy a owl:Class ;
+    rdfs:label "被动投资策略"@zh ;
+    rdfs:subClassOf cnfo:FundInvestmentStrategy ;
+    skos:definition "按照预定指数、规则或组合方法进行投资，较少主动择时和选券的投资策略。"@zh .
+
+cnfo:RaisingStatus a owl:Class ;
+    rdfs:label "募集期"@zh ;
+    rdfs:subClassOf cnfo:FundLifecycleStatus ;
+    skos:definition "基金正在面向投资者募集基金份额、尚未进入正常运作阶段的生命周期状态。"@zh .
+
+cnfo:RegisteredStatus a owl:Class ;
+    rdfs:label "已注册"@zh ;
+    rdfs:subClassOf cnfo:FundLifecycleStatus ;
+    skos:definition "基金已完成适用注册程序并取得注册或批准结果的生命周期状态。"@zh .
+
+cnfo:RegistrationPendingStatus a owl:Class ;
+    rdfs:label "待注册"@zh ;
+    rdfs:subClassOf cnfo:FundLifecycleStatus ;
+    skos:definition "基金已提交或准备注册材料、但尚未完成注册程序的生命周期状态。"@zh .
+
+cnfo:SuspendedStatus a owl:Class ;
+    rdfs:label "暂停运作"@zh ;
+    rdfs:subClassOf cnfo:FundLifecycleStatus ;
+    skos:definition "基金因适用原因暂时停止全部或部分募集、申购、赎回或投资运作的生命周期状态。"@zh .
+
+cnfo:TerminatedStatus a owl:Class ;
+    rdfs:label "已终止"@zh ;
+    rdfs:subClassOf cnfo:FundLifecycleStatus ;
+    skos:definition "基金已完成清算或其他终止程序，不再继续作为运作中基金存在的生命周期状态。"@zh .
+
+cnfo:activityOfFund a owl:ObjectProperty ;
+    rdfs:label "业务活动对应基金"@zh ;
+    rdfs:domain cnfo:FundActivity ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasFundActivity .
+
+cnfo:appliesToFundUnit a owl:ObjectProperty ;
+    rdfs:label "适用于基金份额"@zh ;
+    rdfs:domain cnfo:FundSubscriptionTerms ;
+    rdfs:range cnfo:FundUnit .
+
+cnfo:assetHasPortfolioPosition a owl:ObjectProperty ;
+    rdfs:label "投资资产具有组合持仓"@zh ;
+    rdfs:domain cnfo:FundInvestmentAsset ;
+    rdfs:range cnfo:PortfolioPosition ;
+    owl:inverseOf cnfo:positionInAsset .
+
+cnfo:assignmentPlayedBy a owl:ObjectProperty ;
+    rdfs:label "任职记录由主体承担"@zh ;
+    rdfs:domain cnfo:FundRoleAssignment ;
+    rdfs:range cnfo:FundParty .
+
+cnfo:assignsFundRole a owl:ObjectProperty ;
+    rdfs:label "任职记录指定角色"@zh ;
+    rdfs:domain cnfo:FundRoleAssignment ;
+    rdfs:range cnfo:FundRole .
+
+cnfo:definesClassification a owl:ObjectProperty ;
+    rdfs:label "分类体系定义分类"@zh ;
+    rdfs:domain cnfo:FundClassificationScheme ;
+    rdfs:range cnfo:FundClassification .
+
+cnfo:definesInvestmentRestriction a owl:ObjectProperty ;
+    rdfs:label "定义投资限制"@zh ;
+    rdfs:domain cnfo:FundInvestmentPolicy ;
+    rdfs:range cnfo:FundInvestmentRestriction .
+
+cnfo:describedBy a owl:ObjectProperty ;
+    rdfs:label "由基金文件描述"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundProspectus ;
+    rdfs:subPropertyOf cnfo:hasFundDocument ;
+    owl:inverseOf cnfo:describesFund .
+
+cnfo:describesFund a owl:ObjectProperty ;
+    rdfs:label "基金文件描述基金"@zh ;
+    rdfs:domain cnfo:FundProspectus ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:describedBy .
+
+cnfo:fundEstateOf a owl:ObjectProperty ;
+    rdfs:label "基金财产对应基金"@zh ;
+    rdfs:domain cnfo:FundEstate ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasFundEstate .
+
+cnfo:fundProductOf a owl:ObjectProperty ;
+    rdfs:label "基金产品对应基金"@zh ;
+    rdfs:domain cnfo:FundProduct ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasFundProduct .
+
+cnfo:fundUnitClassOf a owl:ObjectProperty ;
+    rdfs:label "基金份额类别对应基金"@zh ;
+    rdfs:domain cnfo:FundUnitClass ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasFundUnitClass .
+
+cnfo:governedBy a owl:ObjectProperty ;
+    rdfs:label "受基金合同约束"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundContract ;
+    rdfs:subPropertyOf cnfo:hasFundDocument ;
+    owl:inverseOf cnfo:governsFund .
+
+cnfo:governsFund a owl:ObjectProperty ;
+    rdfs:label "基金合同约束基金"@zh ;
+    rdfs:domain cnfo:FundContract ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:governedBy .
+
+cnfo:governsInvestmentStrategy a owl:ObjectProperty ;
+    rdfs:label "约束投资策略"@zh ;
+    rdfs:domain cnfo:FundInvestmentPolicy ;
+    rdfs:range cnfo:FundInvestmentStrategy .
+
+cnfo:hasApplicableJurisdiction a owl:ObjectProperty ;
+    rdfs:label "适用基金法域"@zh ;
+    rdfs:domain cnfo:FundLegalStructure ;
+    rdfs:range cnfo:FundJurisdiction .
+
+cnfo:hasDistributionMethod a owl:ObjectProperty ;
+    rdfs:label "采用基金分红方式"@zh ;
+    rdfs:domain cnfo:FundUnitDistributionPolicy ;
+    rdfs:range cnfo:FundDistributionMethod .
+
+cnfo:hasDistributionPolicy a owl:ObjectProperty ;
+    rdfs:label "具有份额分配政策"@zh ;
+    rdfs:domain cnfo:FundUnitClass ;
+    rdfs:range cnfo:FundUnitDistributionPolicy .
+
+cnfo:hasFundActivity a owl:ObjectProperty ;
+    rdfs:label "具有基金业务活动"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundActivity ;
+    rdfs:subPropertyOf cnfo:hasFundObject ;
+    owl:inverseOf cnfo:activityOfFund .
+
+cnfo:hasFundEstate a owl:ObjectProperty ;
+    rdfs:label "具有基金财产"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundEstate ;
+    rdfs:subPropertyOf cnfo:hasFundObject ;
+    owl:inverseOf cnfo:fundEstateOf .
+
+cnfo:hasFundManagerRole a owl:ObjectProperty ;
+    rdfs:label "具有基金管理人角色"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundManagerRole ;
+    rdfs:subPropertyOf cnfo:hasFundServiceProviderRole .
+
+cnfo:hasFundPortfolio a owl:ObjectProperty ;
+    rdfs:label "具有基金投资组合"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundPortfolio ;
+    rdfs:subPropertyOf cnfo:hasFundObject ;
+    owl:inverseOf cnfo:portfolioOfFund .
+
+cnfo:hasFundPosition a owl:ObjectProperty ;
+    rdfs:label "基金份额具有持仓"@zh ;
+    rdfs:domain cnfo:FundUnit ;
+    rdfs:range cnfo:FundPosition ;
+    owl:inverseOf cnfo:positionInFundUnit .
+
+cnfo:hasFundRedemptionTerms a owl:ObjectProperty ;
+    rdfs:label "具有赎回条款"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundRedemptionTerms ;
+    rdfs:subPropertyOf cnfo:hasFundObject ;
+    owl:inverseOf cnfo:redemptionTermsForFund .
+
+cnfo:hasFundRoleAssignment a owl:ObjectProperty ;
+    rdfs:label "具有基金角色任职记录"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundRoleAssignment ;
+    rdfs:subPropertyOf cnfo:hasFundRecord ;
+    owl:inverseOf cnfo:assignmentForFund .
+
+cnfo:hasFundStatus a owl:ObjectProperty ;
+    rdfs:label "具有基金状态"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundLifecycleStatus ;
+    rdfs:subPropertyOf cnfo:hasFundObject ;
+    owl:inverseOf cnfo:statusOfFund .
+
+cnfo:hasFundSubscriptionTerms a owl:ObjectProperty ;
+    rdfs:label "具有认购条款"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundSubscriptionTerms ;
+    rdfs:subPropertyOf cnfo:hasFundObject ;
+    owl:inverseOf cnfo:subscriptionTermsForFund .
+
+cnfo:hasFundSupervisor a owl:ObjectProperty ;
+    rdfs:label "具有基金监管机构"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundSupervisor ;
+    rdfs:subPropertyOf cnfo:hasFundParty ;
+    owl:inverseOf cnfo:supervisesFund .
+
+cnfo:hasFundUnitClass a owl:ObjectProperty ;
+    rdfs:label "具有基金份额类别"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundUnitClass ;
+    rdfs:subPropertyOf cnfo:hasFundUnit ;
+    owl:inverseOf cnfo:fundUnitClassOf .
+
+cnfo:hasIntendedRiskLevel a owl:ObjectProperty ;
+    rdfs:label "具有目标风险等级"@zh ;
+    rdfs:domain cnfo:FundInvestmentObjective ;
+    rdfs:range cnfo:FundRiskLevel .
+
+cnfo:hasInvestmentObjective a owl:ObjectProperty ;
+    rdfs:label "具有投资目标"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundInvestmentObjective ;
+    rdfs:subPropertyOf cnfo:hasInvestmentSpecification ;
+    owl:inverseOf cnfo:objectiveOfFund .
+
+cnfo:hasInvestmentPolicy a owl:ObjectProperty ;
+    rdfs:label "具有投资政策"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundInvestmentPolicy ;
+    rdfs:subPropertyOf cnfo:hasInvestmentSpecification ;
+    owl:inverseOf cnfo:policyOfFund .
+
+cnfo:hasInvestmentRestriction a owl:ObjectProperty ;
+    rdfs:label "招募说明书载明投资限制"@zh ;
+    rdfs:domain cnfo:FundProspectus ;
+    rdfs:range cnfo:FundInvestmentRestriction ;
+    owl:inverseOf cnfo:definedInProspectus .
+
+cnfo:hasNetAssetValueRecord a owl:ObjectProperty ;
+    rdfs:label "具有净值记录"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:NetAssetValueRecord ;
+    rdfs:subPropertyOf cnfo:hasFundRecord ;
+    owl:inverseOf cnfo:recordForFund .
+
+cnfo:hasPortfolioInvestmentStrategy a owl:ObjectProperty ;
+    rdfs:label "投资组合采用策略"@zh ;
+    rdfs:domain cnfo:FundPortfolio ;
+    rdfs:range cnfo:FundInvestmentStrategy .
+
+cnfo:hasStatusValue a owl:ObjectProperty ;
+    rdfs:label "状态记录的状态值"@zh ;
+    rdfs:domain cnfo:FundStatusRecord ;
+    rdfs:range cnfo:FundLifecycleStatus .
+
+cnfo:holdsFundPosition a owl:ObjectProperty ;
+    rdfs:label "持有基金份额头寸"@zh ;
+    rdfs:domain cnfo:Investor ;
+    rdfs:range cnfo:FundPosition ;
+    owl:inverseOf cnfo:heldByInvestor .
+
+cnfo:implementsInvestmentPolicy a owl:ObjectProperty ;
+    rdfs:label "投资组合执行政策"@zh ;
+    rdfs:domain cnfo:FundPortfolio ;
+    rdfs:range cnfo:FundPortfolioInvestmentPolicy .
+
+cnfo:isExchangeTraded a owl:DatatypeProperty ;
+    rdfs:label "是否交易所交易"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range xsd:boolean .
+
+cnfo:legalStructureOf a owl:ObjectProperty ;
+    rdfs:label "基金组织形式对应基金"@zh ;
+    rdfs:domain cnfo:FundLegalStructure ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasLegalStructure .
+
+cnfo:objectiveOfFund a owl:ObjectProperty ;
+    rdfs:label "投资目标对应基金"@zh ;
+    rdfs:domain cnfo:FundInvestmentObjective ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasInvestmentObjective .
+
+cnfo:outlinesObjective a owl:ObjectProperty ;
+    rdfs:label "基金招募说明书载明投资目标"@zh ;
+    rdfs:domain cnfo:FundProspectus ;
+    rdfs:range cnfo:FundInvestmentObjective ;
+    owl:inverseOf cnfo:statedIn .
+
+cnfo:playsFundRole a owl:ObjectProperty ;
+    rdfs:label "主体承担基金角色"@zh ;
+    rdfs:domain cnfo:FundParty ;
+    rdfs:range cnfo:FundRole ;
+    owl:inverseOf cnfo:rolePlayedBy .
+
+cnfo:policyOfFund a owl:ObjectProperty ;
+    rdfs:label "投资政策对应基金"@zh ;
+    rdfs:domain cnfo:FundInvestmentPolicy ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasInvestmentPolicy .
+
+cnfo:portfolioOfFund a owl:ObjectProperty ;
+    rdfs:label "投资组合对应基金"@zh ;
+    rdfs:domain cnfo:FundPortfolio ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasFundPortfolio .
+
+cnfo:positionAsOfDate a owl:DatatypeProperty ;
+    rdfs:label "持仓日期"@zh ;
+    rdfs:domain cnfo:PortfolioPosition ;
+    rdfs:range xsd:date .
+
+cnfo:positionOfPortfolio a owl:ObjectProperty ;
+    rdfs:label "持仓对应投资组合"@zh ;
+    rdfs:domain cnfo:PortfolioPosition ;
+    rdfs:range cnfo:FundPortfolio ;
+    owl:inverseOf cnfo:hasFundPortfolioPosition .
+
+cnfo:positionQuantity a owl:DatatypeProperty ;
+    rdfs:label "持仓数量"@zh ;
+    rdfs:domain cnfo:FundPosition ;
+    rdfs:range xsd:decimal .
+
+cnfo:providesCustodyForFundUnit a owl:ObjectProperty ;
+    rdfs:label "托管基金份额"@zh ;
+    rdfs:domain cnfo:FundDepositaryRole ;
+    rdfs:range cnfo:FundUnit .
+
+cnfo:redemptionTermsForFund a owl:ObjectProperty ;
+    rdfs:label "赎回条款对应基金"@zh ;
+    rdfs:domain cnfo:FundRedemptionTerms ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasFundRedemptionTerms .
+
+cnfo:statusOfFund a owl:ObjectProperty ;
+    rdfs:label "生命周期状态对应基金"@zh ;
+    rdfs:domain cnfo:FundLifecycleStatus ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasFundStatus .
+
+cnfo:stipulatesBenchmark a owl:ObjectProperty ;
+    rdfs:label "规定业绩比较基准"@zh ;
+    rdfs:domain cnfo:FundInvestmentPolicy ;
+    rdfs:range cnfo:FundBenchmark .
+
+cnfo:strategyOfFund a owl:ObjectProperty ;
+    rdfs:label "投资策略对应基金"@zh ;
+    rdfs:domain cnfo:FundInvestmentStrategy ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:usesInvestmentStrategy .
+
+cnfo:subscriptionTermsForFund a owl:ObjectProperty ;
+    rdfs:label "认购条款对应基金"@zh ;
+    rdfs:domain cnfo:FundSubscriptionTerms ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasFundSubscriptionTerms .
+
+cnfo:supervisesFund a owl:ObjectProperty ;
+    rdfs:label "监管基金"@zh ;
+    rdfs:domain cnfo:FundSupervisor ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasFundSupervisor .
+
+cnfo:underlyingFundOf a owl:ObjectProperty ;
+    rdfs:label "作为底层基金属于"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundOfFunds ;
+    owl:inverseOf cnfo:hasUnderlyingFund .
+
+cnfo:unitCurrency a owl:DatatypeProperty ;
+    rdfs:label "基金份额币种"@zh ;
+    rdfs:domain cnfo:FundUnit ;
+    rdfs:range xsd:string .
+
+cnfo:usesInvestmentStrategy a owl:ObjectProperty ;
+    rdfs:label "使用投资策略"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundInvestmentStrategy ;
+    rdfs:subPropertyOf cnfo:hasInvestmentSpecification ;
+    owl:inverseOf cnfo:strategyOfFund .
+
+cnfo:valuationCurrency a owl:DatatypeProperty ;
+    rdfs:label "估值币种"@zh ;
+    rdfs:domain cnfo:NetAssetValueRecord ;
+    rdfs:range xsd:string .
+
+cnfo:valuationDate a owl:DatatypeProperty ;
+    rdfs:label "估值日期"@zh ;
+    rdfs:domain cnfo:NetAssetValueRecord ;
+    rdfs:range xsd:date .
+
+cnfo:FundClassification a owl:Class ;
+    rdfs:label "基金分类"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cnfo:classifiesFund ;
+            owl:someValuesFrom cnfo:Fund ],
+        cnfo:FundClassifier ;
+    skos:definition "依据发布的分类体系对基金进行标识的分类概念。"@zh .
+
+cnfo:FundContract a owl:Class ;
+    rdfs:label "基金合同"@zh ;
+    rdfs:subClassOf cnfo:FundDocument ;
+    skos:definition "约定基金设立、当事人权利义务、投资运作和收益分配等事项的基金合同。"@zh .
+
+cnfo:FundDepositaryRole a owl:Class ;
+    rdfs:label "基金托管人角色"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cnfo:providesCustodyForFundUnit ;
+            owl:someValuesFrom cnfo:FundUnit ],
+        cnfo:FundServiceProviderRole ;
+    skos:definition "由基金托管人承担、负责基金财产保管和相关监督职责的基金服务机构角色。"@zh .
+
+cnfo:FundDistributionMethod a owl:Class ;
+    rdfs:label "基金分红方式"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "基金收益向基金份额持有人分配时采用的具体方式。"@zh .
+
+cnfo:FundEstate a owl:Class ;
+    rdfs:label "基金财产"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "独立于管理人、托管人固有财产的基金资产、权利和负债集合。"@zh .
+
+cnfo:FundManagerRole a owl:Class ;
+    rdfs:label "基金管理人角色"@zh ;
+    rdfs:subClassOf cnfo:FundServiceProviderRole ;
+    skos:definition "由基金管理人承担、负责基金投资管理和基金运作管理的基金服务机构角色。"@zh .
+
+cnfo:FundPortfolioInvestmentPolicy a owl:Class ;
+    rdfs:label "基金投资组合政策"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass cnfo:FundBenchmark ;
+            owl:onProperty cnfo:stipulatesBenchmark ],
+        [ a owl:Restriction ;
+            owl:onProperty cnfo:definesInvestmentRestriction ;
+            owl:someValuesFrom cnfo:FundInvestmentRestriction ],
+        [ a owl:Restriction ;
+            owl:onProperty cnfo:governsInvestmentStrategy ;
+            owl:someValuesFrom cnfo:FundInvestmentStrategy ],
+        cnfo:FundInvestmentPolicy ;
+    skos:definition "规定基金投资组合配置原则、投资限制和执行策略的投资政策。"@zh .
+
+cnfo:FundProcessingTerms a owl:Class ;
+    rdfs:label "基金运作条款"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "规定基金份额申购、赎回、分配或其他处理流程和条件的运作条款。"@zh .
+
+cnfo:FundSupervisor a owl:Class ;
+    rdfs:label "基金监管机构"@zh ;
+    rdfs:subClassOf cnfo:FundParty ;
+    skos:definition "依法对基金设立、募集、运作或相关主体实施监督管理的基金参与主体。"@zh .
+
+cnfo:SecuritiesInvestmentFund a owl:Class ;
+    rdfs:label "证券投资基金"@zh ;
+    rdfs:subClassOf cnfo:Fund ;
+    skos:definition "以证券及其衍生品等规定标的为主要投资对象的基金。"@zh .
+
+cnfo:assignmentForFund a owl:ObjectProperty ;
+    rdfs:label "任职记录对应基金"@zh ;
+    rdfs:domain cnfo:FundRoleAssignment ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasFundRoleAssignment .
+
+cnfo:classifiesFund a owl:ObjectProperty ;
+    rdfs:label "分类标识基金"@zh ;
+    rdfs:domain cnfo:FundClassifier ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasFundClassifier .
+
+cnfo:definedInProspectus a owl:ObjectProperty ;
+    rdfs:label "投资限制载明于招募说明书"@zh ;
+    rdfs:domain cnfo:FundInvestmentRestriction ;
+    rdfs:range cnfo:FundProspectus ;
+    owl:inverseOf cnfo:hasInvestmentRestriction .
+
+cnfo:distributionWithReinvestment a owl:DatatypeProperty ;
+    rdfs:label "是否收益再投资"@zh ;
+    rdfs:domain cnfo:FundUnitDistributionPolicy ;
+    rdfs:range xsd:boolean .
+
+cnfo:effectiveFrom a owl:DatatypeProperty ;
+    rdfs:label "生效日期"@zh ;
+    rdfs:domain cnfo:FundTemporalRecord ;
+    rdfs:range xsd:date .
+
+cnfo:effectiveTo a owl:DatatypeProperty ;
+    rdfs:label "失效日期"@zh ;
+    rdfs:domain cnfo:FundTemporalRecord ;
+    rdfs:range xsd:date .
+
+cnfo:hasFundClassifier a owl:ObjectProperty ;
+    rdfs:label "具有基金分类概念"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundClassifier ;
+    owl:inverseOf cnfo:classifiesFund .
+
+cnfo:hasFundDocument a owl:ObjectProperty ;
+    rdfs:label "具有基金文件"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundDocument ;
+    rdfs:subPropertyOf cnfo:hasFundObject .
+
+cnfo:hasFundParty a owl:ObjectProperty ;
+    rdfs:label "具有基金参与主体"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundParty .
+
+cnfo:hasFundPortfolioPosition a owl:ObjectProperty ;
+    rdfs:label "具有投资组合持仓"@zh ;
+    rdfs:domain cnfo:FundPortfolio ;
+    rdfs:range cnfo:PortfolioPosition ;
+    owl:inverseOf cnfo:positionOfPortfolio .
+
+cnfo:hasFundProduct a owl:ObjectProperty ;
+    rdfs:label "具有基金产品"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundProduct ;
+    rdfs:subPropertyOf cnfo:hasFundObject ;
+    owl:inverseOf cnfo:fundProductOf .
+
+cnfo:hasFundRole a owl:ObjectProperty ;
+    rdfs:label "具有基金角色"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundRole ;
+    rdfs:subPropertyOf cnfo:hasFundObject ;
+    owl:inverseOf cnfo:roleInFund .
+
+cnfo:hasFundStatusRecord a owl:ObjectProperty ;
+    rdfs:label "具有基金状态记录"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundStatusRecord ;
+    rdfs:subPropertyOf cnfo:hasFundRecord ;
+    owl:inverseOf cnfo:statusRecordForFund .
+
+cnfo:hasUnderlyingFund a owl:ObjectProperty ;
+    rdfs:label "具有底层基金"@zh ;
+    rdfs:domain cnfo:FundOfFunds ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:underlyingFundOf .
+
+cnfo:heldByInvestor a owl:ObjectProperty ;
+    rdfs:label "基金份额头寸由投资者持有"@zh ;
+    rdfs:domain cnfo:FundPosition ;
+    rdfs:range cnfo:Investor ;
+    owl:inverseOf cnfo:holdsFundPosition .
+
+cnfo:isOpenEnded a owl:DatatypeProperty ;
+    rdfs:label "是否开放式"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range xsd:boolean .
+
+cnfo:isPrivate a owl:DatatypeProperty ;
+    rdfs:label "是否私募"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range xsd:boolean .
+
+cnfo:issuedByFund a owl:ObjectProperty ;
+    rdfs:label "基金份额由基金发行"@zh ;
+    rdfs:domain cnfo:FundUnit ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasFundUnit .
+
+cnfo:positionInAsset a owl:ObjectProperty ;
+    rdfs:label "持仓对应投资资产"@zh ;
+    rdfs:domain cnfo:PortfolioPosition ;
+    rdfs:range cnfo:FundInvestmentAsset ;
+    owl:inverseOf cnfo:assetHasPortfolioPosition .
+
+cnfo:positionInFundUnit a owl:ObjectProperty ;
+    rdfs:label "头寸对应基金份额"@zh ;
+    rdfs:domain cnfo:FundPosition ;
+    rdfs:range cnfo:FundUnit ;
+    owl:inverseOf cnfo:hasFundPosition .
+
+cnfo:recordForFund a owl:ObjectProperty ;
+    rdfs:label "净值记录对应基金"@zh ;
+    rdfs:domain cnfo:NetAssetValueRecord ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasNetAssetValueRecord .
+
+cnfo:roleInFund a owl:ObjectProperty ;
+    rdfs:label "角色适用于基金"@zh ;
+    rdfs:domain cnfo:FundRole ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasFundRole .
+
+cnfo:rolePlayedBy a owl:ObjectProperty ;
+    rdfs:label "角色由主体承担"@zh ;
+    rdfs:domain cnfo:FundRole ;
+    rdfs:range cnfo:FundParty ;
+    owl:inverseOf cnfo:playsFundRole .
+
+cnfo:statedIn a owl:ObjectProperty ;
+    rdfs:label "载明于基金招募说明书"@zh ;
+    rdfs:domain cnfo:FundInvestmentObjective ;
+    rdfs:range cnfo:FundProspectus ;
+    owl:inverseOf cnfo:outlinesObjective .
+
+cnfo:statusRecordForFund a owl:ObjectProperty ;
+    rdfs:label "状态记录对应基金"@zh ;
+    rdfs:domain cnfo:FundStatusRecord ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasFundStatusRecord .
+
+cnfo:FundBenchmark a owl:Class ;
+    rdfs:label "业绩比较基准"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "用于评价基金投资组合或投资策略相对表现的业绩比较基准。"@zh .
+
+cnfo:FundJurisdiction a owl:Class ;
+    rdfs:label "基金适用法域"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "适用于基金设立、募集或运作的法律和监管辖域。"@zh .
+
+cnfo:FundOfFunds a owl:Class ;
+    rdfs:label "基金中基金"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cnfo:hasUnderlyingFund ;
+            owl:someValuesFrom cnfo:Fund ],
+        cnfo:Fund ;
+    skos:definition "主要投资其他基金份额的基金，也称 FOF。"@zh .
+
+cnfo:FundPortfolioInvestmentLimitation a owl:Class ;
+    rdfs:label "基金组合投资限制"@zh ;
+    rdfs:subClassOf cnfo:FundInvestmentRestriction ;
+    skos:definition "限制基金投资组合在特定资产、行业、地区或比例方面配置范围的规则对象。"@zh .
+
+cnfo:FundProduct a owl:Class ;
+    rdfs:label "基金产品"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "由基金名称、目标、策略、份额、费率和运作规则共同定义的基金产品。"@zh .
+
+cnfo:FundRecord a owl:Class ;
+    rdfs:label "基金业务记录"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "用于记录基金在特定日期或期间的状态、估值或其他事实的对象。"@zh .
+
+cnfo:FundRiskLevel a owl:Class ;
+    rdfs:label "基金风险等级"@zh ;
+    rdfs:subClassOf cnfo:FundClassifier ;
+    skos:definition "用于表示基金或其投资目标对应风险程度的风险分类概念。"@zh .
+
+cnfo:FundUnitClass a owl:Class ;
+    rdfs:label "基金份额类别"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cnfo:hasDistributionPolicy ;
+            owl:someValuesFrom cnfo:FundUnitDistributionPolicy ],
+        cnfo:FundUnit ;
+    skos:definition "按照收费、收益分配、销售渠道或其他规则划分的基金份额类别。"@zh .
+
+cnfo:OpenEndedFund a owl:Class ;
+    rdfs:label "开放式基金"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:hasValue true ;
+            owl:onProperty cnfo:isOpenEnded ],
+        cnfo:Fund ;
+    owl:disjointWith cnfo:ClosedEndedFund ;
+    skos:definition "基金份额总额不固定，可以按照基金合同办理申购和赎回的基金。"@zh .
+
+cnfo:hasFundRecord a owl:ObjectProperty ;
+    rdfs:label "具有基金记录"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundRecord ;
+    rdfs:subPropertyOf cnfo:hasFundObject .
+
+cnfo:hasFundUnit a owl:ObjectProperty ;
+    rdfs:label "具有基金份额"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundUnit ;
+    rdfs:subPropertyOf cnfo:hasFundObject ;
+    owl:inverseOf cnfo:issuedByFund .
+
+cnfo:hasInvestmentSpecification a owl:ObjectProperty ;
+    rdfs:label "具有投资说明"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundInvestmentSpecification ;
+    rdfs:subPropertyOf cnfo:hasFundObject .
+
+cnfo:hasLegalStructure a owl:ObjectProperty ;
+    rdfs:label "具有基金组织形式"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundLegalStructure ;
+    rdfs:subPropertyOf cnfo:hasFundObject ;
+    owl:inverseOf cnfo:legalStructureOf .
+
+cnfo:ConceptNature a owl:Class ;
     rdfs:label "概念性质"@zh ;
     skos:definition "用于区分基金概念在法律规定、监管产品分类或市场惯用语境中性质的概念类型。"@zh .
 
-cnfo:StatutoryFundType
-    a owl:Class ;
-    rdfs:subClassOf cnfo:ConceptNature ;
-    rdfs:label "法定基金类型"@zh ;
-    skos:definition "由法律、行政法规或正式监管规范直接规定的基金类型。"@zh .
-
-cnfo:RegulatoryProductType
-    a owl:Class ;
-    rdfs:subClassOf cnfo:ConceptNature ;
-    rdfs:label "监管产品类型"@zh ;
-    skos:definition "由监管规则、登记备案制度或产品监管口径定义的基金产品类型。"@zh .
-
-cnfo:MarketConventionType
-    a owl:Class ;
-    rdfs:subClassOf cnfo:ConceptNature ;
-    rdfs:label "市场惯用类型"@zh ;
-    skos:definition "在基金市场实践中形成并被广泛使用、但不必然构成法定分类的概念类型。"@zh .
-
-### Structure, parties, assets, and documents
-
-cnfo:FundLegalStructure a owl:Class ;
-    rdfs:subClassOf cnfo:FundObject ;
-    rdfs:label "基金法律结构"@zh ;
-    skos:definition "规定基金组织形式、权利义务和适用法律关系的基金法律结构。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:hasApplicableJurisdiction ;
-        owl:someValuesFrom cnfo:FundJurisdiction
-    ] .
-cnfo:FundJurisdiction a owl:Class ;
-    rdfs:subClassOf cnfo:FundObject ;
-    rdfs:label "基金适用法域"@zh ;
-    skos:definition "适用于基金设立、募集或运作的法律和监管辖域。"@zh .
-cnfo:ContractualFundStructure a owl:Class ; rdfs:subClassOf cnfo:FundLegalStructure ; rdfs:label "契约型基金结构"@zh ; skos:definition "通过基金合同约定基金当事人权利义务和基金运作规则的基金法律结构。"@zh .
-cnfo:CorporateFundStructure a owl:Class ; rdfs:subClassOf cnfo:FundLegalStructure ; rdfs:label "公司型基金结构"@zh ; skos:definition "以公司法人作为基金组织载体并依公司治理规则运作的基金法律结构。"@zh .
-cnfo:PartnershipFundStructure a owl:Class ; rdfs:subClassOf cnfo:FundLegalStructure ; rdfs:label "合伙型基金结构"@zh ; skos:definition "以合伙企业作为组织载体并依合伙协议及合伙法律关系运作的基金法律结构。"@zh .
-[] a owl:AllDisjointClasses ;
-    owl:members (
-        cnfo:ContractualFundStructure
-        cnfo:CorporateFundStructure
-        cnfo:PartnershipFundStructure
-    ) .
-
-cnfo:FundEstate a owl:Class ; rdfs:subClassOf cnfo:FundObject ; rdfs:label "基金财产"@zh ; skos:definition "独立于管理人、托管人固有财产的基金资产、权利和负债集合。"@zh .
-cnfo:FundPortfolio a owl:Class ;
-    rdfs:subClassOf cnfo:FundObject ;
-    rdfs:label "基金投资组合"@zh ;
-    skos:definition "基金财产中按投资目标和投资政策组织的资产与头寸集合。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:hasPortfolioInvestmentStrategy ;
-        owl:someValuesFrom cnfo:FundInvestmentStrategy
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:implementsInvestmentPolicy ;
-        owl:someValuesFrom cnfo:FundPortfolioInvestmentPolicy
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:hasFundPortfolioPosition ;
-        owl:someValuesFrom cnfo:PortfolioPosition
-    ] .
-cnfo:PortfolioPosition a owl:Class ;
-    rdfs:subClassOf cnfo:FundObject ;
-    rdfs:label "投资组合持仓"@zh ;
-    skos:definition "反映基金投资组合在特定日期对某项投资资产持有数量、价值或比例的持仓对象。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:positionInAsset ;
-        owl:qualifiedCardinality 1 ;
-        owl:onClass cnfo:FundInvestmentAsset
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:positionAsOfDate ;
-        owl:cardinality 1
-    ] .
-cnfo:FundUnit a owl:Class ;
-    rdfs:subClassOf cnfo:FundObject ;
-    rdfs:label "基金份额"@zh ;
-    skos:definition "表示基金份额持有人对基金财产享有权益的可识别基金份额对象。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:issuedByFund ;
-        owl:qualifiedCardinality 1 ;
-        owl:onClass cnfo:Fund
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:unitCurrency ;
-        owl:cardinality 1
-    ] .
-cnfo:FundUnitClass a owl:Class ;
-    rdfs:subClassOf cnfo:FundUnit ;
-    rdfs:label "基金份额类别"@zh ;
-    skos:definition "按照收费、收益分配、销售渠道或其他规则划分的基金份额类别。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:hasDistributionPolicy ;
-        owl:someValuesFrom cnfo:FundUnitDistributionPolicy
-    ] .
-cnfo:FundPosition a owl:Class ;
-    rdfs:subClassOf cnfo:FundObject ;
-    rdfs:label "基金份额持仓"@zh ;
-    skos:definition "投资者在特定基金份额上持有的数量、权益或相关头寸记录。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:positionInFundUnit ;
-        owl:qualifiedCardinality 1 ;
-        owl:onClass cnfo:FundUnit
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:heldByInvestor ;
-        owl:qualifiedCardinality 1 ;
-        owl:onClass cnfo:Investor
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:positionQuantity ;
-        owl:cardinality 1
-    ] .
-
-cnfo:FundParty a owl:Class ; rdfs:label "基金参与主体"@zh ; skos:definition "参与基金设立、募集、投资、托管、销售、监督或其他基金业务的主体。"@zh .
-cnfo:FundRole a owl:Class ;
-    rdfs:subClassOf cnfo:FundObject ;
-    rdfs:label "基金角色"@zh ;
-    skos:definition "由基金参与主体承担、并限定其在特定基金中职责的角色对象。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:roleInFund ;
-        owl:qualifiedCardinality 1 ;
-        owl:onClass cnfo:Fund
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:rolePlayedBy ;
-        owl:qualifiedCardinality 1 ;
-        owl:onClass cnfo:FundParty
-    ] .
-cnfo:Investor a owl:Class ; rdfs:subClassOf cnfo:FundParty ; rdfs:label "基金投资者"@zh ; skos:definition "以认购、申购或其他方式持有基金份额并享有相应权利的基金参与主体。"@zh .
-cnfo:QualifiedInvestor a owl:Class ; rdfs:subClassOf cnfo:Investor ; rdfs:label "合格投资者"@zh ; skos:definition "符合适用法律法规或监管规则所规定资格条件的基金投资者。"@zh .
-cnfo:FundHolderRole a owl:Class ; rdfs:subClassOf cnfo:FundRole ; rdfs:label "基金份额持有人角色"@zh ; skos:definition "由基金份额持有人承担、表示其在特定基金中持有基金份额权利的基金角色。"@zh .
-cnfo:FundServiceProviderRole a owl:Class ; rdfs:subClassOf cnfo:FundRole ; rdfs:label "基金服务机构角色"@zh ; skos:definition "由为基金提供专业服务的机构承担的基金服务机构角色。"@zh .
-cnfo:FundManagerRole a owl:Class ; rdfs:subClassOf cnfo:FundServiceProviderRole ; rdfs:label "基金管理人角色"@zh ; skos:definition "由基金管理人承担、负责基金投资管理和基金运作管理的基金服务机构角色。"@zh .
-cnfo:FundManagementCompany a owl:Class ; rdfs:subClassOf cnfo:FundParty ; rdfs:label "基金管理公司"@zh ; skos:definition "依法设立并承担基金管理职责或提供基金管理服务的基金参与主体。"@zh .
-cnfo:FundDepositaryRole a owl:Class ;
-    rdfs:subClassOf cnfo:FundServiceProviderRole ;
-    rdfs:label "基金托管人角色"@zh ;
-    skos:definition "由基金托管人承担、负责基金财产保管和相关监督职责的基金服务机构角色。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:providesCustodyForFundUnit ;
-        owl:someValuesFrom cnfo:FundUnit
-    ] .
-cnfo:FundDistributorRole a owl:Class ; rdfs:subClassOf cnfo:FundServiceProviderRole ; rdfs:label "基金销售机构角色"@zh ; skos:definition "由基金销售机构承担、负责基金份额发售、申购或赎回服务的基金服务机构角色。"@zh .
-cnfo:FundRegistrarRole a owl:Class ; rdfs:subClassOf cnfo:FundServiceProviderRole ; rdfs:label "基金份额登记机构角色"@zh ; skos:definition "由基金份额登记机构承担、负责基金份额登记、持有人名册和相关记录管理的服务机构角色。"@zh .
-cnfo:FundValuationServiceProviderRole a owl:Class ; rdfs:subClassOf cnfo:FundServiceProviderRole ; rdfs:label "基金估值服务机构角色"@zh ; skos:definition "由基金估值服务机构承担、负责基金资产或份额估值相关服务的基金服务机构角色。"@zh .
-cnfo:FundAdministratorRole a owl:Class ; rdfs:subClassOf cnfo:FundServiceProviderRole ; rdfs:label "基金行政管理机构角色"@zh ; skos:definition "由基金行政管理机构承担、负责基金运营支持、记录维护或行政管理工作的基金服务机构角色。"@zh .
-cnfo:FundAccountantRole a owl:Class ; rdfs:subClassOf cnfo:FundServiceProviderRole ; rdfs:label "基金会计服务机构角色"@zh ; skos:definition "由基金会计服务机构承担、负责基金会计核算或相关财务记录工作的基金服务机构角色。"@zh .
-cnfo:FundTransferAgentRole a owl:Class ; rdfs:subClassOf cnfo:FundServiceProviderRole ; rdfs:label "基金过户登记代理角色"@zh ; skos:definition "由基金过户登记代理机构承担、负责份额过户或相关登记代理服务的基金服务机构角色。"@zh .
-cnfo:FundSupervisor a owl:Class ; rdfs:subClassOf cnfo:FundParty ; rdfs:label "基金监管机构"@zh ; skos:definition "依法对基金设立、募集、运作或相关主体实施监督管理的基金参与主体。"@zh .
-
-cnfo:FundContract a owl:Class ; rdfs:subClassOf cnfo:FundDocument ; rdfs:label "基金合同"@zh ; skos:definition "约定基金设立、当事人权利义务、投资运作和收益分配等事项的基金合同。"@zh .
-cnfo:FundProspectus a owl:Class ; rdfs:subClassOf cnfo:FundDocument ; rdfs:label "基金招募说明书"@zh ; skos:definition "向投资者披露基金基本情况、投资目标、投资策略、风险和运作规则的基金招募说明书。"@zh .
-cnfo:FundPeriodicReport a owl:Class ; rdfs:subClassOf cnfo:FundDocument ; rdfs:label "基金定期报告"@zh ; skos:definition "按照规定定期披露基金资产、投资运作、财务状况和其他重要事项的基金报告。"@zh .
-cnfo:FundFilingDocument a owl:Class ; rdfs:subClassOf cnfo:FundDocument ; rdfs:label "基金备案文件"@zh ; skos:definition "用于证明或支持基金登记备案事项的业务文件。"@zh .
-cnfo:FundInvestmentAsset a owl:Class ; rdfs:subClassOf cnfo:FundObject ; rdfs:label "基金投资资产"@zh ; skos:definition "基金投资组合中可被持有、估值或交易的投资标的或资产对象。"@zh .
-cnfo:EquityInvestmentAsset a owl:Class ; rdfs:subClassOf cnfo:FundInvestmentAsset ; rdfs:label "权益类投资资产"@zh ; skos:definition "以股票、股权或其他具有权益属性的金融工具为代表的基金投资资产。"@zh .
-cnfo:DebtInvestmentAsset a owl:Class ; rdfs:subClassOf cnfo:FundInvestmentAsset ; rdfs:label "债务类投资资产"@zh ; skos:definition "以债券、债权或其他具有债务属性的金融工具为代表的基金投资资产。"@zh .
-cnfo:FundUnitInvestmentAsset a owl:Class ; rdfs:subClassOf cnfo:FundInvestmentAsset, cnfo:FundUnit ; rdfs:label "基金份额类投资资产"@zh ; skos:definition "以其他基金份额或基金单位形式存在的基金投资资产。"@zh .
-
-### Activities and status
-
-cnfo:FundActivity a owl:Class ; rdfs:subClassOf cnfo:FundObject ; rdfs:label "基金业务活动"@zh ; skos:definition "围绕基金设立、募集、投资运作、估值、披露、清算等发生的业务活动。"@zh .
-cnfo:FundRegistrationActivity a owl:Class ; rdfs:subClassOf cnfo:FundActivity ; rdfs:label "基金注册活动"@zh ; skos:definition "依法向适用注册机构提交基金注册材料并完成注册程序的基金业务活动。"@zh .
-cnfo:FundFilingActivity a owl:Class ; rdfs:subClassOf cnfo:FundActivity ; rdfs:label "基金备案活动"@zh ; skos:definition "向适用登记备案机构提交基金备案材料并完成备案手续的基金业务活动。"@zh .
-cnfo:FundRaisingActivity a owl:Class ; rdfs:subClassOf cnfo:FundActivity ; rdfs:label "基金募集活动"@zh ; skos:definition "基金面向投资者发售或募集基金份额的业务活动。"@zh .
-cnfo:FundSubscriptionActivity a owl:Class ; rdfs:subClassOf cnfo:FundActivity ; rdfs:label "基金认购活动"@zh ; skos:definition "投资者按照基金募集安排申请并完成基金份额认购的业务活动。"@zh .
-cnfo:FundPurchaseActivity a owl:Class ; rdfs:subClassOf cnfo:FundActivity ; rdfs:label "基金申购活动"@zh ; skos:definition "基金份额持有人按照适用规则申请并完成基金份额申购的业务活动。"@zh .
-cnfo:FundRedemptionActivity a owl:Class ; rdfs:subClassOf cnfo:FundActivity ; rdfs:label "基金赎回活动"@zh ; skos:definition "基金份额持有人按照适用规则申请并完成基金份额赎回的业务活动。"@zh .
-cnfo:AssetValuationActivity a owl:Class ; rdfs:subClassOf cnfo:FundActivity ; rdfs:label "基金资产估值活动"@zh ; skos:definition "按照适用规则对基金资产、负债或相关权益进行价值计量的基金业务活动。"@zh .
-cnfo:NetAssetValueCalculationActivity a owl:Class ; rdfs:subClassOf cnfo:FundActivity ; rdfs:label "基金净值计算活动"@zh ; skos:definition "按照适用规则计算基金资产净值或基金份额净值的业务活动。"@zh .
-cnfo:IncomeDistributionActivity a owl:Class ; rdfs:subClassOf cnfo:FundActivity ; rdfs:label "基金收益分配活动"@zh ; skos:definition "按照基金合同或适用规则计算并实施基金收益分配的业务活动。"@zh .
-cnfo:InformationDisclosureActivity a owl:Class ; rdfs:subClassOf cnfo:FundActivity ; rdfs:label "基金信息披露活动"@zh ; skos:definition "按照适用规则编制、提交或向投资者公开基金信息的业务活动。"@zh .
-cnfo:FundLiquidationActivity a owl:Class ; rdfs:subClassOf cnfo:FundActivity ; rdfs:label "基金清算活动"@zh ; skos:definition "基金终止后对基金财产进行清理、分配并办理注销等事项的基金业务活动。"@zh .
-
-cnfo:FundLifecycleStatus a owl:Class ; rdfs:subClassOf cnfo:FundObject ; rdfs:label "基金生命周期状态"@zh ; skos:definition "表示基金从设计、注册备案、募集、运作到清算终止所处阶段的状态概念。"@zh .
-cnfo:DesignedStatus a owl:Class ; rdfs:subClassOf cnfo:FundLifecycleStatus ; rdfs:label "已设计"@zh ; skos:definition "基金已完成产品设计但尚未进入注册、备案或募集阶段的生命周期状态。"@zh .
-cnfo:RegistrationPendingStatus a owl:Class ; rdfs:subClassOf cnfo:FundLifecycleStatus ; rdfs:label "待注册"@zh ; skos:definition "基金已提交或准备注册材料、但尚未完成注册程序的生命周期状态。"@zh .
-cnfo:RegisteredStatus a owl:Class ; rdfs:subClassOf cnfo:FundLifecycleStatus ; rdfs:label "已注册"@zh ; skos:definition "基金已完成适用注册程序并取得注册或批准结果的生命周期状态。"@zh .
-cnfo:RaisingStatus a owl:Class ; rdfs:subClassOf cnfo:FundLifecycleStatus ; rdfs:label "募集期"@zh ; skos:definition "基金正在面向投资者募集基金份额、尚未进入正常运作阶段的生命周期状态。"@zh .
-cnfo:FiledStatus a owl:Class ; rdfs:subClassOf cnfo:FundLifecycleStatus ; rdfs:label "已备案"@zh ; skos:definition "基金已完成适用的备案程序并进入备案后运作或后续管理阶段的生命周期状态。"@zh .
-cnfo:OperatingStatus a owl:Class ; rdfs:subClassOf cnfo:FundLifecycleStatus ; rdfs:label "运作中"@zh ; skos:definition "基金已完成设立或募集程序并处于正常投资运作阶段的生命周期状态。"@zh .
-cnfo:SuspendedStatus a owl:Class ; rdfs:subClassOf cnfo:FundLifecycleStatus ; rdfs:label "暂停运作"@zh ; skos:definition "基金因适用原因暂时停止全部或部分募集、申购、赎回或投资运作的生命周期状态。"@zh .
-cnfo:LiquidatingStatus a owl:Class ; rdfs:subClassOf cnfo:FundLifecycleStatus ; rdfs:label "清算中"@zh ; skos:definition "基金已进入清算程序，正在处置资产、清偿债务或分配剩余财产的生命周期状态。"@zh .
-cnfo:TerminatedStatus a owl:Class ; rdfs:subClassOf cnfo:FundLifecycleStatus ; rdfs:label "已终止"@zh ; skos:definition "基金已完成清算或其他终止程序，不再继续作为运作中基金存在的生命周期状态。"@zh .
-[] a owl:AllDisjointClasses ;
-    owl:members (
-        cnfo:DesignedStatus
-        cnfo:RegistrationPendingStatus
-        cnfo:RegisteredStatus
-        cnfo:RaisingStatus
-        cnfo:FiledStatus
-        cnfo:OperatingStatus
-        cnfo:SuspendedStatus
-        cnfo:LiquidatingStatus
-        cnfo:TerminatedStatus
-    ) .
-cnfo:NetAssetValueRecord a owl:Class ;
-    rdfs:subClassOf cnfo:FundRecord ;
-    rdfs:label "基金净值记录"@zh ;
-    skos:definition "在特定估值日期记录基金资产净值、份额净值及相关币种的业务记录。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:recordForFund ;
-        owl:qualifiedCardinality 1 ;
-        owl:onClass cnfo:Fund
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:valuationDate ;
-        owl:cardinality 1
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:valuationCurrency ;
-        owl:cardinality 1
-    ] .
-
-cnfo:FundStatusRecord a owl:Class ;
-    rdfs:subClassOf cnfo:FundTemporalRecord ;
-    rdfs:label "基金状态记录"@zh ;
-    skos:definition "基金在特定生效期间所处生命周期状态的事实记录。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:statusRecordForFund ;
-        owl:qualifiedCardinality 1 ;
-        owl:onClass cnfo:Fund
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:hasStatusValue ;
-        owl:qualifiedCardinality 1 ;
-        owl:onClass cnfo:FundLifecycleStatus
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:effectiveFrom ;
-        owl:cardinality 1
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:effectiveTo ;
-        owl:maxCardinality 1
-    ] .
+cnfo:FundRedemptionTerms a owl:Class ;
+    rdfs:label "基金赎回条款"@zh ;
+    rdfs:subClassOf cnfo:FundProcessingTerms ;
+    skos:definition "规定基金份额赎回条件、流程、费用、最低数量及资金处理方式的运作条款。"@zh .
 
 cnfo:FundRoleAssignment a owl:Class ;
-    rdfs:subClassOf cnfo:FundTemporalRecord ;
     rdfs:label "基金角色任职记录"@zh ;
-    skos:definition "记录某一基金角色由何主体在何期间承担的时态事实。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:assignmentForFund ;
-        owl:qualifiedCardinality 1 ;
-        owl:onClass cnfo:Fund
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:assignsFundRole ;
-        owl:qualifiedCardinality 1 ;
-        owl:onClass cnfo:FundRole
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:assignmentPlayedBy ;
-        owl:qualifiedCardinality 1 ;
-        owl:onClass cnfo:FundParty
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:effectiveFrom ;
-        owl:cardinality 1
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:effectiveTo ;
-        owl:maxCardinality 1
-    ] .
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onClass cnfo:Fund ;
+            owl:onProperty cnfo:assignmentForFund ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:onClass cnfo:FundRole ;
+            owl:onProperty cnfo:assignsFundRole ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:onClass cnfo:FundParty ;
+            owl:onProperty cnfo:assignmentPlayedBy ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty cnfo:effectiveFrom ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty cnfo:effectiveTo ],
+        cnfo:FundTemporalRecord ;
+    skos:definition "记录某一基金角色由何主体在何期间承担的时态事实。"@zh .
 
-### Fund properties
+cnfo:FundStatusRecord a owl:Class ;
+    rdfs:label "基金状态记录"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onClass cnfo:Fund ;
+            owl:onProperty cnfo:statusRecordForFund ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:onClass cnfo:FundLifecycleStatus ;
+            owl:onProperty cnfo:hasStatusValue ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty cnfo:effectiveFrom ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty cnfo:effectiveTo ],
+        cnfo:FundTemporalRecord ;
+    skos:definition "基金在特定生效期间所处生命周期状态的事实记录。"@zh .
 
-cnfo:hasFundObject a owl:ObjectProperty ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundObject ;
-    rdfs:label "具有基金对象"@zh .
-cnfo:hasFundProduct a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundObject ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundProduct ;
-    owl:inverseOf cnfo:fundProductOf ;
-    rdfs:label "具有基金产品"@zh .
-cnfo:fundProductOf a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundProduct ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:hasFundProduct ;
-    rdfs:label "基金产品对应基金"@zh .
-cnfo:realizesFundProduct a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundProduct ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundProduct ;
-    rdfs:label "实现基金产品"@zh .
-cnfo:hasLegalStructure a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundObject ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundLegalStructure ;
-    owl:inverseOf cnfo:legalStructureOf ;
-    rdfs:label "具有法律结构"@zh .
-cnfo:legalStructureOf a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundLegalStructure ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:hasLegalStructure ;
-    rdfs:label "法律结构对应基金"@zh .
-cnfo:hasApplicableJurisdiction a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundLegalStructure ;
-    rdfs:range cnfo:FundJurisdiction ;
-    rdfs:label "适用基金法域"@zh .
-cnfo:hasFundEstate a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundObject ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundEstate ;
-    owl:inverseOf cnfo:fundEstateOf ;
-    rdfs:label "具有基金财产"@zh .
-cnfo:fundEstateOf a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundEstate ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:hasFundEstate ;
-    rdfs:label "基金财产对应基金"@zh .
-cnfo:hasFundPortfolio a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundObject ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundPortfolio ;
-    owl:inverseOf cnfo:portfolioOfFund ;
-    rdfs:label "具有基金投资组合"@zh .
-cnfo:portfolioOfFund a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundPortfolio ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:hasFundPortfolio ;
-    rdfs:label "投资组合对应基金"@zh .
-cnfo:hasFundUnit a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundObject ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundUnit ;
-    owl:inverseOf cnfo:issuedByFund ;
-    rdfs:label "具有基金份额"@zh .
-cnfo:issuesFundUnit a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundUnit ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundUnit ;
-    rdfs:label "发行基金份额"@zh .
-cnfo:issuedByFund a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundUnit ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:hasFundUnit ;
-    rdfs:label "基金份额由基金发行"@zh .
-cnfo:hasFundUnitClass a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundUnit ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundUnitClass ;
-    owl:inverseOf cnfo:fundUnitClassOf ;
-    rdfs:label "具有基金份额类别"@zh .
-cnfo:fundUnitClassOf a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundUnitClass ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:hasFundUnitClass ;
-    rdfs:label "基金份额类别对应基金"@zh .
-cnfo:hasFundRole a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundObject ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundRole ;
-    owl:inverseOf cnfo:roleInFund ;
-    rdfs:label "具有基金角色"@zh .
-cnfo:hasFundManagerRole a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundServiceProviderRole ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundManagerRole ;
-    rdfs:label "具有基金管理人角色"@zh .
-cnfo:hasFundDepositaryRole a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundServiceProviderRole ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundDepositaryRole ;
-    rdfs:label "具有基金托管人角色"@zh .
-cnfo:hasFundDistributorRole a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundServiceProviderRole ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundDistributorRole ;
-    rdfs:label "具有基金销售机构角色"@zh .
-cnfo:hasFundRegistrarRole a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundServiceProviderRole ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundRegistrarRole ;
-    rdfs:label "具有基金份额登记机构角色"@zh .
-cnfo:hasFundAdministratorRole a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundServiceProviderRole ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundAdministratorRole ;
-    rdfs:label "具有基金行政管理机构角色"@zh .
-cnfo:hasFundAccountantRole a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundServiceProviderRole ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundAccountantRole ;
-    rdfs:label "具有基金会计服务机构角色"@zh .
-cnfo:hasFundServiceProviderRole a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundRole ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundServiceProviderRole ;
-    rdfs:label "具有基金服务机构角色"@zh .
-cnfo:hasFundTransferAgentRole a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundServiceProviderRole ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundTransferAgentRole ;
-    rdfs:label "具有基金过户登记代理角色"@zh .
-cnfo:rolePlayedBy a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundRole ;
-    rdfs:range cnfo:FundParty ;
-    owl:inverseOf cnfo:playsFundRole ;
-    rdfs:label "角色由主体承担"@zh .
-cnfo:playsFundRole a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundParty ;
-    rdfs:range cnfo:FundRole ;
-    owl:inverseOf cnfo:rolePlayedBy ;
-    rdfs:label "主体承担基金角色"@zh .
-cnfo:roleInFund a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundRole ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:hasFundRole ;
-    rdfs:label "角色适用于基金"@zh .
-cnfo:providesCustodyForFundUnit a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundDepositaryRole ;
-    rdfs:range cnfo:FundUnit ;
-    rdfs:label "托管基金份额"@zh .
-cnfo:hasFundSupervisor a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundParty ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundSupervisor ;
-    owl:inverseOf cnfo:supervisesFund ;
-    rdfs:label "具有基金监管机构"@zh .
-cnfo:supervisesFund a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundSupervisor ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:hasFundSupervisor ;
-    rdfs:label "监管基金"@zh .
-cnfo:hasInvestor a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundParty ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:Investor ;
-    rdfs:label "具有投资者"@zh .
-cnfo:hasFundParty a owl:ObjectProperty ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundParty ;
-    rdfs:label "具有基金参与主体"@zh .
-cnfo:hasFundPortfolioPosition a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundPortfolio ;
-    rdfs:range cnfo:PortfolioPosition ;
-    owl:inverseOf cnfo:positionOfPortfolio ;
-    rdfs:label "具有投资组合持仓"@zh .
-cnfo:positionOfPortfolio a owl:ObjectProperty ;
-    rdfs:domain cnfo:PortfolioPosition ;
-    rdfs:range cnfo:FundPortfolio ;
-    owl:inverseOf cnfo:hasFundPortfolioPosition ;
-    rdfs:label "持仓对应投资组合"@zh .
-cnfo:positionInAsset a owl:ObjectProperty ;
-    rdfs:domain cnfo:PortfolioPosition ;
-    rdfs:range cnfo:FundInvestmentAsset ;
-    owl:inverseOf cnfo:assetHasPortfolioPosition ;
-    rdfs:label "持仓对应投资资产"@zh .
-cnfo:assetHasPortfolioPosition a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundInvestmentAsset ;
-    rdfs:range cnfo:PortfolioPosition ;
-    owl:inverseOf cnfo:positionInAsset ;
-    rdfs:label "投资资产具有组合持仓"@zh .
-cnfo:holdsFundPosition a owl:ObjectProperty ;
-    rdfs:domain cnfo:Investor ;
-    rdfs:range cnfo:FundPosition ;
-    owl:inverseOf cnfo:heldByInvestor ;
-    rdfs:label "持有基金份额头寸"@zh .
-cnfo:heldByInvestor a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundPosition ;
-    rdfs:range cnfo:Investor ;
-    owl:inverseOf cnfo:holdsFundPosition ;
-    rdfs:label "基金份额头寸由投资者持有"@zh .
-cnfo:hasFundPosition a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundUnit ;
-    rdfs:range cnfo:FundPosition ;
-    owl:inverseOf cnfo:positionInFundUnit ;
-    rdfs:label "基金份额具有持仓"@zh .
-cnfo:positionInFundUnit a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundPosition ;
-    rdfs:range cnfo:FundUnit ;
-    owl:inverseOf cnfo:hasFundPosition ;
-    rdfs:label "头寸对应基金份额"@zh .
-cnfo:hasInvestmentObjective a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasInvestmentSpecification ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundInvestmentObjective ;
-    owl:inverseOf cnfo:objectiveOfFund ;
-    rdfs:label "具有投资目标"@zh .
-cnfo:objectiveOfFund a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundInvestmentObjective ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:hasInvestmentObjective ;
-    rdfs:label "投资目标对应基金"@zh .
-cnfo:hasInvestmentPolicy a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasInvestmentSpecification ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundInvestmentPolicy ;
-    owl:inverseOf cnfo:policyOfFund ;
-    rdfs:label "具有投资政策"@zh .
-cnfo:policyOfFund a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundInvestmentPolicy ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:hasInvestmentPolicy ;
-    rdfs:label "投资政策对应基金"@zh .
-cnfo:usesInvestmentStrategy a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasInvestmentSpecification ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundInvestmentStrategy ;
-    owl:inverseOf cnfo:strategyOfFund ;
-    rdfs:label "使用投资策略"@zh .
-cnfo:strategyOfFund a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundInvestmentStrategy ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:usesInvestmentStrategy ;
-    rdfs:label "投资策略对应基金"@zh .
-cnfo:hasInvestmentSpecification a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundObject ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundInvestmentSpecification ;
-    rdfs:label "具有投资说明"@zh .
-cnfo:hasPortfolioInvestmentStrategy a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundPortfolio ;
-    rdfs:range cnfo:FundInvestmentStrategy ;
-    rdfs:label "投资组合采用策略"@zh .
-cnfo:implementsInvestmentPolicy a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundPortfolio ;
-    rdfs:range cnfo:FundPortfolioInvestmentPolicy ;
-    rdfs:label "投资组合执行政策"@zh .
-cnfo:hasUnderlyingFund a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundOfFunds ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:underlyingFundOf ;
-    rdfs:label "具有底层基金"@zh .
-cnfo:underlyingFundOf a owl:ObjectProperty ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundOfFunds ;
-    owl:inverseOf cnfo:hasUnderlyingFund ;
-    rdfs:label "作为底层基金属于"@zh .
-cnfo:hasFundClassifier a owl:ObjectProperty ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundClassifier ;
-    owl:inverseOf cnfo:classifiesFund ;
-    rdfs:label "具有基金分类器"@zh .
-cnfo:isClassifiedBy a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundClassifier ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundClassifier ;
-    rdfs:label "被分类为"@zh .
-cnfo:classifiesFund a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundClassifier ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:hasFundClassifier ;
-    rdfs:label "分类标识基金"@zh .
-cnfo:hasConceptNature a owl:ObjectProperty ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:ConceptNature ;
-    rdfs:label "具有概念性质"@zh .
-cnfo:hasFundDocument a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundObject ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundDocument ;
-    rdfs:label "具有基金文件"@zh .
-cnfo:governedBy a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundDocument ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundContract ;
-    owl:inverseOf cnfo:governsFund ;
-    rdfs:label "受基金合同约束"@zh .
-cnfo:governsFund a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundContract ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:governedBy ;
-    rdfs:label "基金合同约束基金"@zh .
-cnfo:describedBy a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundDocument ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundProspectus ;
-    owl:inverseOf cnfo:describesFund ;
-    rdfs:label "由基金文件描述"@zh .
-cnfo:describesFund a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundProspectus ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:describedBy ;
-    rdfs:label "基金文件描述基金"@zh .
-cnfo:hasFundActivity a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundObject ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundActivity ;
-    owl:inverseOf cnfo:activityOfFund ;
-    rdfs:label "具有基金业务活动"@zh .
-cnfo:activityOfFund a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundActivity ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:hasFundActivity ;
-    rdfs:label "业务活动对应基金"@zh .
-cnfo:hasFundStatus a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundObject ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundLifecycleStatus ;
-    owl:inverseOf cnfo:statusOfFund ;
-    rdfs:label "具有基金状态"@zh .
-cnfo:statusOfFund a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundLifecycleStatus ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:hasFundStatus ;
-    rdfs:label "生命周期状态对应基金"@zh .
-cnfo:hasFundStatusRecord a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundRecord ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundStatusRecord ;
-    owl:inverseOf cnfo:statusRecordForFund ;
-    rdfs:label "具有基金状态记录"@zh .
-cnfo:statusRecordForFund a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundStatusRecord ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:hasFundStatusRecord ;
-    rdfs:label "状态记录对应基金"@zh .
-cnfo:hasStatusValue a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundStatusRecord ;
-    rdfs:range cnfo:FundLifecycleStatus ;
-    rdfs:label "状态记录的状态值"@zh .
-cnfo:hasFundRecord a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundObject ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundRecord ;
-    rdfs:label "具有基金记录"@zh .
-cnfo:hasNetAssetValueRecord a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundRecord ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:NetAssetValueRecord ;
-    owl:inverseOf cnfo:recordForFund ;
-    rdfs:label "具有净值记录"@zh .
-cnfo:recordForFund a owl:ObjectProperty ;
-    rdfs:domain cnfo:NetAssetValueRecord ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:hasNetAssetValueRecord ;
-    rdfs:label "净值记录对应基金"@zh .
-cnfo:hasFundRoleAssignment a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundRecord ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundRoleAssignment ;
-    owl:inverseOf cnfo:assignmentForFund ;
-    rdfs:label "具有基金角色任职记录"@zh .
-cnfo:assignmentForFund a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundRoleAssignment ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:hasFundRoleAssignment ;
-    rdfs:label "任职记录对应基金"@zh .
-cnfo:assignsFundRole a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundRoleAssignment ;
-    rdfs:range cnfo:FundRole ;
-    rdfs:label "任职记录指定角色"@zh .
-cnfo:assignmentPlayedBy a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundRoleAssignment ;
-    rdfs:range cnfo:FundParty ;
-    rdfs:label "任职记录由主体承担"@zh .
-cnfo:hasIntendedRiskLevel a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundInvestmentObjective ;
-    rdfs:range cnfo:FundRiskLevel ;
-    rdfs:label "具有目标风险等级"@zh .
-cnfo:statedIn a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundInvestmentObjective ;
-    rdfs:range cnfo:FundProspectus ;
-    owl:inverseOf cnfo:outlinesObjective ;
-    rdfs:label "载明于基金招募说明书"@zh .
-cnfo:outlinesObjective a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundProspectus ;
-    rdfs:range cnfo:FundInvestmentObjective ;
-    owl:inverseOf cnfo:statedIn ;
-    rdfs:label "基金招募说明书载明投资目标"@zh .
-cnfo:definesInvestmentRestriction a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundInvestmentPolicy ;
-    rdfs:range cnfo:FundInvestmentRestriction ;
-    rdfs:label "定义投资限制"@zh .
-cnfo:definedInProspectus a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundInvestmentRestriction ;
-    rdfs:range cnfo:FundProspectus ;
-    owl:inverseOf cnfo:hasInvestmentRestriction ;
-    rdfs:label "投资限制载明于招募说明书"@zh .
-cnfo:hasInvestmentRestriction a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundProspectus ;
-    rdfs:range cnfo:FundInvestmentRestriction ;
-    owl:inverseOf cnfo:definedInProspectus ;
-    rdfs:label "招募说明书载明投资限制"@zh .
-cnfo:governsInvestmentStrategy a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundInvestmentPolicy ;
-    rdfs:range cnfo:FundInvestmentStrategy ;
-    rdfs:label "约束投资策略"@zh .
-cnfo:stipulatesBenchmark a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundInvestmentPolicy ;
-    rdfs:range cnfo:FundBenchmark ;
-    rdfs:label "规定业绩比较基准"@zh .
-cnfo:definesClassification a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundClassificationScheme ;
-    rdfs:range cnfo:FundClassification ;
-    rdfs:label "分类体系定义分类"@zh .
-cnfo:hasDistributionPolicy a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundUnitClass ;
-    rdfs:range cnfo:FundUnitDistributionPolicy ;
-    rdfs:label "具有份额分配政策"@zh .
-cnfo:hasDistributionMethod a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundUnitDistributionPolicy ;
-    rdfs:range cnfo:FundDistributionMethod ;
-    rdfs:label "采用收益分配方式"@zh .
-cnfo:appliesToFundUnit a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundSubscriptionTerms ;
-    rdfs:range cnfo:FundUnit ;
-    rdfs:label "适用于基金份额"@zh .
-cnfo:hasFundSubscriptionTerms a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundObject ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundSubscriptionTerms ;
-    owl:inverseOf cnfo:subscriptionTermsForFund ;
-    rdfs:label "具有认购条款"@zh .
-cnfo:subscriptionTermsForFund a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundSubscriptionTerms ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:hasFundSubscriptionTerms ;
-    rdfs:label "认购条款对应基金"@zh .
-cnfo:hasFundRedemptionTerms a owl:ObjectProperty ;
-    rdfs:subPropertyOf cnfo:hasFundObject ;
-    rdfs:domain cnfo:Fund ;
-    rdfs:range cnfo:FundRedemptionTerms ;
-    owl:inverseOf cnfo:redemptionTermsForFund ;
-    rdfs:label "具有赎回条款"@zh .
-cnfo:redemptionTermsForFund a owl:ObjectProperty ;
-    rdfs:domain cnfo:FundRedemptionTerms ;
-    rdfs:range cnfo:Fund ;
-    owl:inverseOf cnfo:hasFundRedemptionTerms ;
-    rdfs:label "赎回条款对应基金"@zh .
+cnfo:FundTemporalRecord a owl:Class ;
+    rdfs:label "基金时态记录"@zh ;
+    rdfs:subClassOf cnfo:FundRecord ;
+    skos:definition "带有生效起止时间、用于表达基金随时间变化事实的业务记录。"@zh .
 
-### Objective, policy, strategy, and classifier classes
+cnfo:PublicFund a owl:Class ;
+    rdfs:label "公募基金"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:hasValue false ;
+            owl:onProperty cnfo:isPrivate ],
+        cnfo:Fund ;
+    owl:disjointWith cnfo:PrivateFund ;
+    skos:definition "依法公开募集并按照适用规则注册、运作的基金。"@zh .
+
+cnfo:FundDocument a owl:Class ;
+    rdfs:label "基金文件"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "用于设立、募集、运作、披露或备案的基金业务文件。"@zh .
+
+cnfo:FundInvestmentRestriction a owl:Class ;
+    rdfs:label "基金投资限制"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cnfo:definedInProspectus ;
+            owl:someValuesFrom cnfo:FundProspectus ],
+        cnfo:FundObject ;
+    skos:definition "约束基金可投资资产、地区、行业、比例或风险水平的规则对象。"@zh .
+
+cnfo:FundInvestmentSpecification a owl:Class ;
+    rdfs:label "基金投资说明"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "描述基金投资目标、政策或策略的语义对象。"@zh .
+
+cnfo:FundPosition a owl:Class ;
+    rdfs:label "基金份额持仓"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onClass cnfo:FundUnit ;
+            owl:onProperty cnfo:positionInFundUnit ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:onClass cnfo:Investor ;
+            owl:onProperty cnfo:heldByInvestor ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty cnfo:positionQuantity ],
+        cnfo:FundObject ;
+    skos:definition "投资者在特定基金份额上持有的数量、权益或相关头寸记录。"@zh .
+
+cnfo:FundSubscriptionTerms a owl:Class ;
+    rdfs:label "基金认购条款"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cnfo:appliesToFundUnit ;
+            owl:someValuesFrom cnfo:FundUnit ],
+        cnfo:FundProcessingTerms ;
+    skos:definition "规定基金份额认购条件、流程、费用、最低金额或最低份额的运作条款。"@zh .
+
+cnfo:Investor a owl:Class ;
+    rdfs:label "基金投资者"@zh ;
+    rdfs:subClassOf cnfo:FundParty ;
+    skos:definition "以认购、申购或其他方式持有基金份额并享有相应权利的基金参与主体。"@zh .
+
+cnfo:PrivateFund a owl:Class ;
+    rdfs:label "私募基金"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:hasValue true ;
+            owl:onProperty cnfo:isPrivate ],
+        cnfo:Fund ;
+    skos:definition "依法向合格投资者非公开募集并按照适用规则登记备案的基金。"@zh .
+
+cnfo:FundClassifier a owl:Class ;
+    rdfs:label "基金分类概念"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "用于标识、区分或组织基金分类信息的分类概念或分类对象。"@zh .
+
+cnfo:FundInvestmentAsset a owl:Class ;
+    rdfs:label "基金投资资产"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "基金投资组合中可被持有、估值或交易的投资标的或资产对象。"@zh .
+
+cnfo:FundInvestmentPolicy a owl:Class ;
+    rdfs:label "基金投资政策"@zh ;
+    rdfs:subClassOf cnfo:FundInvestmentSpecification ;
+    skos:definition "规定基金投资范围、限制、原则和决策边界的投资说明。"@zh .
+
+cnfo:FundPortfolio a owl:Class ;
+    rdfs:label "基金投资组合"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cnfo:hasPortfolioInvestmentStrategy ;
+            owl:someValuesFrom cnfo:FundInvestmentStrategy ],
+        [ a owl:Restriction ;
+            owl:onProperty cnfo:implementsInvestmentPolicy ;
+            owl:someValuesFrom cnfo:FundPortfolioInvestmentPolicy ],
+        [ a owl:Restriction ;
+            owl:onProperty cnfo:hasFundPortfolioPosition ;
+            owl:someValuesFrom cnfo:PortfolioPosition ],
+        cnfo:FundObject ;
+    skos:definition "基金财产中按投资目标和投资政策组织的资产与头寸集合。"@zh .
+
+cnfo:FundUnitDistributionPolicy a owl:Class ;
+    rdfs:label "基金份额分配政策"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cnfo:hasDistributionMethod ;
+            owl:someValuesFrom cnfo:FundDistributionMethod ],
+        cnfo:FundDistributionPolicy ;
+    skos:definition "规定特定基金份额类别收益分配和再投资方式的份额分配政策。"@zh .
+
+cnfo:NetAssetValueRecord a owl:Class ;
+    rdfs:label "基金净值记录"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onClass cnfo:Fund ;
+            owl:onProperty cnfo:recordForFund ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty cnfo:valuationDate ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty cnfo:valuationCurrency ],
+        cnfo:FundRecord ;
+    skos:definition "在特定估值日期记录基金资产净值、份额净值及相关币种的业务记录。"@zh .
 
 cnfo:FundInvestmentObjective a owl:Class ;
-    rdfs:subClassOf cnfo:FundInvestmentSpecification ;
     rdfs:label "基金投资目标"@zh ;
-    skos:definition "规定基金拟实现的投资目的、收益目标或风险收益取向的投资说明。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:hasIntendedRiskLevel ;
-        owl:someValuesFrom cnfo:FundRiskLevel
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:statedIn ;
-        owl:someValuesFrom cnfo:FundProspectus
-    ] .
-cnfo:FundInvestmentPolicy a owl:Class ;
-    rdfs:subClassOf cnfo:FundInvestmentSpecification ;
-    rdfs:label "基金投资政策"@zh ;
-    skos:definition "规定基金投资范围、限制、原则和决策边界的投资说明。"@zh .
-cnfo:FundPortfolioInvestmentPolicy a owl:Class ;
-    rdfs:subClassOf cnfo:FundInvestmentPolicy ;
-    rdfs:label "基金投资组合政策"@zh ;
-    skos:definition "规定基金投资组合配置原则、投资限制和执行策略的投资政策。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:definesInvestmentRestriction ;
-        owl:someValuesFrom cnfo:FundInvestmentRestriction
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:governsInvestmentStrategy ;
-        owl:someValuesFrom cnfo:FundInvestmentStrategy
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:stipulatesBenchmark ;
-        owl:maxQualifiedCardinality 1 ;
-        owl:onClass cnfo:FundBenchmark
-    ] .
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cnfo:hasIntendedRiskLevel ;
+            owl:someValuesFrom cnfo:FundRiskLevel ],
+        [ a owl:Restriction ;
+            owl:onProperty cnfo:statedIn ;
+            owl:someValuesFrom cnfo:FundProspectus ],
+        cnfo:FundInvestmentSpecification ;
+    skos:definition "规定基金拟实现的投资目的、收益目标或风险收益取向的投资说明。"@zh .
+
+cnfo:hasFundServiceProviderRole a owl:ObjectProperty ;
+    rdfs:label "具有基金服务机构角色"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundServiceProviderRole ;
+    rdfs:subPropertyOf cnfo:hasFundRole .
+
+cnfo:FundLegalStructure a owl:Class ;
+    rdfs:label "基金组织形式"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cnfo:hasApplicableJurisdiction ;
+            owl:someValuesFrom cnfo:FundJurisdiction ],
+        cnfo:FundObject ;
+    skos:definition "规定基金组织形式、权利义务和适用法律关系的基金法律结构。"@zh .
+
+cnfo:FundProspectus a owl:Class ;
+    rdfs:label "基金招募说明书"@zh ;
+    rdfs:subClassOf cnfo:FundDocument ;
+    skos:definition "向投资者披露基金基本情况、投资目标、投资策略、风险和运作规则的基金招募说明书。"@zh .
+
+cnfo:FundRole a owl:Class ;
+    rdfs:label "基金角色"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onClass cnfo:Fund ;
+            owl:onProperty cnfo:roleInFund ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:onClass cnfo:FundParty ;
+            owl:onProperty cnfo:rolePlayedBy ;
+            owl:qualifiedCardinality 1 ],
+        cnfo:FundObject ;
+    skos:definition "由基金参与主体承担、并限定其在特定基金中职责的角色对象。"@zh .
+
+cnfo:PortfolioPosition a owl:Class ;
+    rdfs:label "投资组合持仓"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onClass cnfo:FundInvestmentAsset ;
+            owl:onProperty cnfo:positionInAsset ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty cnfo:positionAsOfDate ],
+        cnfo:FundObject ;
+    skos:definition "反映基金投资组合在特定日期对某项投资资产持有数量、价值或比例的持仓对象。"@zh .
+
 cnfo:FundInvestmentStrategy a owl:Class ;
-    rdfs:subClassOf cnfo:FundInvestmentSpecification ;
     rdfs:label "基金投资策略"@zh ;
-    skos:definition "规定基金实现投资目标所采用的资产配置、选券或交易方法的投资说明。"@zh .
-cnfo:FundInvestmentRestriction a owl:Class ;
-    rdfs:subClassOf cnfo:FundObject ;
-    rdfs:label "基金投资限制"@zh ;
-    skos:definition "约束基金可投资资产、地区、行业、比例或风险水平的规则对象。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:definedInProspectus ;
-        owl:someValuesFrom cnfo:FundProspectus
-    ] .
-cnfo:FundPortfolioInvestmentLimitation a owl:Class ;
-    rdfs:subClassOf cnfo:FundInvestmentRestriction ;
-    rdfs:label "基金组合投资限制"@zh ;
-    skos:definition "限制基金投资组合在特定资产、行业、地区或比例方面配置范围的规则对象。"@zh .
-cnfo:FundRiskLevel a owl:Class ;
-    rdfs:subClassOf cnfo:FundClassifier ;
-    rdfs:label "基金风险等级"@zh ;
-    skos:definition "用于表示基金或其投资目标对应风险程度的风险分类概念。"@zh .
-cnfo:FundBenchmark a owl:Class ;
-    rdfs:subClassOf cnfo:FundObject ;
-    rdfs:label "基金业绩比较基准"@zh ;
-    skos:definition "用于评价基金投资组合或投资策略相对表现的业绩比较基准。"@zh .
-cnfo:FundClassifier a owl:Class ;
-    rdfs:subClassOf cnfo:FundObject ;
-    rdfs:label "基金分类器"@zh ;
-    skos:definition "用于标识、区分或组织基金分类信息的分类概念或分类对象。"@zh .
-cnfo:FundClassification a owl:Class ;
-    rdfs:subClassOf cnfo:FundClassifier ;
-    rdfs:label "基金分类"@zh ;
-    skos:definition "依据发布的分类体系对基金进行标识的分类概念。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:classifiesFund ;
-        owl:someValuesFrom cnfo:Fund
-    ] .
-cnfo:FundClassificationScheme a owl:Class ;
-    rdfs:subClassOf cnfo:FundObject ;
-    rdfs:label "基金分类体系"@zh ;
-    skos:definition "规定基金分类维度、分类规则及分类概念集合的基金分类体系。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:definesClassification ;
-        owl:someValuesFrom cnfo:FundClassification
-    ] .
-cnfo:FundProcessingTerms a owl:Class ;
-    rdfs:subClassOf cnfo:FundObject ;
-    rdfs:label "基金运作条款"@zh ;
-    skos:definition "规定基金份额申购、赎回、分配或其他处理流程和条件的运作条款。"@zh .
-cnfo:FundSubscriptionTerms a owl:Class ;
-    rdfs:subClassOf cnfo:FundProcessingTerms ;
-    rdfs:label "基金认购条款"@zh ;
-    skos:definition "规定基金份额认购条件、流程、费用、最低金额或最低份额的运作条款。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:appliesToFundUnit ;
-        owl:someValuesFrom cnfo:FundUnit
-    ] .
-cnfo:FundRedemptionTerms a owl:Class ;
-    rdfs:subClassOf cnfo:FundProcessingTerms ;
-    rdfs:label "基金赎回条款"@zh ;
-    skos:definition "规定基金份额赎回条件、流程、费用、最低数量及资金处理方式的运作条款。"@zh .
-cnfo:FundDistributionPolicy a owl:Class ;
     rdfs:subClassOf cnfo:FundInvestmentSpecification ;
-    rdfs:label "基金收益分配政策"@zh ;
-    skos:definition "规定基金收益分配原则、条件、频率或处理方式的政策对象。"@zh .
-cnfo:FundUnitDistributionPolicy a owl:Class ;
-    rdfs:subClassOf cnfo:FundDistributionPolicy ;
-    rdfs:label "基金份额分配政策"@zh ;
-    skos:definition "规定特定基金份额类别收益分配和再投资方式的份额分配政策。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:hasDistributionMethod ;
-        owl:someValuesFrom cnfo:FundDistributionMethod
-    ] .
-cnfo:FundCashDistributionPolicy a owl:Class ;
-    rdfs:subClassOf cnfo:FundUnitDistributionPolicy ;
-    rdfs:label "基金现金分红政策"@zh ;
-    skos:definition "约定基金收益以现金形式向基金份额持有人进行分配的份额分配政策。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:distributionWithReinvestment ;
-        owl:hasValue false
-    ] .
-cnfo:FundReinvestmentPolicy a owl:Class ;
-    rdfs:subClassOf cnfo:FundUnitDistributionPolicy ;
-    rdfs:label "基金收益再投资政策"@zh ;
-    skos:definition "约定基金收益分配后将收益用于再投资或增加基金份额的份额分配政策。"@zh ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty cnfo:distributionWithReinvestment ;
-        owl:hasValue true
-    ] .
-cnfo:FundDistributionMethod a owl:Class ;
+    skos:definition "规定基金实现投资目标所采用的资产配置、选券或交易方法的投资说明。"@zh .
+
+cnfo:FundParty a owl:Class ;
+    rdfs:label "基金参与主体"@zh ;
+    skos:definition "参与基金设立、募集、投资、托管、销售、监督或其他基金业务的主体。"@zh .
+
+cnfo:FundServiceProviderRole a owl:Class ;
+    rdfs:label "基金服务机构角色"@zh ;
+    rdfs:subClassOf cnfo:FundRole ;
+    skos:definition "由为基金提供专业服务的机构承担的基金服务机构角色。"@zh .
+
+cnfo:FundActivity a owl:Class ;
+    rdfs:label "基金业务活动"@zh ;
     rdfs:subClassOf cnfo:FundObject ;
-    rdfs:label "基金收益分配方式"@zh ;
-    skos:definition "基金收益向基金份额持有人分配时采用的具体方式。"@zh .
+    skos:definition "围绕基金设立、募集、投资运作、估值、披露、清算等发生的业务活动。"@zh .
+
+cnfo:FundLifecycleStatus a owl:Class ;
+    rdfs:label "基金生命周期状态"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "表示基金从设计、注册备案、募集、运作到清算终止所处阶段的状态概念。"@zh .
+
+cnfo:hasFundObject a owl:ObjectProperty ;
+    rdfs:label "具有基金对象"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundObject .
+
+cnfo:FundUnit a owl:Class ;
+    rdfs:label "基金份额"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onClass cnfo:Fund ;
+            owl:onProperty cnfo:issuedByFund ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty cnfo:unitCurrency ],
+        cnfo:FundObject ;
+    skos:definition "表示基金份额持有人对基金财产享有权益的可识别基金份额对象。"@zh .
+
+cnfo:FundObject a owl:Class ;
+    rdfs:label "基金领域对象"@zh ;
+    skos:definition "基金领域中可被识别、描述、关联或记录的业务对象。"@zh .
+
+cnfo:Fund a owl:Class ;
+    rdfs:label "基金"@zh ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty cnfo:hasLegalStructure ;
+            owl:someValuesFrom cnfo:FundLegalStructure ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass cnfo:FundLegalStructure ;
+            owl:onProperty cnfo:hasLegalStructure ],
+        [ a owl:Restriction ;
+            owl:onProperty cnfo:hasFundManagerRole ;
+            owl:someValuesFrom cnfo:FundManagerRole ],
+        [ a owl:Restriction ;
+            owl:onProperty cnfo:hasFundStatusRecord ;
+            owl:someValuesFrom cnfo:FundStatusRecord ],
+        cnfo:FundObject ;
+    skos:definition "在中国基金行业语境下依法设立、募集或形成并开展投资运作的基金对象。"@zh .
+
 [] a owl:AllDisjointClasses ;
-    owl:members (
-        cnfo:FundCashDistributionPolicy
-        cnfo:FundReinvestmentPolicy
-    ) .
-cnfo:GrowthObjective a owl:Class ; rdfs:subClassOf cnfo:FundInvestmentObjective ; rdfs:label "增长型投资目标"@zh ; skos:definition "以资本增值或长期资产增长为主要取向的基金投资目标。"@zh .
-cnfo:IncomeObjective a owl:Class ; rdfs:subClassOf cnfo:FundInvestmentObjective ; rdfs:label "收入型投资目标"@zh ; skos:definition "以获得利息、股息、分红或其他稳定收益为主要取向的基金投资目标。"@zh .
-cnfo:ActiveInvestmentStrategy a owl:Class ; rdfs:subClassOf cnfo:FundInvestmentStrategy ; rdfs:label "主动投资策略"@zh ; skos:definition "通过主动研究和交易选择投资标的、配置比例或交易时机，以争取超越基准收益的基金投资策略。"@zh .
-cnfo:PassiveInvestmentStrategy a owl:Class ; rdfs:subClassOf cnfo:FundInvestmentStrategy ; rdfs:label "被动投资策略"@zh ; skos:definition "按照预定指数、规则或组合方法进行投资，较少主动择时和选券的投资策略。"@zh .
-cnfo:IndexTrackingStrategy a owl:Class ; rdfs:subClassOf cnfo:PassiveInvestmentStrategy ; rdfs:label "指数跟踪策略"@zh ; skos:definition "以复制、跟踪特定指数表现为主要方法的被动投资策略。"@zh .
+    owl:members ( cnfo:ContractualFundStructure cnfo:CorporateFundStructure cnfo:PartnershipFundStructure ) .
 
-### Datatype properties
+[] a owl:AllDisjointClasses ;
+    owl:members ( cnfo:DesignedStatus cnfo:RegistrationPendingStatus cnfo:RegisteredStatus cnfo:RaisingStatus cnfo:FiledStatus cnfo:OperatingStatus cnfo:SuspendedStatus cnfo:LiquidatingStatus cnfo:TerminatedStatus ) .
 
-cnfo:fundCode a owl:DatatypeProperty ; rdfs:domain cnfo:Fund ; rdfs:range xsd:string ; rdfs:label "基金代码"@zh .
-cnfo:fundName a owl:DatatypeProperty ; rdfs:domain cnfo:Fund ; rdfs:range xsd:string ; rdfs:label "基金名称"@zh .
-cnfo:fundShortName a owl:DatatypeProperty ; rdfs:domain cnfo:Fund ; rdfs:range xsd:string ; rdfs:label "基金简称"@zh .
-cnfo:fundTypeCode a owl:DatatypeProperty ; rdfs:domain cnfo:Fund ; rdfs:range xsd:string ; rdfs:label "基金类型代码"@zh .
-cnfo:registrationNumber a owl:DatatypeProperty ; rdfs:domain cnfo:Fund ; rdfs:range xsd:string ; rdfs:label "注册编号"@zh .
-cnfo:filingNumber a owl:DatatypeProperty ; rdfs:domain cnfo:Fund ; rdfs:range xsd:string ; rdfs:label "备案编号"@zh .
-cnfo:filingDate a owl:DatatypeProperty ; rdfs:domain cnfo:Fund ; rdfs:range xsd:date ; rdfs:label "备案日期"@zh .
-cnfo:inceptionDate a owl:DatatypeProperty ; rdfs:domain cnfo:Fund ; rdfs:range xsd:date ; rdfs:label "成立日期"@zh .
-cnfo:terminationDate a owl:DatatypeProperty ; rdfs:domain cnfo:Fund ; rdfs:range xsd:date ; rdfs:label "终止日期"@zh .
-cnfo:baseCurrency a owl:DatatypeProperty ; rdfs:domain cnfo:Fund ; rdfs:range xsd:string ; rdfs:label "基础币种"@zh .
-cnfo:isPrivate a owl:DatatypeProperty ; rdfs:domain cnfo:Fund ; rdfs:range xsd:boolean ; rdfs:label "是否私募"@zh .
-cnfo:isOpenEnded a owl:DatatypeProperty ; rdfs:domain cnfo:Fund ; rdfs:range xsd:boolean ; rdfs:label "是否开放式"@zh .
-cnfo:isExchangeTraded a owl:DatatypeProperty ; rdfs:domain cnfo:Fund ; rdfs:range xsd:boolean ; rdfs:label "是否交易所交易"@zh .
-cnfo:jurisdictionCode a owl:DatatypeProperty ; rdfs:domain cnfo:FundJurisdiction ; rdfs:range xsd:string ; rdfs:label "法域代码"@zh .
-cnfo:fundUnitCode a owl:DatatypeProperty ; rdfs:domain cnfo:FundUnit ; rdfs:range xsd:string ; rdfs:label "基金份额代码"@zh .
-cnfo:unitCurrency a owl:DatatypeProperty ; rdfs:domain cnfo:FundUnit ; rdfs:range xsd:string ; rdfs:label "基金份额币种"@zh .
-cnfo:unitQuantity a owl:DatatypeProperty ; rdfs:domain cnfo:FundUnit ; rdfs:range xsd:decimal ; rdfs:label "份额数量"@zh .
-cnfo:positionQuantity a owl:DatatypeProperty ; rdfs:domain cnfo:FundPosition ; rdfs:range xsd:decimal ; rdfs:label "持仓数量"@zh .
-cnfo:positionMarketValue a owl:DatatypeProperty ; rdfs:domain cnfo:PortfolioPosition ; rdfs:range xsd:decimal ; rdfs:label "持仓市值"@zh .
-cnfo:positionAsOfDate a owl:DatatypeProperty ; rdfs:domain cnfo:PortfolioPosition ; rdfs:range xsd:date ; rdfs:label "持仓日期"@zh .
-cnfo:positionCurrency a owl:DatatypeProperty ; rdfs:domain cnfo:PortfolioPosition ; rdfs:range xsd:string ; rdfs:label "持仓币种"@zh .
-cnfo:investmentFocus a owl:DatatypeProperty ; rdfs:domain cnfo:FundInvestmentStrategy ; rdfs:range xsd:string ; rdfs:label "投资重点"@zh .
-cnfo:maximumInvestmentPercentage a owl:DatatypeProperty ; rdfs:domain cnfo:FundPortfolioInvestmentLimitation ; rdfs:range xsd:decimal ; rdfs:label "最高投资比例"@zh .
-cnfo:minimumInvestmentPercentage a owl:DatatypeProperty ; rdfs:domain cnfo:FundPortfolioInvestmentLimitation ; rdfs:range xsd:decimal ; rdfs:label "最低投资比例"@zh .
-cnfo:investmentAssetTypeCode a owl:DatatypeProperty ; rdfs:domain cnfo:FundPortfolioInvestmentLimitation ; rdfs:range xsd:string ; rdfs:label "投资资产类型代码"@zh .
-cnfo:subscriptionMinimumAmount a owl:DatatypeProperty ; rdfs:domain cnfo:FundSubscriptionTerms ; rdfs:range xsd:decimal ; rdfs:label "最低认购金额"@zh .
-cnfo:subscriptionMinimumUnits a owl:DatatypeProperty ; rdfs:domain cnfo:FundSubscriptionTerms ; rdfs:range xsd:decimal ; rdfs:label "最低认购份额"@zh .
-cnfo:redemptionMinimumUnits a owl:DatatypeProperty ; rdfs:domain cnfo:FundRedemptionTerms ; rdfs:range xsd:decimal ; rdfs:label "最低赎回份额"@zh .
-cnfo:redemptionInAmountAllowed a owl:DatatypeProperty ; rdfs:domain cnfo:FundRedemptionTerms ; rdfs:range xsd:boolean ; rdfs:label "是否允许按金额赎回"@zh .
-cnfo:distributionWithReinvestment a owl:DatatypeProperty ; rdfs:domain cnfo:FundUnitDistributionPolicy ; rdfs:range xsd:boolean ; rdfs:label "是否收益再投资"@zh .
-cnfo:fundNetAssetValue a owl:DatatypeProperty ; rdfs:domain cnfo:NetAssetValueRecord ; rdfs:range xsd:decimal ; rdfs:label "基金资产净值"@zh .
-cnfo:fundUnitNetAssetValue a owl:DatatypeProperty ; rdfs:domain cnfo:NetAssetValueRecord ; rdfs:range xsd:decimal ; rdfs:label "基金份额净值"@zh .
-cnfo:valuationDate a owl:DatatypeProperty ; rdfs:domain cnfo:NetAssetValueRecord ; rdfs:range xsd:date ; rdfs:label "估值日期"@zh .
-cnfo:valuationCurrency a owl:DatatypeProperty ; rdfs:domain cnfo:NetAssetValueRecord ; rdfs:range xsd:string ; rdfs:label "估值币种"@zh .
-cnfo:sourceIdentifier a owl:DatatypeProperty ; rdfs:domain cnfo:Fund ; rdfs:range xsd:string ; rdfs:label "来源标识"@zh .
-cnfo:classificationCode a owl:DatatypeProperty ; rdfs:domain cnfo:FundClassifier ; rdfs:range xsd:string ; rdfs:label "分类代码"@zh .
-cnfo:riskLevelCode a owl:DatatypeProperty ; rdfs:domain cnfo:FundRiskLevel ; rdfs:range xsd:string ; rdfs:label "风险等级代码"@zh .
-cnfo:benchmarkName a owl:DatatypeProperty ; rdfs:domain cnfo:FundBenchmark ; rdfs:range xsd:string ; rdfs:label "业绩比较基准名称"@zh .
-cnfo:effectiveFrom a owl:DatatypeProperty ; rdfs:domain cnfo:FundTemporalRecord ; rdfs:range xsd:date ; rdfs:label "生效日期"@zh .
-cnfo:effectiveTo a owl:DatatypeProperty ; rdfs:domain cnfo:FundTemporalRecord ; rdfs:range xsd:date ; rdfs:label "失效日期"@zh .
+[] a owl:AllDisjointClasses ;
+    owl:members ( cnfo:FundCashDistributionPolicy cnfo:FundReinvestmentPolicy ) .
+
+# ============================================================
+# 命名标准化标注（生成自 tools/std_mapping.py，勿手改）
+# 依据：JR/T 0304.1-2024 / JR/T 0304.2-2024 / JR/T 0176.4-2022
+# ============================================================
+# ===== 建议别名 skos:altLabel（共 94 项） =====
+cnfo:AssetValuationActivity skos:altLabel "估值活动"@zh .
+cnfo:BondFund skos:altLabel "债券型基金"@zh .
+cnfo:ClosedEndedFund skos:altLabel "封闭式"@zh .
+cnfo:ContractualFundStructure skos:altLabel "契约型"@zh .
+cnfo:CorporateFundStructure skos:altLabel "公司型"@zh .
+cnfo:DebtInvestmentAsset skos:altLabel "债务类投资资产"@zh .
+cnfo:DebtInvestmentAsset skos:altLabel "固定收益类投资资产"@zh .
+cnfo:EquityFund skos:altLabel "股票基金"@zh .
+cnfo:EquityInvestmentAsset skos:altLabel "权益类资产"@zh .
+cnfo:ExchangeTradedFund skos:altLabel "交易型开放式证券投资基金"@zh .
+cnfo:FundAccountantRole skos:altLabel "基金会计机构角色"@zh .
+cnfo:FundActivity skos:altLabel "基金行为"@zh .
+cnfo:FundBenchmark skos:altLabel "基金业绩比较基准"@zh .
+cnfo:FundCashDistributionPolicy skos:altLabel "现金分红"@zh .
+cnfo:FundClassifier skos:altLabel "基金分类器"@zh .
+cnfo:FundDepositaryRole skos:altLabel "基金托管人"@zh .
+cnfo:FundDistributionMethod skos:altLabel "基金收益分配方式"@zh .
+cnfo:FundDistributorRole skos:altLabel "基金销售机构"@zh .
+cnfo:FundFilingActivity skos:altLabel "备案活动"@zh .
+cnfo:FundHolderRole skos:altLabel "基金份额持有人"@zh .
+cnfo:FundInvestmentObjective skos:altLabel "投资目标"@zh .
+cnfo:FundInvestmentPolicy skos:altLabel "投资范围与限制"@zh .
+cnfo:FundInvestmentRestriction skos:altLabel "投资限制"@zh .
+cnfo:FundInvestmentStrategy skos:altLabel "投资策略"@zh .
+cnfo:FundLegalStructure skos:altLabel "基金法律结构"@zh .
+cnfo:FundLiquidationActivity skos:altLabel "清算活动"@zh .
+cnfo:FundManagementCompany skos:altLabel "基金公司"@zh .
+cnfo:FundManagerRole skos:altLabel "基金管理人"@zh .
+cnfo:FundOfFunds skos:altLabel "FOF"@zh .
+cnfo:FundParty skos:altLabel "主体"@zh .
+cnfo:FundPeriodicReport skos:altLabel "定期报告"@zh .
+cnfo:FundPortfolio skos:altLabel "组合"@zh .
+cnfo:FundPortfolioInvestmentLimitation skos:altLabel "产品投资比例限制"@zh .
+cnfo:FundPosition skos:altLabel "持有份额"@zh .
+cnfo:FundProduct skos:altLabel "产品"@zh .
+cnfo:FundProspectus skos:altLabel "招募说明书"@zh .
+cnfo:FundPurchaseActivity skos:altLabel "申购"@zh .
+cnfo:FundRaisingActivity skos:altLabel "募集"@zh .
+cnfo:FundRedemptionActivity skos:altLabel "赎回"@zh .
+cnfo:FundRedemptionTerms skos:altLabel "赎回条款"@zh .
+cnfo:FundRegistrarRole skos:altLabel "基金注册登记机构"@zh .
+cnfo:FundRegistrationActivity skos:altLabel "注册"@zh .
+cnfo:FundReinvestmentPolicy skos:altLabel "红利再投资"@zh .
+cnfo:FundReinvestmentPolicy skos:altLabel "红利转投"@zh .
+cnfo:FundRiskLevel skos:altLabel "产品风险等级"@zh .
+cnfo:FundSubscriptionActivity skos:altLabel "认购"@zh .
+cnfo:FundSubscriptionTerms skos:altLabel "认购条款"@zh .
+cnfo:FundSupervisor skos:altLabel "监管机构"@zh .
+cnfo:FundTransferAgentRole skos:altLabel "基金份额登记代理角色"@zh .
+cnfo:FundUnitClass skos:altLabel "份额类别"@zh .
+cnfo:FundUnitInvestmentAsset skos:altLabel "集合投资工具"@zh .
+cnfo:HybridFund skos:altLabel "混合型基金"@zh .
+cnfo:IncomeDistributionActivity skos:altLabel "基金分红活动"@zh .
+cnfo:InformationDisclosureActivity skos:altLabel "信息披露"@zh .
+cnfo:InfrastructurePublicREIT skos:altLabel "公开募集基础设施证券投资基金"@zh .
+cnfo:InfrastructurePublicREIT skos:altLabel "基础设施公募REITs"@zh .
+cnfo:Investor skos:altLabel "投资者"@zh .
+cnfo:NetAssetValueCalculationActivity skos:altLabel "净值计算"@zh .
+cnfo:NetAssetValueRecord skos:altLabel "净值记录"@zh .
+cnfo:OpenEndedFund skos:altLabel "开放式"@zh .
+cnfo:PartnershipFundStructure skos:altLabel "合伙型"@zh .
+cnfo:PeriodicOpenEndedFund skos:altLabel "定开基金"@zh .
+cnfo:PortfolioPosition skos:altLabel "组合持仓"@zh .
+cnfo:PrivateEquityFund skos:altLabel "私募股权基金"@zh .
+cnfo:PublicSecuritiesInvestmentFund skos:altLabel "公开募集证券投资基金"@zh .
+cnfo:QDIIFund skos:altLabel "QDII基金"@zh .
+cnfo:VentureCapitalFund skos:altLabel "创投基金"@zh .
+cnfo:hasDistributionMethod skos:altLabel "采用收益分配方式"@zh .
+cnfo:hasFundAccountantRole skos:altLabel "具有基金会计机构角色"@zh .
+cnfo:hasFundClassifier skos:altLabel "具有基金分类器"@zh .
+cnfo:hasFundPortfolioPosition skos:altLabel "具有组合持仓"@zh .
+cnfo:hasFundTransferAgentRole skos:altLabel "具有基金份额登记代理角色"@zh .
+cnfo:hasLegalStructure skos:altLabel "具有法律结构"@zh .
+cnfo:hasUnderlyingFund skos:altLabel "投资标的基金"@zh .
+cnfo:legalStructureOf skos:altLabel "法律结构对应基金"@zh .
+cnfo:realizesFundProduct skos:altLabel "落地为基金产品"@zh .
+cnfo:baseCurrency skos:altLabel "币种"@zh .
+cnfo:distributionWithReinvestment skos:altLabel "收益再投资标志"@zh .
+cnfo:fundTypeCode skos:altLabel "基金类型"@zh .
+cnfo:fundUnitNetAssetValue skos:altLabel "基金单位净值"@zh .
+cnfo:investmentAssetTypeCode skos:altLabel "品种类别代码"@zh .
+cnfo:isExchangeTraded skos:altLabel "交易所交易标志"@zh .
+cnfo:isOpenEnded skos:altLabel "开放式运作标志"@zh .
+cnfo:isPrivate skos:altLabel "私募标志"@zh .
+cnfo:maximumInvestmentPercentage skos:altLabel "投资比例上限"@zh .
+cnfo:minimumInvestmentPercentage skos:altLabel "投资比例下限"@zh .
+cnfo:positionCurrency skos:altLabel "币种"@zh .
+cnfo:positionMarketValue skos:altLabel "组合市值"@zh .
+cnfo:positionQuantity skos:altLabel "持有份额"@zh .
+cnfo:redemptionInAmountAllowed skos:altLabel "按金额赎回标志"@zh .
+cnfo:redemptionMinimumUnits skos:altLabel "赎回份额"@zh .
+cnfo:riskLevelCode skos:altLabel "产品风险等级"@zh .
+cnfo:subscriptionMinimumAmount skos:altLabel "认购金额"@zh .
+cnfo:subscriptionMinimumUnits skos:altLabel "认购份额"@zh .
+cnfo:unitCurrency skos:altLabel "币种"@zh .
+cnfo:unitQuantity skos:altLabel "基金份额"@zh .
+cnfo:valuationCurrency skos:altLabel "币种"@zh .
+
+# ===== 数据属性：标准名称/标准出处标注（共 29 项） =====
+cnfo:baseCurrency cnfom:standardRef "JR/T 0304.1-2024 §6.2.1 BD000146" .
+cnfo:distributionWithReinvestment cnfom:standardRef "JR/T 0304.2-2024 §5.4.1 DBD00036（基金分红方式：1红利转投/2现金分红）" .
+cnfo:filingDate cnfom:standardRef "《私募投资基金监督管理暂行办法》（私募基金备案）" .
+cnfo:fundCode cnfom:standardName "FUND_CDE" ;
+    cnfom:standardRef "JR/T 0304.1-2024 §6.2.2.15 BD000162；JR/T 0176.4-2022 品种数据域" .
+cnfo:fundName cnfom:standardName "FUND_NAME" ;
+    cnfom:standardRef "JR/T 0304.1-2024 §6.2.2.16 BD000163" .
+cnfo:fundNetAssetValue cnfom:standardName "FUND_ASET_NV" ;
+    cnfom:standardRef "JR/T 0304.1-2024 §6.2.2.30 BD000177" .
+cnfo:fundShortName cnfom:standardName "FUND_ABBR" ;
+    cnfom:standardRef "JR/T 0304.1-2024 §6.2.2.17 BD000164" .
+cnfo:fundTypeCode cnfom:standardName "FUND_TYPE_CDE" ;
+    cnfom:standardRef "JR/T 0304.1-2024 §4.3.6（英文名称规则推导）" .
+cnfo:fundUnitCode cnfom:standardName "FUND_SHR_CDE" ;
+    cnfom:standardRef "JR/T 0304.1-2024 §4.3.6（英文名称规则推导）" .
+cnfo:fundUnitNetAssetValue cnfom:standardName "FUND_SHR_NV" ;
+    cnfom:standardRef "JR/T 0304.1-2024 §6.2.2.31 BD000178" .
+cnfo:inceptionDate cnfom:standardRef "JR/T 0304.1-2024 §6.1.1 BD000061" .
+cnfo:investmentAssetTypeCode cnfom:standardName "INVMT_ASSET_TYPE_CDE" ;
+    cnfom:standardRef "JR/T 0304.1-2024 §6.2.1 BD000139 品种类别（GB/T 35964 CFI 编码）" .
+cnfo:isExchangeTraded cnfom:standardName "EXCH_TRAD_INDC" ;
+    cnfom:standardRef "JR/T 0304.1-2024 §4.4 j）（是否类以“标志”为表示词）" .
+cnfo:isOpenEnded cnfom:standardName "OPEN_END_INDC" ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.4 DBD00029（基金运作方式：1封闭式/2开放式/9其他）" .
+cnfo:isPrivate cnfom:standardName "PRIV_INDC" ;
+    cnfom:standardRef "JR/T 0304.1-2024 §4.4 j）；《证券投资基金法》（公开募集/非公开募集）" .
+cnfo:maximumInvestmentPercentage cnfom:standardRef "JR/T 0176.4-2022 表3 TLF0000140（产品投资比例限制）" .
+cnfo:minimumInvestmentPercentage cnfom:standardRef "JR/T 0176.4-2022 表3 TLF0000140（产品投资比例限制）" .
+cnfo:positionCurrency cnfom:standardRef "JR/T 0304.1-2024 §6.2.1 BD000146（币种）" .
+cnfo:positionMarketValue cnfom:standardName "HOLD_MKT_VAL" ;
+    cnfom:standardRef "JR/T 0176.4-2022 §5.5（组合市值）" .
+cnfo:positionQuantity cnfom:standardName "HOLD_SHR" ;
+    cnfom:standardRef "JR/T 0304.1-2024 §6.5.2.1 BD000308（持有份额 HOLD_SHR）" .
+cnfo:redemptionInAmountAllowed cnfom:standardName "REDEM_AMT_INDC" ;
+    cnfom:standardRef "JR/T 0304.1-2024 §4.4 j）（是否类以“标志”为表示词）" .
+cnfo:redemptionMinimumUnits cnfom:standardRef "JR/T 0304.1-2024 §6.4.3.6 BD000293（赎回份额 REDEM_SHR）" .
+cnfo:riskLevelCode cnfom:standardName "RISK_LEVEL" ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.3 DBD00028（产品风险等级：R1-R5）" .
+cnfo:subscriptionMinimumAmount cnfom:standardRef "JR/T 0304.1-2024 §4.4 表3（以“金额”为表示词）" .
+cnfo:subscriptionMinimumUnits cnfom:standardRef "JR/T 0304.1-2024 §4.4 表3" .
+cnfo:terminationDate cnfom:standardName "CNL_D" ;
+    cnfom:standardRef "JR/T 0304.1-2024 §6.4.1.3 BD000241（终止日期 CNL_D）" .
+cnfo:unitCurrency cnfom:standardRef "JR/T 0304.1-2024 §6.2.1 BD000146（币种）" .
+cnfo:unitQuantity cnfom:standardName "FUND_SHR" ;
+    cnfom:standardRef "JR/T 0304.1-2024 §6.2.2.29 BD000176（基金份额 FUND_SHR）" .
+cnfo:valuationCurrency cnfom:standardRef "JR/T 0304.1-2024 §6.2.1 BD000146（币种）" .
+
+# ===== 类：标准名称/标准出处标注（共 77 项） =====
+cnfo:AssetValuationActivity cnfom:standardRef "《证券投资基金法》（估值）" .
+cnfo:BondFund cnfom:standardRef "GB/T 39595 基金分类" .
+cnfo:ClosedEndedFund cnfom:standardRef "JR/T 0304.2-2024 §5.2.4 DBD00029（基金运作方式：1封闭式）" .
+cnfo:ContractualFundStructure cnfom:standardRef "JR/T 0304.2-2024 §5.2.25 DBD00120（基金组织形式：1契约型）" .
+cnfo:CorporateFundStructure cnfom:standardRef "JR/T 0304.2-2024 §5.2.25 DBD00120（基金组织形式：2公司型）" .
+cnfo:DebtInvestmentAsset cnfom:standardRef "JR/T 0176.4-2022 §5.3（外部金融工具：债券）" .
+cnfo:EquityFund cnfom:standardRef "GB/T 39595 基金分类" .
+cnfo:EquityInvestmentAsset cnfom:standardRef "JR/T 0176.4-2022 §5.3（外部金融工具：权益；GB/T 35964 CFI）" .
+cnfo:ExchangeTradedFund cnfom:standardName "ETF" ;
+    cnfom:standardRef "JR/T 0304.1-2024 §6.4.3.7（交易型开放式证券投资基金）；JR/T 0304.2-2024 现金替代类型" .
+cnfo:FiledStatus cnfom:standardRef "《私募投资基金监督管理暂行办法》（私募基金备案）" .
+cnfo:FundAccountantRole cnfom:standardRef "行业惯例（基金会计核算）" .
+cnfo:FundActivity cnfom:standardRef "JR/T 0176.4-2022 §5.4（交易数据域）；JR/T 0304.1-2024 行为数据域" .
+cnfo:FundBenchmark cnfom:standardRef "《证券投资基金评价业务管理暂行办法》；{INFO}" .
+cnfo:FundCashDistributionPolicy cnfom:standardRef "JR/T 0304.2-2024 §5.4.1 DBD00036（基金分红方式：2现金分红）" .
+cnfo:FundClassifier cnfom:standardRef "CNFO 架构抽象" .
+cnfo:FundContract cnfom:standardRef "《证券投资基金法》；JR/T 0176.4-2022 §5.6（销售类合同：基金合同）" .
+cnfo:FundDepositaryRole cnfom:standardRef "《证券投资基金法》；JR/T 0304.1-2024 §6.1 BD000100（基金托管人代码）" .
+cnfo:FundDistributionMethod cnfom:standardName "FUND_DIVD_MODE" ;
+    cnfom:standardRef "JR/T 0304.1-2024 §6.4.3.1 BD000288（基金分红方式 FUND_DIVD_MODE）；JR/T 0304.2-2024 §5.4.1 DBD00036" .
+cnfo:FundDistributorRole cnfom:standardRef "《公开募集证券投资基金销售机构监督管理办法》；JR/T 0304.1-2024 §6.1 BD000074（基金销售机构代码）" .
+cnfo:FundEstate cnfom:standardRef "《证券投资基金法》（基金财产独立）" .
+cnfo:FundFilingActivity cnfom:standardRef "《私募投资基金监督管理暂行办法》" .
+cnfo:FundHolderRole cnfom:standardRef "《证券投资基金法》（基金份额持有人）" .
+cnfo:FundInvestmentAsset cnfom:standardRef "JR/T 0176.4-2022 §5.5（资产数据域：基金投资资产）" .
+cnfo:FundInvestmentObjective cnfom:standardRef "《证券投资基金法》；《公开募集证券投资基金信息披露管理办法》" .
+cnfo:FundInvestmentPolicy cnfom:standardRef "JR/T 0176.4-2022（产品投资比例限制等）" .
+cnfo:FundInvestmentRestriction cnfom:standardRef "JR/T 0176.4-2022 表3 TLF0000140（产品投资比例限制）" .
+cnfo:FundInvestmentStrategy cnfom:standardRef "《公开募集证券投资基金信息披露管理办法》（投资策略披露）" .
+cnfo:FundLegalStructure cnfom:standardRef "JR/T 0304.2-2024 §5.2.25 DBD00120（基金组织形式：契约型/公司型/合伙型）" .
+cnfo:FundLiquidationActivity cnfom:standardRef "《证券投资基金法》（基金财产清算）" .
+cnfo:FundManagementCompany cnfom:standardRef "《证券投资基金法》；JR/T 0304.1-2024 §6.1 BD000095（基金公司名称）" .
+cnfo:FundManagerRole cnfom:standardRef "《证券投资基金法》；JR/T 0304.1-2024 §6.1 BD000096（基金管理人代码）" .
+cnfo:FundOfFunds cnfom:standardName "FOF" ;
+    cnfom:standardRef "《基金中基金（FOF）指引》" .
+cnfo:FundParty cnfom:standardRef "JR/T 0304.1-2024 §5.1（主体数据域）；JR/T 0176.4-2022 §3.1（主体）" .
+cnfo:FundPeriodicReport cnfom:standardRef "《公开募集证券投资基金信息披露管理办法》（年度报告、中期报告、季度报告）" .
+cnfo:FundPortfolio cnfom:standardRef "JR/T 0176.4-2022 §5.3（产品数据域：组合）" .
+cnfo:FundPortfolioInvestmentLimitation cnfom:standardRef "JR/T 0176.4-2022 表3 TLF0000140（产品投资比例限制）" .
+cnfo:FundPosition cnfom:standardRef "JR/T 0304.1-2024 §6.5.2.1（持有份额 HOLD_SHR）" .
+cnfo:FundProduct cnfom:standardRef "JR/T 0176.4-2022 §5.3（产品数据域）；资管新规（资管产品）" .
+cnfo:FundProspectus cnfom:standardRef "《公开募集证券投资基金信息披露管理办法》（招募说明书）" .
+cnfo:FundPurchaseActivity cnfom:standardRef "《证券投资基金法》（开放式基金申购）" .
+cnfo:FundRaisingActivity cnfom:standardRef "《证券投资基金法》（公开募集/非公开募集）" .
+cnfo:FundRedemptionActivity cnfom:standardRef "《证券投资基金法》（赎回）" .
+cnfo:FundRedemptionTerms cnfom:standardRef "JR/T 0176.4-2022 表3 TLF0000141（产品申赎限额）" .
+cnfo:FundRegistrarRole cnfom:standardRef "《证券投资基金法》（基金份额登记机构）；JR/T 0304.1-2024 §6.1 BD000117（基金注册登记机构代码）" .
+cnfo:FundRegistrationActivity cnfom:standardRef "《证券投资基金法》（注册）" .
+cnfo:FundReinvestmentPolicy cnfom:standardRef "JR/T 0304.2-2024 §5.4.1 DBD00036（基金分红方式：1红利转投）" .
+cnfo:FundRiskLevel cnfom:standardRef "JR/T 0304.2-2024 §5.2.3 DBD00028（产品风险等级：R1-R5）；《证券期货投资者适当性管理办法》" .
+cnfo:FundSubscriptionActivity cnfom:standardRef "《证券投资基金法》（认购）" .
+cnfo:FundSubscriptionTerms cnfom:standardRef "JR/T 0176.4-2022 表3 TLF0000141（产品申赎限额）" .
+cnfo:FundSupervisor cnfom:standardRef "JR/T 0176.4-2022 §5.1（监管组织）" .
+cnfo:FundTransferAgentRole cnfom:standardRef "《证券投资基金法》（基金份额登记机构）" .
+cnfo:FundUnit cnfom:standardRef "《证券投资基金法》（基金份额）；JR/T 0304.1-2024 §6.2.2.29 BD000176（基金份额 FUND_SHR）" .
+cnfo:FundUnitClass cnfom:standardRef "行业惯例（份额类别/分类）" .
+cnfo:FundUnitInvestmentAsset cnfom:standardRef "JR/T 0176.4-2022 §5.3（集合投资工具）" .
+cnfo:HybridFund cnfom:standardRef "GB/T 39595 基金分类" .
+cnfo:IncomeDistributionActivity cnfom:standardRef "《证券投资基金法》（收益分配）；JR/T 0304.1-2024 §6.4.3.1（基金分红方式）" .
+cnfo:InformationDisclosureActivity cnfom:standardRef "《公开募集证券投资基金信息披露管理办法》" .
+cnfo:InfrastructurePublicREIT cnfom:standardName "REIT" ;
+    cnfom:standardRef "《公开募集基础设施证券投资基金指引（试行）》" .
+cnfo:Investor cnfom:standardRef "《证券投资基金法》；JR/T 0304.1-2024 §6.1.4（投资者信息）" .
+cnfo:ListedOpenEndedFund cnfom:standardName "LOF" ;
+    cnfom:standardRef "《上海证券交易所上市开放式基金业务指引》" .
+cnfo:MoneyMarketFund cnfom:standardRef "《货币市场基金监督管理办法》" .
+cnfo:NetAssetValueCalculationActivity cnfom:standardRef "《公开募集证券投资基金信息披露管理办法》（净值披露）；JR/T 0176.4-2022（估值核算）" .
+cnfo:NetAssetValueRecord cnfom:standardRef "JR/T 0304.1-2024 §6.2.2.30-31（基金资产净值/基金份额净值）" .
+cnfo:OpenEndedFund cnfom:standardRef "JR/T 0304.2-2024 §5.2.4 DBD00029（基金运作方式：2开放式）" .
+cnfo:PartnershipFundStructure cnfom:standardRef "JR/T 0304.2-2024 §5.2.25 DBD00120（基金组织形式：3合伙型）" .
+cnfo:PensionTargetFund cnfom:standardRef "《养老目标证券投资基金指引（试行）》" .
+cnfo:PeriodicOpenEndedFund cnfom:standardRef "行业惯例（定开基金）" .
+cnfo:PortfolioPosition cnfom:standardRef "JR/T 0176.4-2022 §5.5（组合头寸、组合市值、组合持仓、组合变动）" .
+cnfo:PrivateEquityFund cnfom:standardRef "JR/T 0304.2-2024 §5.2.31 DBD00126（私募基金类型：2私募股权、创业投资基金）" .
+cnfo:PrivateFund cnfom:standardRef "《私募投资基金监督管理暂行办法》；《证券投资基金法》（非公开募集）" .
+cnfo:PrivateSecuritiesInvestmentFund cnfom:standardRef "JR/T 0304.2-2024 §5.2.31 DBD00126（私募基金类型：1私募证券投资基金）" .
+cnfo:PublicFund cnfom:standardRef "《证券投资基金法》（公开募集基金）" .
+cnfo:PublicSecuritiesInvestmentFund cnfom:standardRef "《证券投资基金法》（公开募集证券投资基金）" .
+cnfo:QDIIFund cnfom:standardName "QDII" ;
+    cnfom:standardRef "《合格境内机构投资者境外证券投资管理试行办法》" .
+cnfo:QualifiedInvestor cnfom:standardRef "《私募投资基金监督管理暂行办法》；《证券期货投资者适当性管理办法》" .
+cnfo:SecuritiesInvestmentFund cnfom:standardRef "《证券投资基金法》" .
+cnfo:VentureCapitalFund cnfom:standardRef "JR/T 0304.2-2024 §5.2.31 DBD00126（私募基金类型：2私募股权、创业投资基金）" .
+
+# ===== 对象属性：标准名称/标准出处标注（共 4 项） =====
+cnfo:hasDistributionMethod cnfom:standardRef "JR/T 0304.1-2024 §6.4.3.1（基金分红方式）" .
+cnfo:hasFundClassifier cnfom:standardRef "CNFO 架构抽象" .
+cnfo:hasLegalStructure cnfom:standardRef "JR/T 0304.2-2024 §5.2.25 DBD00120" .
+cnfo:legalStructureOf cnfom:standardRef "JR/T 0304.2-2024 §5.2.25 DBD00120" .

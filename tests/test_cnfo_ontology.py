@@ -8,23 +8,23 @@ from rdflib import Graph, Literal, Namespace, URIRef
 from rdflib.compare import isomorphic
 from rdflib.namespace import OWL, RDF, RDFS, SKOS, XSD
 
+from fondontology.ontology_loader import load_ontology_graph
 from fondontology.viewer import OntologyViewerSession
 
 
 ROOT = Path(__file__).resolve().parents[1]
 CNFO = Namespace("https://ontology.example.cn/cnfo/ontology/")
+CNFOM = Namespace("https://ontology.example.cn/cnfo/module/")
 
 
 def load_graph(path: Path) -> Graph:
-    graph = Graph()
-    graph.parse(path, format="turtle")
-    return graph
+    return load_ontology_graph(path)
 
 
 class CnfoOntologyTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.source = load_graph(ROOT / "ontology" / "cnfo-fund.ttl")
+        cls.source = load_graph(ROOT / "ontology" / "modules" / "cnfo-domain.ttl")
 
     def test_source_and_release_graph_match(self) -> None:
         release = load_graph(ROOT / "artifacts" / "cnfo" / "cnfo-fund-tbox.ttl")
@@ -80,7 +80,7 @@ class CnfoOntologyTest(unittest.TestCase):
             self.assertTrue(definitions, class_iri)
 
     def test_viewer_does_not_expose_inferred_reflexive_equivalence_as_mapping(self) -> None:
-        session = OntologyViewerSession(ROOT / "ontology" / "cnfo-fund.ttl")
+        session = OntologyViewerSession(ROOT / "ontology" / "modules" / "cnfo-domain.ttl")
         detail = session.detail(str(CNFO.ExchangeTradedFund))
         self.assertFalse(
             any(item["target"]["iri"] == str(CNFO.ExchangeTradedFund) for item in detail["mappings"])
@@ -142,6 +142,67 @@ class CnfoOntologyTest(unittest.TestCase):
         self.assertIn((unit, CNFO.issuedByFund, fund), graph)
         self.assertIn((position, CNFO.positionOfPortfolio, portfolio), graph)
         self.assertIn((asset, CNFO.assetHasPortfolioPosition, position), graph)
+
+    def test_module_interface_only_exposes_current_modules(self) -> None:
+        session = OntologyViewerSession(ROOT / "ontology" / "modules" / "cnfo-domain.ttl")
+        tree = session.modules()
+
+        self.assertEqual(tree["module_count"], 2)
+        self.assertEqual(len(tree["roots"]), 1)
+        root = tree["roots"][0]
+        self.assertEqual(root["iri"], str(CNFO.CNFODomain))
+        self.assertEqual(root["label"], "CNFO 基金领域入口")
+        self.assertIn((CNFO.CNFODomain, RDF.type, CNFOM.OntologyModule), self.source)
+        self.assertEqual(len(root["children"]), 1)
+        fund = root["children"][0]
+        self.assertEqual(fund["iri"], str(CNFO.CNFOFundOntology))
+        self.assertEqual(fund["label"], "基金本体")
+        self.assertEqual(fund["class_count"], len(session.class_ids))
+        self.assertIn(
+            str(CNFO.ExchangeTradedFund),
+            {item["iri"] for item in session.search("ETF", "cnfo", 100, fund["iri"])},
+        )
+
+    def test_property_neighborhood_preserves_direction_and_endpoint(self) -> None:
+        session = OntologyViewerSession(ROOT / "ontology" / "modules" / "cnfo-domain.ttl")
+        detail = session.detail(str(CNFO.FundUnit))
+
+        outgoing = {item["iri"]: item for item in detail["properties"]["outgoing"]}
+        incoming = {item["iri"]: item for item in detail["properties"]["incoming"]}
+        self.assertEqual(outgoing[str(CNFO.hasFundPosition)]["direction"], "outgoing")
+        self.assertEqual(
+            outgoing[str(CNFO.hasFundPosition)]["ranges"][0]["iri"],
+            str(CNFO.FundPosition),
+        )
+        self.assertEqual(incoming[str(CNFO.hasFundUnit)]["direction"], "incoming")
+        self.assertEqual(
+            incoming[str(CNFO.hasFundUnit)]["domains"][0]["iri"],
+            str(CNFO.Fund),
+        )
+
+    def test_property_sections_follow_inheritance_chain(self) -> None:
+        session = OntologyViewerSession(ROOT / "ontology" / "modules" / "cnfo-domain.ttl")
+        detail = session.detail(str(CNFO.FundUnit))
+        sections = detail["property_sections"]
+        by_local_name = {section["class"]["local_name"]: section for section in sections}
+
+        self.assertEqual(sections[0]["class"]["local_name"], "FundUnit")
+        self.assertIn("FundObject", by_local_name)
+
+        fund_unit = by_local_name["FundUnit"]
+        fund_unit_properties = {
+            item["iri"]
+            for direction in ("outgoing", "incoming")
+            for item in fund_unit[direction]
+        }
+        self.assertIn(str(CNFO.hasFundPosition), fund_unit_properties)
+        self.assertNotIn(str(CNFO.hasFundObject), fund_unit_properties)
+
+        fund_object = by_local_name["FundObject"]
+        self.assertIn(
+            str(CNFO.hasFundObject),
+            {item["iri"] for item in fund_object["incoming"]},
+        )
 
 
 if __name__ == "__main__":
