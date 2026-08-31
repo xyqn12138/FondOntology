@@ -1,4 +1,5 @@
-﻿@prefix cnfo: <https://ontology.example.cn/cnfo/ontology/> .
+@prefix cnfo: <https://ontology.example.cn/cnfo/ontology/> .
+@prefix cnfc: <https://ontology.example.cn/cnfo/code/> .
 @prefix cnfom: <https://ontology.example.cn/cnfo/module/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -9,9 +10,9 @@
 
 cnfo:ChinaFundOntology a owl:Ontology ;
     rdfs:label "中国基金领域本体兼容入口"@zh ;
-    dcterms:modified "2026-08-27"^^xsd:date ;
+    dcterms:modified "2026-08-31"^^xsd:date ;
     owl:imports cnfo:CNFOFundOntology ;
-    owl:versionInfo "0.4.0" ;
+    owl:versionInfo "0.5.1" ;
     skos:definition "兼容旧入口标识；完整基金业务术语定义位于 CNFO 基金本体模块。"@zh .
 
 cnfo:ActiveInvestmentStrategy a owl:Class ;
@@ -33,10 +34,11 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfom:OntologyModule ;
     rdfs:label "基金本体"@zh ;
     rdfs:comment "参考本地 FIBO SEC/Funds 模块、以中国基金业务语境独立定义的基金领域 T-BOX。"@zh ;
-    dcterms:modified "2026-08-27"^^xsd:date ;
-    owl:imports cnfom:CNFOModuleVocabulary ;
-    owl:versionInfo "0.4.0" ;
-    skos:changeNote "v0.4.0 依据国内数据标准（JR/T 0304.1-2024 基础数据元规范、JR/T 0304.2-2024 基础代码、JR/T 0176.4-2022 基金公司逻辑模型）完成命名标准化：对齐中文标签（基金分红方式、基金组织形式、股票型基金、债券类投资资产、业绩比较基准、基金分类概念等），补充标准英文名称 cnfom:standardName 与标准出处 cnfom:standardRef 标注及建议别名。"@zh ;
+    dcterms:modified "2026-08-31"^^xsd:date ;
+    owl:imports cnfom:CNFOModuleVocabulary,
+        cnfc:CNFOFundCodes ;
+    owl:versionInfo "0.5.1" ;
+    skos:changeNote "v0.5.0 语义契约完善版本：① 完善基础抽象（新增基金业务对象 FundBusinessObject、基金账户 FundAccount 与 6 个代码取值类，业务对象重新挂载）；② 全部对象/数据属性补齐中文定义 skos:definition，形成属性关系契约；③ 代码表语义化：导入 SKOS 受控代码表（基金运作方式/组织形式/分红方式/风险等级/私募基金类型/收费方式），新增 6 个代码引用对象属性，类与代码概念建立 skos:closeMatch，isOpenEnded/isPrivate 等标注为兼容属性；④ 保留全部 IRI，兼容冻结策略。v0.5.1 语义勘误：新增基金持仓记录 FundPositionRecord 作为 FundPosition 与 PortfolioPosition 的共同父类，并将 positionQuantity、positionCurrency 的 domain 提升至该抽象类，修复示例数据触发的交叉类型推断。"@zh ;
     skos:definition "当前唯一已实际建模的 CNFO 基金业务模块，包含基金、基金产品、基金参与方、基金活动、基金资产、基金份额、组合、持仓和净值记录等概念及其约束。"@zh ;
     cnfom:containsTerm cnfo:ActiveInvestmentStrategy,
         cnfo:AssetValuationActivity,
@@ -52,21 +54,25 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:ExchangeTradedFund,
         cnfo:FiledStatus,
         cnfo:Fund,
+        cnfo:FundAccount,
         cnfo:FundAccountantRole,
         cnfo:FundActivity,
         cnfo:FundAdministratorRole,
         cnfo:FundBenchmark,
+        cnfo:FundBusinessObject,
         cnfo:FundCashDistributionPolicy,
         cnfo:FundClassification,
         cnfo:FundClassificationScheme,
         cnfo:FundClassifier,
         cnfo:FundContract,
         cnfo:FundDepositaryRole,
+        cnfo:FundDistributionModeValue,
         cnfo:FundDistributionMethod,
         cnfo:FundDistributionPolicy,
         cnfo:FundDistributorRole,
         cnfo:FundDocument,
         cnfo:FundEstate,
+        cnfo:FundFeeModeValue,
         cnfo:FundFilingActivity,
         cnfo:FundFilingDocument,
         cnfo:FundHolderRole,
@@ -84,12 +90,15 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:FundManagerRole,
         cnfo:FundObject,
         cnfo:FundOfFunds,
+        cnfo:FundOperationModeValue,
+        cnfo:FundOrganizationFormValue,
         cnfo:FundParty,
         cnfo:FundPeriodicReport,
         cnfo:FundPortfolio,
         cnfo:FundPortfolioInvestmentLimitation,
         cnfo:FundPortfolioInvestmentPolicy,
         cnfo:FundPosition,
+        cnfo:FundPositionRecord,
         cnfo:FundProcessingTerms,
         cnfo:FundProduct,
         cnfo:FundProspectus,
@@ -102,6 +111,7 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:FundRegistrationActivity,
         cnfo:FundReinvestmentPolicy,
         cnfo:FundRiskLevel,
+        cnfo:FundRiskLevelValue,
         cnfo:FundRole,
         cnfo:FundRoleAssignment,
         cnfo:FundServiceProviderRole,
@@ -141,6 +151,7 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:PortfolioPosition,
         cnfo:PrivateEquityFund,
         cnfo:PrivateFund,
+        cnfo:PrivateFundTypeValue,
         cnfo:PrivateRealEstateInvestmentFund,
         cnfo:PrivateSecuritiesInvestmentFund,
         cnfo:PublicFund,
@@ -653,7 +664,7 @@ cnfo:minimumInvestmentPercentage a owl:DatatypeProperty ;
 
 cnfo:positionCurrency a owl:DatatypeProperty ;
     rdfs:label "持仓币种"@zh ;
-    rdfs:domain cnfo:PortfolioPosition ;
+    rdfs:domain cnfo:FundPositionRecord ;
     rdfs:range xsd:string .
 
 cnfo:positionMarketValue a owl:DatatypeProperty ;
@@ -1127,7 +1138,7 @@ cnfo:positionOfPortfolio a owl:ObjectProperty ;
 
 cnfo:positionQuantity a owl:DatatypeProperty ;
     rdfs:label "持仓数量"@zh ;
-    rdfs:domain cnfo:FundPosition ;
+    rdfs:domain cnfo:FundPositionRecord ;
     rdfs:range xsd:decimal .
 
 cnfo:providesCustodyForFundUnit a owl:ObjectProperty ;
@@ -1226,7 +1237,7 @@ cnfo:FundDistributionMethod a owl:Class ;
 
 cnfo:FundEstate a owl:Class ;
     rdfs:label "基金财产"@zh ;
-    rdfs:subClassOf cnfo:FundObject ;
+    rdfs:subClassOf cnfo:FundBusinessObject ;
     skos:definition "独立于管理人、托管人固有财产的基金资产、权利和负债集合。"@zh .
 
 cnfo:FundManagerRole a owl:Class ;
@@ -1436,7 +1447,7 @@ cnfo:FundPortfolioInvestmentLimitation a owl:Class ;
 
 cnfo:FundProduct a owl:Class ;
     rdfs:label "基金产品"@zh ;
-    rdfs:subClassOf cnfo:FundObject ;
+    rdfs:subClassOf cnfo:FundBusinessObject ;
     skos:definition "由基金名称、目标、策略、份额、费率和运作规则共同定义的基金产品。"@zh .
 
 cnfo:FundRecord a owl:Class ;
@@ -1588,7 +1599,7 @@ cnfo:FundPosition a owl:Class ;
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty cnfo:positionQuantity ],
-        cnfo:FundObject ;
+        cnfo:FundPositionRecord ;
     skos:definition "投资者在特定基金份额上持有的数量、权益或相关头寸记录。"@zh .
 
 cnfo:FundSubscriptionTerms a owl:Class ;
@@ -1619,7 +1630,7 @@ cnfo:FundClassifier a owl:Class ;
 
 cnfo:FundInvestmentAsset a owl:Class ;
     rdfs:label "基金投资资产"@zh ;
-    rdfs:subClassOf cnfo:FundObject ;
+    rdfs:subClassOf cnfo:FundBusinessObject ;
     skos:definition "基金投资组合中可被持有、估值或交易的投资标的或资产对象。"@zh .
 
 cnfo:FundInvestmentPolicy a owl:Class ;
@@ -1638,7 +1649,7 @@ cnfo:FundPortfolio a owl:Class ;
         [ a owl:Restriction ;
             owl:onProperty cnfo:hasFundPortfolioPosition ;
             owl:someValuesFrom cnfo:PortfolioPosition ],
-        cnfo:FundObject ;
+        cnfo:FundBusinessObject ;
     skos:definition "基金财产中按投资目标和投资政策组织的资产与头寸集合。"@zh .
 
 cnfo:FundUnitDistributionPolicy a owl:Class ;
@@ -1716,7 +1727,7 @@ cnfo:PortfolioPosition a owl:Class ;
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty cnfo:positionAsOfDate ],
-        cnfo:FundObject ;
+        cnfo:FundPositionRecord ;
     skos:definition "反映基金投资组合在特定日期对某项投资资产持有数量、价值或比例的持仓对象。"@zh .
 
 cnfo:FundInvestmentStrategy a owl:Class ;
@@ -1757,7 +1768,7 @@ cnfo:FundUnit a owl:Class ;
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty cnfo:unitCurrency ],
-        cnfo:FundObject ;
+        cnfo:FundBusinessObject ;
     skos:definition "表示基金份额持有人对基金财产享有权益的可识别基金份额对象。"@zh .
 
 cnfo:FundObject a owl:Class ;
@@ -1779,7 +1790,7 @@ cnfo:Fund a owl:Class ;
         [ a owl:Restriction ;
             owl:onProperty cnfo:hasFundStatusRecord ;
             owl:someValuesFrom cnfo:FundStatusRecord ],
-        cnfo:FundObject ;
+        cnfo:FundBusinessObject ;
     skos:definition "在中国基金行业语境下依法设立、募集或形成并开展投资运作的基金对象。"@zh .
 
 [] a owl:AllDisjointClasses ;
@@ -2032,3 +2043,283 @@ cnfo:hasDistributionMethod cnfom:standardRef "JR/T 0304.1-2024 §6.4.3.1（基�
 cnfo:hasFundClassifier cnfom:standardRef "CNFO 架构抽象" .
 cnfo:hasLegalStructure cnfom:standardRef "JR/T 0304.2-2024 §5.2.25 DBD00120" .
 cnfo:legalStructureOf cnfom:standardRef "JR/T 0304.2-2024 §5.2.25 DBD00120" .
+
+# ============================================================
+# V0.5 语义基础层 + 属性关系契约 + 代码表关联（生成自 tools/v05_defs.py，勿手改）
+# 新增抽象类
+# ============================================================
+cnfo:FundBusinessObject a owl:Class ;
+    rdfs:label "基金业务对象"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "基金领域内代表基金业务标的或业务结果的核心对象，包括基金、基金产品、基金份额、基金财产、投资组合、持仓和投资资产等。"@zh
+ .
+
+cnfo:FundPositionRecord a owl:Class ;
+    rdfs:label "基金持仓记录"@zh ;
+    rdfs:subClassOf cnfo:FundBusinessObject ;
+    skos:definition "基金领域中描述某一持仓主体对基金份额或投资资产持有数量、币种及其他持仓事实的抽象业务记录；其具体类型包括基金份额持仓和投资组合持仓。"@zh
+ .
+
+cnfo:FundAccount a owl:Class ;
+    rdfs:label "基金账户"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "基金注册登记机构或基金销售机构为基金投资者设立的、用于记录和保存其基金份额持有与变动情况的账户。"@zh ;
+    cnfom:standardName "FUND_ACCT" ;
+    cnfom:standardRef "JR/T 0304.1-2024 §6.3.3.1 BD000235"
+ .
+
+cnfo:FundOperationModeValue a owl:Class ;
+    rdfs:label "基金运作方式取值"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "基金运作方式代码表的取值类型，实例为 JR/T 0304.2-2024 DBD00029 的代码值。"@zh ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.4 DBD00029"
+ .
+
+cnfo:FundOrganizationFormValue a owl:Class ;
+    rdfs:label "基金组织形式取值"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "基金组织形式代码表的取值类型，实例为 JR/T 0304.2-2024 DBD00120 的代码值。"@zh ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.25 DBD00120"
+ .
+
+cnfo:FundDistributionModeValue a owl:Class ;
+    rdfs:label "基金分红方式取值"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "基金分红方式代码表的取值类型，实例为 JR/T 0304.2-2024 DBD00036 的代码值。"@zh ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.4.1 DBD00036"
+ .
+
+cnfo:FundRiskLevelValue a owl:Class ;
+    rdfs:label "产品风险等级取值"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "产品风险等级代码表的取值类型，实例为 JR/T 0304.2-2024 DBD00028 的代码值（R1-R5）。"@zh ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.3 DBD00028"
+ .
+
+cnfo:PrivateFundTypeValue a owl:Class ;
+    rdfs:label "私募基金类型取值"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "私募基金类型代码表的取值类型，实例为 JR/T 0304.2-2024 DBD00126 的代码值。"@zh ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.31 DBD00126"
+ .
+
+cnfo:FundFeeModeValue a owl:Class ;
+    rdfs:label "基金收费方式取值"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "基金收费方式代码表的取值类型，实例为 JR/T 0304.2-2024 DBD00030 的代码值。"@zh ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.5 DBD00030"
+ .
+
+# 新增对象/数据属性
+cnfo:hasFundAccount a owl:ObjectProperty ;
+    rdfs:label "具有基金账户"@zh ;
+    rdfs:domain cnfo:Investor ;
+    rdfs:range cnfo:FundAccount ;
+    owl:inverseOf cnfo:accountHeldBy ;
+    skos:definition "表示基金投资者在基金注册登记机构或基金销售机构开立并持有基金账户。"@zh .
+
+cnfo:accountHeldBy a owl:ObjectProperty ;
+    rdfs:label "基金账户由投资者持有"@zh ;
+    rdfs:domain cnfo:FundAccount ;
+    rdfs:range cnfo:Investor ;
+    owl:inverseOf cnfo:hasFundAccount ;
+    skos:definition "表示基金账户由某基金投资者持有。"@zh .
+
+cnfo:hasFundOperationMode a owl:ObjectProperty ;
+    rdfs:label "具有基金运作方式"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundOperationModeValue ;
+    skos:definition "表示基金采用的标准基金运作方式代码（封闭式/开放式/其他，JR/T 0304.2 DBD00029），为基金运作方式的权威事实来源。"@zh .
+
+cnfo:hasFundOrganizationForm a owl:ObjectProperty ;
+    rdfs:label "具有基金组织形式"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundOrganizationFormValue ;
+    skos:definition "表示基金采用的标准基金组织形式代码（契约型/公司型/合伙型/其他，JR/T 0304.2 DBD00120），为基金组织形式的权威代码来源。"@zh .
+
+cnfo:hasFundDistributionMode a owl:ObjectProperty ;
+    rdfs:label "具有基金分红方式"@zh ;
+    rdfs:domain cnfo:FundUnitClass ;
+    rdfs:range cnfo:FundDistributionModeValue ;
+    skos:definition "表示基金份额类别适用的标准基金分红方式代码（JR/T 0304.2 DBD00036），为分红处理的权威代码来源。"@zh .
+
+cnfo:hasFundRiskLevel a owl:ObjectProperty ;
+    rdfs:label "具有基金风险等级"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundRiskLevelValue ;
+    skos:definition "表示基金适用的标准产品风险等级代码（R1-R5，JR/T 0304.2 DBD00028）。"@zh .
+
+cnfo:hasPrivateFundType a owl:ObjectProperty ;
+    rdfs:label "具有私募基金类型"@zh ;
+    rdfs:domain cnfo:PrivateFund ;
+    rdfs:range cnfo:PrivateFundTypeValue ;
+    skos:definition "表示私募基金适用的标准私募基金类型代码（JR/T 0304.2 DBD00126）。"@zh .
+
+cnfo:hasFundFeeMode a owl:ObjectProperty ;
+    rdfs:label "具有基金收费方式"@zh ;
+    rdfs:domain cnfo:FundUnitClass ;
+    rdfs:range cnfo:FundFeeModeValue ;
+    skos:definition "表示基金份额类别适用的标准基金收费方式代码（JR/T 0304.2 DBD00030）。"@zh .
+
+cnfo:accountNumber a owl:DatatypeProperty ;
+    rdfs:label "账户号码"@zh ;
+    rdfs:domain cnfo:FundAccount ;
+    rdfs:range xsd:string ;
+    skos:definition "基金账户的账户号码。"@zh .
+
+cnfo:accountOpeningDate a owl:DatatypeProperty ;
+    rdfs:label "开户日期"@zh ;
+    rdfs:domain cnfo:FundAccount ;
+    rdfs:range xsd:date ;
+    skos:definition "基金账户的开户日期。"@zh .
+
+# 既有对象属性中文定义（91）
+cnfo:activityOfFund skos:definition "将基金业务活动关联到其所属基金，与 hasFundActivity（基金开展活动）方向互逆。"@zh .
+cnfo:appliesToFundUnit skos:definition "表示基金运作条款适用于特定的基金份额或份额类别。"@zh .
+cnfo:assetHasPortfolioPosition skos:definition "表示投资资产作为组合成分被投资组合持仓记录，与 positionInAsset（持仓对应投资资产）互逆。"@zh .
+cnfo:assignmentForFund skos:definition "将基金角色任职记录关联到任职所属的基金。"@zh .
+cnfo:assignmentPlayedBy skos:definition "将基金角色任职记录关联到实际承担该角色的基金参与主体。"@zh .
+cnfo:assignsFundRole skos:definition "将基金角色任职记录关联到被任命的基金角色。"@zh .
+cnfo:classifiesFund skos:definition "表示基金分类概念对基金进行标识、区分或分类，与 hasFundClassifier 互逆。"@zh .
+cnfo:definedInProspectus skos:definition "表示基金投资限制在基金招募说明书中载明，与 hasInvestmentRestriction 互逆。"@zh .
+cnfo:definesClassification skos:definition "表示基金分类体系定义具体的基金分类。"@zh .
+cnfo:definesInvestmentRestriction skos:definition "表示基金投资政策定义相应的基金投资限制。"@zh .
+cnfo:describedBy skos:definition "表示基金由基金文件（如招募说明书）所描述，与 describesFund 互逆。"@zh .
+cnfo:describesFund skos:definition "表示基金文件描述其对应的基金。"@zh .
+cnfo:fundEstateOf skos:definition "将基金财产关联到其所属基金，与 hasFundEstate 互逆。"@zh .
+cnfo:fundProductOf skos:definition "将基金产品关联到其对应的基金，与 hasFundProduct 互逆。"@zh .
+cnfo:fundUnitClassOf skos:definition "将基金份额类别关联到其所属基金，与 hasFundUnitClass 互逆。"@zh .
+cnfo:governedBy skos:definition "表示基金受其基金合同的约束，与 governsFund 互逆。"@zh .
+cnfo:governsFund skos:definition "表示基金合同约束相应的基金。"@zh .
+cnfo:governsInvestmentStrategy skos:definition "表示基金投资政策约束基金投资策略的选择与执行。"@zh .
+cnfo:hasApplicableJurisdiction skos:definition "表示基金法律结构（组织形式）适用特定的基金法域。"@zh .
+cnfo:hasConceptNature skos:definition "表示基金具有法定、监管产品分类或市场惯用的概念性质。"@zh .
+cnfo:hasDistributionMethod skos:definition "表示基金份额分配政策采用具体的基金分红方式。"@zh .
+cnfo:hasDistributionPolicy skos:definition "表示基金份额类别具有对应的基金份额分配政策。"@zh .
+cnfo:hasFundAccountantRole skos:definition "表示基金具有承担基金会计核算职责的基金会计机构角色。"@zh .
+cnfo:hasFundActivity skos:definition "表示基金开展或具有相应的基金业务活动。"@zh .
+cnfo:hasFundAdministratorRole skos:definition "表示基金具有承担行政管理职责的基金服务机构角色。"@zh .
+cnfo:hasFundClassifier skos:definition "表示基金具有对应的基金分类概念（分类、风险等级等），与 classifiesFund 互逆。"@zh .
+cnfo:hasFundDepositaryRole skos:definition "表示基金具有承担基金财产保管与监督职责的基金托管人角色。"@zh .
+cnfo:hasFundDistributorRole skos:definition "表示基金具有承担销售职责的基金销售机构角色。"@zh .
+cnfo:hasFundDocument skos:definition "表示基金具有对应的基金文件（基金合同、招募说明书、定期报告等）。"@zh .
+cnfo:hasFundEstate skos:definition "表示基金具有独立的基金财产，与 fundEstateOf 互逆。"@zh .
+cnfo:hasFundManagerRole skos:definition "表示基金具有承担投资管理职责的基金管理人角色，与 roleInFund/hasFundRole 构成子属性链。"@zh .
+cnfo:hasFundObject skos:definition "基金与基金领域对象之间的一般性关联，作为所有 具有X 关系的顶层父属性。"@zh .
+cnfo:hasFundParty skos:definition "表示基金具有参与基金设立、募集、运作或服务的参与主体。"@zh .
+cnfo:hasFundPortfolio skos:definition "表示基金具有按投资目标和政策组织的投资组合。"@zh .
+cnfo:hasFundPortfolioPosition skos:definition "表示基金投资组合具有组合持仓记录，与 positionOfPortfolio 互逆。"@zh .
+cnfo:hasFundPosition skos:definition "表示基金份额具有对应的基金份额持仓记录。"@zh .
+cnfo:hasFundProduct skos:definition "表示基金具有落地的基金产品，与 fundProductOf 互逆。"@zh .
+cnfo:hasFundRecord skos:definition "表示基金具有对应的基金业务记录（净值、状态、任职等），为记录类关系的顶层子属性。"@zh .
+cnfo:hasFundRedemptionTerms skos:definition "表示基金具有规定赎回条件与流程的赎回条款。"@zh .
+cnfo:hasFundRegistrarRole skos:definition "表示基金具有承担基金份额登记职责的登记机构角色。"@zh .
+cnfo:hasFundRole skos:definition "表示基金具有对应的基金角色，与 roleInFund 互逆。"@zh .
+cnfo:hasFundRoleAssignment skos:definition "表示基金具有角色任职的时态记录。"@zh .
+cnfo:hasFundServiceProviderRole skos:definition "表示基金具有承担专业服务职责的基金服务机构角色。"@zh .
+cnfo:hasFundStatus skos:definition "表示基金具有当前的生命周期状态，与 statusOfFund 互逆。"@zh .
+cnfo:hasFundStatusRecord skos:definition "表示基金具有状态变更的时态记录，与 statusRecordForFund 互逆。"@zh .
+cnfo:hasFundSubscriptionTerms skos:definition "表示基金具有规定认购条件与流程的认购条款。"@zh .
+cnfo:hasFundSupervisor skos:definition "表示基金受到特定基金监管机构的监督管理，与 supervisesFund 互逆。"@zh .
+cnfo:hasFundTransferAgentRole skos:definition "表示基金具有承担基金份额登记代理职责的机构角色。"@zh .
+cnfo:hasFundUnit skos:definition "表示基金发行并具有对应的基金份额，与 issuedByFund 互逆。"@zh .
+cnfo:hasFundUnitClass skos:definition "表示基金具有对应的基金份额类别（A 类、B 类等）。"@zh .
+cnfo:hasIntendedRiskLevel skos:definition "表示基金投资目标设定对应的目标风险等级。"@zh .
+cnfo:hasInvestmentObjective skos:definition "表示基金具有投资目标，与 objectiveOfFund 互逆。"@zh .
+cnfo:hasInvestmentPolicy skos:definition "表示基金具有投资政策，与 policyOfFund 互逆。"@zh .
+cnfo:hasInvestmentRestriction skos:definition "表示基金招募说明书载明相应的基金投资限制，与 definedInProspectus 互逆。"@zh .
+cnfo:hasInvestmentSpecification skos:definition "表示基金具有由投资目标、政策、策略等组成的投资说明体系。"@zh .
+cnfo:hasInvestor skos:definition "表示基金面向或具有特定的基金投资者。"@zh .
+cnfo:hasLegalStructure skos:definition "表示基金具有相应的基金组织形式（法律结构），与 legalStructureOf 互逆。"@zh .
+cnfo:hasNetAssetValueRecord skos:definition "表示基金具有净值事实记录，与 recordForFund 互逆。"@zh .
+cnfo:hasPortfolioInvestmentStrategy skos:definition "表示基金投资组合采用特定的基金投资策略。"@zh .
+cnfo:hasStatusValue skos:definition "表示基金状态记录记录的是某个基金生命周期状态。"@zh .
+cnfo:hasUnderlyingFund skos:definition "表示基金中基金具有投资标的的底层基金，与 underlyingFundOf 互逆。"@zh .
+cnfo:heldByInvestor skos:definition "表示基金份额持仓由某基金投资者持有，与 holdsFundPosition 互逆。"@zh .
+cnfo:holdsFundPosition skos:definition "表示基金投资者持有相应的基金份额持仓。"@zh .
+cnfo:implementsInvestmentPolicy skos:definition "表示基金投资组合执行相应的基金投资组合政策。"@zh .
+cnfo:isClassifiedBy skos:definition "表示基金被某基金分类概念所分类。"@zh .
+cnfo:issuedByFund skos:definition "表示基金份额由其发行基金所发行，与 hasFundUnit 互逆。"@zh .
+cnfo:issuesFundUnit skos:definition "表示基金发行相应的基金份额。"@zh .
+cnfo:legalStructureOf skos:definition "将基金组织形式关联到采用该组织形式的基金，与 hasLegalStructure 互逆。"@zh .
+cnfo:objectiveOfFund skos:definition "将基金投资目标关联到其所属基金。"@zh .
+cnfo:outlinesObjective skos:definition "表示基金招募说明书载明基金投资目标。"@zh .
+cnfo:playsFundRole skos:definition "表示基金参与主体承担相应的基金角色，与 rolePlayedBy 互逆。"@zh .
+cnfo:policyOfFund skos:definition "将基金投资政策关联到其所属基金。"@zh .
+cnfo:portfolioOfFund skos:definition "将基金投资组合关联到其所属基金。"@zh .
+cnfo:positionInAsset skos:definition "表示组合持仓记录所对应的投资资产，与 assetHasPortfolioPosition 互逆。"@zh .
+cnfo:positionInFundUnit skos:definition "表示基金份额持仓所对应的基金份额。"@zh .
+cnfo:positionOfPortfolio skos:definition "表示组合持仓所属的投资组合，与 hasFundPortfolioPosition 互逆。"@zh .
+cnfo:providesCustodyForFundUnit skos:definition "表示基金托管人角色为特定基金份额提供财产托管服务。"@zh .
+cnfo:realizesFundProduct skos:definition "表示基金落地为具体业务形态的基金产品，与 fundProductOf 构成产品化关系。"@zh .
+cnfo:recordForFund skos:definition "将基金净值记录关联到其对应的基金。"@zh .
+cnfo:redemptionTermsForFund skos:definition "将基金赎回条款关联到其所属基金，与 hasFundRedemptionTerms 互逆。"@zh .
+cnfo:roleInFund skos:definition "表示基金角色适用于其所属基金，与 hasFundRole 互逆。"@zh .
+cnfo:rolePlayedBy skos:definition "表示基金角色由某基金参与主体承担，与 playsFundRole 互逆。"@zh .
+cnfo:statedIn skos:definition "表示基金投资目标载明于基金招募说明书。"@zh .
+cnfo:statusOfFund skos:definition "将基金生命周期状态关联到处于该状态的基金，与 hasFundStatus 互逆。"@zh .
+cnfo:statusRecordForFund skos:definition "将基金状态记录关联到其对应的基金。"@zh .
+cnfo:stipulatesBenchmark skos:definition "表示基金投资组合政策规定对应的业绩比较基准。"@zh .
+cnfo:strategyOfFund skos:definition "将基金投资策略关联到其所属基金。"@zh .
+cnfo:subscriptionTermsForFund skos:definition "将基金认购条款关联到其所属基金，与 hasFundSubscriptionTerms 互逆。"@zh .
+cnfo:supervisesFund skos:definition "表示基金监管机构对基金实施监督管理，与 hasFundSupervisor 互逆。"@zh .
+cnfo:underlyingFundOf skos:definition "表示某基金作为底层基金属于某基金中基金，与 hasUnderlyingFund 互逆。"@zh .
+cnfo:usesInvestmentStrategy skos:definition "表示基金采用相应的投资策略。"@zh .
+
+# 既有数据属性中文定义（40）
+cnfo:baseCurrency skos:definition "基金记账与净值计算采用的基础币种（如 CNY）。"@zh .
+cnfo:benchmarkName skos:definition "业绩比较基准的名称或描述。"@zh .
+cnfo:classificationCode skos:definition "基金分类概念对应的分类代码值（对应标准品种类别/CFI 编码体系）。"@zh .
+cnfo:distributionWithReinvestment skos:definition "布尔标志：基金分红是否采用红利再投资处理。兼容属性，权威事实由 hasFundDistributionMode（基金分红方式代码）表达。"@zh .
+cnfo:effectiveFrom skos:definition "时态记录（角色任职、状态变更等）的生效日期。"@zh .
+cnfo:effectiveTo skos:definition "时态记录（角色任职、状态变更等）的失效日期，晚于或等于生效日期。"@zh .
+cnfo:filingDate skos:definition "基金完成备案的日期，与备案标志（FLNG_INDC，BD000161）配套。"@zh .
+cnfo:filingNumber skos:definition "基金备案的唯一编号。"@zh .
+cnfo:fundCode skos:definition "唯一区分基金的代码，是以基金合同为基准、代表基金产品法律主体的基金产品编码（标准数据元 FUND_CDE，BD000162）。"@zh .
+cnfo:fundName skos:definition "基金的名称（标准数据元 FUND_NAME，BD000163）。"@zh .
+cnfo:fundNetAssetValue skos:definition "基金资产总值扣除基金负债后的余额，即基金资产净值（标准数据元 FUND_ASET_NV，BD000177）。"@zh .
+cnfo:fundShortName skos:definition "基金的简称（标准数据元 FUND_ABBR，BD000164）。"@zh .
+cnfo:fundTypeCode skos:definition "基金类型的代码值；A-BOX 落地时应映射到基金运作方式、私募基金类型等标准代码表。"@zh .
+cnfo:fundUnitCode skos:definition "基金份额类别的代码，为基金代码下的细分标识。"@zh .
+cnfo:fundUnitNetAssetValue skos:definition "每一份基金份额代表的基金资产净值，又称基金单位资产净值（标准数据元 FUND_SHR_NV，BD000178）。"@zh .
+cnfo:inceptionDate skos:definition "基金成立的日期（标准数据元 BD000061）。"@zh .
+cnfo:investmentAssetTypeCode skos:definition "基金投资资产的类型代码，对应标准品种类别（DBD00026，GB/T 35964 CFI 编码）。"@zh .
+cnfo:investmentFocus skos:definition "基金投资的重点方向、主题或风格描述。"@zh .
+cnfo:isExchangeTraded skos:definition "布尔标志：基金份额是否在交易所上市交易。兼容属性，保留用于数据接入。"@zh .
+cnfo:isOpenEnded skos:definition "布尔标志：基金是否为开放式运作。兼容属性，权威事实由 hasFundOperationMode（基金运作方式代码）表达。"@zh .
+cnfo:isPrivate skos:definition "布尔标志：基金是否为私募（非公开募集）基金。兼容属性，权威事实由基金类（PrivateFund/PublicFund）与 hasPrivateFundType 表达。"@zh .
+cnfo:jurisdictionCode skos:definition "基金适用法域的代码。"@zh .
+cnfo:maximumInvestmentPercentage skos:definition "基金组合投资限制中规定的最高投资比例（对应产品投资比例限制 TLF0000140）。"@zh .
+cnfo:minimumInvestmentPercentage skos:definition "基金组合投资限制中规定的最低投资比例（对应产品投资比例限制 TLF0000140）。"@zh .
+cnfo:positionAsOfDate skos:definition "组合持仓记录对应的统计日期。"@zh .
+cnfo:positionCurrency skos:definition "持仓记录采用的币种。"@zh .
+cnfo:positionMarketValue skos:definition "持仓对应投资资产的市值（对应标准模型组合市值概念）。"@zh .
+cnfo:positionQuantity skos:definition "持仓对应的持有份额数量（对应标准数据元持有份额 HOLD_SHR，BD000308）。"@zh .
+cnfo:redemptionInAmountAllowed skos:definition "布尔标志：基金是否允许按金额（而非份额）赎回。兼容属性，保留用于数据接入。"@zh .
+cnfo:redemptionMinimumUnits skos:definition "基金赎回条款规定的最低赎回份额（与标准赎回份额 REDEM_SHR，BD000293 同源）。"@zh .
+cnfo:registrationNumber skos:definition "基金注册的编号。"@zh .
+cnfo:riskLevelCode skos:definition "基金风险等级代码，值域对应产品风险等级代码表（R1-R5，DBD00028）。"@zh .
+cnfo:sourceIdentifier skos:definition "数据记录来源的标识。"@zh .
+cnfo:subscriptionMinimumAmount skos:definition "基金认购条款规定的最低认购金额。"@zh .
+cnfo:subscriptionMinimumUnits skos:definition "基金认购条款规定的最低认购份额。"@zh .
+cnfo:terminationDate skos:definition "基金终止的日期（标准数据元 CNL_D，BD000241）。"@zh .
+cnfo:unitCurrency skos:definition "基金份额计价采用的币种。"@zh .
+cnfo:unitQuantity skos:definition "基金份额的数量（对应标准统计指标基金份额 FUND_SHR，BD000176）。"@zh .
+cnfo:valuationCurrency skos:definition "基金净值计算采用的估值币种。"@zh .
+cnfo:valuationDate skos:definition "基金净值的估值日期。"@zh .
+
+# 类 ↔ 标准代码概念 closeMatch
+cnfo:OpenEndedFund skos:closeMatch cnfc:FundOperationModeOpenEnded .
+cnfo:ClosedEndedFund skos:closeMatch cnfc:FundOperationModeClosedEnded .
+cnfo:ContractualFundStructure skos:closeMatch cnfc:FundOrganizationFormContractual .
+cnfo:CorporateFundStructure skos:closeMatch cnfc:FundOrganizationFormCorporate .
+cnfo:PartnershipFundStructure skos:closeMatch cnfc:FundOrganizationFormPartnership .
+cnfo:FundCashDistributionPolicy skos:closeMatch cnfc:FundDistributionModeCashDividend .
+cnfo:FundReinvestmentPolicy skos:closeMatch cnfc:FundDistributionModeReinvestment .
+
+# 兼容属性 changeNote
+cnfo:distributionWithReinvestment skos:changeNote "v0.5 兼容属性：分红处理方式的权威事实由 hasFundDistributionMode（基金分红方式代码，JR/T 0304.2 DBD00036）表达。"@zh .
+cnfo:isExchangeTraded skos:changeNote "v0.5 兼容属性：保留用于数据接入；交易所交易属性建议通过基金份额类别与交易所上市信息表达。"@zh .
+cnfo:isOpenEnded skos:changeNote "v0.5 兼容属性：基金运作方式的权威事实由 hasFundOperationMode（基金运作方式代码，JR/T 0304.2 DBD00029）表达；本布尔属性保留用于数据接入与旧数据兼容。"@zh .
+cnfo:isPrivate skos:changeNote "v0.5 兼容属性：基金是否私募的权威事实由基金类（PrivateFund/PublicFund）与 hasPrivateFundType（私募基金类型代码）表达；本布尔属性保留用于数据接入与旧数据兼容。"@zh .
+cnfo:redemptionInAmountAllowed skos:changeNote "v0.5 兼容属性：保留用于数据接入；按金额赎回能力建议由基金份额类别的申赎条款（FundRedemptionTerms）表达。"@zh .

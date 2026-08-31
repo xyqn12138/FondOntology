@@ -51,7 +51,13 @@ def run(argv: list[str] | None = None) -> int:
         import uvicorn
 
         session = OntologyViewerSession(args.ttl)
-        uvicorn.run(create_viewer_app(session), host=args.host, port=args.port, log_level="info")
+        uvicorn.run(
+            create_viewer_app(session),
+            host=args.host,
+            port=args.port,
+            log_level="info",
+            timeout_graceful_shutdown=5,
+        )
         return 0
 
     graph_path = args.graph.expanduser().resolve()
@@ -72,7 +78,13 @@ def run(argv: list[str] | None = None) -> int:
 
     session = GraphSession.from_file(str(graph_path))
     app = create_app(session=session)
-    uvicorn.run(app, host=args.host, port=args.port, log_level="info")
+    uvicorn.run(
+        app,
+        host=args.host,
+        port=args.port,
+        log_level="info",
+        timeout_graceful_shutdown=5,
+    )
     return 0
 
 

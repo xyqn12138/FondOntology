@@ -1,0 +1,284 @@
+@prefix cnfc: <https://ontology.example.cn/cnfo/code/> .
+@prefix cnfo: <https://ontology.example.cn/cnfo/ontology/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ============================================================
+# CNFO V0.5 数据质量校验层（SHACL）
+# 独立于 T-BOX；本文件不通过 owl:imports 进入本体图，
+# 由校验工具（pyshacl）显式装载。
+# 覆盖：基金、基金份额、基金份额持仓、基金净值记录、基金角色任职记录。
+# 日期逻辑与代码一致性通过 SHACL-SPARQL 表达。
+# ============================================================
+
+cnfo:FundShape a sh:NodeShape ;
+    sh:targetClass cnfo:Fund ;
+    sh:property [
+        sh:path cnfo:fundCode ;
+        sh:name "基金代码"@zh ;
+        sh:description "基金代码以基金合同为基准的唯一标识，标准长度 10 位，行业惯用 6 位数字。"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:maxLength 10 ;
+        sh:pattern "^[0-9]{6}$" ;
+    ] ;
+    sh:property [
+        sh:path cnfo:fundName ;
+        sh:name "基金名称"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [
+        sh:path cnfo:inceptionDate ;
+        sh:name "成立日期"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:date ;
+    ] ;
+    sh:property [
+        sh:path cnfo:hasFundUnit ;
+        sh:name "具有基金份额"@zh ;
+        sh:description "基金至少发行一个基金份额类别。"@zh ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path cnfo:hasFundManagerRole ;
+        sh:name "具有基金管理人角色"@zh ;
+        sh:description "基金必须具有基金管理人角色。"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path cnfo:hasFundDepositaryRole ;
+        sh:name "具有基金托管人角色"@zh ;
+        sh:description "公募基金必须具有托管人；数据完整性层要求托管关系完整、唯一。"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path cnfo:hasFundOperationMode ;
+        sh:name "具有基金运作方式"@zh ;
+        sh:description "基金运作方式引用标准代码概念（JR/T 0304.2 DBD00029）。"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class cnfo:FundOperationModeValue ;
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "基金终止日期不得早于成立日期"@zh ;
+        sh:select """
+            SELECT $this WHERE {
+                $this cnfo:inceptionDate ?inc .
+                $this cnfo:terminationDate ?term .
+                FILTER (?term < ?inc)
+            }
+        """ ;
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "基金运作方式与开放式标志（isOpenEnded）不一致"@zh ;
+        sh:select """
+            SELECT $this WHERE {
+                $this cnfo:hasFundOperationMode cnfc:FundOperationModeOpenEnded .
+                FILTER NOT EXISTS { $this cnfo:isOpenEnded true }
+            }
+        """ ;
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "基金运作方式与开放式标志（isOpenEnded）不一致"@zh ;
+        sh:select """
+            SELECT $this WHERE {
+                $this cnfo:isOpenEnded true .
+                FILTER NOT EXISTS { $this cnfo:hasFundOperationMode cnfc:FundOperationModeOpenEnded }
+            }
+        """ ;
+    ] .
+
+cnfo:FundUnitShape a sh:NodeShape ;
+    sh:targetClass cnfo:FundUnit ;
+    sh:property [
+        sh:path cnfo:fundUnitCode ;
+        sh:name "基金份额代码"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:maxLength 10 ;
+    ] ;
+    sh:property [
+        sh:path cnfo:unitCurrency ;
+        sh:name "基金份额币种"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^[A-Z]{3}$" ;
+    ] ;
+    sh:property [
+        sh:path cnfo:unitQuantity ;
+        sh:name "份额数量"@zh ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0 ;
+    ] ;
+    sh:property [
+        sh:path cnfo:issuedByFund ;
+        sh:name "基金份额由基金发行"@zh ;
+        sh:description "每份（类）基金份额必须且只能由一个基金发行。"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class cnfo:Fund ;
+    ] .
+
+cnfo:FundPositionShape a sh:NodeShape ;
+    sh:targetClass cnfo:FundPosition ;
+    sh:property [
+        sh:path cnfo:positionQuantity ;
+        sh:name "持仓数量"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0 ;
+    ] ;
+    sh:property [
+        sh:path cnfo:positionInFundUnit ;
+        sh:name "头寸对应基金份额"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class cnfo:FundUnit ;
+    ] ;
+    sh:property [
+        sh:path cnfo:heldByInvestor ;
+        sh:name "基金份额头寸由投资者持有"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class cnfo:Investor ;
+    ] ;
+    sh:property [
+        sh:path cnfo:positionCurrency ;
+        sh:name "持仓币种"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^[A-Z]{3}$" ;
+    ] .
+
+cnfo:PortfolioPositionShape a sh:NodeShape ;
+    sh:targetClass cnfo:PortfolioPosition ;
+    sh:property [
+        sh:path cnfo:positionInAsset ;
+        sh:name "持仓对应投资资产"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class cnfo:FundInvestmentAsset ;
+    ] ;
+    sh:property [
+        sh:path cnfo:positionQuantity ;
+        sh:name "持仓数量"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0 ;
+    ] ;
+    sh:property [
+        sh:path cnfo:positionAsOfDate ;
+        sh:name "持仓日期"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:date ;
+    ] ;
+    sh:property [
+        sh:path cnfo:positionCurrency ;
+        sh:name "持仓币种"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^[A-Z]{3}$" ;
+    ] .
+
+cnfo:NetAssetValueRecordShape a sh:NodeShape ;
+    sh:targetClass cnfo:NetAssetValueRecord ;
+    sh:property [
+        sh:path cnfo:valuationDate ;
+        sh:name "估值日期"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:date ;
+    ] ;
+    sh:property [
+        sh:path cnfo:valuationCurrency ;
+        sh:name "估值币种"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^[A-Z]{3}$" ;
+    ] ;
+    sh:property [
+        sh:path cnfo:recordForFund ;
+        sh:name "净值记录对应基金"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class cnfo:Fund ;
+    ] ;
+    sh:property [
+        sh:path cnfo:fundUnitNetAssetValue ;
+        sh:name "基金份额净值"@zh ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0 ;
+    ] ;
+    sh:property [
+        sh:path cnfo:fundNetAssetValue ;
+        sh:name "基金资产净值"@zh ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0 ;
+    ] ;
+    sh:property [
+        sh:path [ sh:alternativePath ( cnfo:fundUnitNetAssetValue cnfo:fundNetAssetValue ) ] ;
+        sh:name "份额净值或资产净值至少一个"@zh ;
+        sh:minCount 1 ;
+    ] .
+
+cnfo:FundRoleAssignmentShape a sh:NodeShape ;
+    sh:targetClass cnfo:FundRoleAssignment ;
+    sh:property [
+        sh:path cnfo:assignmentForFund ;
+        sh:name "任职记录对应基金"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class cnfo:Fund ;
+    ] ;
+    sh:property [
+        sh:path cnfo:assignsFundRole ;
+        sh:name "任职记录指定角色"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path cnfo:assignmentPlayedBy ;
+        sh:name "任职记录由主体承担"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path cnfo:effectiveFrom ;
+        sh:name "生效日期"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:date ;
+    ] ;
+    sh:property [
+        sh:path cnfo:effectiveTo ;
+        sh:name "失效日期"@zh ;
+        sh:datatype xsd:date ;
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "任职结束日期不得早于开始日期"@zh ;
+        sh:select """
+            SELECT $this WHERE {
+                $this cnfo:effectiveFrom ?from .
+                $this cnfo:effectiveTo ?to .
+                FILTER (?to < ?from)
+            }
+        """ ;
+    ] .

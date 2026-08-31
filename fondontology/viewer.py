@@ -722,7 +722,13 @@ def run(argv: list[str] | None = None) -> int:
     session = OntologyViewerSession(args.ttl)
     import uvicorn
 
-    uvicorn.run(create_viewer_app(session), host=args.host, port=args.port, log_level="info")
+    uvicorn.run(
+        create_viewer_app(session),
+        host=args.host,
+        port=args.port,
+        log_level="info",
+        timeout_graceful_shutdown=5,
+    )
     return 0
 
 

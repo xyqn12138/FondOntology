@@ -1,0 +1,294 @@
+﻿@prefix cnfc: <https://ontology.example.cn/cnfo/code/> .
+@prefix cnfo: <https://ontology.example.cn/cnfo/ontology/> .
+@prefix cnfom: <https://ontology.example.cn/cnfo/module/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ============================================================
+# CNFO 基金参考数据：受控代码表（SKOS 语义化）
+# 依据：JR/T 0304.2-2024 《证券期货业基础数据元规范 第2部分：基础代码》
+# 代码值以 skos:Concept 表达，可被实例数据（A-BOX）直接引用。
+# 本文件属于基金参考数据词汇，不作为 OntologyModule 注册，
+# 由 cnfo-fund.ttl 通过 owl:imports 装载。
+# ============================================================
+
+cnfc:CNFOFundCodes a owl:Ontology ;
+    rdfs:label "CNFO 基金参考数据代码表"@zh ;
+    dcterms:modified "2026-08-27"^^xsd:date ;
+    owl:versionInfo "0.1.0" ;
+    owl:imports cnfom:CNFOModuleVocabulary ;
+    skos:definition "CNFO 基金行业受控代码表，代码值与标准出处取自 JR/T 0304.2-2024 基础代码规范，供 T-BOX 实例数据引用。"@zh .
+
+# ------------------------------------------------------------
+# 1. 基金运作方式（JR/T 0304.2-2024 §5.2.4 DBD00029）
+# ------------------------------------------------------------
+cnfc:FundOperationModeScheme a skos:ConceptScheme ;
+    rdfs:label "基金运作方式"@zh ;
+    skos:definition "用于区分基金运作方式的代码表：封闭式、开放式或其他方式。"@zh ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.4 DBD00029" .
+
+cnfc:FundOperationModeClosedEnded a skos:Concept ;
+    skos:prefLabel "封闭式"@zh ;
+    skos:definition "基金份额总额在基金合同期限内固定不变，基金份额持有人不得申请赎回的基金运作方式。"@zh ;
+    skos:notation "1" ;
+    skos:inScheme cnfc:FundOperationModeScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.4 DBD00029（1 封闭式）" .
+
+cnfc:FundOperationModeOpenEnded a skos:Concept ;
+    skos:prefLabel "开放式"@zh ;
+    skos:definition "基金份额总额不固定，基金份额可以在基金合同约定的时间和场所申购或者赎回的基金运作方式。"@zh ;
+    skos:notation "2" ;
+    skos:inScheme cnfc:FundOperationModeScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.4 DBD00029（2 开放式）" .
+
+cnfc:FundOperationModeOther a skos:Concept ;
+    skos:prefLabel "其他"@zh ;
+    skos:definition "除封闭式、开放式以外的其他基金运作方式。"@zh ;
+    skos:notation "9" ;
+    skos:inScheme cnfc:FundOperationModeScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.4 DBD00029（9 其他）" .
+
+# ------------------------------------------------------------
+# 2. 基金组织形式（JR/T 0304.2-2024 §5.2.25 DBD00120）
+# ------------------------------------------------------------
+cnfc:FundOrganizationFormScheme a skos:ConceptScheme ;
+    rdfs:label "基金组织形式"@zh ;
+    skos:definition "用于区分基金组织形式的代码表：契约型、公司型、合伙型或其他。"@zh ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.25 DBD00120" .
+
+cnfc:FundOrganizationFormContractual a skos:Concept ;
+    skos:prefLabel "契约型"@zh ;
+    skos:definition "依据基金合同设立、以基金份额持有人、基金管理人、基金托管人三方契约为组织基础的基金组织形式。"@zh ;
+    skos:notation "1" ;
+    skos:inScheme cnfc:FundOrganizationFormScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.25 DBD00120（1 契约型）" .
+
+cnfc:FundOrganizationFormCorporate a skos:Concept ;
+    skos:prefLabel "公司型"@zh ;
+    skos:definition "以公司形态设立、基金投资者以股东身份参与的基金组织形式。"@zh ;
+    skos:notation "2" ;
+    skos:inScheme cnfc:FundOrganizationFormScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.25 DBD00120（2 公司型）" .
+
+cnfc:FundOrganizationFormPartnership a skos:Concept ;
+    skos:prefLabel "合伙型"@zh ;
+    skos:definition "以有限合伙企业形态设立、普通合伙人管理与执行事务的基金组织形式。"@zh ;
+    skos:notation "3" ;
+    skos:inScheme cnfc:FundOrganizationFormScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.25 DBD00120（3 合伙型）" .
+
+cnfc:FundOrganizationFormOther a skos:Concept ;
+    skos:prefLabel "其他"@zh ;
+    skos:definition "除契约型、公司型、合伙型以外的其他基金组织形式。"@zh ;
+    skos:notation "9" ;
+    skos:inScheme cnfc:FundOrganizationFormScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.25 DBD00120（9 其他）" .
+
+# ------------------------------------------------------------
+# 3. 基金分红方式（JR/T 0304.2-2024 §5.4.1 DBD00036；JR/T 0304.1-2024 BD000288 FUND_DIVD_MODE）
+# ------------------------------------------------------------
+cnfc:FundDistributionModeScheme a skos:ConceptScheme ;
+    rdfs:label "基金分红方式"@zh ;
+    skos:definition "用于区分基金收益分配处理方式的代码表。"@zh ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.4.1 DBD00036" .
+
+cnfc:FundDistributionModeReinvestment a skos:Concept ;
+    skos:prefLabel "红利转投"@zh ;
+    skos:definition "基金分红所得自动转为基金份额继续投资的分配处理方式。"@zh ;
+    skos:notation "1" ;
+    skos:inScheme cnfc:FundDistributionModeScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.4.1 DBD00036（1 红利转投）" .
+
+cnfc:FundDistributionModeCashDividend a skos:Concept ;
+    skos:prefLabel "现金分红"@zh ;
+    skos:definition "基金分红以现金方式支付给基金份额持有人的分配处理方式。"@zh ;
+    skos:notation "2" ;
+    skos:inScheme cnfc:FundDistributionModeScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.4.1 DBD00036（2 现金分红）" .
+
+cnfc:FundDistributionModeGainReinvestment a skos:Concept ;
+    skos:prefLabel "利得现金增值再投资"@zh ;
+    skos:definition "利得以现金增值形式再投资的基金分配处理方式。"@zh ;
+    skos:notation "3" ;
+    skos:inScheme cnfc:FundDistributionModeScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.4.1 DBD00036（3 利得现金增值再投资）" .
+
+cnfc:FundDistributionModeAppreciationReinvestment a skos:Concept ;
+    skos:prefLabel "增值现金利得再投资"@zh ;
+    skos:definition "增值以现金利得形式再投资的基金分配处理方式。"@zh ;
+    skos:notation "4" ;
+    skos:inScheme cnfc:FundDistributionModeScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.4.1 DBD00036（4 增值现金利得再投资）" .
+
+cnfc:FundDistributionModePartialReinvestment a skos:Concept ;
+    skos:prefLabel "部分再投资"@zh ;
+    skos:definition "基金分红部分以现金、部分转为份额的分配处理方式。"@zh ;
+    skos:notation "5" ;
+    skos:inScheme cnfc:FundDistributionModeScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.4.1 DBD00036（5 部分再投资）" .
+
+cnfc:FundDistributionModeGift a skos:Concept ;
+    skos:prefLabel "赠送"@zh ;
+    skos:definition "以赠送份额方式处理基金分红的分配方式。"@zh ;
+    skos:notation "6" ;
+    skos:inScheme cnfc:FundDistributionModeScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.4.1 DBD00036（6 赠送）" .
+
+# ------------------------------------------------------------
+# 4. 产品风险等级（JR/T 0304.2-2024 §5.2.3 DBD00028）
+# ------------------------------------------------------------
+cnfc:FundRiskLevelScheme a skos:ConceptScheme ;
+    rdfs:label "产品风险等级"@zh ;
+    skos:definition "用于区分金融产品风险等级的代码表，共五个等级。"@zh ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.3 DBD00028" .
+
+cnfc:FundRiskLevelR1 a skos:Concept ;
+    skos:prefLabel "R1（低风险）"@zh ;
+    skos:definition "产品风险等级最低，本金安全性和流动性较高、收益波动较低。"@zh ;
+    skos:notation "1" ;
+    skos:inScheme cnfc:FundRiskLevelScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.3 DBD00028（1 R1 低风险）" .
+
+cnfc:FundRiskLevelR2 a skos:Concept ;
+    skos:prefLabel "R2（中低风险）"@zh ;
+    skos:definition "产品风险等级较低，本金出现损失的可能性较小，收益相对平稳。"@zh ;
+    skos:notation "2" ;
+    skos:inScheme cnfc:FundRiskLevelScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.3 DBD00028（2 R2 中低风险）" .
+
+cnfc:FundRiskLevelR3 a skos:Concept ;
+    skos:prefLabel "R3（中风险）"@zh ;
+    skos:definition "产品风险等级中等，本金损失概率适中，收益存在一定波动。"@zh ;
+    skos:notation "3" ;
+    skos:inScheme cnfc:FundRiskLevelScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.3 DBD00028（3 R3 中风险）" .
+
+cnfc:FundRiskLevelR4 a skos:Concept ;
+    skos:prefLabel "R4（中高风险）"@zh ;
+    skos:definition "产品风险等级较高，本金损失概率较大，收益波动明显。"@zh ;
+    skos:notation "4" ;
+    skos:inScheme cnfc:FundRiskLevelScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.3 DBD00028（4 R4 中高风险）" .
+
+cnfc:FundRiskLevelR5 a skos:Concept ;
+    skos:prefLabel "R5（高风险）"@zh ;
+    skos:definition "产品风险等级最高，本金可能遭受重大损失，收益波动剧烈。"@zh ;
+    skos:notation "5" ;
+    skos:inScheme cnfc:FundRiskLevelScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.3 DBD00028（5 R5 高风险）" .
+
+# ------------------------------------------------------------
+# 5. 私募基金类型（JR/T 0304.2-2024 §5.2.31 DBD00126）
+# ------------------------------------------------------------
+cnfc:PrivateFundTypeScheme a skos:ConceptScheme ;
+    rdfs:label "私募基金类型"@zh ;
+    skos:definition "用于区分私募投资基金业务类型的代码表。"@zh ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.31 DBD00126" .
+
+cnfc:PrivateFundTypeSecurities a skos:Concept ;
+    skos:prefLabel "私募证券投资基金"@zh ;
+    skos:definition "主要投资于证券及其衍生品等规定标的的私募投资基金。"@zh ;
+    skos:notation "1" ;
+    skos:inScheme cnfc:PrivateFundTypeScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.31 DBD00126（1 私募证券投资基金）" .
+
+cnfc:PrivateFundTypeEquityVenture a skos:Concept ;
+    skos:prefLabel "私募股权、创业投资基金"@zh ;
+    skos:definition "主要投资于非上市企业股权或创业企业的私募投资基金。"@zh ;
+    skos:notation "2" ;
+    skos:inScheme cnfc:PrivateFundTypeScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.31 DBD00126（2 私募股权、创业投资基金）" .
+
+cnfc:PrivateFundTypeAssetAllocation a skos:Concept ;
+    skos:prefLabel "私募资产配置类"@zh ;
+    skos:definition "主要进行跨资产类别配置投资的私募投资基金。"@zh ;
+    skos:notation "3" ;
+    skos:inScheme cnfc:PrivateFundTypeScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.31 DBD00126（3 私募资产配置类）" .
+
+cnfc:PrivateFundTypeOther a skos:Concept ;
+    skos:prefLabel "其他私募投资基金"@zh ;
+    skos:definition "不属于上述类型的其他私募投资基金。"@zh ;
+    skos:notation "9" ;
+    skos:inScheme cnfc:PrivateFundTypeScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.31 DBD00126（9 其他私募投资基金）" .
+
+# ------------------------------------------------------------
+# 6. 基金收费方式（JR/T 0304.2-2024 §5.2.5 DBD00030）
+# ------------------------------------------------------------
+cnfc:FundFeeModeScheme a skos:ConceptScheme ;
+    rdfs:label "基金收费方式"@zh ;
+    skos:definition "用于区分基金申购赎回等费用收费方式的代码表。"@zh ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.5 DBD00030" .
+
+cnfc:FundFeeModeNone a skos:Concept ;
+    skos:prefLabel "不收费"@zh ;
+    skos:definition "不收取申购等费用的基金收费方式。"@zh ;
+    skos:notation "0" ;
+    skos:inScheme cnfc:FundFeeModeScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.5 DBD00030（0 不收费）" .
+
+cnfc:FundFeeModeFrontEnd a skos:Concept ;
+    skos:prefLabel "前端收费"@zh ;
+    skos:definition "在购买基金份额时一次性收取申购费用的收费方式。"@zh ;
+    skos:notation "1" ;
+    skos:inScheme cnfc:FundFeeModeScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.5 DBD00030（1 前端收费）" .
+
+cnfc:FundFeeModeBackEnd a skos:Concept ;
+    skos:prefLabel "后端收费"@zh ;
+    skos:definition "在赎回基金份额时按持有期限收取申购费用的收费方式。"@zh ;
+    skos:notation "2" ;
+    skos:inScheme cnfc:FundFeeModeScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.5 DBD00030（2 后端收费）" .
+
+cnfc:FundFeeModeFrontAndBack a skos:Concept ;
+    skos:prefLabel "前收费后收费共用"@zh ;
+    skos:definition "前端收费与后端收费并存的基金收费方式。"@zh ;
+    skos:notation "3" ;
+    skos:inScheme cnfc:FundFeeModeScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.5 DBD00030（3 前收费后收费共用）" .
+
+cnfc:FundFeeModeSalesService a skos:Concept ;
+    skos:prefLabel "收费销售服务费"@zh ;
+    skos:definition "以销售服务费方式收取费用的基金收费方式。"@zh ;
+    skos:notation "4" ;
+    skos:inScheme cnfc:FundFeeModeScheme ;
+    cnfom:standardRef "JR/T 0304.2-2024 §5.2.5 DBD00030（4 收费销售服务费）" .
+
+
+# ============================================================
+# 代码概念类型声明：skos:Concept 同时归属 CNFO 代码取值类，
+# 使本体对象属性（hasFundOperationMode 等）的值域可类型化。
+# ============================================================
+cnfc:FundOperationModeClosedEnded rdf:type cnfo:FundOperationModeValue .
+cnfc:FundOperationModeOpenEnded rdf:type cnfo:FundOperationModeValue .
+cnfc:FundOperationModeOther rdf:type cnfo:FundOperationModeValue .
+cnfc:FundOrganizationFormContractual rdf:type cnfo:FundOrganizationFormValue .
+cnfc:FundOrganizationFormCorporate rdf:type cnfo:FundOrganizationFormValue .
+cnfc:FundOrganizationFormPartnership rdf:type cnfo:FundOrganizationFormValue .
+cnfc:FundOrganizationFormOther rdf:type cnfo:FundOrganizationFormValue .
+cnfc:FundDistributionModeReinvestment rdf:type cnfo:FundDistributionModeValue .
+cnfc:FundDistributionModeCashDividend rdf:type cnfo:FundDistributionModeValue .
+cnfc:FundDistributionModeGainReinvestment rdf:type cnfo:FundDistributionModeValue .
+cnfc:FundDistributionModeAppreciationReinvestment rdf:type cnfo:FundDistributionModeValue .
+cnfc:FundDistributionModePartialReinvestment rdf:type cnfo:FundDistributionModeValue .
+cnfc:FundDistributionModeGift rdf:type cnfo:FundDistributionModeValue .
+cnfc:FundRiskLevelR1 rdf:type cnfo:FundRiskLevelValue .
+cnfc:FundRiskLevelR2 rdf:type cnfo:FundRiskLevelValue .
+cnfc:FundRiskLevelR3 rdf:type cnfo:FundRiskLevelValue .
+cnfc:FundRiskLevelR4 rdf:type cnfo:FundRiskLevelValue .
+cnfc:FundRiskLevelR5 rdf:type cnfo:FundRiskLevelValue .
+cnfc:PrivateFundTypeSecurities rdf:type cnfo:PrivateFundTypeValue .
+cnfc:PrivateFundTypeEquityVenture rdf:type cnfo:PrivateFundTypeValue .
+cnfc:PrivateFundTypeAssetAllocation rdf:type cnfo:PrivateFundTypeValue .
+cnfc:PrivateFundTypeOther rdf:type cnfo:PrivateFundTypeValue .
+cnfc:FundFeeModeNone rdf:type cnfo:FundFeeModeValue .
+cnfc:FundFeeModeFrontEnd rdf:type cnfo:FundFeeModeValue .
+cnfc:FundFeeModeBackEnd rdf:type cnfo:FundFeeModeValue .
+cnfc:FundFeeModeFrontAndBack rdf:type cnfo:FundFeeModeValue .
+cnfc:FundFeeModeSalesService rdf:type cnfo:FundFeeModeValue .
