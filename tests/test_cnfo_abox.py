@@ -7,8 +7,13 @@
 
 from __future__ import annotations
 
+import sys
 import unittest
 from pathlib import Path
+
+# 直接运行本脚本时，Python 将脚本所在目录（tests/）而非项目根目录加入 sys.path；
+# 此处补上项目根目录，保证 `fondontology` 包可导入（已安装到环境中时同样生效）。
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from owlrl import DeductiveClosure, OWLRL_Semantics
 from rdflib import Graph, Literal, Namespace, term

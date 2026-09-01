@@ -24,6 +24,14 @@ CNFO 当前覆盖基金、基金产品、基金财产、基金投资组合、基
 
 ## Build
 
+新环境（或重建虚拟环境）后先安装项目包，使 `fondontology` 可被直接导入，且不再依赖运行目录：
+
+    uv pip install -e .
+
+已安装后即可直接运行测试脚本（任意目录均可），例如：
+
+    .venv\Scripts\python.exe tests\test_cnfo_shacl.py
+
 使用项目虚拟环境：
 
     .venv\Scripts\python.exe main.py inspect

@@ -91,6 +91,16 @@ cnfo:FundShape a sh:NodeShape ;
     ] ;
     sh:sparql [
         a sh:SPARQLConstraint ;
+        sh:message "当前状态为已终止的基金必须具有终止日期"@zh ;
+        sh:select """
+            SELECT $this WHERE {
+                $this cnfo:hasFundStatus cnfo:TerminatedStatus .
+                FILTER NOT EXISTS { $this cnfo:terminationDate ?terminationDate . }
+            }
+        """ ;
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
         sh:message "同一基金的生命周期状态记录时间区间不得相交"@zh ;
         sh:select """
             SELECT $this WHERE {
@@ -340,6 +350,36 @@ cnfo:NetAssetValueRecordShape a sh:NodeShape ;
         sh:path [ sh:alternativePath ( cnfo:recordForFund cnfo:recordForFundUnit ) ] ;
         sh:name "净值记录对应基金或基金份额"@zh ;
         sh:minCount 1 ;
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "同一基金同一估值日不得存在重复的基金级净值记录"@zh ;
+        sh:select """
+            SELECT $this WHERE {
+                $this cnfo:recordForFund ?fund ;
+                      cnfo:valuationDate ?date .
+                FILTER NOT EXISTS { $this cnfo:recordForFundUnit ?thisUnit . }
+                ?other a cnfo:NetAssetValueRecord ;
+                       cnfo:recordForFund ?fund ;
+                       cnfo:valuationDate ?date .
+                FILTER (?other != $this)
+                FILTER NOT EXISTS { ?other cnfo:recordForFundUnit ?otherUnit . }
+            }
+        """
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "同一基金同一基金份额同一估值日不得存在重复的净值记录"@zh ;
+        sh:select """
+            SELECT $this WHERE {
+                $this cnfo:recordForFundUnit ?unit ;
+                      cnfo:valuationDate ?date .
+                ?other a cnfo:NetAssetValueRecord ;
+                       cnfo:recordForFundUnit ?unit ;
+                       cnfo:valuationDate ?date .
+                FILTER (?other != $this)
+            }
+        """
     ] .
 
 cnfo:FundPerformanceRecordShape a sh:NodeShape ;

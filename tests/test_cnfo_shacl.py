@@ -1,4 +1,4 @@
-﻿"""CNFO V0.5 SHACL 数据质量校验验证。
+"""CNFO V0.5 SHACL 数据质量校验验证。
 
 覆盖验收标准：
 - 至少完成 Fund、FundUnit、FundPosition、PortfolioPosition、NetAssetValueRecord 五类 SHACL 校验（另含 FundRoleAssignment）
@@ -7,8 +7,13 @@
 
 from __future__ import annotations
 
+import sys
 import unittest
 from pathlib import Path
+
+# 直接运行本脚本时，Python 将脚本所在目录（tests/）而非项目根目录加入 sys.path；
+# 此处补上项目根目录，保证 `fondontology` 包可导入（已安装到环境中时同样生效）。
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from pyshacl import validate
 from rdflib import Graph, Literal, Namespace
@@ -92,6 +97,24 @@ class CnfoShaclTest(unittest.TestCase):
         self.assertFalse(conforms)
         self.assertIn("终止日期不得早于成立日期", text)
 
+    # ---- 无效实例 3：已终止基金缺少终止日期 ----
+    def test_terminated_fund_requires_termination_date(self) -> None:
+        g = Graph()
+        g.bind("cnfo", CNFO)
+        g.bind("cnfc", CNFC)
+        g.add((ABOX.BadTerminatedFund, RDF.type, CNFO.Fund))
+        g.add((ABOX.BadTerminatedFund, CNFO.fundCode, Literal("660010")))
+        g.add((ABOX.BadTerminatedFund, CNFO.fundName, Literal("缺少终止日期基金")))
+        g.add((ABOX.BadTerminatedFund, CNFO.inceptionDate, Literal("2020-01-01", datatype=XSD.date)))
+        g.add((ABOX.BadTerminatedFund, CNFO.hasFundStatus, CNFO.TerminatedStatus))
+        g.add((ABOX.BadTerminatedFund, CNFO.hasFundOperationMode, CNFC.FundOperationModeOpenEnded))
+        g.add((ABOX.BadTerminatedFund, CNFO.hasFundManagerRole, ABOX.BadManagerRole))
+        g.add((ABOX.BadTerminatedFund, CNFO.hasFundDepositaryRole, ABOX.BadDepositaryRole))
+        g.add((ABOX.BadTerminatedFund, CNFO.hasFundUnit, ABOX.BadUnit))
+        conforms, _, text = self.validate(g)
+        self.assertFalse(conforms)
+        self.assertIn("当前状态为已终止的基金必须具有终止日期", text)
+
     # ---- 无效实例 3：运作方式与开放式标志不一致（代码一致性 SPARQL） ----
     def test_invalid_mode_flag_consistency(self) -> None:
         g = Graph()
@@ -173,7 +196,50 @@ class CnfoShaclTest(unittest.TestCase):
         self.assertFalse(conforms)
         self.assertIn("份额净值或资产净值至少一个", text)
 
-    # ---- 无效实例 9：任职记录日期倒挂 ----
+    # ---- 无效实例 9：同一基金同一估值日出现重复基金级净值记录 ----
+    def test_duplicate_fund_nav_on_same_date(self) -> None:
+        g = Graph()
+        g.bind("cnfo", CNFO)
+        g.bind("cnfc", CNFC)
+        g.add((ABOX.NavFund, RDF.type, CNFO.Fund))
+        for nav in (ABOX.DuplicateNavA, ABOX.DuplicateNavB):
+            g.add((nav, RDF.type, CNFO.NetAssetValueRecord))
+            g.add((nav, CNFO.recordForFund, ABOX.NavFund))
+            g.add((nav, CNFO.valuationDate, Literal("2026-08-26", datatype=XSD.date)))
+            g.add((nav, CNFO.valuationCurrency, Literal("CNY")))
+            g.add((nav, CNFO.fundNetAssetValue, Literal("1000000", datatype=XSD.decimal)))
+        conforms, _, text = self.validate(g)
+        self.assertFalse(conforms)
+        self.assertIn("同一基金同一估值日不得存在重复的基金级净值记录", text)
+
+    # ---- 无效实例 10：同一基金份额同一估值日出现重复净值记录 ----
+    def test_duplicate_unit_nav_on_same_date(self) -> None:
+        g = Graph()
+        g.bind("cnfo", CNFO)
+        g.bind("cnfc", CNFC)
+        g.add((ABOX.NavUnitFund, RDF.type, CNFO.Fund))
+        g.add((ABOX.NavUnitFund, CNFO.fundCode, Literal("660011")))
+        g.add((ABOX.NavUnitFund, CNFO.fundName, Literal("份额净值重复基金")))
+        g.add((ABOX.NavUnitFund, CNFO.inceptionDate, Literal("2020-01-01", datatype=XSD.date)))
+        g.add((ABOX.NavUnitFund, CNFO.hasFundOperationMode, CNFC.FundOperationModeOpenEnded))
+        g.add((ABOX.NavUnitFund, CNFO.isOpenEnded, Literal(True)))
+        g.add((ABOX.NavUnitFund, CNFO.hasFundManagerRole, ABOX.BadManagerRole))
+        g.add((ABOX.NavUnitFund, CNFO.hasFundUnit, ABOX.NavUnit))
+        g.add((ABOX.NavUnit, RDF.type, CNFO.FundUnit))
+        g.add((ABOX.NavUnit, CNFO.fundUnitCode, Literal("A660011")))
+        g.add((ABOX.NavUnit, CNFO.unitCurrency, Literal("CNY")))
+        g.add((ABOX.NavUnit, CNFO.issuedByFund, ABOX.NavUnitFund))
+        for nav in (ABOX.DuplicateUnitNavA, ABOX.DuplicateUnitNavB):
+            g.add((nav, RDF.type, CNFO.NetAssetValueRecord))
+            g.add((nav, CNFO.recordForFundUnit, ABOX.NavUnit))
+            g.add((nav, CNFO.valuationDate, Literal("2026-08-26", datatype=XSD.date)))
+            g.add((nav, CNFO.valuationCurrency, Literal("CNY")))
+            g.add((nav, CNFO.fundUnitNetAssetValue, Literal("1.1234", datatype=XSD.decimal)))
+        conforms, _, text = self.validate(g)
+        self.assertFalse(conforms)
+        self.assertIn("同一基金同一基金份额同一估值日不得存在重复的净值记录", text)
+
+    # ---- 无效实例 11：任职记录日期倒挂 ----
     def test_invalid_role_assignment_period(self) -> None:
         g = Graph()
         g.bind("cnfo", CNFO)
