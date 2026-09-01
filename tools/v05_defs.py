@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""CNFO V0.5 构建数据：语义基础层 + 属性关系契约 + 代码表关联（单一数据源）。
+"""CNFO V0.5/V0.5.2 构建数据：语义基础层 + 属性关系契约 + 代码表关联（单一数据源）。
 
 生成内容（追加到 ontology/cnfo-fund.ttl）：
-1) 新增抽象类：FundBusinessObject、FundPositionRecord、FundAccount、6 个代码取值类
+1) 新增抽象类：基础业务对象、跨境互认基金、基金代理主体/角色、6 个代码取值类
 2) 新增对象/数据属性声明（含中文定义）
 3) 全部既有属性（91 对象 + 40 数据）的 skos:definition 中文定义
 4) 类 ↔ 标准代码概念 skos:closeMatch 关联
@@ -18,6 +18,22 @@ OUT = Path(__file__).resolve().parents[1] / "artifacts" / "cnfo_v05_block.ttl"
 NEW_CLASSES = [
     dict(name="FundBusinessObject", label="基金业务对象", parent="FundObject",
          def_="基金领域内代表基金业务标的或业务结果的核心对象，包括基金、基金产品、基金份额、基金财产、投资组合、持仓和投资资产等。"),
+    dict(name="CrossBorderFund", label="跨境基金", parent="Fund",
+         def_="设立、注册、募集销售、投资运作或监管安排跨越一个以上法域的基金产品或基金对象。"),
+    dict(name="MainlandHongKongMutualRecognitionFund", label="内地与香港互认基金", parent="CrossBorderFund",
+         def_="受内地与香港基金互认安排约束、可在两地跨境销售的基金产品统称；不等同于合格境内机构投资者基金。"),
+    dict(name="HongKongMutualRecognitionFund", label="香港互认基金", parent="MainlandHongKongMutualRecognitionFund",
+         def_="依香港法律设立并经中国证监会注册后在内地公开销售的境外互认基金。",
+         annotate=(("standardRef", "《香港互认基金管理规定》；JR/T 0304.2-2024 DBD00107（香港互认基金类别）"),)),
+    dict(name="MainlandMutualRecognitionFund", label="内地互认基金", parent="MainlandHongKongMutualRecognitionFund",
+         def_="依内地法律设立并经香港认可后在香港公开销售的内地互认基金。",
+         annotate=(("standardRef", "《香港互认基金管理规定》"),)),
+    dict(name="FundAgent", label="基金代理人", parent="FundParty",
+         def_="在特定基金或跨境基金安排中，依据委托协议承担基金代理事务的机构主体；主体身份与其承担的基金代理人角色分开建模。",
+         annotate=(("standardRef", "《公开募集证券投资基金信息披露管理办法》；《香港互认基金管理规定》"),)),
+    dict(name="FundAgentRole", label="基金代理人角色", parent="FundServiceProviderRole",
+         def_="由基金代理机构或其他被委托主体承担，表示其在特定基金中负责登记、信息披露、销售协同、数据交换、资金清算等约定代理事务的基金服务机构角色；具体职责以适用监管规则和委托协议为准。",
+         annotate=(("standardRef", "《公开募集证券投资基金信息披露管理办法》；《香港互认基金管理规定》"),)),
     dict(name="FundPositionRecord", label="基金持仓记录", parent="FundBusinessObject",
          def_="基金领域中描述某一持仓主体对基金份额或投资资产持有数量、币种及其他持仓事实的抽象业务记录；其具体类型包括基金份额持仓和投资组合持仓。"),
     dict(name="FundAccount", label="基金账户", parent="FundObject",
@@ -49,6 +65,12 @@ NEW_PROPS = [
     dict(name="hasFundAccount", type="obj", label="具有基金账户", domain="Investor", range="FundAccount",
          inverse="accountHeldBy",
          def_="表示基金投资者在基金注册登记机构或基金销售机构开立并持有基金账户。"),
+    dict(name="hasFundAgentRole", type="obj", label="具有基金代理人角色", domain="Fund", range="FundAgentRole",
+         inverse="agentRoleForFund", subproperty="hasFundServiceProviderRole",
+         def_="表示基金具有承担基金代理事务的基金代理人角色；具体代理范围由适用规则和委托协议确定。"),
+    dict(name="agentRoleForFund", type="obj", label="基金代理人角色适用于基金", domain="FundAgentRole", range="Fund",
+         inverse="hasFundAgentRole",
+         def_="表示基金代理人角色所适用的基金，与 hasFundAgentRole 互逆。"),
     dict(name="accountHeldBy", type="obj", label="基金账户由投资者持有", domain="FundAccount", range="Investor",
          inverse="hasFundAccount",
          def_="表示基金账户由某基金投资者持有。"),
@@ -238,7 +260,7 @@ def _q(name: str) -> str:
 def gen_block() -> str:
     lines = []
     lines.append("# ============================================================")
-    lines.append("# V0.5 语义基础层 + 属性关系契约 + 代码表关联（生成自 tools/v05_defs.py，勿手改）")
+    lines.append("# V0.5.2 语义基础层 + 属性关系契约 + 代码表关联（生成自 tools/v05_defs.py，勿手改）")
     lines.append("# 新增抽象类")
     lines.append("# ============================================================")
     for c in NEW_CLASSES:
@@ -268,6 +290,8 @@ def gen_block() -> str:
             lines.append(f"    rdfs:range cnfo:{rng} ;")
         if p.get("inverse"):
             lines.append(f"    owl:inverseOf cnfo:{p['inverse']} ;")
+        if p.get("subproperty"):
+            lines.append(f"    rdfs:subPropertyOf cnfo:{p['subproperty']} ;")
         lines.append(f'    skos:definition "{p["def_"]}"@zh .')
         lines.append("")
 

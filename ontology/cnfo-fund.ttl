@@ -10,9 +10,9 @@
 
 cnfo:ChinaFundOntology a owl:Ontology ;
     rdfs:label "中国基金领域本体兼容入口"@zh ;
-    dcterms:modified "2026-08-31"^^xsd:date ;
+    dcterms:modified "2026-09-01"^^xsd:date ;
     owl:imports cnfo:CNFOFundOntology ;
-    owl:versionInfo "0.5.1" ;
+    owl:versionInfo "0.5.2" ;
     skos:definition "兼容旧入口标识；完整基金业务术语定义位于 CNFO 基金本体模块。"@zh .
 
 cnfo:ActiveInvestmentStrategy a owl:Class ;
@@ -34,11 +34,11 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfom:OntologyModule ;
     rdfs:label "基金本体"@zh ;
     rdfs:comment "参考本地 FIBO SEC/Funds 模块、以中国基金业务语境独立定义的基金领域 T-BOX。"@zh ;
-    dcterms:modified "2026-08-31"^^xsd:date ;
+    dcterms:modified "2026-09-01"^^xsd:date ;
     owl:imports cnfom:CNFOModuleVocabulary,
         cnfc:CNFOFundCodes ;
-    owl:versionInfo "0.5.1" ;
-    skos:changeNote "v0.5.0 语义契约完善版本：① 完善基础抽象（新增基金业务对象 FundBusinessObject、基金账户 FundAccount 与 6 个代码取值类，业务对象重新挂载）；② 全部对象/数据属性补齐中文定义 skos:definition，形成属性关系契约；③ 代码表语义化：导入 SKOS 受控代码表（基金运作方式/组织形式/分红方式/风险等级/私募基金类型/收费方式），新增 6 个代码引用对象属性，类与代码概念建立 skos:closeMatch，isOpenEnded/isPrivate 等标注为兼容属性；④ 保留全部 IRI，兼容冻结策略。v0.5.1 语义勘误：新增基金持仓记录 FundPositionRecord 作为 FundPosition 与 PortfolioPosition 的共同父类，并将 positionQuantity、positionCurrency 的 domain 提升至该抽象类，修复示例数据触发的交叉类型推断。"@zh ;
+    owl:versionInfo "0.5.2" ;
+    skos:changeNote "v0.5.0 语义契约完善版本：① 完善基础抽象（新增基金业务对象 FundBusinessObject、基金账户 FundAccount 与 6 个代码取值类，业务对象重新挂载）；② 全部对象/数据属性补齐中文定义 skos:definition，形成属性关系契约；③ 代码表语义化：导入 SKOS 受控代码表（基金运作方式/组织形式/分红方式/风险等级/私募基金类型/收费方式），新增 6 个代码引用对象属性，类与代码概念建立 skos:closeMatch，isOpenEnded/isPrivate 等标注为兼容属性；④ 保留全部 IRI，兼容冻结策略。v0.5.1 语义勘误：新增基金持仓记录 FundPositionRecord 作为 FundPosition 与 PortfolioPosition 的共同父类，并将 positionQuantity、positionCurrency 的 domain 提升至该抽象类，修复示例数据触发的交叉类型推断。v0.5.2 基础概念补全：新增跨境基金与内地/香港互认基金层级，新增基金代理人机构主体、基金代理人角色及其基金关联关系。"@zh ;
     skos:definition "当前唯一已实际建模的 CNFO 基金业务模块，包含基金、基金产品、基金参与方、基金活动、基金资产、基金份额、组合、持仓和净值记录等概念及其约束。"@zh ;
     cnfom:containsTerm cnfo:ActiveInvestmentStrategy,
         cnfo:AssetValuationActivity,
@@ -47,6 +47,7 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:ConceptNature,
         cnfo:ContractualFundStructure,
         cnfo:CorporateFundStructure,
+        cnfo:CrossBorderFund,
         cnfo:DebtInvestmentAsset,
         cnfo:DesignedStatus,
         cnfo:EquityFund,
@@ -56,6 +57,8 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:Fund,
         cnfo:FundAccount,
         cnfo:FundAccountantRole,
+        cnfo:FundAgent,
+        cnfo:FundAgentRole,
         cnfo:FundActivity,
         cnfo:FundAdministratorRole,
         cnfo:FundBenchmark,
@@ -130,6 +133,7 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:GovernmentInvestmentFund,
         cnfo:GrowthObjective,
         cnfo:HybridFund,
+        cnfo:HongKongMutualRecognitionFund,
         cnfo:IncomeDistributionActivity,
         cnfo:IncomeObjective,
         cnfo:IndexTrackingStrategy,
@@ -138,6 +142,8 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:Investor,
         cnfo:LiquidatingStatus,
         cnfo:ListedOpenEndedFund,
+        cnfo:MainlandHongKongMutualRecognitionFund,
+        cnfo:MainlandMutualRecognitionFund,
         cnfo:MarketConventionType,
         cnfo:MoneyMarketFund,
         cnfo:NetAssetValueCalculationActivity,
@@ -168,6 +174,7 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:TerminatedStatus,
         cnfo:VentureCapitalFund,
         cnfo:activityOfFund,
+        cnfo:agentRoleForFund,
         cnfo:appliesToFundUnit,
         cnfo:assetHasPortfolioPosition,
         cnfo:assignmentForFund,
@@ -206,6 +213,7 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:hasDistributionPolicy,
         cnfo:hasFundAccountantRole,
         cnfo:hasFundActivity,
+        cnfo:hasFundAgentRole,
         cnfo:hasFundAdministratorRole,
         cnfo:hasFundClassifier,
         cnfo:hasFundDepositaryRole,
@@ -1806,7 +1814,7 @@ cnfo:Fund a owl:Class ;
 # 命名标准化标注（生成自 tools/std_mapping.py，勿手改）
 # 依据：JR/T 0304.1-2024 / JR/T 0304.2-2024 / JR/T 0176.4-2022
 # ============================================================
-# ===== 建议别名 skos:altLabel（共 94 项） =====
+# ===== 建议别名 skos:altLabel（共 96 项） =====
 cnfo:AssetValuationActivity skos:altLabel "估值活动"@zh .
 cnfo:BondFund skos:altLabel "债券型基金"@zh .
 cnfo:ClosedEndedFund skos:altLabel "封闭式"@zh .
@@ -1818,6 +1826,7 @@ cnfo:EquityFund skos:altLabel "股票基金"@zh .
 cnfo:EquityInvestmentAsset skos:altLabel "权益类资产"@zh .
 cnfo:ExchangeTradedFund skos:altLabel "交易型开放式证券投资基金"@zh .
 cnfo:FundAccountantRole skos:altLabel "基金会计机构角色"@zh .
+cnfo:HongKongMutualRecognitionFund skos:altLabel "北上互认基金"@zh .
 cnfo:FundActivity skos:altLabel "基金行为"@zh .
 cnfo:FundBenchmark skos:altLabel "基金业绩比较基准"@zh .
 cnfo:FundCashDistributionPolicy skos:altLabel "现金分红"@zh .
@@ -1856,6 +1865,7 @@ cnfo:FundSubscriptionActivity skos:altLabel "认购"@zh .
 cnfo:FundSubscriptionTerms skos:altLabel "认购条款"@zh .
 cnfo:FundSupervisor skos:altLabel "监管机构"@zh .
 cnfo:FundTransferAgentRole skos:altLabel "基金份额登记代理角色"@zh .
+cnfo:MainlandMutualRecognitionFund skos:altLabel "南下互认基金"@zh .
 cnfo:FundUnitClass skos:altLabel "份额类别"@zh .
 cnfo:FundUnitInvestmentAsset skos:altLabel "集合投资工具"@zh .
 cnfo:HybridFund skos:altLabel "混合型基金"@zh .
@@ -1953,7 +1963,7 @@ cnfo:unitQuantity cnfom:standardName "FUND_SHR" ;
     cnfom:standardRef "JR/T 0304.1-2024 §6.2.2.29 BD000176（基金份额 FUND_SHR）" .
 cnfo:valuationCurrency cnfom:standardRef "JR/T 0304.1-2024 §6.2.1 BD000146（币种）" .
 
-# ===== 类：标准名称/标准出处标注（共 77 项） =====
+# ===== 类：标准名称/标准出处标注（共 82 项） =====
 cnfo:AssetValuationActivity cnfom:standardRef "《证券投资基金法》（估值）" .
 cnfo:BondFund cnfom:standardRef "GB/T 39595 基金分类" .
 cnfo:ClosedEndedFund cnfom:standardRef "JR/T 0304.2-2024 §5.2.4 DBD00029（基金运作方式：1封闭式）" .
@@ -2038,20 +2048,62 @@ cnfo:QualifiedInvestor cnfom:standardRef "《私募投资基金监督管理暂�
 cnfo:SecuritiesInvestmentFund cnfom:standardRef "《证券投资基金法》" .
 cnfo:VentureCapitalFund cnfom:standardRef "JR/T 0304.2-2024 §5.2.31 DBD00126（私募基金类型：2私募股权、创业投资基金）" .
 
-# ===== 对象属性：标准名称/标准出处标注（共 4 项） =====
+# ===== 对象属性：标准名称/标准出处标注（共 6 项） =====
 cnfo:hasDistributionMethod cnfom:standardRef "JR/T 0304.1-2024 §6.4.3.1（基金分红方式）" .
+cnfo:hasFundAgentRole cnfom:standardRef "《公开募集证券投资基金信息披露管理办法》；《香港互认基金管理规定》" .
+cnfo:agentRoleForFund cnfom:standardRef "CNFO 业务抽象" .
 cnfo:hasFundClassifier cnfom:standardRef "CNFO 架构抽象" .
 cnfo:hasLegalStructure cnfom:standardRef "JR/T 0304.2-2024 §5.2.25 DBD00120" .
 cnfo:legalStructureOf cnfom:standardRef "JR/T 0304.2-2024 §5.2.25 DBD00120" .
 
 # ============================================================
-# V0.5 语义基础层 + 属性关系契约 + 代码表关联（生成自 tools/v05_defs.py，勿手改）
+# V0.5.2 语义基础层 + 属性关系契约 + 代码表关联（生成自 tools/v05_defs.py，勿手改）
 # 新增抽象类
 # ============================================================
 cnfo:FundBusinessObject a owl:Class ;
     rdfs:label "基金业务对象"@zh ;
     rdfs:subClassOf cnfo:FundObject ;
     skos:definition "基金领域内代表基金业务标的或业务结果的核心对象，包括基金、基金产品、基金份额、基金财产、投资组合、持仓和投资资产等。"@zh
+ .
+
+cnfo:CrossBorderFund a owl:Class ;
+    rdfs:label "跨境基金"@zh ;
+    rdfs:subClassOf cnfo:Fund ;
+    skos:definition "设立、注册、募集销售、投资运作或监管安排跨越一个以上法域的基金产品或基金对象。"@zh
+ .
+
+cnfo:MainlandHongKongMutualRecognitionFund a owl:Class ;
+    rdfs:label "内地与香港互认基金"@zh ;
+    rdfs:subClassOf cnfo:CrossBorderFund ;
+    skos:definition "受内地与香港基金互认安排约束、可在两地跨境销售的基金产品统称；不等同于合格境内机构投资者基金。"@zh
+ .
+
+cnfo:HongKongMutualRecognitionFund a owl:Class ;
+    rdfs:label "香港互认基金"@zh ;
+    rdfs:subClassOf cnfo:MainlandHongKongMutualRecognitionFund ;
+    skos:definition "依香港法律设立并经中国证监会注册后在内地公开销售的境外互认基金。"@zh ;
+    cnfom:standardRef "《香港互认基金管理规定》；JR/T 0304.2-2024 DBD00107（香港互认基金类别）"
+ .
+
+cnfo:MainlandMutualRecognitionFund a owl:Class ;
+    rdfs:label "内地互认基金"@zh ;
+    rdfs:subClassOf cnfo:MainlandHongKongMutualRecognitionFund ;
+    skos:definition "依内地法律设立并经香港认可后在香港公开销售的内地互认基金。"@zh ;
+    cnfom:standardRef "《香港互认基金管理规定》"
+ .
+
+cnfo:FundAgent a owl:Class ;
+    rdfs:label "基金代理人"@zh ;
+    rdfs:subClassOf cnfo:FundParty ;
+    skos:definition "在特定基金或跨境基金安排中，依据委托协议承担基金代理事务的机构主体；主体身份与其承担的基金代理人角色分开建模。"@zh ;
+    cnfom:standardRef "《公开募集证券投资基金信息披露管理办法》；《香港互认基金管理规定》"
+ .
+
+cnfo:FundAgentRole a owl:Class ;
+    rdfs:label "基金代理人角色"@zh ;
+    rdfs:subClassOf cnfo:FundServiceProviderRole ;
+    skos:definition "由基金代理机构或其他被委托主体承担，表示其在特定基金中负责登记、信息披露、销售协同、数据交换、资金清算等约定代理事务的基金服务机构角色；具体职责以适用监管规则和委托协议为准。"@zh ;
+    cnfom:standardRef "《公开募集证券投资基金信息披露管理办法》；《香港互认基金管理规定》"
  .
 
 cnfo:FundPositionRecord a owl:Class ;
@@ -2117,6 +2169,21 @@ cnfo:hasFundAccount a owl:ObjectProperty ;
     rdfs:range cnfo:FundAccount ;
     owl:inverseOf cnfo:accountHeldBy ;
     skos:definition "表示基金投资者在基金注册登记机构或基金销售机构开立并持有基金账户。"@zh .
+
+cnfo:hasFundAgentRole a owl:ObjectProperty ;
+    rdfs:label "具有基金代理人角色"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundAgentRole ;
+    owl:inverseOf cnfo:agentRoleForFund ;
+    rdfs:subPropertyOf cnfo:hasFundServiceProviderRole ;
+    skos:definition "表示基金具有承担基金代理事务的基金代理人角色；具体代理范围由适用规则和委托协议确定。"@zh .
+
+cnfo:agentRoleForFund a owl:ObjectProperty ;
+    rdfs:label "基金代理人角色适用于基金"@zh ;
+    rdfs:domain cnfo:FundAgentRole ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasFundAgentRole ;
+    skos:definition "表示基金代理人角色所适用的基金，与 hasFundAgentRole 互逆。"@zh .
 
 cnfo:accountHeldBy a owl:ObjectProperty ;
     rdfs:label "基金账户由投资者持有"@zh ;

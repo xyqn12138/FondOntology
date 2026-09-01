@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 from pathlib import Path
 from urllib.parse import unquote
 
@@ -27,6 +28,25 @@ BUILTIN_NAMESPACE_PREFIXES = (
     "http://www.w3.org/2001/XMLSchema#",
 )
 STATIC_DIR = Path(__file__).with_name("viewer_static")
+
+_CJK_RE = re.compile(r"[\u4e00-\u9fff]")
+_LATIN_WORD_RE = re.compile(r"[a-z0-9]+")
+
+
+def _token_matches(token: str, primary: str, words: list[str]) -> bool:
+    """Match one query token against the searchable text.
+
+    Chinese tokens have no word boundaries, so they match as substrings.
+    Latin/digit tokens (``ETF``, ``LOF``, ``QDII``...) match whole words
+    only, so ``ETF`` no longer hits ``PensionTargetFund``; tokens of at
+    least 4 characters may also match in the middle of a word (``REIT`` in
+    ``REITs``, ``index`` in ``indexfund``).
+    """
+    if token in words:
+        return True
+    if _CJK_RE.search(token):
+        return token in primary
+    return len(token) >= 4 and token in primary
 
 
 class OntologyViewerSession:
@@ -299,7 +319,19 @@ class OntologyViewerSession:
         return {target for target in targets if target in self.class_ids}
 
     def search(self, query: str, scope: str, limit: int, module_iri: str = "") -> list[dict[str, object]]:
+        """Rank classes by relevance to a query.
+
+        Matching deliberately stays on identifiers and display names
+        (label / local name / alt labels) so a query never matches the
+        shared IRI prefix or incidental definition text. Latin tokens are
+        matched as whole words, so ``ETF`` only finds the class whose alt
+        label is ``ETF`` and not any ``...getFund`` local name. Chinese
+        tokens match as substrings. Whitespace-separated tokens must all
+        occur (AND semantics); an empty query returns the full candidate
+        set ordered by label to support browse-all mode.
+        """
         normalized = query.strip().lower()
+        tokens = normalized.split()
         candidates = self.class_ids
         if scope == "cnfo":
             candidates = {item for item in candidates if self._source(item) == "CNFO"}
@@ -309,25 +341,27 @@ class OntologyViewerSession:
         ranked: list[tuple[int, dict[str, object]]] = []
         for resource in candidates:
             node = self._node(resource)
-            haystack = " ".join(
-                [
-                    str(node["label"]),
-                    str(node["local_name"]),
-                    str(node["iri"]),
-                    self._definition(resource),
-                    *self._values(resource, SKOS.altLabel),
-                ]
-            ).lower()
-            if normalized and normalized not in haystack:
-                continue
             label = str(node["label"]).lower()
             local_name = str(node["local_name"]).lower()
-            rank = 0 if label == normalized else 1 if local_name == normalized else 2
-            if str(node["source"]) == "CNFO":
-                rank -= 1
+            alt_labels = [str(value).lower() for value in self._values(resource, SKOS.altLabel)]
+            if not tokens:
+                ranked.append((2, node))
+                continue
+            primary = " ".join([label, local_name, *alt_labels])
+            words = _LATIN_WORD_RE.findall(primary)
+            if not all(_token_matches(token, primary, words) for token in tokens):
+                continue
+            if label == normalized:
+                rank = 0
+            elif local_name == normalized or label.startswith(normalized):
+                rank = 1
+            elif normalized in label or local_name.startswith(normalized):
+                rank = 2
+            else:
+                rank = 3  # matched only via alt label(s)
             ranked.append((rank, node))
         ranked.sort(key=lambda item: (item[0], str(item[1]["label"]).lower()))
-        return [node for _rank, node in ranked[: max(1, min(limit, 100))]]
+        return [node for _rank, node in ranked[: max(1, min(limit, 1000))]]
 
     def _property_node(self, resource: URIRef, inferred_from: URIRef | None = None) -> dict[str, object]:
         types = {str(value) for value in self.source_graph.objects(resource, RDF.type)}
@@ -679,7 +713,7 @@ def create_viewer_app(session: OntologyViewerSession) -> FastAPI:
     async def ontology_search(
         q: str = Query(default=""),
         scope: str = Query(default="all"),
-        limit: int = Query(default=30, ge=1, le=100),
+        limit: int = Query(default=30, ge=1, le=1000),
         module: str = Query(default=""),
     ):
         if scope not in {"all", "cnfo"}:

@@ -14,11 +14,11 @@
 
 正式本体使用独立命名空间：https://ontology.example.cn/cnfo/ontology/
 
-当前本体版本：`0.5.1`。v0.5.0 为语义契约完善版本：① 完善基础抽象（`FundBusinessObject` 基金业务对象、`FundAccount` 基金账户与 6 个代码取值类）；② 全部 141 项属性补齐中文定义（`skos:definition`），形成属性关系契约；③ 代码表语义化——`ontology/modules/cnfo-fund-codes.ttl` 提供 6 套 SKOS 受控代码表（基金运作方式/组织形式/分红方式/风险等级/私募基金类型/收费方式，依据 JR/T 0304.2-2024），新增 6 个代码引用属性，类与代码概念建立 `skos:closeMatch`，`isOpenEnded`/`isPrivate` 等标注为兼容属性；④ 数据质量层独立——`ontology/shacl/cnfo-fund-shapes.ttl`（SHACL）与 `artifacts/cnfo/abox/`（示例 A-BOX，参考 `artifacts/cnfo/cnfo-fund-sample-abox.ttl`）与 T-BOX 分离，49 条 OWL restriction 完成稳定性分类（稳定 37 / 条件性 3 / 数据质量 9）。v0.5.1 纠正持仓公共属性的 domain：新增 `FundPositionRecord` 基金持仓记录作为 `FundPosition` 与 `PortfolioPosition` 的共同父类，消除示例数据触发的交叉类型推断。v0.4 命名标准化与 v0.5 构建详情见 `E:\LX\LX_fund\基金行业文档\CNFO_命名标准化方案_V0.4.md` 与 `基金本体建模_V0.5_构建报告.md`。
+当前本体版本：`0.5.2`。v0.5.0 为语义契约完善版本：① 完善基础抽象（`FundBusinessObject` 基金业务对象、`FundAccount` 基金账户与 6 个代码取值类）；② 全部 143 项属性补齐中文定义（`skos:definition`），形成属性关系契约；③ 代码表语义化——`ontology/modules/cnfo-fund-codes.ttl` 提供 6 套 SKOS 受控代码表（基金运作方式/组织形式/分红方式/风险等级/私募基金类型/收费方式，依据 JR/T 0304.2-2024），新增 6 个代码引用属性，类与代码概念建立 `skos:closeMatch`，`isOpenEnded`/`isPrivate` 等标注为兼容属性；④ 数据质量层独立——`ontology/shacl/cnfo-fund-shapes.ttl`（SHACL）与 `artifacts/cnfo/abox/`（示例 A-BOX，参考 `artifacts/cnfo/cnfo-fund-sample-abox.ttl`）与 T-BOX 分离，49 条 OWL restriction 完成稳定性分类（稳定 37 / 条件性 3 / 数据质量 9）。v0.5.1 纠正持仓公共属性的 domain：新增 `FundPositionRecord` 基金持仓记录作为 `FundPosition` 与 `PortfolioPosition` 的共同父类，消除示例数据触发的交叉类型推断。v0.5.2 补齐跨境基金与代理基础概念：新增 `CrossBorderFund`、内地/香港互认基金层级、`FundAgent` 基金代理人机构主体、`FundAgentRole` 基金代理人角色及基金关联关系。v0.4 命名标准化与 V0.5 构建详情见 `E:\LX\LX_fund\基金行业文档\CNFO_命名标准化方案_V0.4.md` 与 `基金本体建模_V0.5_构建报告.md`。
 
 正式部署时应替换为项目长期持有的真实域名。
 
-CNFO 当前覆盖基金、基金产品、基金财产、基金投资组合、基金份额、基金管理人角色、基金托管人角色、基金投资者、基金合同、基金活动、基金状态以及公募基金、私募基金、ETF、FOF、QDII 基金等国内基金概念。
+CNFO 当前覆盖基金、基金产品、基金财产、基金投资组合、基金份额、基金管理人角色、基金托管人角色、基金代理人主体/角色、基金投资者、基金合同、基金活动、基金状态以及公募基金、私募基金、ETF、FOF、QDII、内地与香港互认基金等国内基金概念。
 
 模块层使用独立的技术命名空间 `https://ontology.example.cn/cnfo/module/` 描述模块层级、文件、顺序和术语归属，不计入 CNFO 业务类和属性统计。新增业务模块时，只需新增 Turtle 文件、声明 `owl:imports` 和模块元数据，现有构建器、API 和左侧目录即可递归加载。
 

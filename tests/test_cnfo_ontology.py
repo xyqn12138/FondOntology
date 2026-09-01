@@ -103,6 +103,80 @@ class CnfoOntologyTest(unittest.TestCase):
         self.assertIn((CNFO.hasNetAssetValueRecord, OWL.inverseOf, CNFO.recordForFund), self.source)
         self.assertIn((CNFO.hasFundPortfolioPosition, OWL.inverseOf, CNFO.positionOfPortfolio), self.source)
 
+    def test_cross_border_mutual_recognition_and_agent_concepts(self) -> None:
+        self.assertIn(
+            (CNFO.CrossBorderFund, RDFS.subClassOf, CNFO.Fund),
+            self.source,
+        )
+        self.assertIn(
+            (
+                CNFO.MainlandHongKongMutualRecognitionFund,
+                RDFS.subClassOf,
+                CNFO.CrossBorderFund,
+            ),
+            self.source,
+        )
+        self.assertIn(
+            (
+                CNFO.HongKongMutualRecognitionFund,
+                RDFS.subClassOf,
+                CNFO.MainlandHongKongMutualRecognitionFund,
+            ),
+            self.source,
+        )
+        self.assertIn((CNFO.FundAgent, RDFS.subClassOf, CNFO.FundParty), self.source)
+        self.assertIn(
+            (CNFO.FundAgentRole, RDFS.subClassOf, CNFO.FundServiceProviderRole),
+            self.source,
+        )
+        self.assertIn(
+            (CNFO.hasFundAgentRole, RDFS.subPropertyOf, CNFO.hasFundServiceProviderRole),
+            self.source,
+        )
+        self.assertIn(
+            (CNFO.hasFundAgentRole, OWL.inverseOf, CNFO.agentRoleForFund),
+            self.source,
+        )
+
+        session = OntologyViewerSession(ROOT / "ontology" / "modules" / "cnfo-domain.ttl")
+        hk_detail = session.detail(str(CNFO.HongKongMutualRecognitionFund))
+        self.assertEqual(hk_detail["current"]["label"], "香港互认基金")
+        self.assertEqual(
+            hk_detail["parents"][0]["iri"],
+            str(CNFO.MainlandHongKongMutualRecognitionFund),
+        )
+        self.assertIn(
+            str(CNFO.HongKongMutualRecognitionFund),
+            {item["iri"] for item in session.search("香港互认基金", "cnfo", 100)},
+        )
+
+        agent_detail = session.detail(str(CNFO.FundAgent))
+        self.assertEqual(agent_detail["current"]["label"], "基金代理人")
+        self.assertEqual(agent_detail["parents"][0]["iri"], str(CNFO.FundParty))
+
+        fund_detail = session.detail(str(CNFO.Fund))
+        outgoing = {item["iri"] for item in fund_detail["properties"]["outgoing"]}
+        self.assertIn(str(CNFO.hasFundAgentRole), outgoing)
+
+        graph = Graph()
+        graph += self.source
+        fund = CNFO.SampleHongKongMutualRecognitionFund
+        role = CNFO.SampleFundAgentRole
+        agent = CNFO.SampleFundAgent
+        graph.add((fund, RDF.type, CNFO.HongKongMutualRecognitionFund))
+        graph.add((role, RDF.type, CNFO.FundAgentRole))
+        graph.add((agent, RDF.type, CNFO.FundAgent))
+        graph.add((fund, CNFO.hasFundAgentRole, role))
+        graph.add((role, CNFO.rolePlayedBy, agent))
+        DeductiveClosure(
+            OWLRL_Semantics,
+            axiomatic_triples=False,
+            datatype_axioms=False,
+        ).expand(graph)
+        self.assertIn((fund, RDF.type, CNFO.CrossBorderFund), graph)
+        self.assertIn((role, CNFO.agentRoleForFund, fund), graph)
+        self.assertIn((agent, CNFO.playsFundRole, role), graph)
+
     def test_owlrl_entails_local_class_values_and_inverse_edges(self) -> None:
         graph = Graph()
         graph += self.source

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-"""CNFO V0.5：restriction 稳定性分类 + 属性关系契约表生成。
+"""CNFO V0.5.2：restriction 稳定性分类 + 属性关系契约表生成。
 
 输出：
 - artifacts/v05_restriction_classification.md  49 条 OWL restriction 三类分类
-- artifacts/v05_property_contract.md           99 对象属性 + 42 数据属性契约表
+- artifacts/v05_property_contract.md           101 对象属性 + 42 数据属性契约表
 """
 from __future__ import annotations
 
@@ -128,7 +128,18 @@ def main() -> None:
                               "、".join(inv_of) or "—", "—（未声明）", std_name_txt, std_ref_txt,
                               use_txt, shacl_txt))
 
-    lines2 = ["# CNFO V0.5 属性关系契约表（141 项：99 对象属性 + 42 数据属性）", ""]
+    object_count = sum(
+        1 for resource in g.subjects(RDF.type, OWL.ObjectProperty)
+        if str(resource).startswith(str(NS))
+    )
+    data_count = sum(
+        1 for resource in g.subjects(RDF.type, OWL.DatatypeProperty)
+        if str(resource).startswith(str(NS))
+    )
+    lines2 = [
+        f"# CNFO V0.5.2 属性关系契约表（{len(prop_rows)} 项：{object_count} 对象属性 + {data_count} 数据属性）",
+        "",
+    ]
     lines2.append("| 类型 | 属性名称 | 中文标签 | 中文定义 | domain | range | 父属性 | 逆属性 | 属性特征 | 标准英文名 | 标准出处 | 用于 restriction | SHACL 覆盖 |")
     lines2.append("|---|---|---|---|---|---|---|---|---|---|---|---|---|")
     for row in prop_rows:

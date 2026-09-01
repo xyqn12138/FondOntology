@@ -8,10 +8,10 @@
 
 cnfo:CNFODomain a owl:Ontology, cnfom:OntologyModule ;
     rdfs:label "CNFO 基金领域入口"@zh ;
-    dcterms:modified "2026-08-31"^^xsd:date ;
+    dcterms:modified "2026-09-01"^^xsd:date ;
     owl:imports cnfom:CNFOModuleVocabulary,
         cnfo:CNFOFundOntology ;
-    owl:versionInfo "0.5.1" ;
+    owl:versionInfo "0.5.2" ;
     cnfom:moduleFile "cnfo-domain.ttl" ;
     cnfom:moduleKind "domain-entry" ;
     cnfom:moduleOrder 0 ;

@@ -77,7 +77,7 @@ DATAPROPS = [
     dict(name="valuationDate", label="估值日期", std_zh="估值日期", std_en="", ref="《公开募集证券投资基金信息披露管理办法》", note="日期类数据元，净值披露口径。", new_label=None, alt=[], annotate=False),
 ]
 
-# ---------------------------------------------------------------- 类（118）
+# ---------------------------------------------------------------- 类（124）
 CLASSES = [
     dict(name="ActiveInvestmentStrategy", label="主动投资策略", std_zh="主动投资策略", std_en="", ref="基金从业教材/行业惯例", note="投资策略分类，术语稳定。", new_label=None, alt=[], annotate=False),
     dict(name="AssetValuationActivity", label="基金资产估值活动", std_zh="基金资产估值活动", std_en="", ref=f"{FUND_LAW}（估值）", note="活动类，对应估值核算业务条线（{R1764} 表3）。", new_label=None, alt=["估值活动"], annotate=True),
@@ -86,6 +86,7 @@ CLASSES = [
     dict(name="ConceptNature", label="概念性质", std_zh="概念性质", std_en="", ref="CNFO 架构抽象", note="区分法定/监管/市场惯用性质的技术抽象，保留。", new_label=None, alt=[], annotate=False),
     dict(name="ContractualFundStructure", label="契约型基金结构", std_zh="契约型", std_en="", ref=f"{R3042} §5.2.25 DBD00120（基金组织形式：1契约型）", note="对应标准“基金组织形式=契约型”。", new_label=None, alt=["契约型"], annotate=True),
     dict(name="CorporateFundStructure", label="公司型基金结构", std_zh="公司型", std_en="", ref=f"{R3042} §5.2.25 DBD00120（基金组织形式：2公司型）", note="对应标准“基金组织形式=公司型”。", new_label=None, alt=["公司型"], annotate=True),
+    dict(name="CrossBorderFund", label="跨境基金", std_zh="跨境基金", std_en="", ref="CNFO 跨境基金业务抽象", note="跨法域设立、销售、投资或监管安排的基金抽象；不与 QDII 或互认基金混为同一概念。", new_label=None, alt=[], annotate=False),
     dict(name="DebtInvestmentAsset", label="债务类投资资产", std_zh="债券类投资资产", std_en="", ref=f"{R1764} §5.3（外部金融工具：债券）", note="标准以“债券/固定收益”表述；标签标准化为“债券类投资资产”。", new_label="债券类投资资产", alt=["债务类投资资产", "固定收益类投资资产"], annotate=True),
     dict(name="DesignedStatus", label="已设计", std_zh="已设计", std_en="", ref="CNFO 生命周期状态", note="产品生命周期状态，保留。", new_label=None, alt=[], annotate=False),
     dict(name="EquityFund", label="股票基金", std_zh="股票型基金", std_en="", ref="GB/T 39595 基金分类", note="国内分类惯称“股票型基金”。", new_label="股票型基金", alt=["股票基金"], annotate=True),
@@ -94,6 +95,8 @@ CLASSES = [
     dict(name="FiledStatus", label="已备案", std_zh="已备案", std_en="", ref=f"{PRIV}（私募基金备案）", note="生命周期状态；与“备案标志 FLNG_INDC”（BD000161）对应。", new_label=None, alt=[], annotate=True),
     dict(name="Fund", label="基金", std_zh="基金", std_en="", ref=f"{FUND_LAW}", note="核心类，术语稳定。", new_label=None, alt=[], annotate=False),
     dict(name="FundAccountantRole", label="基金会计服务机构角色", std_zh="基金会计机构角色", std_en="", ref="行业惯例（基金会计核算）", note="服务机构角色；国内通常表述为“基金会计”。", new_label=None, alt=["基金会计机构角色"], annotate=True),
+    dict(name="FundAgent", label="基金代理人", std_zh="基金代理人", std_en="", ref=f"{INFO}；《香港互认基金管理规定》", note="机构主体类；与基金代理人角色分离，具体职责通过角色与委托关系表达。", new_label=None, alt=[], annotate=True),
+    dict(name="FundAgentRole", label="基金代理人角色", std_zh="基金代理人角色", std_en="", ref=f"{INFO}；《香港互认基金管理规定》", note="服务机构角色类；不等同于基金销售机构角色、份额登记机构角色或过户登记代理角色。", new_label=None, alt=[], annotate=True),
     dict(name="FundActivity", label="基金业务活动", std_zh="基金业务活动", std_en="", ref=f"{R1764} §5.4（交易数据域）；{R3041} 行为数据域", note="对应标准“行为/交易”数据域。", new_label=None, alt=["基金行为"], annotate=True),
     dict(name="FundAdministratorRole", label="基金行政管理机构角色", std_zh="基金行政管理机构角色", std_en="", ref="境外基金行政服务概念（fund administrator）", note="国内法规无直接对应；保留并注明为服务角色抽象。", new_label=None, alt=[], annotate=False),
     dict(name="FundBenchmark", label="基金业绩比较基准", std_zh="业绩比较基准", std_en="", ref="《证券投资基金评价业务管理暂行办法》；{INFO}", note="标准术语为“业绩比较基准”。", new_label="业绩比较基准", alt=["基金业绩比较基准"], annotate=True),
@@ -161,6 +164,7 @@ CLASSES = [
     dict(name="GovernmentInvestmentFund", label="政府投资基金", std_zh="政府投资基金", std_en="", ref="《政府投资基金暂行管理办法》", note="监管术语“政府投资基金”，保留。", new_label=None, alt=[], annotate=False),
     dict(name="GrowthObjective", label="增长型投资目标", std_zh="增长型投资目标", std_en="", ref="行业惯例", note="投资目标类型，保留。", new_label=None, alt=[], annotate=False),
     dict(name="HybridFund", label="混合基金", std_zh="混合型基金", std_en="", ref="GB/T 39595 基金分类", note="国内分类惯称“混合型基金”。", new_label=None, alt=["混合型基金"], annotate=True),
+    dict(name="HongKongMutualRecognitionFund", label="香港互认基金", std_zh="香港互认基金", std_en="", ref="《香港互认基金管理规定》；JR/T 0304.2-2024 DBD00107", note="依香港法律设立并经中国证监会注册后在内地公开销售的境外互认基金；北上互认基金。", new_label=None, alt=["北上互认基金"], annotate=True),
     dict(name="IncomeDistributionActivity", label="基金收益分配活动", std_zh="基金收益分配活动", std_en="", ref=f"{FUND_LAW}（收益分配）；{R3041} §6.4.3.1（基金分红方式）", note="法律术语“收益分配”/标准“分红”，保留。", new_label=None, alt=["基金分红活动"], annotate=True),
     dict(name="IncomeObjective", label="收入型投资目标", std_zh="收入型投资目标", std_en="", ref="行业惯例", note="投资目标类型，保留。", new_label=None, alt=[], annotate=False),
     dict(name="IndexTrackingStrategy", label="指数跟踪策略", std_zh="指数跟踪策略", std_en="", ref="行业惯例（指数化投资）", note="被动策略子类，保留。", new_label=None, alt=[], annotate=False),
@@ -169,6 +173,8 @@ CLASSES = [
     dict(name="Investor", label="基金投资者", std_zh="基金投资者", std_en="", ref=f"{FUND_LAW}；{R3041} §6.1.4（投资者信息）", note="对应标准“投资者”。", new_label=None, alt=["投资者"], annotate=True),
     dict(name="LiquidatingStatus", label="清算中", std_zh="清算中", std_en="", ref=f"{FUND_LAW}（基金财产清算）", note="生命周期状态，保留。", new_label=None, alt=[], annotate=False),
     dict(name="ListedOpenEndedFund", label="上市开放式基金", std_zh="上市开放式基金", std_en="LOF", ref="《上海证券交易所上市开放式基金业务指引》", note="监管术语“上市开放式基金（LOF）”，LOF 别名已存在。", new_label=None, alt=[], annotate=True),
+    dict(name="MainlandHongKongMutualRecognitionFund", label="内地与香港互认基金", std_zh="内地与香港互认基金", std_en="", ref="《香港互认基金管理规定》", note="内地互认基金与香港互认基金的共同监管产品抽象。", new_label=None, alt=[], annotate=True),
+    dict(name="MainlandMutualRecognitionFund", label="内地互认基金", std_zh="内地互认基金", std_en="", ref="《香港互认基金管理规定》", note="依内地法律设立并经香港认可后在香港公开销售的内地互认基金；南下互认基金。", new_label=None, alt=["南下互认基金"], annotate=True),
     dict(name="MarketConventionType", label="市场惯用类型", std_zh="市场惯用类型", std_en="", ref="CNFO 架构抽象", note="概念性质子类，保留。", new_label=None, alt=[], annotate=False),
     dict(name="MoneyMarketFund", label="货币市场基金", std_zh="货币市场基金", std_en="", ref="《货币市场基金监督管理办法》", note="监管术语“货币市场基金”，保留。", new_label=None, alt=[], annotate=True),
     dict(name="NetAssetValueCalculationActivity", label="基金净值计算活动", std_zh="基金净值计算活动", std_en="", ref=f"{INFO}（净值披露）；{R1764}（估值核算）", note="活动类，保留。", new_label=None, alt=["净值计算"], annotate=True),
@@ -199,9 +205,10 @@ CLASSES = [
     dict(name="VentureCapitalFund", label="创业投资基金", std_zh="创业投资基金", std_en="", ref=f"{R3042} §5.2.31 DBD00126（私募基金类型：2私募股权、创业投资基金）", note="监管术语“创业投资基金”，保留。", new_label=None, alt=["创投基金"], annotate=True),
 ]
 
-# ---------------------------------------------------------------- 对象属性（91）
+# ---------------------------------------------------------------- 对象属性（93）
 OBJPROPS = [
     dict(name="activityOfFund", label="业务活动对应基金", std_zh="业务活动对应基金", std_en="", ref=f"{R1764} §6（IBR：主体-行为-关系）", note="活动→基金 方向，与 hasFundActivity 互逆，保留。", new_label=None, alt=[], annotate=False),
+    dict(name="agentRoleForFund", label="基金代理人角色适用于基金", std_zh="基金代理人角色适用于基金", std_en="", ref="CNFO 业务抽象", note="代理人角色→基金，与 hasFundAgentRole 互逆。", new_label=None, alt=[], annotate=True),
     dict(name="appliesToFundUnit", label="适用于基金份额", std_zh="适用于基金份额", std_en="", ref="行业惯例", note="条款→份额，保留。", new_label=None, alt=[], annotate=False),
     dict(name="assetHasPortfolioPosition", label="投资资产具有组合持仓", std_zh="投资资产具有组合持仓", std_en="", ref=f"{R1764} §5.5（资产数据域）", note="资产→持仓，与 positionInAsset 互逆，保留。", new_label=None, alt=[], annotate=False),
     dict(name="assignmentForFund", label="任职记录对应基金", std_zh="任职记录对应基金", std_en="", ref="CNFO 业务抽象", note="保留。", new_label=None, alt=[], annotate=False),
@@ -224,6 +231,7 @@ OBJPROPS = [
     dict(name="hasDistributionMethod", label="采用收益分配方式", std_zh="采用基金分红方式", std_en="", ref=f"{R3041} §6.4.3.1（基金分红方式）", note="标签随 FundDistributionMethod 标准化为“基金分红方式”。", new_label="采用基金分红方式", alt=["采用收益分配方式"], annotate=True),
     dict(name="hasDistributionPolicy", label="具有份额分配政策", std_zh="具有份额分配政策", std_en="", ref=f"{R3042} §5.4.1 DBD00036", note="份额类别→分配政策，保留。", new_label=None, alt=[], annotate=False),
     dict(name="hasFundAccountantRole", label="具有基金会计服务机构角色", std_zh="具有基金会计机构角色", std_en="", ref="行业惯例", note="随 FundAccountantRole 别名对齐；标签保留。", new_label=None, alt=["具有基金会计机构角色"], annotate=False),
+    dict(name="hasFundAgentRole", label="具有基金代理人角色", std_zh="具有基金代理人角色", std_en="", ref=f"{INFO}；《香港互认基金管理规定》", note="基金→基金代理人角色；与销售机构、登记机构和过户登记代理角色保持语义区分。", new_label=None, alt=[], annotate=True),
     dict(name="hasFundActivity", label="具有基金业务活动", std_zh="具有基金业务活动", std_en="", ref=f"{R1764} §6（IBR）", note="基金→活动，保留。", new_label=None, alt=[], annotate=False),
     dict(name="hasFundAdministratorRole", label="具有基金行政管理机构角色", std_zh="具有基金行政管理机构角色", std_en="", ref="CNFO 业务抽象", note="保留。", new_label=None, alt=[], annotate=False),
     dict(name="hasFundClassifier", label="具有基金分类器", std_zh="具有基金分类概念", std_en="", ref="CNFO 架构抽象", note="标签随 FundClassifier 标准化为“基金分类概念”。", new_label="具有基金分类概念", alt=["具有基金分类器"], annotate=True),
@@ -309,19 +317,19 @@ def _row(item: dict) -> str:
 
 def gen_markdown() -> str:
     lines = ["# CNFO 命名标准化对照表（生成数据，勿手改）", ""]
-    lines.append("## 数据属性（40）")
+    lines.append(f"## 数据属性（{len(DATAPROPS)}）")
     lines.append("| 当前 IRI | 当前中文标签 | 标准化中文标签 | 标准中文名称 | 标准英文名称/代码 | 标准出处 | 建议别名 | 说明 |")
     lines.append("|---|---|---|---|---|---|---|---|")
     for item in DATAPROPS:
         lines.append("|" + _row(item).replace("|", "｜") + "|")
     lines.append("")
-    lines.append("## 类（118）")
+    lines.append(f"## 类（{len(CLASSES)}）")
     lines.append("| 当前 IRI | 当前中文标签 | 标准化中文标签 | 标准中文名称 | 标准英文名称/代码 | 标准出处 | 建议别名 | 说明 |")
     lines.append("|---|---|---|---|---|---|---|---|")
     for item in CLASSES:
         lines.append("|" + _row(item).replace("|", "｜") + "|")
     lines.append("")
-    lines.append("## 对象属性（91）")
+    lines.append(f"## 对象属性（{len(OBJPROPS)}）")
     lines.append("| 当前 IRI | 当前中文标签 | 标准化中文标签 | 标准中文名称 | 标准英文名称/代码 | 标准出处 | 建议别名 | 说明 |")
     lines.append("|---|---|---|---|---|---|---|---|")
     for item in OBJPROPS:
