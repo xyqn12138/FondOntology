@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""CNFO V0.5/V0.5.2 构建数据：语义基础层 + 属性关系契约 + 代码表关联（单一数据源）。
+"""CNFO V0.5/V0.5.3 构建数据：语义基础层 + 属性关系契约 + 代码表关联（单一数据源）。
 
 生成内容（追加到 ontology/cnfo-fund.ttl）：
-1) 新增抽象类：基础业务对象、跨境互认基金、基金代理主体/角色、6 个代码取值类
+1) 新增抽象类：基础业务对象、跨境互认基金、基金代理主体/角色、业绩、费率、法规、指数及资产类概念
 2) 新增对象/数据属性声明（含中文定义）
 3) 全部既有属性（91 对象 + 40 数据）的 skos:definition 中文定义
 4) 类 ↔ 标准代码概念 skos:closeMatch 关联
@@ -57,6 +57,26 @@ NEW_CLASSES = [
     dict(name="FundFeeModeValue", label="基金收费方式取值", parent="FundObject",
          def_="基金收费方式代码表的取值类型，实例为 JR/T 0304.2-2024 DBD00030 的代码值。",
          annotate=(("standardRef", "JR/T 0304.2-2024 §5.2.5 DBD00030"),)),
+    dict(name="FundPerformanceRecord", label="基金业绩记录", parent="FundTemporalRecord",
+         def_="在特定期间记录基金或基金份额收益表现、回撤、超额收益或跟踪误差等业绩事实的时态业务记录。"),
+    dict(name="FundFee", label="基金费率", parent="FundBusinessObject",
+         def_="描述基金或基金份额类别适用的管理费、托管费、销售服务费、申赎费或业绩报酬等收费事实。"),
+    dict(name="Regulation", label="法律法规与监管规范", parent="FundObject",
+         def_="可被基金业务事实、投资限制或信息披露义务引用的法律、行政法规、部门规章及监管规范。"),
+    dict(name="FundManagerPerson", label="基金经理", parent="FundParty",
+         def_="以自然人身份承担基金经理职责的基金参与主体；其任职事实通过基金经理角色及任职记录表达。"),
+    dict(name="MarketIndex", label="市场指数", parent="FundObject",
+         def_="由指数编制机构定义并可被业绩比较基准或指数跟踪策略引用的市场指数对象。"),
+    dict(name="DerivativeInvestmentAsset", label="衍生品投资资产", parent="FundInvestmentAsset",
+         def_="基金投资组合中用于投资、套期保值或风险管理的期货、期权、互换等衍生金融工具。"),
+    dict(name="CashAndDepositAsset", label="现金与存款类投资资产", parent="FundInvestmentAsset",
+         def_="基金持有的现金、银行存款及其他具有现金管理属性的投资资产。"),
+    dict(name="MoneyMarketInstrument", label="货币市场工具", parent="FundInvestmentAsset",
+         def_="期限较短、流动性较高并用于货币市场投资的债券、票据、回购等金融工具。"),
+    dict(name="AssetBackedSecurity", label="资产支持证券", parent="FundInvestmentAsset",
+         def_="以基础资产产生的现金流为支持发行、可作为基金投资标的的资产支持证券。"),
+    dict(name="InvestorRiskRating", label="投资者风险承受评级", parent="FundClassifier",
+         def_="用于表示投资者风险承受能力或风险承受等级的分类概念，支持投资者适当性匹配。"),
 ]
 
 # ---------------------------------------------------------------- 新增属性
@@ -90,6 +110,167 @@ NEW_PROPS = [
          def_="基金账户的账户号码。"),
     dict(name="accountOpeningDate", type="data", label="开户日期", domain="FundAccount", range="date",
          def_="基金账户的开户日期。"),
+    dict(name="hasFundManager", type="obj", label="具有基金管理人", domain="Fund", range="FundParty",
+         subproperty="hasFundParty",
+         def_="通过基金管理人角色及其承担主体派生基金管理人与基金的直接关联。"),
+    dict(name="hasFundDepositary", type="obj", label="具有基金托管人", domain="Fund", range="FundParty",
+         subproperty="hasFundParty",
+         def_="通过基金托管人角色及其承担主体派生基金托管人与基金的直接关联。"),
+    dict(name="hasFundAccountFor", type="obj", label="基金具有账户", domain="Fund", range="FundAccount",
+         def_="表示基金登记体系具有对应的基金账户，与 accountForFund 互逆。"),
+    dict(name="accountForFund", type="obj", label="账户对应基金", domain="FundAccount", range="Fund",
+         inverse="hasFundAccountFor",
+         def_="表示基金账户所属或服务于哪一只基金，与 hasFundAccountFor 互逆。"),
+    dict(name="accountRecordsPosition", type="obj", label="账户记录持仓", domain="FundAccount", range="FundPosition",
+         inverse="positionRecordedInAccount",
+         def_="表示基金账户记录相应的基金份额持仓，与 positionRecordedInAccount 互逆。"),
+    dict(name="positionRecordedInAccount", type="obj", label="持仓记录于账户", domain="FundPosition", range="FundAccount",
+         inverse="accountRecordsPosition",
+         def_="表示基金份额持仓登记在相应的基金账户中，与 accountRecordsPosition 互逆。"),
+    dict(name="recordForFundUnit", type="obj", label="净值记录对应基金份额", domain="NetAssetValueRecord", range="FundUnit",
+         inverse="hasNetAssetValueRecordForFundUnit",
+         def_="表示净值记录对应特定基金份额或份额类别，用于表达 A 类、C 类等份额级净值。"),
+    dict(name="hasNetAssetValueRecordForFundUnit", type="obj", label="基金份额具有净值记录", domain="FundUnit", range="NetAssetValueRecord",
+         inverse="recordForFundUnit",
+         def_="表示基金份额具有相应的份额级净值记录，与 recordForFundUnit 互逆。"),
+    dict(name="hasFundPerformanceRecord", type="obj", label="具有基金业绩记录", domain="Fund", range="FundPerformanceRecord",
+         inverse="performanceForFund", subproperty="hasFundRecord",
+         def_="表示基金具有描述特定期间业绩表现的基金业绩记录，与 performanceForFund 互逆。"),
+    dict(name="performanceForFund", type="obj", label="业绩记录对应基金", domain="FundPerformanceRecord", range="Fund",
+         inverse="hasFundPerformanceRecord",
+         def_="表示基金业绩记录对应的基金，与 hasFundPerformanceRecord 互逆。"),
+    dict(name="performanceUsesBenchmark", type="obj", label="业绩记录采用基准", domain="FundPerformanceRecord", range="FundBenchmark",
+         inverse="benchmarkUsedForPerformance",
+         def_="表示基金业绩记录采用的业绩比较基准，与 benchmarkUsedForPerformance 互逆。"),
+    dict(name="benchmarkUsedForPerformance", type="obj", label="基准用于业绩记录", domain="FundBenchmark", range="FundPerformanceRecord",
+         inverse="performanceUsesBenchmark",
+         def_="表示业绩比较基准用于评价相应的基金业绩记录，与 performanceUsesBenchmark 互逆。"),
+    dict(name="hasFundFee", type="obj", label="具有基金费率", domain="Fund", range="FundFee",
+         inverse="feeForFund", subproperty="hasFundObject",
+         def_="表示基金具有适用于基金产品层面的收费事实，与 feeForFund 互逆。"),
+    dict(name="feeForFund", type="obj", label="费率对应基金", domain="FundFee", range="Fund",
+         inverse="hasFundFee",
+         def_="表示基金费率对应的基金，与 hasFundFee 互逆。"),
+    dict(name="hasFundUnitFee", type="obj", label="份额类别具有费率", domain="FundUnitClass", range="FundFee",
+         inverse="feeForFundUnitClass",
+         def_="表示基金费率适用于特定基金份额类别，与 feeForFundUnitClass 互逆。"),
+    dict(name="feeForFundUnitClass", type="obj", label="费率对应份额类别", domain="FundFee", range="FundUnitClass",
+         inverse="hasFundUnitFee",
+         def_="表示基金费率对应的基金份额类别，与 hasFundUnitFee 互逆。"),
+    dict(name="issuedByAuthority", type="obj", label="法规发布机构", domain="Regulation", range="FundSupervisor",
+         inverse="authorityForRegulation",
+         def_="表示法律法规或监管规范由相应监管机构发布或制定，与 authorityForRegulation 互逆。"),
+    dict(name="authorityForRegulation", type="obj", label="监管机构发布法规", domain="FundSupervisor", range="Regulation",
+         inverse="issuedByAuthority",
+         def_="表示监管机构发布或制定相应法律法规与监管规范，与 issuedByAuthority 互逆。"),
+    dict(name="regulationGovernsFund", type="obj", label="法规规范基金", domain="Regulation", range="Fund",
+         inverse="governedByRegulation",
+         def_="表示法律法规或监管规范适用于并规范基金业务，与 governedByRegulation 互逆。"),
+    dict(name="governedByRegulation", type="obj", label="基金受法规规范", domain="Fund", range="Regulation",
+         inverse="regulationGovernsFund",
+         def_="表示基金受到相应法律法规或监管规范的约束，与 regulationGovernsFund 互逆。"),
+    dict(name="restrictionBasisIn", type="obj", label="投资限制依据法规", domain="FundInvestmentRestriction", range="Regulation",
+         inverse="basisForRestriction",
+         def_="表示基金投资限制所依据的法律法规或监管规范，与 basisForRestriction 互逆。"),
+    dict(name="basisForRestriction", type="obj", label="法规规定投资限制", domain="Regulation", range="FundInvestmentRestriction",
+         inverse="restrictionBasisIn",
+         def_="表示法律法规或监管规范规定的基金投资限制，与 restrictionBasisIn 互逆。"),
+    dict(name="disclosureObligationUnder", type="obj", label="信息披露依据法规", domain="InformationDisclosureActivity", range="Regulation",
+         inverse="governsDisclosureActivity",
+         def_="表示信息披露活动依据的法律法规或监管规范，与 governsDisclosureActivity 互逆。"),
+    dict(name="governsDisclosureActivity", type="obj", label="法规规定披露活动", domain="Regulation", range="InformationDisclosureActivity",
+         inverse="disclosureObligationUnder",
+         def_="表示法律法规或监管规范规定相应的信息披露活动，与 disclosureObligationUnder 互逆。"),
+    dict(name="benchmarkIndex", type="obj", label="基准对应市场指数", domain="FundBenchmark", range="MarketIndex",
+         inverse="indexUsedAsBenchmark",
+         def_="表示业绩比较基准引用的市场指数，与 indexUsedAsBenchmark 互逆。"),
+    dict(name="indexUsedAsBenchmark", type="obj", label="市场指数作为基准", domain="MarketIndex", range="FundBenchmark",
+         inverse="benchmarkIndex",
+         def_="表示市场指数被用作基金业绩比较基准，与 benchmarkIndex 互逆。"),
+    dict(name="trackingTargetIndex", type="obj", label="策略跟踪市场指数", domain="IndexTrackingStrategy", range="MarketIndex",
+         inverse="indexTrackedByStrategy",
+         def_="表示指数跟踪策略所跟踪的市场指数，与 indexTrackedByStrategy 互逆。"),
+    dict(name="indexTrackedByStrategy", type="obj", label="市场指数被策略跟踪", domain="MarketIndex", range="IndexTrackingStrategy",
+         inverse="trackingTargetIndex",
+         def_="表示市场指数被相应指数跟踪策略跟踪，与 trackingTargetIndex 互逆。"),
+    dict(name="hasInvestorRiskRating", type="obj", label="具有投资者风险评级", domain="Investor", range="InvestorRiskRating",
+         inverse="ratingForInvestor",
+         def_="表示投资者具有相应的风险承受评级，用于适当性匹配，与 ratingForInvestor 互逆。"),
+    dict(name="ratingForInvestor", type="obj", label="风险评级对应投资者", domain="InvestorRiskRating", range="Investor",
+         inverse="hasInvestorRiskRating",
+         def_="表示投资者风险承受评级对应的投资者，与 hasInvestorRiskRating 互逆。"),
+    dict(name="compiledBy", type="obj", label="指数编制机构", domain="MarketIndex", range="FundParty",
+         inverse="compilesIndex",
+         def_="表示市场指数由相应指数编制机构编制，与 compilesIndex 互逆。"),
+    dict(name="compilesIndex", type="obj", label="编制市场指数", domain="FundParty", range="MarketIndex",
+         inverse="compiledBy",
+         def_="表示基金参与主体编制相应市场指数，与 compiledBy 互逆。"),
+    dict(name="contractParty", type="obj", label="合同当事人", domain="FundContract", range="FundParty",
+         inverse="partyToContract",
+         def_="表示基金合同的当事人或签署主体，与 partyToContract 互逆。"),
+    dict(name="partyToContract", type="obj", label="主体参与合同", domain="FundParty", range="FundContract",
+         inverse="contractParty",
+         def_="表示基金参与主体作为当事人参与的基金合同，与 contractParty 互逆。"),
+    dict(name="activityPerformedBy", type="obj", label="活动实施主体", domain="FundActivity", range="FundParty",
+         inverse="performsFundActivity",
+         def_="表示基金业务活动由哪个基金参与主体实施或发起，与 performsFundActivity 互逆。"),
+    dict(name="performsFundActivity", type="obj", label="主体实施基金活动", domain="FundParty", range="FundActivity",
+         inverse="activityPerformedBy",
+         def_="表示基金参与主体实施或发起相应基金业务活动，与 activityPerformedBy 互逆。"),
+    dict(name="investorRiskRatingForFund", type="obj", label="投资者评级适用于基金", domain="InvestorRiskRating", range="Fund",
+         def_="表示投资者风险承受评级在特定基金适当性判断中的适用范围。"),
+    dict(name="fundBenchmark", type="obj", label="基金具有业绩比较基准", domain="Fund", range="FundBenchmark",
+         def_="表示基金适用相应业绩比较基准的便捷关联。"),
+    dict(name="fundPerformanceForUnit", type="obj", label="业绩记录对应基金份额", domain="FundPerformanceRecord", range="FundUnit",
+         inverse="unitPerformanceRecord",
+         def_="表示基金业绩记录对应特定基金份额或份额类别，与 unitPerformanceRecord 互逆。"),
+    dict(name="unitPerformanceRecord", type="obj", label="基金份额具有业绩记录", domain="FundUnit", range="FundPerformanceRecord",
+         inverse="fundPerformanceForUnit",
+         def_="表示基金份额具有相应的业绩记录，与 fundPerformanceForUnit 互逆。"),
+    dict(name="activityUnderRegulation", type="obj", label="活动适用监管规范", domain="FundActivity", range="Regulation",
+         inverse="regulationForActivity",
+         def_="表示基金业务活动适用的法律法规或监管规范，与 regulationForActivity 互逆。"),
+    dict(name="regulationForActivity", type="obj", label="监管规范适用活动", domain="Regulation", range="FundActivity",
+         inverse="activityUnderRegulation",
+         def_="表示法律法规或监管规范适用的基金业务活动，与 activityUnderRegulation 互逆。"),
+    dict(name="accumulatedUnitNetAssetValue", type="data", label="累计单位净值", domain="NetAssetValueRecord", range="decimal",
+         def_="基金份额累计单位净值，用于收益计算、分红复权与业绩分析。"),
+    dict(name="performancePeriodStart", type="data", label="业绩期间起始日", domain="FundPerformanceRecord", range="date",
+         def_="基金业绩记录统计期间的起始日期。"),
+    dict(name="performancePeriodEnd", type="data", label="业绩期间结束日", domain="FundPerformanceRecord", range="date",
+         def_="基金业绩记录统计期间的结束日期。"),
+    dict(name="cumulativeReturn", type="data", label="累计收益率", domain="FundPerformanceRecord", range="decimal",
+         def_="基金在业绩统计期间内的累计收益率。"),
+    dict(name="annualizedReturn", type="data", label="年化收益率", domain="FundPerformanceRecord", range="decimal",
+         def_="基金在业绩统计期间内按年化口径计算的收益率。"),
+    dict(name="excessReturn", type="data", label="超额收益率", domain="FundPerformanceRecord", range="decimal",
+         def_="基金收益率相对于对应业绩比较基准收益率的超额部分。"),
+    dict(name="maximumDrawdown", type="data", label="最大回撤", domain="FundPerformanceRecord", range="decimal",
+         def_="基金业绩统计期间内从峰值到随后低点的最大跌幅。"),
+    dict(name="trackingError", type="data", label="跟踪误差", domain="FundPerformanceRecord", range="decimal",
+         def_="指数跟踪策略或基金收益相对于跟踪目标指数偏离程度的统计指标。"),
+    dict(name="feeName", type="data", label="费率名称", domain="FundFee", range="string",
+         def_="基金收费事实的名称，如管理费、托管费、销售服务费或业绩报酬。"),
+    dict(name="feeRate", type="data", label="费率", domain="FundFee", range="decimal",
+         def_="基金收费事实对应的费率数值。"),
+    dict(name="feeAmount", type="data", label="收费金额", domain="FundFee", range="decimal",
+         def_="基金收费事实对应的金额数值。"),
+    dict(name="feeBasis", type="data", label="收费计提基础", domain="FundFee", range="string",
+         def_="基金费率或收费金额的计提基础说明。"),
+    dict(name="indexCode", type="data", label="指数代码", domain="MarketIndex", range="string",
+         def_="市场指数的唯一或行业识别代码。"),
+    dict(name="indexName", type="data", label="指数名称", domain="MarketIndex", range="string",
+         def_="市场指数的正式名称。"),
+    dict(name="indexCurrency", type="data", label="指数币种", domain="MarketIndex", range="string",
+         def_="市场指数计价或计算采用的币种。"),
+    dict(name="regulationCode", type="data", label="法规规范代码", domain="Regulation", range="string",
+         def_="法律法规或监管规范的编号、文号或其他识别代码。"),
+    dict(name="regulationTitle", type="data", label="法规规范名称", domain="Regulation", range="string",
+         def_="法律法规或监管规范的正式名称。"),
+    dict(name="articleReference", type="data", label="条文引用", domain="Regulation", range="string",
+         def_="投资限制、披露义务或其他业务事实所引用的法规条文位置。"),
+    dict(name="investorRiskRatingCode", type="data", label="投资者风险评级代码", domain="InvestorRiskRating", range="string",
+         def_="投资者风险承受评级的代码值，例如 C1 至 C5。"),
 ]
 
 # ---------------------------------------------------------------- 既有属性中文定义（91 对象属性）
@@ -251,6 +432,93 @@ COMPAT_NOTES = {
     "redemptionInAmountAllowed": "v0.5 兼容属性：保留用于数据接入；按金额赎回能力建议由基金份额类别的申赎条款（FundRedemptionTerms）表达。",
 }
 
+# ---------------------------------------------------------------- 评审升级公理
+EXTRA_AXIOMS = """
+# 概念层边界
+cnfo:FundObject owl:disjointWith cnfo:FundParty .
+cnfo:ConceptNature rdfs:comment "元概念层分类，不作为基金业务主体或业务对象实例化；用于说明基金概念的法定、监管或市场惯用性质。"@zh .
+cnfo:FundUnitInvestmentAsset skos:scopeNote "本类实例是被投基金份额的引用性投资资产代理；其发行基金与份额币种仍应通过 issuedByFund、unitCurrency 保持可追溯。"@zh .
+
+# 关键分类轴的等价定义：代码事实可以反向推导基金分类
+cnfo:OpenEndedFund owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+        cnfo:Fund
+        [ a owl:Restriction ; owl:onProperty cnfo:hasFundOperationMode ; owl:hasValue cnfc:FundOperationModeOpenEnded ]
+    )
+] .
+cnfo:ClosedEndedFund owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+        cnfo:Fund
+        [ a owl:Restriction ; owl:onProperty cnfo:hasFundOperationMode ; owl:hasValue cnfc:FundOperationModeClosedEnded ]
+    )
+] .
+cnfo:PublicFund owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+        cnfo:Fund
+        [ a owl:Restriction ; owl:onProperty cnfo:isPrivate ; owl:hasValue false ]
+    )
+] .
+cnfo:PrivateFund owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+        cnfo:Fund
+        [ a owl:Restriction ; owl:onProperty cnfo:isPrivate ; owl:hasValue true ]
+    )
+] .
+cnfo:ExchangeTradedFund owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+        cnfo:OpenEndedFund
+        [ a owl:Restriction ; owl:onProperty cnfo:isExchangeTraded ; owl:hasValue true ]
+    )
+] .
+cnfo:FundOfFunds owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+        cnfo:Fund
+        [ a owl:Restriction ; owl:onProperty cnfo:hasUnderlyingFund ; owl:someValuesFrom cnfo:Fund ]
+    )
+] .
+
+# 角色承担主体与基金的快捷属性链
+cnfo:hasFundParty owl:propertyChainAxiom ( cnfo:hasFundRole cnfo:rolePlayedBy ) .
+cnfo:hasFundManager owl:propertyChainAxiom ( cnfo:hasFundManagerRole cnfo:rolePlayedBy ) .
+cnfo:hasFundDepositary owl:propertyChainAxiom ( cnfo:hasFundDepositaryRole cnfo:rolePlayedBy ) .
+
+# 份额级净值向基金级净值关系的可推导链接；避免把 recordForFundUnit 错当成 recordForFund 的子属性
+cnfo:recordForFund owl:propertyChainAxiom ( cnfo:recordForFundUnit cnfo:issuedByFund ) .
+
+# 单值业务事实的 OWL 声明，与 SHACL maxCount 1 对齐
+cnfo:baseCurrency a owl:FunctionalProperty .
+cnfo:unitCurrency a owl:FunctionalProperty .
+cnfo:fundCode a owl:FunctionalProperty .
+cnfo:fundUnitCode a owl:FunctionalProperty .
+cnfo:accountNumber a owl:FunctionalProperty .
+cnfo:hasFundStatus a owl:FunctionalProperty .
+
+# 业务对象的标识键；强合并风险由数据质量层和发布前检查承担
+cnfo:Fund owl:hasKey ( cnfo:fundCode ) .
+cnfo:FundUnit owl:hasKey ( cnfo:fundUnitCode cnfo:issuedByFund ) .
+cnfo:FundAccount owl:hasKey ( cnfo:accountNumber ) .
+
+# 正交分类轴与文档/角色类型互斥
+[] a owl:AllDisjointClasses ;
+   owl:members ( cnfo:EquityFund cnfo:BondFund cnfo:HybridFund cnfo:MoneyMarketFund ) .
+[] a owl:AllDisjointClasses ;
+   owl:members ( cnfo:FundContract cnfo:FundProspectus cnfo:FundPeriodicReport cnfo:FundFilingDocument ) .
+[] a owl:AllDisjointClasses ;
+   owl:members ( cnfo:FundManagerRole cnfo:FundDepositaryRole cnfo:FundDistributorRole cnfo:FundRegistrarRole ) .
+
+# 业绩记录的锚定约束，指标完整性仍由 SHACL 根据数据场景校验
+cnfo:FundPerformanceRecord rdfs:subClassOf
+    [ a owl:Restriction ; owl:onClass cnfo:Fund ; owl:onProperty cnfo:performanceForFund ; owl:qualifiedCardinality 1 ],
+    [ a owl:Restriction ; owl:onProperty cnfo:performancePeriodStart ; owl:cardinality 1 ],
+    [ a owl:Restriction ; owl:onProperty cnfo:performancePeriodEnd ; owl:cardinality 1 ] .
+"""
+
 
 # ---------------------------------------------------------------- 生成器
 def _q(name: str) -> str:
@@ -260,7 +528,7 @@ def _q(name: str) -> str:
 def gen_block() -> str:
     lines = []
     lines.append("# ============================================================")
-    lines.append("# V0.5.2 语义基础层 + 属性关系契约 + 代码表关联（生成自 tools/v05_defs.py，勿手改）")
+    lines.append("# V0.5.3 评审升级：语义基础层 + 属性关系契约 + 分类公理（生成自 tools/v05_defs.py，勿手改）")
     lines.append("# 新增抽象类")
     lines.append("# ============================================================")
     for c in NEW_CLASSES:
@@ -312,6 +580,9 @@ def gen_block() -> str:
     lines.append("# 兼容属性 changeNote")
     for name in sorted(COMPAT_NOTES):
         lines.append(f'{_q(name)} skos:changeNote "{COMPAT_NOTES[name]}"@zh .')
+    lines.append("")
+    lines.append("# 评审升级：等价类、属性链、键约束与不相交公理")
+    lines.append(EXTRA_AXIOMS.rstrip())
     lines.append("")
     return "\n".join(lines)
 

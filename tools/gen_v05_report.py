@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-"""CNFO V0.5.2：restriction 稳定性分类 + 属性关系契约表生成。
+"""CNFO V0.5.3：restriction 稳定性分类 + 属性关系契约表生成。
 
 输出：
-- artifacts/v05_restriction_classification.md  49 条 OWL restriction 三类分类
-- artifacts/v05_property_contract.md           101 对象属性 + 42 数据属性契约表
+- artifacts/v05_restriction_classification.md  当前 OWL restriction 三类分类
+- artifacts/v05_property_contract.md           当前对象/数据属性契约表
 """
 from __future__ import annotations
 
@@ -39,6 +39,8 @@ def main() -> None:
         ("FundPosition", "positionQuantity"), ("PortfolioPosition", "positionAsOfDate"),
         ("NetAssetValueRecord", "valuationDate"), ("NetAssetValueRecord", "valuationCurrency"),
         ("FundUnit", "unitCurrency"),
+        ("FundPerformanceRecord", "performancePeriodStart"),
+        ("FundPerformanceRecord", "performancePeriodEnd"),
     }
     CONDITIONAL_KEYS = {
         ("FundPortfolioInvestmentPolicy", "stipulatesBenchmark"),
@@ -75,7 +77,7 @@ def main() -> None:
             cat, note = "稳定本体语义", "结构性定义语义，保留在 OWL T-BOX。"
         rows.append((oname, pname, quant, cat, note))
 
-    lines = ["# CNFO V0.5 OWL Restriction 稳定性分类（49 条）", ""]
+    lines = [f"# CNFO V0.5.3 OWL Restriction 稳定性分类（{len(rows)} 条）", ""]
     lines.append("| 所属类 | 属性 | 约束 | 分类 | 说明 |")
     lines.append("|---|---|---|---|---|")
     order = {"稳定本体语义": 0, "条件性业务语义": 1, "数据质量校验": 2}
@@ -121,11 +123,17 @@ def main() -> None:
                     uses.append(local(owner))
             use_txt = "；".join(sorted(set(uses))) if uses else "—"
             shacl_txt = "是" if name in shacl_props else "—"
+            features = []
+            if (p, RDF.type, OWL.FunctionalProperty) in g:
+                features.append("FunctionalProperty")
+            if list(g.objects(p, OWL.propertyChainAxiom)):
+                features.append("propertyChainAxiom")
+            feature_txt = "；".join(features) or "—（未声明）"
             std_name_txt = std_name or "—"
             std_ref_txt = std_ref or "—"
             prop_rows.append((kind, name, label, definition, "、".join(domains) or "—",
                               "、".join(ranges) or "—", "、".join(sub_of) or "—",
-                              "、".join(inv_of) or "—", "—（未声明）", std_name_txt, std_ref_txt,
+                              "、".join(inv_of) or "—", feature_txt, std_name_txt, std_ref_txt,
                               use_txt, shacl_txt))
 
     object_count = sum(
@@ -137,7 +145,7 @@ def main() -> None:
         if str(resource).startswith(str(NS))
     )
     lines2 = [
-        f"# CNFO V0.5.2 属性关系契约表（{len(prop_rows)} 项：{object_count} 对象属性 + {data_count} 数据属性）",
+        f"# CNFO V0.5.3 属性关系契约表（{len(prop_rows)} 项：{object_count} 对象属性 + {data_count} 数据属性）",
         "",
     ]
     lines2.append("| 类型 | 属性名称 | 中文标签 | 中文定义 | domain | range | 父属性 | 逆属性 | 属性特征 | 标准英文名 | 标准出处 | 用于 restriction | SHACL 覆盖 |")

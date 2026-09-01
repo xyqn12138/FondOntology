@@ -4,10 +4,10 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 # ============================================================
-# CNFO V0.5 数据质量校验层（SHACL）
+# CNFO V0.5.3 数据质量校验层（SHACL）
 # 独立于 T-BOX；本文件不通过 owl:imports 进入本体图，
 # 由校验工具（pyshacl）显式装载。
-# 覆盖：基金、基金份额、基金份额持仓、基金净值记录、基金角色任职记录。
+# 覆盖：基金、公募/私募基金、基金份额、基金账户、基金份额持仓、基金净值记录、基金业绩记录、基金费率和基金角色任职记录。
 # 日期逻辑与代码一致性通过 SHACL-SPARQL 表达。
 # ============================================================
 
@@ -16,12 +16,12 @@ cnfo:FundShape a sh:NodeShape ;
     sh:property [
         sh:path cnfo:fundCode ;
         sh:name "基金代码"@zh ;
-        sh:description "基金代码以基金合同为基准的唯一标识，标准长度 10 位，行业惯用 6 位数字。"@zh ;
+        sh:description "基金代码以基金合同为基准的唯一标识，允许 6 至 10 位数字或大写字母。"@zh ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
         sh:datatype xsd:string ;
         sh:maxLength 10 ;
-        sh:pattern "^[0-9]{6}$" ;
+        sh:pattern "^[0-9A-Z]{6,10}$" ;
     ] ;
     sh:property [
         sh:path cnfo:fundName ;
@@ -47,13 +47,6 @@ cnfo:FundShape a sh:NodeShape ;
         sh:path cnfo:hasFundManagerRole ;
         sh:name "具有基金管理人角色"@zh ;
         sh:description "基金必须具有基金管理人角色。"@zh ;
-        sh:minCount 1 ;
-        sh:maxCount 1 ;
-    ] ;
-    sh:property [
-        sh:path cnfo:hasFundDepositaryRole ;
-        sh:name "具有基金托管人角色"@zh ;
-        sh:description "公募基金必须具有托管人；数据完整性层要求托管关系完整、唯一。"@zh ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
     ] ;
@@ -95,6 +88,69 @@ cnfo:FundShape a sh:NodeShape ;
                 FILTER NOT EXISTS { $this cnfo:hasFundOperationMode cnfc:FundOperationModeOpenEnded }
             }
         """ ;
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "同一基金的生命周期状态记录时间区间不得相交"@zh ;
+        sh:select """
+            SELECT $this WHERE {
+                $this cnfo:hasFundStatusRecord ?left , ?right .
+                FILTER (?left != ?right)
+                ?left cnfo:effectiveFrom ?leftFrom .
+                ?right cnfo:effectiveFrom ?rightFrom .
+                OPTIONAL { ?left cnfo:effectiveTo ?leftTo . }
+                OPTIONAL { ?right cnfo:effectiveTo ?rightTo . }
+                FILTER (
+                    (!BOUND(?leftTo) || ?rightFrom <= ?leftTo) &&
+                    (!BOUND(?rightTo) || ?leftFrom <= ?rightTo)
+                )
+            }
+        """
+    ] .
+
+cnfo:PublicFundShape a sh:NodeShape ;
+    sh:targetClass cnfo:PublicFund ;
+    sh:property [
+        sh:path cnfo:hasFundDepositaryRole ;
+        sh:name "具有基金托管人角色"@zh ;
+        sh:description "公募基金通常必须具有托管人；托管约束不施加到全部 Fund。"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class cnfo:FundDepositaryRole ;
+    ] .
+
+cnfo:PrivateFundShape a sh:NodeShape ;
+    sh:targetClass cnfo:PrivateFund ;
+    sh:property [
+        sh:path cnfo:filingNumber ;
+        sh:name "备案编号"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "私募基金的投资者应为合格投资者"@zh ;
+        sh:select """
+            SELECT $this WHERE {
+                $this cnfo:hasInvestor ?investor .
+                FILTER NOT EXISTS { ?investor a cnfo:QualifiedInvestor . }
+            }
+        """
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "私募基金投资者数量不得达到 200 人"@zh ;
+        sh:select """
+            SELECT $this WHERE {
+                {
+                    SELECT $this (COUNT(?investor) AS ?count) WHERE {
+                        $this cnfo:hasInvestor ?investor .
+                    } GROUP BY $this
+                }
+                FILTER (?count >= 200)
+            }
+        """
     ] .
 
 cnfo:FundUnitShape a sh:NodeShape ;
@@ -155,12 +211,44 @@ cnfo:FundPositionShape a sh:NodeShape ;
         sh:class cnfo:Investor ;
     ] ;
     sh:property [
+        sh:path cnfo:positionRecordedInAccount ;
+        sh:name "持仓记录于基金账户"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class cnfo:FundAccount ;
+    ] ;
+    sh:property [
         sh:path cnfo:positionCurrency ;
         sh:name "持仓币种"@zh ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
         sh:datatype xsd:string ;
         sh:pattern "^[A-Z]{3}$" ;
+    ] .
+
+cnfo:FundAccountShape a sh:NodeShape ;
+    sh:targetClass cnfo:FundAccount ;
+    sh:property [
+        sh:path cnfo:accountNumber ;
+        sh:name "账户号码"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:maxLength 20 ;
+    ] ;
+    sh:property [
+        sh:path cnfo:accountOpeningDate ;
+        sh:name "开户日期"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:date ;
+    ] ;
+    sh:property [
+        sh:path cnfo:accountForFund ;
+        sh:name "账户对应基金"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class cnfo:Fund ;
     ] .
 
 cnfo:PortfolioPositionShape a sh:NodeShape ;
@@ -216,9 +304,14 @@ cnfo:NetAssetValueRecordShape a sh:NodeShape ;
     sh:property [
         sh:path cnfo:recordForFund ;
         sh:name "净值记录对应基金"@zh ;
-        sh:minCount 1 ;
         sh:maxCount 1 ;
         sh:class cnfo:Fund ;
+    ] ;
+    sh:property [
+        sh:path cnfo:recordForFundUnit ;
+        sh:name "净值记录对应基金份额"@zh ;
+        sh:maxCount 1 ;
+        sh:class cnfo:FundUnit ;
     ] ;
     sh:property [
         sh:path cnfo:fundUnitNetAssetValue ;
@@ -233,9 +326,119 @@ cnfo:NetAssetValueRecordShape a sh:NodeShape ;
         sh:minInclusive 0 ;
     ] ;
     sh:property [
+        sh:path cnfo:accumulatedUnitNetAssetValue ;
+        sh:name "累计单位净值"@zh ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0 ;
+    ] ;
+    sh:property [
         sh:path [ sh:alternativePath ( cnfo:fundUnitNetAssetValue cnfo:fundNetAssetValue ) ] ;
         sh:name "份额净值或资产净值至少一个"@zh ;
         sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path [ sh:alternativePath ( cnfo:recordForFund cnfo:recordForFundUnit ) ] ;
+        sh:name "净值记录对应基金或基金份额"@zh ;
+        sh:minCount 1 ;
+    ] .
+
+cnfo:FundPerformanceRecordShape a sh:NodeShape ;
+    sh:targetClass cnfo:FundPerformanceRecord ;
+    sh:property [
+        sh:path cnfo:performanceForFund ;
+        sh:name "业绩记录对应基金"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class cnfo:Fund ;
+    ] ;
+    sh:property [
+        sh:path cnfo:performancePeriodStart ;
+        sh:name "业绩期间起始日"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:date ;
+    ] ;
+    sh:property [
+        sh:path cnfo:performancePeriodEnd ;
+        sh:name "业绩期间结束日"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:date ;
+    ] ;
+    sh:property [
+        sh:path cnfo:cumulativeReturn ;
+        sh:name "累计收益率"@zh ;
+        sh:datatype xsd:decimal ;
+    ] ;
+    sh:property [
+        sh:path cnfo:annualizedReturn ;
+        sh:name "年化收益率"@zh ;
+        sh:datatype xsd:decimal ;
+    ] ;
+    sh:property [
+        sh:path cnfo:maximumDrawdown ;
+        sh:name "最大回撤"@zh ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0 ;
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "业绩期间结束日不得早于起始日"@zh ;
+        sh:select """
+            SELECT $this WHERE {
+                $this cnfo:performancePeriodStart ?from ;
+                      cnfo:performancePeriodEnd ?to .
+                FILTER (?to < ?from)
+            }
+        """
+    ] .
+
+cnfo:FundFeeShape a sh:NodeShape ;
+    sh:targetClass cnfo:FundFee ;
+    sh:property [
+        sh:path cnfo:feeName ;
+        sh:name "费率名称"@zh ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [
+        sh:path cnfo:feeRate ;
+        sh:name "费率"@zh ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0 ;
+    ] ;
+    sh:property [
+        sh:path cnfo:feeAmount ;
+        sh:name "收费金额"@zh ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0 ;
+    ] .
+
+cnfo:FundOfFundsShape a sh:NodeShape ;
+    sh:targetClass cnfo:FundOfFunds ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "基金中基金不得将自身作为底层基金"@zh ;
+        sh:select """
+            SELECT $this WHERE {
+                $this cnfo:hasUnderlyingFund $this .
+            }
+        """
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "公募基金中基金不得直接持有其他基金中基金份额"@zh ;
+        sh:select """
+            SELECT $this WHERE {
+                $this cnfo:hasFundPortfolio ?portfolio .
+                ?portfolio cnfo:hasFundPortfolioPosition ?position .
+                ?position cnfo:positionInAsset ?asset .
+                ?asset cnfo:issuedByFund ?underlying .
+                ?underlying a cnfo:FundOfFunds .
+                FILTER EXISTS { $this a cnfo:PublicFund . }
+            }
+        """
     ] .
 
 cnfo:FundRoleAssignmentShape a sh:NodeShape ;

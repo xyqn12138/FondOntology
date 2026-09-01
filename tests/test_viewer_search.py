@@ -7,7 +7,7 @@ These lock in the two search fixes:
   words only, so ``ETF`` finds exactly ``ExchangeTradedFund`` instead of
   every ``...getFund`` local name.
 * Completeness: an empty query returns all classes so the sidebar can
-  show the full 133-class index instead of a fixed 40/100 slice.
+  show the full class index instead of a fixed 40/100 slice.
 """
 
 from __future__ import annotations
@@ -70,7 +70,10 @@ class ViewerSearchTest(unittest.TestCase):
 
     def test_multiple_tokens_are_anded(self) -> None:
         self.assertEqual(self.names("ETF 基金"), {"ExchangeTradedFund"})
-        self.assertEqual(self.names("指数"), {"IndexTrackingStrategy", "ExchangeTradedFund"})
+        self.assertEqual(
+            self.names("指数"),
+            {"IndexTrackingStrategy", "ExchangeTradedFund", "MarketIndex"},
+        )
 
     def test_module_scope_preserves_alt_label_matches(self) -> None:
         fund_module = ""

@@ -11,7 +11,7 @@ cnfo:CNFODomain a owl:Ontology, cnfom:OntologyModule ;
     dcterms:modified "2026-09-01"^^xsd:date ;
     owl:imports cnfom:CNFOModuleVocabulary,
         cnfo:CNFOFundOntology ;
-    owl:versionInfo "0.5.2" ;
+    owl:versionInfo "0.5.3" ;
     cnfom:moduleFile "cnfo-domain.ttl" ;
     cnfom:moduleKind "domain-entry" ;
     cnfom:moduleOrder 0 ;

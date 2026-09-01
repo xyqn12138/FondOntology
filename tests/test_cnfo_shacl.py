@@ -61,7 +61,7 @@ class CnfoShaclTest(unittest.TestCase):
         g.bind("cnfo", CNFO)
         g.bind("cnfc", CNFC)
         g.add((ABOX.BadFund, RDF.type, CNFO.Fund))
-        g.add((ABOX.BadFund, CNFO.fundCode, Literal("ABC1234")))
+        g.add((ABOX.BadFund, CNFO.fundCode, Literal("ABC12")))
         g.add((ABOX.BadFund, CNFO.fundName, Literal("坏示例基金")))
         g.add((ABOX.BadFund, CNFO.inceptionDate, Literal("2020-01-01", datatype=XSD.date)))
         g.add((ABOX.BadFund, CNFO.hasFundOperationMode, CNFC.FundOperationModeOpenEnded))

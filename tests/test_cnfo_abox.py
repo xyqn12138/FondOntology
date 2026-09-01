@@ -75,6 +75,20 @@ class CnfoAboxTest(unittest.TestCase):
         self.assertIn("基金管理有限公司", str(mgr_label))
         self.assertIn("托管银行", str(dep_label))
 
+    # ---- 角色链派生的管理人与托管人快捷关系 ----
+    def test_query_derived_manager_and_depositary(self) -> None:
+        rows = list(self.g.query(
+            "SELECT ?mgrLabel ?depLabel WHERE {"
+            "  cnfo-a:SampleFund cnfo:hasFundManager ?mgr ;"
+            "     cnfo:hasFundDepositary ?dep ."
+            "  ?mgr rdfs:label ?mgrLabel . ?dep rdfs:label ?depLabel ."
+            "}"
+        ))
+        self.assertEqual(len(rows), 1)
+        mgr_label, dep_label = rows[0]
+        self.assertIn("基金管理有限公司", str(mgr_label))
+        self.assertIn("托管银行", str(dep_label))
+
     # ---- 查询 3：最新份额净值 ----
     def test_query_latest_nav(self) -> None:
         rows = list(self.g.query(
@@ -153,6 +167,18 @@ class CnfoAboxTest(unittest.TestCase):
         num, open_date = rows[0]
         self.assertEqual(str(num), "01234567890123456789")
         self.assertEqual(str(open_date), "2020-03-01")
+
+    # ---- 账户与持仓记录闭环 ----
+    def test_query_account_and_position_closure(self) -> None:
+        rows = list(self.g.query(
+            "SELECT ?fund ?position WHERE {"
+            "  cnfo-a:SampleInvestorAccount cnfo:accountForFund ?fund ;"
+            "     cnfo:accountRecordsPosition ?position ."
+            "}"
+        ))
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0][0], ABOX.SampleFund)
+        self.assertEqual(rows[0][1], ABOX.SampleInvestorPosition)
 
     # ---- OWL 推理：逆关系推导 ----
     def test_reasoning_derives_inverse_edges(self) -> None:

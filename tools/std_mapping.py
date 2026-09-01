@@ -21,6 +21,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from rdflib import Graph, Namespace
+from rdflib.namespace import OWL, RDF, RDFS
+
 # 标准出处缩写
 R3041 = "JR/T 0304.1-2024"   # 基础数据元规范 第1部分
 R3042 = "JR/T 0304.2-2024"   # 基础数据元规范 第2部分：基础代码
@@ -32,7 +35,7 @@ SUIT = "《证券期货投资者适当性管理办法》"
 PRIV = "《私募投资基金监督管理暂行办法》"
 
 
-# ---------------------------------------------------------------- 数据属性（40）
+# ---------------------------------------------------------------- 数据属性（人工维护项；生成时与本体资源自动对账）
 DATAPROPS = [
     # name, label, std_zh, std_en, ref, note, new_label, alt, annotate
     dict(name="baseCurrency", label="基础币种", std_zh="币种", std_en="", ref=f"{R3041} §6.2.1 BD000146", note="标准术语为“币种”（品种公用信息，DBD00027）；当前标签“基础币种”可保留作语境限定。", new_label=None, alt=["币种"], annotate=True),
@@ -77,7 +80,7 @@ DATAPROPS = [
     dict(name="valuationDate", label="估值日期", std_zh="估值日期", std_en="", ref="《公开募集证券投资基金信息披露管理办法》", note="日期类数据元，净值披露口径。", new_label=None, alt=[], annotate=False),
 ]
 
-# ---------------------------------------------------------------- 类（124）
+# ---------------------------------------------------------------- 类（人工维护项；生成时与本体资源自动对账）
 CLASSES = [
     dict(name="ActiveInvestmentStrategy", label="主动投资策略", std_zh="主动投资策略", std_en="", ref="基金从业教材/行业惯例", note="投资策略分类，术语稳定。", new_label=None, alt=[], annotate=False),
     dict(name="AssetValuationActivity", label="基金资产估值活动", std_zh="基金资产估值活动", std_en="", ref=f"{FUND_LAW}（估值）", note="活动类，对应估值核算业务条线（{R1764} 表3）。", new_label=None, alt=["估值活动"], annotate=True),
@@ -205,7 +208,7 @@ CLASSES = [
     dict(name="VentureCapitalFund", label="创业投资基金", std_zh="创业投资基金", std_en="", ref=f"{R3042} §5.2.31 DBD00126（私募基金类型：2私募股权、创业投资基金）", note="监管术语“创业投资基金”，保留。", new_label=None, alt=["创投基金"], annotate=True),
 ]
 
-# ---------------------------------------------------------------- 对象属性（93）
+# ---------------------------------------------------------------- 对象属性（人工维护项；生成时与本体资源自动对账）
 OBJPROPS = [
     dict(name="activityOfFund", label="业务活动对应基金", std_zh="业务活动对应基金", std_en="", ref=f"{R1764} §6（IBR：主体-行为-关系）", note="活动→基金 方向，与 hasFundActivity 互逆，保留。", new_label=None, alt=[], annotate=False),
     dict(name="agentRoleForFund", label="基金代理人角色适用于基金", std_zh="基金代理人角色适用于基金", std_en="", ref="CNFO 业务抽象", note="代理人角色→基金，与 hasFundAgentRole 互逆。", new_label=None, alt=[], annotate=True),
@@ -302,8 +305,52 @@ OBJPROPS = [
     dict(name="usesInvestmentStrategy", label="使用投资策略", std_zh="使用投资策略", std_en="", ref=f"{INFO}", note="基金→策略，保留。", new_label=None, alt=[], annotate=False),
 ]
 
-# ---------------------------------------------------------------- 生成器
+# ---------------------------------------------------------------- 映射完整性
 OUT_DIR = Path(__file__).resolve().parents[1] / "artifacts"
+ROOT_DIR = Path(__file__).resolve().parents[1]
+CNFO_BASE = "https://ontology.example.cn/cnfo/ontology/"
+
+
+def _augment_missing_entries() -> None:
+    """Keep the mapping artifact complete when the ontology gains new terms.
+
+    Curated rows remain the source for domestic standard references. New terms
+    receive a neutral CNFO placeholder instead of silently disappearing from
+    the generated mapping.
+    """
+    graph = Graph()
+    graph.parse(ROOT_DIR / "ontology" / "cnfo-fund.ttl", format="turtle")
+    type_to_items = {
+        OWL.Class: CLASSES,
+        OWL.ObjectProperty: OBJPROPS,
+        OWL.DatatypeProperty: DATAPROPS,
+    }
+    for rdf_type, items in type_to_items.items():
+        mapped = {item["name"] for item in items}
+        resources = {
+            resource for resource in graph.subjects(RDF.type, rdf_type)
+            if str(resource).startswith(CNFO_BASE)
+        }
+        for resource in sorted(resources, key=str):
+            name = str(resource).replace(CNFO_BASE, "")
+            if name in mapped:
+                continue
+            labels = [
+                str(value) for value in graph.objects(resource, RDFS.label)
+                if getattr(value, "language", None) == "zh"
+            ]
+            label = labels[0] if labels else name
+            items.append(dict(
+                name=name,
+                label=label,
+                std_zh=label,
+                std_en="",
+                ref="CNFO V0.5.3 专业审查升级",
+                note="本体新增概念，国内标准出处待业务专题进一步核定。",
+                new_label=None,
+                alt=[],
+                annotate=False,
+            ))
 
 
 def _row(item: dict) -> str:
@@ -362,6 +409,7 @@ def gen_turtle_annotations() -> str:
 
 
 def main() -> None:
+    _augment_missing_entries()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     (OUT_DIR / "cnfo_std_mapping.md").write_text(gen_markdown(), encoding="utf-8")
     (OUT_DIR / "cnfo_std_annotations.ttl").write_text(gen_turtle_annotations(), encoding="utf-8")

@@ -12,7 +12,7 @@ cnfo:ChinaFundOntology a owl:Ontology ;
     rdfs:label "中国基金领域本体兼容入口"@zh ;
     dcterms:modified "2026-09-01"^^xsd:date ;
     owl:imports cnfo:CNFOFundOntology ;
-    owl:versionInfo "0.5.2" ;
+    owl:versionInfo "0.5.3" ;
     skos:definition "兼容旧入口标识；完整基金业务术语定义位于 CNFO 基金本体模块。"@zh .
 
 cnfo:ActiveInvestmentStrategy a owl:Class ;
@@ -37,18 +37,21 @@ cnfo:CNFOFundOntology a owl:Ontology,
     dcterms:modified "2026-09-01"^^xsd:date ;
     owl:imports cnfom:CNFOModuleVocabulary,
         cnfc:CNFOFundCodes ;
-    owl:versionInfo "0.5.2" ;
-    skos:changeNote "v0.5.0 语义契约完善版本：① 完善基础抽象（新增基金业务对象 FundBusinessObject、基金账户 FundAccount 与 6 个代码取值类，业务对象重新挂载）；② 全部对象/数据属性补齐中文定义 skos:definition，形成属性关系契约；③ 代码表语义化：导入 SKOS 受控代码表（基金运作方式/组织形式/分红方式/风险等级/私募基金类型/收费方式），新增 6 个代码引用对象属性，类与代码概念建立 skos:closeMatch，isOpenEnded/isPrivate 等标注为兼容属性；④ 保留全部 IRI，兼容冻结策略。v0.5.1 语义勘误：新增基金持仓记录 FundPositionRecord 作为 FundPosition 与 PortfolioPosition 的共同父类，并将 positionQuantity、positionCurrency 的 domain 提升至该抽象类，修复示例数据触发的交叉类型推断。v0.5.2 基础概念补全：新增跨境基金与内地/香港互认基金层级，新增基金代理人机构主体、基金代理人角色及其基金关联关系。"@zh ;
+    owl:versionInfo "0.5.3" ;
+    skos:changeNote "v0.5.0 语义契约完善版本：① 完善基础抽象（新增基金业务对象 FundBusinessObject、基金账户 FundAccount 与 6 个代码取值类，业务对象重新挂载）；② 全部对象/数据属性补齐中文定义 skos:definition，形成属性关系契约；③ 代码表语义化：导入 SKOS 受控代码表（基金运作方式/组织形式/分红方式/风险等级/私募基金类型/收费方式），新增 6 个代码引用对象属性，类与代码概念建立 skos:closeMatch，isOpenEnded/isPrivate 等标注为兼容属性；④ 保留全部 IRI，兼容冻结策略。v0.5.1 语义勘误：新增基金持仓记录 FundPositionRecord 作为 FundPosition 与 PortfolioPosition 的共同父类，并将 positionQuantity、positionCurrency 的 domain 提升至该抽象类，修复示例数据触发的交叉类型推断。v0.5.2 基础概念补全：新增跨境基金与内地/香港互认基金层级，新增基金代理人机构主体、基金代理人角色及其基金关联关系。v0.5.3 专业审查升级：补充业绩、费率、法规、指数、投资资产和投资者风险评级概念；补充账户与持仓链、份额级净值关系、管理人与托管人派生属性链；升级关键分类等价类、键约束、互斥公理和 SHACL 场景约束。"@zh ;
     skos:definition "当前唯一已实际建模的 CNFO 基金业务模块，包含基金、基金产品、基金参与方、基金活动、基金资产、基金份额、组合、持仓和净值记录等概念及其约束。"@zh ;
     cnfom:containsTerm cnfo:ActiveInvestmentStrategy,
         cnfo:AssetValuationActivity,
+        cnfo:AssetBackedSecurity,
         cnfo:BondFund,
+        cnfo:CashAndDepositAsset,
         cnfo:ClosedEndedFund,
         cnfo:ConceptNature,
         cnfo:ContractualFundStructure,
         cnfo:CorporateFundStructure,
         cnfo:CrossBorderFund,
         cnfo:DebtInvestmentAsset,
+        cnfo:DerivativeInvestmentAsset,
         cnfo:DesignedStatus,
         cnfo:EquityFund,
         cnfo:EquityInvestmentAsset,
@@ -75,6 +78,7 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:FundDistributorRole,
         cnfo:FundDocument,
         cnfo:FundEstate,
+        cnfo:FundFee,
         cnfo:FundFeeModeValue,
         cnfo:FundFilingActivity,
         cnfo:FundFilingDocument,
@@ -90,6 +94,7 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:FundLifecycleStatus,
         cnfo:FundLiquidationActivity,
         cnfo:FundManagementCompany,
+        cnfo:FundManagerPerson,
         cnfo:FundManagerRole,
         cnfo:FundObject,
         cnfo:FundOfFunds,
@@ -97,6 +102,7 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:FundOrganizationFormValue,
         cnfo:FundParty,
         cnfo:FundPeriodicReport,
+        cnfo:FundPerformanceRecord,
         cnfo:FundPortfolio,
         cnfo:FundPortfolioInvestmentLimitation,
         cnfo:FundPortfolioInvestmentPolicy,
@@ -140,12 +146,15 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:InformationDisclosureActivity,
         cnfo:InfrastructurePublicREIT,
         cnfo:Investor,
+        cnfo:InvestorRiskRating,
         cnfo:LiquidatingStatus,
         cnfo:ListedOpenEndedFund,
         cnfo:MainlandHongKongMutualRecognitionFund,
         cnfo:MainlandMutualRecognitionFund,
         cnfo:MarketConventionType,
+        cnfo:MarketIndex,
         cnfo:MoneyMarketFund,
+        cnfo:MoneyMarketInstrument,
         cnfo:NetAssetValueCalculationActivity,
         cnfo:NetAssetValueRecord,
         cnfo:OpenEndedFund,
@@ -167,13 +176,19 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:RaisingStatus,
         cnfo:RegisteredStatus,
         cnfo:RegistrationPendingStatus,
+        cnfo:Regulation,
         cnfo:RegulatoryProductType,
         cnfo:SecuritiesInvestmentFund,
         cnfo:StatutoryFundType,
         cnfo:SuspendedStatus,
         cnfo:TerminatedStatus,
         cnfo:VentureCapitalFund,
+        cnfo:accountForFund,
+        cnfo:accountRecordsPosition,
+        cnfo:authorityForRegulation,
         cnfo:activityOfFund,
+        cnfo:activityPerformedBy,
+        cnfo:activityUnderRegulation,
         cnfo:agentRoleForFund,
         cnfo:appliesToFundUnit,
         cnfo:assetHasPortfolioPosition,
@@ -181,23 +196,33 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:assignmentPlayedBy,
         cnfo:assignsFundRole,
         cnfo:baseCurrency,
+        cnfo:benchmarkIndex,
         cnfo:benchmarkName,
+        cnfo:benchmarkUsedForPerformance,
+        cnfo:basisForRestriction,
         cnfo:classificationCode,
         cnfo:classifiesFund,
+        cnfo:compiledBy,
+        cnfo:compilesIndex,
+        cnfo:contractParty,
         cnfo:definedInProspectus,
         cnfo:definesClassification,
         cnfo:definesInvestmentRestriction,
         cnfo:describedBy,
         cnfo:describesFund,
+        cnfo:disclosureObligationUnder,
         cnfo:distributionWithReinvestment,
         cnfo:effectiveFrom,
         cnfo:effectiveTo,
+        cnfo:feeForFund,
+        cnfo:feeForFundUnitClass,
         cnfo:filingDate,
         cnfo:filingNumber,
         cnfo:fundCode,
         cnfo:fundEstateOf,
         cnfo:fundName,
         cnfo:fundNetAssetValue,
+        cnfo:fundPerformanceForUnit,
         cnfo:fundProductOf,
         cnfo:fundShortName,
         cnfo:fundTypeCode,
@@ -205,6 +230,8 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:fundUnitCode,
         cnfo:fundUnitNetAssetValue,
         cnfo:governedBy,
+        cnfo:governedByRegulation,
+        cnfo:governsDisclosureActivity,
         cnfo:governsFund,
         cnfo:governsInvestmentStrategy,
         cnfo:hasApplicableJurisdiction,
@@ -212,19 +239,24 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:hasDistributionMethod,
         cnfo:hasDistributionPolicy,
         cnfo:hasFundAccountantRole,
+        cnfo:hasFundAccountFor,
         cnfo:hasFundActivity,
         cnfo:hasFundAgentRole,
         cnfo:hasFundAdministratorRole,
         cnfo:hasFundClassifier,
+        cnfo:hasFundDepositary,
         cnfo:hasFundDepositaryRole,
         cnfo:hasFundDistributorRole,
         cnfo:hasFundDocument,
         cnfo:hasFundEstate,
+        cnfo:hasFundFee,
+        cnfo:hasFundManager,
         cnfo:hasFundManagerRole,
         cnfo:hasFundObject,
         cnfo:hasFundParty,
         cnfo:hasFundPortfolio,
         cnfo:hasFundPortfolioPosition,
+        cnfo:hasFundPerformanceRecord,
         cnfo:hasFundPosition,
         cnfo:hasFundProduct,
         cnfo:hasFundRecord,
@@ -240,14 +272,17 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:hasFundTransferAgentRole,
         cnfo:hasFundUnit,
         cnfo:hasFundUnitClass,
+        cnfo:hasFundUnitFee,
         cnfo:hasIntendedRiskLevel,
         cnfo:hasInvestmentObjective,
         cnfo:hasInvestmentPolicy,
         cnfo:hasInvestmentRestriction,
         cnfo:hasInvestmentSpecification,
         cnfo:hasInvestor,
+        cnfo:hasInvestorRiskRating,
         cnfo:hasLegalStructure,
         cnfo:hasNetAssetValueRecord,
+        cnfo:hasNetAssetValueRecordForFundUnit,
         cnfo:hasPortfolioInvestmentStrategy,
         cnfo:hasStatusValue,
         cnfo:hasUnderlyingFund,
@@ -255,12 +290,15 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:holdsFundPosition,
         cnfo:implementsInvestmentPolicy,
         cnfo:inceptionDate,
+        cnfo:indexTrackedByStrategy,
+        cnfo:indexUsedAsBenchmark,
         cnfo:investmentAssetTypeCode,
         cnfo:investmentFocus,
         cnfo:isClassifiedBy,
         cnfo:isExchangeTraded,
         cnfo:isOpenEnded,
         cnfo:isPrivate,
+        cnfo:issuedByAuthority,
         cnfo:issuedByFund,
         cnfo:issuesFundUnit,
         cnfo:jurisdictionCode,
@@ -272,6 +310,9 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:playsFundRole,
         cnfo:policyOfFund,
         cnfo:portfolioOfFund,
+        cnfo:performsFundActivity,
+        cnfo:performanceForFund,
+        cnfo:performanceUsesBenchmark,
         cnfo:positionAsOfDate,
         cnfo:positionCurrency,
         cnfo:positionInAsset,
@@ -279,13 +320,19 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:positionMarketValue,
         cnfo:positionOfPortfolio,
         cnfo:positionQuantity,
+        cnfo:positionRecordedInAccount,
         cnfo:providesCustodyForFundUnit,
         cnfo:realizesFundProduct,
         cnfo:recordForFund,
+        cnfo:recordForFundUnit,
         cnfo:redemptionInAmountAllowed,
         cnfo:redemptionMinimumUnits,
         cnfo:redemptionTermsForFund,
         cnfo:registrationNumber,
+        cnfo:ratingForInvestor,
+        cnfo:regulationForActivity,
+        cnfo:regulationGovernsFund,
+        cnfo:restrictionBasisIn,
         cnfo:riskLevelCode,
         cnfo:roleInFund,
         cnfo:rolePlayedBy,
@@ -300,10 +347,44 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:subscriptionTermsForFund,
         cnfo:supervisesFund,
         cnfo:terminationDate,
+        cnfo:trackingTargetIndex,
         cnfo:underlyingFundOf,
         cnfo:unitCurrency,
+        cnfo:unitPerformanceRecord,
         cnfo:unitQuantity,
         cnfo:usesInvestmentStrategy,
+        cnfo:accountHeldBy,
+        cnfo:fundBenchmark,
+        cnfo:hasFundAccount,
+        cnfo:hasFundDistributionMode,
+        cnfo:hasFundFeeMode,
+        cnfo:hasFundOperationMode,
+        cnfo:hasFundOrganizationForm,
+        cnfo:hasFundRiskLevel,
+        cnfo:hasPrivateFundType,
+        cnfo:investorRiskRatingForFund,
+        cnfo:partyToContract,
+        cnfo:accountNumber,
+        cnfo:accountOpeningDate,
+        cnfo:accumulatedUnitNetAssetValue,
+        cnfo:annualizedReturn,
+        cnfo:articleReference,
+        cnfo:cumulativeReturn,
+        cnfo:excessReturn,
+        cnfo:feeAmount,
+        cnfo:feeBasis,
+        cnfo:feeName,
+        cnfo:feeRate,
+        cnfo:indexCode,
+        cnfo:indexCurrency,
+        cnfo:indexName,
+        cnfo:investorRiskRatingCode,
+        cnfo:maximumDrawdown,
+        cnfo:performancePeriodEnd,
+        cnfo:performancePeriodStart,
+        cnfo:regulationCode,
+        cnfo:regulationTitle,
+        cnfo:trackingError,
         cnfo:valuationCurrency,
         cnfo:valuationDate ;
     cnfom:moduleFile "cnfo-fund.ttl" ;
@@ -677,7 +758,7 @@ cnfo:positionCurrency a owl:DatatypeProperty ;
 
 cnfo:positionMarketValue a owl:DatatypeProperty ;
     rdfs:label "持仓市值"@zh ;
-    rdfs:domain cnfo:PortfolioPosition ;
+    rdfs:domain cnfo:FundPositionRecord ;
     rdfs:range xsd:decimal .
 
 cnfo:realizesFundProduct a owl:ObjectProperty ;
@@ -2390,3 +2471,548 @@ cnfo:isExchangeTraded skos:changeNote "v0.5 兼容属性：保留用于数据接
 cnfo:isOpenEnded skos:changeNote "v0.5 兼容属性：基金运作方式的权威事实由 hasFundOperationMode（基金运作方式代码，JR/T 0304.2 DBD00029）表达；本布尔属性保留用于数据接入与旧数据兼容。"@zh .
 cnfo:isPrivate skos:changeNote "v0.5 兼容属性：基金是否私募的权威事实由基金类（PrivateFund/PublicFund）与 hasPrivateFundType（私募基金类型代码）表达；本布尔属性保留用于数据接入与旧数据兼容。"@zh .
 cnfo:redemptionInAmountAllowed skos:changeNote "v0.5 兼容属性：保留用于数据接入；按金额赎回能力建议由基金份额类别的申赎条款（FundRedemptionTerms）表达。"@zh .
+
+# ============================================================
+# V0.5.3 专业审查升级块
+# 说明：CNFO 仍保持单一基金本体模块；本块补充基础抽象语义链接、
+# 业务关系、推理公理和数据质量边界。FIBO 不作为导入依赖。
+# ============================================================
+
+# ---------- 业绩、费率、法规、指数、风险评级与投资资产 ----------
+cnfo:FundPerformanceRecord a owl:Class ;
+    rdfs:label "基金业绩记录"@zh ;
+    rdfs:subClassOf cnfo:FundTemporalRecord ;
+    skos:definition "在特定期间记录基金或基金份额收益表现、回撤、超额收益或跟踪误差等业绩事实的时态业务记录。"@zh .
+
+cnfo:FundFee a owl:Class ;
+    rdfs:label "基金费率"@zh ;
+    rdfs:subClassOf cnfo:FundBusinessObject ;
+    skos:definition "描述基金或基金份额类别适用的管理费、托管费、销售服务费、申赎费或业绩报酬等收费事实。"@zh .
+
+cnfo:Regulation a owl:Class ;
+    rdfs:label "法律法规与监管规范"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "可被基金业务事实、投资限制或信息披露义务引用的法律、行政法规、部门规章及监管规范。"@zh .
+
+cnfo:FundManagerPerson a owl:Class ;
+    rdfs:label "基金经理"@zh ;
+    rdfs:subClassOf cnfo:FundParty ;
+    skos:definition "以自然人身份承担基金经理职责的基金参与主体；其任职事实通过基金经理角色及任职记录表达。"@zh .
+
+cnfo:MarketIndex a owl:Class ;
+    rdfs:label "市场指数"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "由指数编制机构定义并可被业绩比较基准或指数跟踪策略引用的市场指数对象。"@zh .
+
+cnfo:DerivativeInvestmentAsset a owl:Class ;
+    rdfs:label "衍生品投资资产"@zh ;
+    rdfs:subClassOf cnfo:FundInvestmentAsset ;
+    skos:definition "基金投资组合中用于投资、套期保值或风险管理的期货、期权、互换等衍生金融工具。"@zh .
+
+cnfo:CashAndDepositAsset a owl:Class ;
+    rdfs:label "现金与存款类投资资产"@zh ;
+    rdfs:subClassOf cnfo:FundInvestmentAsset ;
+    skos:definition "基金持有的现金、银行存款及其他具有现金管理属性的投资资产。"@zh .
+
+cnfo:MoneyMarketInstrument a owl:Class ;
+    rdfs:label "货币市场工具"@zh ;
+    rdfs:subClassOf cnfo:FundInvestmentAsset ;
+    skos:definition "期限较短、流动性较高并用于货币市场投资的债券、票据、回购等金融工具。"@zh .
+
+cnfo:AssetBackedSecurity a owl:Class ;
+    rdfs:label "资产支持证券"@zh ;
+    rdfs:subClassOf cnfo:FundInvestmentAsset ;
+    skos:definition "以基础资产产生的现金流为支持发行、可作为基金投资标的的资产支持证券。"@zh .
+
+cnfo:InvestorRiskRating a owl:Class ;
+    rdfs:label "投资者风险承受评级"@zh ;
+    rdfs:subClassOf cnfo:FundClassifier ;
+    skos:definition "用于表示投资者风险承受能力或风险承受等级的分类概念，支持投资者适当性匹配。"@zh .
+
+# ---------- 账户、持仓、净值、业绩与业务主体关系 ----------
+cnfo:hasFundManager a owl:ObjectProperty ;
+    rdfs:label "具有基金管理人"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundParty ;
+    rdfs:subPropertyOf cnfo:hasFundParty ;
+    skos:definition "通过基金管理人角色及其承担主体派生基金管理人与基金的直接关联。"@zh .
+
+cnfo:hasFundDepositary a owl:ObjectProperty ;
+    rdfs:label "具有基金托管人"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundParty ;
+    rdfs:subPropertyOf cnfo:hasFundParty ;
+    skos:definition "通过基金托管人角色及其承担主体派生基金托管人与基金的直接关联。"@zh .
+
+cnfo:hasFundAccountFor a owl:ObjectProperty ;
+    rdfs:label "基金具有账户"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundAccount ;
+    owl:inverseOf cnfo:accountForFund ;
+    skos:definition "表示基金登记体系具有对应的基金账户，与 accountForFund 互逆。"@zh .
+
+cnfo:accountForFund a owl:ObjectProperty ;
+    rdfs:label "账户对应基金"@zh ;
+    rdfs:domain cnfo:FundAccount ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasFundAccountFor ;
+    skos:definition "表示基金账户所属或服务于哪一只基金，与 hasFundAccountFor 互逆。"@zh .
+
+cnfo:accountRecordsPosition a owl:ObjectProperty ;
+    rdfs:label "账户记录持仓"@zh ;
+    rdfs:domain cnfo:FundAccount ;
+    rdfs:range cnfo:FundPosition ;
+    owl:inverseOf cnfo:positionRecordedInAccount ;
+    skos:definition "表示基金账户记录相应的基金份额持仓，与 positionRecordedInAccount 互逆。"@zh .
+
+cnfo:positionRecordedInAccount a owl:ObjectProperty ;
+    rdfs:label "持仓记录于账户"@zh ;
+    rdfs:domain cnfo:FundPosition ;
+    rdfs:range cnfo:FundAccount ;
+    owl:inverseOf cnfo:accountRecordsPosition ;
+    skos:definition "表示基金份额持仓登记在相应的基金账户中，与 accountRecordsPosition 互逆。"@zh .
+
+cnfo:recordForFundUnit a owl:ObjectProperty ;
+    rdfs:label "净值记录对应基金份额"@zh ;
+    rdfs:domain cnfo:NetAssetValueRecord ;
+    rdfs:range cnfo:FundUnit ;
+    owl:inverseOf cnfo:hasNetAssetValueRecordForFundUnit ;
+    skos:definition "表示净值记录对应特定基金份额或份额类别，用于表达 A 类、C 类等份额级净值。"@zh .
+
+cnfo:hasNetAssetValueRecordForFundUnit a owl:ObjectProperty ;
+    rdfs:label "基金份额具有净值记录"@zh ;
+    rdfs:domain cnfo:FundUnit ;
+    rdfs:range cnfo:NetAssetValueRecord ;
+    owl:inverseOf cnfo:recordForFundUnit ;
+    skos:definition "表示基金份额具有相应的份额级净值记录，与 recordForFundUnit 互逆。"@zh .
+
+cnfo:hasFundPerformanceRecord a owl:ObjectProperty ;
+    rdfs:label "具有基金业绩记录"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundPerformanceRecord ;
+    rdfs:subPropertyOf cnfo:hasFundRecord ;
+    owl:inverseOf cnfo:performanceForFund ;
+    skos:definition "表示基金具有描述特定期间业绩表现的基金业绩记录，与 performanceForFund 互逆。"@zh .
+
+cnfo:performanceForFund a owl:ObjectProperty ;
+    rdfs:label "业绩记录对应基金"@zh ;
+    rdfs:domain cnfo:FundPerformanceRecord ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasFundPerformanceRecord ;
+    skos:definition "表示基金业绩记录对应的基金，与 hasFundPerformanceRecord 互逆。"@zh .
+
+cnfo:performanceUsesBenchmark a owl:ObjectProperty ;
+    rdfs:label "业绩记录采用基准"@zh ;
+    rdfs:domain cnfo:FundPerformanceRecord ;
+    rdfs:range cnfo:FundBenchmark ;
+    owl:inverseOf cnfo:benchmarkUsedForPerformance ;
+    skos:definition "表示基金业绩记录采用的业绩比较基准，与 benchmarkUsedForPerformance 互逆。"@zh .
+
+cnfo:benchmarkUsedForPerformance a owl:ObjectProperty ;
+    rdfs:label "基准用于业绩记录"@zh ;
+    rdfs:domain cnfo:FundBenchmark ;
+    rdfs:range cnfo:FundPerformanceRecord ;
+    owl:inverseOf cnfo:performanceUsesBenchmark ;
+    skos:definition "表示业绩比较基准用于评价相应的基金业绩记录，与 performanceUsesBenchmark 互逆。"@zh .
+
+cnfo:fundPerformanceForUnit a owl:ObjectProperty ;
+    rdfs:label "业绩记录对应基金份额"@zh ;
+    rdfs:domain cnfo:FundPerformanceRecord ;
+    rdfs:range cnfo:FundUnit ;
+    owl:inverseOf cnfo:unitPerformanceRecord ;
+    skos:definition "表示基金业绩记录对应特定基金份额或份额类别，与 unitPerformanceRecord 互逆。"@zh .
+
+cnfo:unitPerformanceRecord a owl:ObjectProperty ;
+    rdfs:label "基金份额具有业绩记录"@zh ;
+    rdfs:domain cnfo:FundUnit ;
+    rdfs:range cnfo:FundPerformanceRecord ;
+    owl:inverseOf cnfo:fundPerformanceForUnit ;
+    skos:definition "表示基金份额具有相应的业绩记录，与 fundPerformanceForUnit 互逆。"@zh .
+
+# ---------- 费率与监管依据 ----------
+cnfo:hasFundFee a owl:ObjectProperty ;
+    rdfs:label "具有基金费率"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundFee ;
+    rdfs:subPropertyOf cnfo:hasFundObject ;
+    owl:inverseOf cnfo:feeForFund ;
+    skos:definition "表示基金具有适用于基金产品层面的收费事实，与 feeForFund 互逆。"@zh .
+
+cnfo:feeForFund a owl:ObjectProperty ;
+    rdfs:label "费率对应基金"@zh ;
+    rdfs:domain cnfo:FundFee ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:hasFundFee ;
+    skos:definition "表示基金费率对应的基金，与 hasFundFee 互逆。"@zh .
+
+cnfo:hasFundUnitFee a owl:ObjectProperty ;
+    rdfs:label "份额类别具有费率"@zh ;
+    rdfs:domain cnfo:FundUnitClass ;
+    rdfs:range cnfo:FundFee ;
+    owl:inverseOf cnfo:feeForFundUnitClass ;
+    skos:definition "表示基金费率适用于特定基金份额类别，与 feeForFundUnitClass 互逆。"@zh .
+
+cnfo:feeForFundUnitClass a owl:ObjectProperty ;
+    rdfs:label "费率对应份额类别"@zh ;
+    rdfs:domain cnfo:FundFee ;
+    rdfs:range cnfo:FundUnitClass ;
+    owl:inverseOf cnfo:hasFundUnitFee ;
+    skos:definition "表示基金费率对应的基金份额类别，与 hasFundUnitFee 互逆。"@zh .
+
+cnfo:issuedByAuthority a owl:ObjectProperty ;
+    rdfs:label "法规发布机构"@zh ;
+    rdfs:domain cnfo:Regulation ;
+    rdfs:range cnfo:FundSupervisor ;
+    owl:inverseOf cnfo:authorityForRegulation ;
+    skos:definition "表示法律法规或监管规范由相应监管机构发布或制定，与 authorityForRegulation 互逆。"@zh .
+
+cnfo:authorityForRegulation a owl:ObjectProperty ;
+    rdfs:label "监管机构发布法规"@zh ;
+    rdfs:domain cnfo:FundSupervisor ;
+    rdfs:range cnfo:Regulation ;
+    owl:inverseOf cnfo:issuedByAuthority ;
+    skos:definition "表示监管机构发布或制定相应法律法规与监管规范，与 issuedByAuthority 互逆。"@zh .
+
+cnfo:regulationGovernsFund a owl:ObjectProperty ;
+    rdfs:label "法规规范基金"@zh ;
+    rdfs:domain cnfo:Regulation ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:governedByRegulation ;
+    skos:definition "表示法律法规或监管规范适用于并规范基金业务，与 governedByRegulation 互逆。"@zh .
+
+cnfo:governedByRegulation a owl:ObjectProperty ;
+    rdfs:label "基金受法规规范"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:Regulation ;
+    owl:inverseOf cnfo:regulationGovernsFund ;
+    skos:definition "表示基金受到相应法律法规或监管规范的约束，与 regulationGovernsFund 互逆。"@zh .
+
+cnfo:restrictionBasisIn a owl:ObjectProperty ;
+    rdfs:label "投资限制依据法规"@zh ;
+    rdfs:domain cnfo:FundInvestmentRestriction ;
+    rdfs:range cnfo:Regulation ;
+    owl:inverseOf cnfo:basisForRestriction ;
+    skos:definition "表示基金投资限制所依据的法律法规或监管规范，与 basisForRestriction 互逆。"@zh .
+
+cnfo:basisForRestriction a owl:ObjectProperty ;
+    rdfs:label "法规规定投资限制"@zh ;
+    rdfs:domain cnfo:Regulation ;
+    rdfs:range cnfo:FundInvestmentRestriction ;
+    owl:inverseOf cnfo:restrictionBasisIn ;
+    skos:definition "表示法律法规或监管规范规定的基金投资限制，与 restrictionBasisIn 互逆。"@zh .
+
+cnfo:disclosureObligationUnder a owl:ObjectProperty ;
+    rdfs:label "信息披露依据法规"@zh ;
+    rdfs:domain cnfo:InformationDisclosureActivity ;
+    rdfs:range cnfo:Regulation ;
+    owl:inverseOf cnfo:governsDisclosureActivity ;
+    skos:definition "表示信息披露活动依据的法律法规或监管规范，与 governsDisclosureActivity 互逆。"@zh .
+
+cnfo:governsDisclosureActivity a owl:ObjectProperty ;
+    rdfs:label "法规规定披露活动"@zh ;
+    rdfs:domain cnfo:Regulation ;
+    rdfs:range cnfo:InformationDisclosureActivity ;
+    owl:inverseOf cnfo:disclosureObligationUnder ;
+    skos:definition "表示法律法规或监管规范规定相应的信息披露活动，与 disclosureObligationUnder 互逆。"@zh .
+
+cnfo:activityUnderRegulation a owl:ObjectProperty ;
+    rdfs:label "活动适用监管规范"@zh ;
+    rdfs:domain cnfo:FundActivity ;
+    rdfs:range cnfo:Regulation ;
+    owl:inverseOf cnfo:regulationForActivity ;
+    skos:definition "表示基金业务活动适用的法律法规或监管规范，与 regulationForActivity 互逆。"@zh .
+
+cnfo:regulationForActivity a owl:ObjectProperty ;
+    rdfs:label "监管规范适用活动"@zh ;
+    rdfs:domain cnfo:Regulation ;
+    rdfs:range cnfo:FundActivity ;
+    owl:inverseOf cnfo:activityUnderRegulation ;
+    skos:definition "表示法律法规或监管规范适用的基金业务活动，与 activityUnderRegulation 互逆。"@zh .
+
+# ---------- 基准指数、适当性、合同与活动主体 ----------
+cnfo:fundBenchmark a owl:ObjectProperty ;
+    rdfs:label "基金具有业绩比较基准"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundBenchmark ;
+    skos:definition "表示基金适用相应业绩比较基准的便捷关联。"@zh .
+
+cnfo:benchmarkIndex a owl:ObjectProperty ;
+    rdfs:label "基准对应市场指数"@zh ;
+    rdfs:domain cnfo:FundBenchmark ;
+    rdfs:range cnfo:MarketIndex ;
+    owl:inverseOf cnfo:indexUsedAsBenchmark ;
+    skos:definition "表示业绩比较基准引用的市场指数，与 indexUsedAsBenchmark 互逆。"@zh .
+
+cnfo:indexUsedAsBenchmark a owl:ObjectProperty ;
+    rdfs:label "市场指数作为基准"@zh ;
+    rdfs:domain cnfo:MarketIndex ;
+    rdfs:range cnfo:FundBenchmark ;
+    owl:inverseOf cnfo:benchmarkIndex ;
+    skos:definition "表示市场指数被用作基金业绩比较基准，与 benchmarkIndex 互逆。"@zh .
+
+cnfo:trackingTargetIndex a owl:ObjectProperty ;
+    rdfs:label "策略跟踪市场指数"@zh ;
+    rdfs:domain cnfo:IndexTrackingStrategy ;
+    rdfs:range cnfo:MarketIndex ;
+    owl:inverseOf cnfo:indexTrackedByStrategy ;
+    skos:definition "表示指数跟踪策略所跟踪的市场指数，与 indexTrackedByStrategy 互逆。"@zh .
+
+cnfo:indexTrackedByStrategy a owl:ObjectProperty ;
+    rdfs:label "市场指数被策略跟踪"@zh ;
+    rdfs:domain cnfo:MarketIndex ;
+    rdfs:range cnfo:IndexTrackingStrategy ;
+    owl:inverseOf cnfo:trackingTargetIndex ;
+    skos:definition "表示市场指数被相应指数跟踪策略跟踪，与 trackingTargetIndex 互逆。"@zh .
+
+cnfo:hasInvestorRiskRating a owl:ObjectProperty ;
+    rdfs:label "具有投资者风险评级"@zh ;
+    rdfs:domain cnfo:Investor ;
+    rdfs:range cnfo:InvestorRiskRating ;
+    owl:inverseOf cnfo:ratingForInvestor ;
+    skos:definition "表示投资者具有相应的风险承受评级，用于适当性匹配，与 ratingForInvestor 互逆。"@zh .
+
+cnfo:ratingForInvestor a owl:ObjectProperty ;
+    rdfs:label "风险评级对应投资者"@zh ;
+    rdfs:domain cnfo:InvestorRiskRating ;
+    rdfs:range cnfo:Investor ;
+    owl:inverseOf cnfo:hasInvestorRiskRating ;
+    skos:definition "表示投资者风险承受评级对应的投资者，与 hasInvestorRiskRating 互逆。"@zh .
+
+cnfo:investorRiskRatingForFund a owl:ObjectProperty ;
+    rdfs:label "投资者评级适用于基金"@zh ;
+    rdfs:domain cnfo:InvestorRiskRating ;
+    rdfs:range cnfo:Fund ;
+    skos:definition "表示投资者风险承受评级在特定基金适当性判断中的适用范围。"@zh .
+
+cnfo:compiledBy a owl:ObjectProperty ;
+    rdfs:label "指数编制机构"@zh ;
+    rdfs:domain cnfo:MarketIndex ;
+    rdfs:range cnfo:FundParty ;
+    owl:inverseOf cnfo:compilesIndex ;
+    skos:definition "表示市场指数由相应指数编制机构编制，与 compilesIndex 互逆。"@zh .
+
+cnfo:compilesIndex a owl:ObjectProperty ;
+    rdfs:label "编制市场指数"@zh ;
+    rdfs:domain cnfo:FundParty ;
+    rdfs:range cnfo:MarketIndex ;
+    owl:inverseOf cnfo:compiledBy ;
+    skos:definition "表示基金参与主体编制相应市场指数，与 compiledBy 互逆。"@zh .
+
+cnfo:contractParty a owl:ObjectProperty ;
+    rdfs:label "合同当事人"@zh ;
+    rdfs:domain cnfo:FundContract ;
+    rdfs:range cnfo:FundParty ;
+    owl:inverseOf cnfo:partyToContract ;
+    skos:definition "表示基金合同的当事人或签署主体，与 partyToContract 互逆。"@zh .
+
+cnfo:partyToContract a owl:ObjectProperty ;
+    rdfs:label "主体参与合同"@zh ;
+    rdfs:domain cnfo:FundParty ;
+    rdfs:range cnfo:FundContract ;
+    owl:inverseOf cnfo:contractParty ;
+    skos:definition "表示基金参与主体作为当事人参与的基金合同，与 contractParty 互逆。"@zh .
+
+cnfo:activityPerformedBy a owl:ObjectProperty ;
+    rdfs:label "活动实施主体"@zh ;
+    rdfs:domain cnfo:FundActivity ;
+    rdfs:range cnfo:FundParty ;
+    owl:inverseOf cnfo:performsFundActivity ;
+    skos:definition "表示基金业务活动由哪个基金参与主体实施或发起，与 performsFundActivity 互逆。"@zh .
+
+cnfo:performsFundActivity a owl:ObjectProperty ;
+    rdfs:label "主体实施基金活动"@zh ;
+    rdfs:domain cnfo:FundParty ;
+    rdfs:range cnfo:FundActivity ;
+    owl:inverseOf cnfo:activityPerformedBy ;
+    skos:definition "表示基金参与主体实施或发起相应基金业务活动，与 activityPerformedBy 互逆。"@zh .
+
+# ---------- 数据属性 ----------
+cnfo:accumulatedUnitNetAssetValue a owl:DatatypeProperty ;
+    rdfs:label "累计单位净值"@zh ;
+    rdfs:domain cnfo:NetAssetValueRecord ;
+    rdfs:range xsd:decimal ;
+    skos:definition "基金份额累计单位净值，用于收益计算、分红复权与业绩分析。"@zh .
+
+cnfo:performancePeriodStart a owl:DatatypeProperty ;
+    rdfs:label "业绩期间起始日"@zh ;
+    rdfs:domain cnfo:FundPerformanceRecord ;
+    rdfs:range xsd:date ;
+    skos:definition "基金业绩记录统计期间的起始日期。"@zh .
+
+cnfo:performancePeriodEnd a owl:DatatypeProperty ;
+    rdfs:label "业绩期间结束日"@zh ;
+    rdfs:domain cnfo:FundPerformanceRecord ;
+    rdfs:range xsd:date ;
+    skos:definition "基金业绩记录统计期间的结束日期。"@zh .
+
+cnfo:cumulativeReturn a owl:DatatypeProperty ;
+    rdfs:label "累计收益率"@zh ;
+    rdfs:domain cnfo:FundPerformanceRecord ;
+    rdfs:range xsd:decimal ;
+    skos:definition "基金在业绩统计期间内的累计收益率。"@zh .
+
+cnfo:annualizedReturn a owl:DatatypeProperty ;
+    rdfs:label "年化收益率"@zh ;
+    rdfs:domain cnfo:FundPerformanceRecord ;
+    rdfs:range xsd:decimal ;
+    skos:definition "基金在业绩统计期间内按年化口径计算的收益率。"@zh .
+
+cnfo:excessReturn a owl:DatatypeProperty ;
+    rdfs:label "超额收益率"@zh ;
+    rdfs:domain cnfo:FundPerformanceRecord ;
+    rdfs:range xsd:decimal ;
+    skos:definition "基金收益率相对于对应业绩比较基准收益率的超额部分。"@zh .
+
+cnfo:maximumDrawdown a owl:DatatypeProperty ;
+    rdfs:label "最大回撤"@zh ;
+    rdfs:domain cnfo:FundPerformanceRecord ;
+    rdfs:range xsd:decimal ;
+    skos:definition "基金业绩统计期间内从峰值到随后低点的最大跌幅。"@zh .
+
+cnfo:trackingError a owl:DatatypeProperty ;
+    rdfs:label "跟踪误差"@zh ;
+    rdfs:domain cnfo:FundPerformanceRecord ;
+    rdfs:range xsd:decimal ;
+    skos:definition "指数跟踪策略或基金收益相对于跟踪目标指数偏离程度的统计指标。"@zh .
+
+cnfo:feeName a owl:DatatypeProperty ;
+    rdfs:label "费率名称"@zh ;
+    rdfs:domain cnfo:FundFee ;
+    rdfs:range xsd:string ;
+    skos:definition "基金收费事实的名称，如管理费、托管费、销售服务费或业绩报酬。"@zh .
+
+cnfo:feeRate a owl:DatatypeProperty ;
+    rdfs:label "费率"@zh ;
+    rdfs:domain cnfo:FundFee ;
+    rdfs:range xsd:decimal ;
+    skos:definition "基金收费事实对应的费率数值。"@zh .
+
+cnfo:feeAmount a owl:DatatypeProperty ;
+    rdfs:label "收费金额"@zh ;
+    rdfs:domain cnfo:FundFee ;
+    rdfs:range xsd:decimal ;
+    skos:definition "基金收费事实对应的金额数值。"@zh .
+
+cnfo:feeBasis a owl:DatatypeProperty ;
+    rdfs:label "收费计提基础"@zh ;
+    rdfs:domain cnfo:FundFee ;
+    rdfs:range xsd:string ;
+    skos:definition "基金费率或收费金额的计提基础说明。"@zh .
+
+cnfo:indexCode a owl:DatatypeProperty ;
+    rdfs:label "指数代码"@zh ;
+    rdfs:domain cnfo:MarketIndex ;
+    rdfs:range xsd:string ;
+    skos:definition "市场指数的唯一或行业识别代码。"@zh .
+
+cnfo:indexName a owl:DatatypeProperty ;
+    rdfs:label "指数名称"@zh ;
+    rdfs:domain cnfo:MarketIndex ;
+    rdfs:range xsd:string ;
+    skos:definition "市场指数的正式名称。"@zh .
+
+cnfo:indexCurrency a owl:DatatypeProperty ;
+    rdfs:label "指数币种"@zh ;
+    rdfs:domain cnfo:MarketIndex ;
+    rdfs:range xsd:string ;
+    skos:definition "市场指数计价或计算采用的币种。"@zh .
+
+cnfo:regulationCode a owl:DatatypeProperty ;
+    rdfs:label "法规规范代码"@zh ;
+    rdfs:domain cnfo:Regulation ;
+    rdfs:range xsd:string ;
+    skos:definition "法律法规或监管规范的编号、文号或其他识别代码。"@zh .
+
+cnfo:regulationTitle a owl:DatatypeProperty ;
+    rdfs:label "法规规范名称"@zh ;
+    rdfs:domain cnfo:Regulation ;
+    rdfs:range xsd:string ;
+    skos:definition "法律法规或监管规范的正式名称。"@zh .
+
+cnfo:articleReference a owl:DatatypeProperty ;
+    rdfs:label "条文引用"@zh ;
+    rdfs:domain cnfo:Regulation ;
+    rdfs:range xsd:string ;
+    skos:definition "投资限制、披露义务或其他业务事实所引用的法规条文位置。"@zh .
+
+cnfo:investorRiskRatingCode a owl:DatatypeProperty ;
+    rdfs:label "投资者风险评级代码"@zh ;
+    rdfs:domain cnfo:InvestorRiskRating ;
+    rdfs:range xsd:string ;
+    skos:definition "投资者风险承受评级的代码值，例如 C1 至 C5。"@zh .
+
+# ---------- 评审要求的推理公理 ----------
+cnfo:FundObject owl:disjointWith cnfo:FundParty .
+cnfo:ConceptNature rdfs:comment "元概念层分类，不作为基金业务主体或业务对象实例化；用于说明基金概念的法定、监管或市场惯用性质。"@zh .
+cnfo:FundUnitInvestmentAsset skos:scopeNote "本类实例是被投基金份额的引用性投资资产代理；其发行基金与份额币种仍应通过 issuedByFund、unitCurrency 保持可追溯。"@zh .
+
+cnfo:OpenEndedFund owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+        cnfo:Fund
+        [ a owl:Restriction ; owl:onProperty cnfo:hasFundOperationMode ; owl:hasValue cnfc:FundOperationModeOpenEnded ]
+    )
+] .
+cnfo:ClosedEndedFund owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+        cnfo:Fund
+        [ a owl:Restriction ; owl:onProperty cnfo:hasFundOperationMode ; owl:hasValue cnfc:FundOperationModeClosedEnded ]
+    )
+] .
+cnfo:PublicFund owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+        cnfo:Fund
+        [ a owl:Restriction ; owl:onProperty cnfo:isPrivate ; owl:hasValue false ]
+    )
+] .
+cnfo:PrivateFund owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+        cnfo:Fund
+        [ a owl:Restriction ; owl:onProperty cnfo:isPrivate ; owl:hasValue true ]
+    )
+] .
+cnfo:ExchangeTradedFund owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+        cnfo:OpenEndedFund
+        [ a owl:Restriction ; owl:onProperty cnfo:isExchangeTraded ; owl:hasValue true ]
+    )
+] .
+cnfo:FundOfFunds owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+        cnfo:Fund
+        [ a owl:Restriction ; owl:onProperty cnfo:hasUnderlyingFund ; owl:someValuesFrom cnfo:Fund ]
+    )
+] .
+
+cnfo:hasFundParty owl:propertyChainAxiom ( cnfo:hasFundRole cnfo:rolePlayedBy ) .
+cnfo:hasFundManager owl:propertyChainAxiom ( cnfo:hasFundManagerRole cnfo:rolePlayedBy ) .
+cnfo:hasFundDepositary owl:propertyChainAxiom ( cnfo:hasFundDepositaryRole cnfo:rolePlayedBy ) .
+cnfo:recordForFund owl:propertyChainAxiom ( cnfo:recordForFundUnit cnfo:issuedByFund ) .
+
+cnfo:baseCurrency a owl:FunctionalProperty .
+cnfo:unitCurrency a owl:FunctionalProperty .
+cnfo:fundCode a owl:FunctionalProperty .
+cnfo:fundUnitCode a owl:FunctionalProperty .
+cnfo:accountNumber a owl:FunctionalProperty .
+cnfo:hasFundStatus a owl:FunctionalProperty .
+
+cnfo:Fund owl:hasKey ( cnfo:fundCode ) .
+cnfo:FundUnit owl:hasKey ( cnfo:fundUnitCode cnfo:issuedByFund ) .
+cnfo:FundAccount owl:hasKey ( cnfo:accountNumber ) .
+
+[] a owl:AllDisjointClasses ;
+   owl:members ( cnfo:EquityFund cnfo:BondFund cnfo:HybridFund cnfo:MoneyMarketFund ) .
+[] a owl:AllDisjointClasses ;
+   owl:members ( cnfo:FundContract cnfo:FundProspectus cnfo:FundPeriodicReport cnfo:FundFilingDocument ) .
+[] a owl:AllDisjointClasses ;
+   owl:members ( cnfo:FundManagerRole cnfo:FundDepositaryRole cnfo:FundDistributorRole cnfo:FundRegistrarRole ) .
+
+cnfo:FundPerformanceRecord rdfs:subClassOf
+    [ a owl:Restriction ; owl:onClass cnfo:Fund ; owl:onProperty cnfo:performanceForFund ; owl:qualifiedCardinality 1 ],
+    [ a owl:Restriction ; owl:onProperty cnfo:performancePeriodStart ; owl:cardinality 1 ],
+    [ a owl:Restriction ; owl:onProperty cnfo:performancePeriodEnd ; owl:cardinality 1 ] .

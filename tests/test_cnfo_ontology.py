@@ -177,6 +177,51 @@ class CnfoOntologyTest(unittest.TestCase):
         self.assertIn((role, CNFO.agentRoleForFund, fund), graph)
         self.assertIn((agent, CNFO.playsFundRole, role), graph)
 
+    def test_review_upgrade_axioms_and_concepts(self) -> None:
+        for class_iri in (
+            CNFO.FundPerformanceRecord,
+            CNFO.FundFee,
+            CNFO.Regulation,
+            CNFO.FundManagerPerson,
+            CNFO.MarketIndex,
+            CNFO.DerivativeInvestmentAsset,
+            CNFO.CashAndDepositAsset,
+            CNFO.MoneyMarketInstrument,
+            CNFO.AssetBackedSecurity,
+            CNFO.InvestorRiskRating,
+        ):
+            self.assertIn((class_iri, RDF.type, OWL.Class), self.source)
+            self.assertTrue(list(self.source.objects(class_iri, SKOS.definition)))
+
+        for class_iri in (
+            CNFO.OpenEndedFund,
+            CNFO.ClosedEndedFund,
+            CNFO.PublicFund,
+            CNFO.PrivateFund,
+            CNFO.ExchangeTradedFund,
+            CNFO.FundOfFunds,
+        ):
+            self.assertTrue(list(self.source.objects(class_iri, OWL.equivalentClass)))
+
+        for property_iri in (
+            CNFO.hasFundManager,
+            CNFO.hasFundDepositary,
+            CNFO.recordForFund,
+        ):
+            self.assertTrue(list(self.source.objects(property_iri, OWL.propertyChainAxiom)))
+
+        for property_iri in (
+            CNFO.fundCode,
+            CNFO.fundUnitCode,
+            CNFO.accountNumber,
+            CNFO.unitCurrency,
+            CNFO.baseCurrency,
+            CNFO.hasFundStatus,
+        ):
+            self.assertIn((property_iri, RDF.type, OWL.FunctionalProperty), self.source)
+
+        self.assertIn((CNFO.FundObject, OWL.disjointWith, CNFO.FundParty), self.source)
+
     def test_owlrl_entails_local_class_values_and_inverse_edges(self) -> None:
         graph = Graph()
         graph += self.source
@@ -216,6 +261,37 @@ class CnfoOntologyTest(unittest.TestCase):
         self.assertIn((unit, CNFO.issuedByFund, fund), graph)
         self.assertIn((position, CNFO.positionOfPortfolio, portfolio), graph)
         self.assertIn((asset, CNFO.assetHasPortfolioPosition, position), graph)
+
+    def test_owlrl_entails_review_property_chains(self) -> None:
+        graph = Graph()
+        graph += self.source
+        fund = CNFO.ReviewFund
+        manager_role = CNFO.ReviewManagerRole
+        manager = CNFO.ReviewManager
+        depositary_role = CNFO.ReviewDepositaryRole
+        depositary = CNFO.ReviewDepositary
+        unit = CNFO.ReviewFundUnit
+        nav = CNFO.ReviewNav
+        graph.add((fund, RDF.type, CNFO.Fund))
+        graph.add((fund, CNFO.hasFundManagerRole, manager_role))
+        graph.add((manager_role, RDF.type, CNFO.FundManagerRole))
+        graph.add((manager_role, CNFO.rolePlayedBy, manager))
+        graph.add((depositary_role, RDF.type, CNFO.FundDepositaryRole))
+        graph.add((depositary_role, CNFO.rolePlayedBy, depositary))
+        graph.add((fund, CNFO.hasFundDepositaryRole, depositary_role))
+        graph.add((unit, RDF.type, CNFO.FundUnit))
+        graph.add((unit, CNFO.issuedByFund, fund))
+        graph.add((nav, RDF.type, CNFO.NetAssetValueRecord))
+        graph.add((nav, CNFO.recordForFundUnit, unit))
+        DeductiveClosure(
+            OWLRL_Semantics,
+            axiomatic_triples=False,
+            datatype_axioms=False,
+        ).expand(graph)
+        self.assertIn((fund, CNFO.hasFundManager, manager), graph)
+        self.assertIn((fund, CNFO.hasFundDepositary, depositary), graph)
+        self.assertIn((fund, CNFO.hasFundParty, manager), graph)
+        self.assertIn((nav, CNFO.recordForFund, fund), graph)
 
     def test_module_interface_only_exposes_current_modules(self) -> None:
         session = OntologyViewerSession(ROOT / "ontology" / "modules" / "cnfo-domain.ttl")
