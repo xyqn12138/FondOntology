@@ -2,6 +2,61 @@
 
 中国基金领域本体项目。当前正式运行的是独立的 CNFO（China Fund Ontology）。
 
+规划中的"基金智能问数系统"（LLM 语义解构 + T-BOX 语义编译器 + A-BOX 查询 + 证据链）
+设计见 `artifacts/cnfo-qa-system-design.md`（v0.4 冻结稿）。
+
+**M1 已落地**（确定性语义链，无需 LLM）：`fondontology/tbox/`（taxonomy/constraints/
+inference）+ `fondontology/qa/verify.py`（verify 四状态：ENTAILED/CONTRADICTED/
+UNKNOWN/INVALID_REQUEST）。回归与基准：
+
+    .venv\Scripts\python.exe -m unittest discover -s tests -p 'test_qa_verify.py'
+    .venv\Scripts\python.exe tools\qa_bench.py --stage verify   # 72 条 CQ，100%
+
+**M2 已落地**（查询链）：`qa/graph.py`（TBOX/ABOX 分层 + GraphSnapshot）、
+`qa/query_planner.py`（Semantic Query IR v1 草案）、`qa/sparql_builder.py`
+（QueryPlan→SPARQL 纯函数）、`qa/abox_query.py`（实例检索 + explicit/inferred
+类型证据 + 局部子图）：
+
+    .venv\Scripts\python.exe tools\qa_bench.py --stage find      # 16 条 find CQ，100%
+
+**M3 已落地**（确定性端到端）：`qa/evidence.py`（Claim-Evidence Map + premises/
+derived 证据链 + 引用校验）、`qa/context.py`（Ontology Slice 预算与截断）、
+`qa/templates.py`（无 LLM 模板作答）、`qa/engine.py`（手工 Intent →
+QueryPlan → SPARQL → 证据 → 模板）；**QueryPlan v1.0 已冻结**
+（`artifacts/qa/query_plan.schema.json`）：
+
+    .venv\Scripts\python.exe tools\qa_bench.py --stage e2e       # 12 条端到端 CQ，100%
+
+**M4 已落地**（NL→Intent）：`qa/index.py`（词汇索引）、`qa/resolver.py`
+（string→candidates，含实体代码/受控归一化）、`qa/validator.py`（白名单）、
+`qa/lexicon.py`（"R4以上/国内"等确定性归一化）、`qa/intent.py`（LLM 解构 +
+Candidate Selection 协议 + resolution 三态；无 key 走确定性路径，有 key 走
+OpenAI 兼容接口且输出须过白名单）。`.env` 提供
+`OPENAI_API_KEY / OPENAI_BASE_URL / OPENAI_MODEL` 后 LLM 路径自动启用：
+
+    .venv\Scripts\python.exe tools\qa_bench.py --stage intent    # 14 条 intent CQ，100%（Semantic Accuracy 10/10）
+
+**M5 已落地**（LLM 表达 + 引用闸门 + NL 全链路）：`qa/explainer.py`（LLM 逐句
+claim_id 结构化表达；知越权引用 → 带反馈重试 → 模板回退，终态 UCR=0）、
+`qa/engine.py::answer_question()`（自然语言 → intent → QueryPlan → SPARQL →
+证据 → 表达 全链路入口）、`tools/qa_cli.py`（单问 / REPL）：
+
+    .venv\Scripts\python.exe tools\qa_bench.py --stage citation  # 10 条 NL 问答，UCR=0，引用零越权
+    .venv\Scripts\python.exe tools\qa_cli.py "有哪些交易型开放式指数基金"
+    .venv\Scripts\python.exe tools\qa_cli.py --repl             # 交互式问数
+    .venv\Scripts\python.exe tools\qa_cli.py --detail "R4以上的基金有哪些"
+    .venv\Scripts\python.exe tools\qa_cli.py "钱强的基金有什么？"   # 投资者实体锚点 → 持仓链查询
+    .venv\Scripts\python.exe tools\qa_cli.py "魏辉的基金有什么？"   # 基金经理锚点 → playsFundRole→roleInFund 链
+
+库级调用入口：
+
+    from fondontology.qa.graph import build_stack
+    from fondontology.qa.engine import answer_question
+    stack = build_stack("ontology/modules/cnfo-domain.ttl", "artifacts/cnfo/abox/cnfo-sim-abox.ttl")
+    ans = answer_question("开放式基金与封闭式基金是否互斥", stack)
+    print(ans.text, ans.verdict, ans.explanation)   # 含 gate/UCR 报告
+    ans = answer_question("钱强的基金有什么？", stack)   # 锚点问题：投资者 → 持仓 → 份额 → 基金
+
 当前源文件参考本地 FIBO `SEC/Funds` 模块的基金、基金单位、基金组合、角色和约束建模方式，但不导入 FIBO 命名空间；类名和属性名以中国基金业务语境为准。
 
 ## Formal ontology
@@ -21,6 +76,136 @@
 CNFO 当前覆盖基金、基金产品、基金财产、基金投资组合、基金份额、基金管理人角色、基金托管人角色、基金代理人主体/角色、基金投资者、基金合同、基金活动、基金状态以及公募基金、私募基金、ETF、FOF、QDII、内地与香港互认基金等国内基金概念。
 
 模块层使用独立的技术命名空间 `https://ontology.example.cn/cnfo/module/` 描述模块层级、文件、顺序和术语归属，不计入 CNFO 业务类和属性统计。新增业务模块时，只需新增 Turtle 文件、声明 `owl:imports` 和模块元数据，现有构建器、API 和左侧目录即可递归加载。
+
+## 仿真数据（A-BOX / SQLite）
+
+`tools/gen_sim_abox.py` 根据当前最新版本体（0.5.3，经 `load_ontology_graph` 运行时加载）生成一批仿真业务数据，写入 SQLite 轻量数据库，并内置 SHACL 数据质量校验：
+
+    .venv\Scripts\python.exe tools\gen_sim_abox.py
+
+产出：
+- `artifacts\cnfo\abox\cnfo-sim.sqlite` —— 规范化镜像本体核心类与关系的仿真 A-BOX：
+  Fund / FundUnit / NavRecord / FundPortfolio / PortfolioPosition / FundRoleAssignment /
+  FundParty / Investor / FundAccount / FundPosition / FundFee / FundPerformance /
+  FundBenchmark / MarketIndex / Regulation 等；`cnfc_code` 与 `lifecycle_status`
+  表直接来自本体图中的受控代码表与状态类，`meta` 表记录本体版本与生成参数。
+- `artifacts\cnfo\abox\cnfo-sim-abox.ttl` —— 标准 **A-BOX Turtle 图**（默认导出）。
+  只含实例数据，不含任何 T-BOX 词汇声明；图头声明 `cnfo-a:CNFOSimulatedAbox a
+  owl:Ontology`，并通过 `owl:imports` 关联 `cnfo:CNFODomain` / `cnfo:CNFOFundOntology` /
+  `cnfom:CNFOModuleVocabulary`，即 T-BOX 与 A-BOX 正式分离。
+- `artifacts\cnfo\abox\cnfo-sim-explorer.json` —— Semantica Explorer 图（默认导出，
+  nodes/edges 格式与 `cnfo-fund-tbox-explorer.json` 一致；为可浏览性不含约 3.5 万条
+  净值记录节点）。**不含 owl:Ontology 数据集头节点**：Semantica 的
+  `/api/ontology/registry` 会把图中每个 owl:Ontology 节点推断为一个“本体”条目，
+  若把 A-BOX 数据集头放进图里，Ontology 面板就会显示“CNFO 仿真 A-BOX…0 Classes”，
+  掩盖真正的 T-BOX。A-BOX 数据集头只保留在 `cnfo-sim-abox.ttl` 中。
+- `artifacts\cnfo\abox\cnfo-sim-session.json` —— **T-BOX + A-BOX 合并会话图**（默认
+  导出）。合并 `cnfo-fund-tbox-explorer.json` 与 A-BOX 图，补齐 T-BOX 本体节点
+  （`cnfo:CNFODomain`，标签与版本取自 T-BOX）并给类/属性节点标注 `scheme_uri`，
+  因此 Ontology 面板显示设计好的 T-BOX（如：CNFO 基金领域入口，143 类 / 204 属性），
+  A-BOX 实例作为普通图数据浏览。
+- 默认在内存中对 A-BOX + T-BOX 合并图运行 SHACL 校验（`--validate-days` 控制
+  净值记录保留窗口，默认最近 15 个估值日，用于控制 SPARQL 校验成本；
+  SQLite / TTL 中始终写入全量净值序列）。
+
+全部数据为仿真虚构，与真实机构、个人无关。可按需调整规模：
+`--funds 40 --days 356 --seed 20260826`。可用 `--no-export-ttl` / `--no-explorer-json` /
+`--no-session-json` 关闭对应导出。
+
+### 加载进 Semantica
+
+- **Explorer 图（推荐）**：T-BOX 与 A-BOX 一起浏览用合并会话图（Ontology 面板显示
+  设计好的 T-BOX，实例作为数据）：
+
+      .venv\Scripts\python.exe fondontology\explorer.py --mode graph --graph artifacts\cnfo\abox\cnfo-sim-session.json
+
+  只浏览 A-BOX 实例可用 `--graph artifacts\cnfo\abox\cnfo-sim-explorer.json`（此时
+  Ontology 面板为空——A-BOX 不是本体，属预期行为）。也可在 Explorer 的 Import 页面
+  上传 JSON（`POST /api/import`）。
+- **Ontology Hub 上传 Turtle**：`POST /api/ontology/load` 支持 Turtle 文件。T-BOX 通过
+  OntologyIngestor 提取类/属性；纯 A-BOX（无类声明）会走通用 RDF 解析回退路径，实例
+  与关系会成为图节点/边。建议先上传 T-BOX（`cnfo-fund-tbox.ttl`）再上传 A-BOX
+  （`cnfo-sim-abox.ttl`）。注意 Hub 会把每个上传文件登记为一个本体条目，A-BOX 条目
+  会显示 0 类（它是数据集不是本体）；要按“本体 + 数据”的方式浏览，请用上面的
+  会话图或 /api/import。
+- **代码方式**：SPARQL / 校验可把 T-BOX 与 A-BOX 合并加载（`load_ontology_graph`
+  或直接 `rdflib` 解析两个文件后合并）。
+- **把任意 TTL 转成 Explorer 图**：`--graph` 只接受 JSON（`GraphSession.from_file`
+  仅支持 JSON）。可用生成器内置的通用转换：
+
+      .venv\Scripts\python.exe tools\gen_sim_abox.py --ttl-to-json artifacts\cnfo\abox\cnfo-sim-abox.ttl --ttl-skip NAV --tbox artifacts\cnfo\cnfo-fund-tbox.ttl
+
+  `--tbox` 合并 T-BOX（代码概念有类型和中文标签）；`--ttl-skip` 按局部名前缀
+  排除节点（模拟数据约 3.5 万条净值记录应排除，否则超出 SPARQL 的 50k 上限）；
+  输出 `<同名>.explorer.json`，再用 `--mode graph --graph <该文件>` 加载。
+
+### 网页端 SPARQL（Explorer SPARQL 工作台）
+
+工作台把会话图投影为两个命名空间：
+- `ent:`（`http://semantica.local/entity/` + 节点 ID）——实体；节点的单一
+  `type` 成为 `rdf:type` 断言（基金节点统一为 `ent:cnfo:Fund`，子类型在节点
+  属性 `rdf:type` 中，可用 `prop:cnfo:fundTypeCode` 过滤）。
+- `prop:`（`http://semantica.local/prop/` + 谓词）——关系边与节点数据属性
+  （键形如 `cnfo:fundCode`、`cnfo:hasFundUnit`）；节点 content 提供
+  `rdfs:label`。
+
+注意事项：每个 `PREFIX` 必须单独一行（服务端只读校验按行剥离声明）；
+只允许 SELECT / ASK / CONSTRUCT / DESCRIBE；净值记录未进入会话图
+（`a ent:cnfo:NetAssetValueRecord` 计数为 0），净值查询请用 TTL + rdflib。
+
+```sparql
+# 1) 全部基金（代码/名称/成立日期）
+PREFIX ent: <http://semantica.local/entity/>
+PREFIX prop: <http://semantica.local/prop/>
+SELECT ?f ?code ?name ?inc WHERE {
+  ?f a ent:cnfo:Fund ; prop:cnfo:fundCode ?code ; rdfs:label ?name .
+  OPTIONAL { ?f prop:cnfo:inceptionDate ?inc . }
+} LIMIT 20
+
+# 2) 基金 -> 份额类别 -> 分红方式（含 C 类）
+PREFIX ent: <http://semantica.local/entity/>
+PREFIX prop: <http://semantica.local/prop/>
+SELECT ?fname ?ucode ?dist WHERE {
+  ?f a ent:cnfo:Fund ; rdfs:label ?fname ; prop:cnfo:hasFundUnit ?u .
+  ?u prop:cnfo:fundUnitCode ?ucode ; prop:cnfo:hasFundDistributionMode ?d .
+  ?d rdfs:label ?dist .
+} LIMIT 20
+
+# 3) 基金管理人/托管人（角色 -> 主体）
+PREFIX ent: <http://semantica.local/entity/>
+PREFIX prop: <http://semantica.local/prop/>
+SELECT ?fname ?mgr ?dep WHERE {
+  ?f a ent:cnfo:Fund ; rdfs:label ?fname ;
+     prop:cnfo:hasFundManagerRole ?rm ; prop:cnfo:hasFundDepositaryRole ?rd .
+  ?rm prop:cnfo:rolePlayedBy ?pm . ?pm rdfs:label ?mgr .
+  ?rd prop:cnfo:rolePlayedBy ?pd . ?pd rdfs:label ?dep .
+}
+
+# 4) 投资者 -> 持仓 -> 份额 -> 基金
+PREFIX ent: <http://semantica.local/entity/>
+PREFIX prop: <http://semantica.local/prop/>
+SELECT ?inv ?unit ?fund ?qty WHERE {
+  ?i a ent:cnfo:Investor ; rdfs:label ?inv ; prop:cnfo:holdsFundPosition ?pos .
+  ?pos prop:cnfo:positionInFundUnit ?u ; prop:cnfo:positionQuantity ?qty .
+  ?u prop:cnfo:fundUnitCode ?unit ; prop:cnfo:issuedByFund ?f .
+  ?f rdfs:label ?fund .
+} LIMIT 20
+
+# 5) 按类型统计（BOND/EQUITY/ETF/FOF/QDII/MONEY/...）
+PREFIX ent: <http://semantica.local/entity/>
+PREFIX prop: <http://semantica.local/prop/>
+SELECT ?t (COUNT(?f) AS ?n) WHERE {
+  ?f a ent:cnfo:Fund ; prop:cnfo:fundTypeCode ?t .
+} GROUP BY ?t ORDER BY ?t
+
+# 6) 已终止基金
+PREFIX ent: <http://semantica.local/entity/>
+PREFIX prop: <http://semantica.local/prop/>
+SELECT ?fname ?inc ?term WHERE {
+  ?f a ent:cnfo:Fund ; rdfs:label ?fname ; prop:cnfo:inceptionDate ?inc ;
+     prop:cnfo:terminationDate ?term .
+}
+```
 
 ## Build
 
