@@ -14,3 +14,6 @@ wheels/
 
 # Generated local ontology artifacts
 artifacts/
+
+# api_key
+.env
