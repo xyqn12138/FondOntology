@@ -88,6 +88,7 @@ def plan_find(*, target: str, tbox: Graph, abox: Optional[Graph] = None,
             continue
         plan_traversals.append({
             "property": str(prop_uri),
+            "inverse": bool(t.get("inverse")),
             "filter": t.get("filter"),
             "from": t.get("from"),
             "to": t.get("to"),

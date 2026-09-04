@@ -249,6 +249,8 @@ class SimModel:
         self.accounts: list[dict] = []
         self.positions: list[dict] = []
         self.navs: list[dict] = []
+        # 无在管基金的经理自然人（合法存在：在职未分派，仅 type+label，无 playsFundRole 边）
+        self.unassigned_managers: list[str] = []
 
 
 def trading_days(end: dt.date, count: int) -> list[dt.date]:
@@ -501,9 +503,9 @@ def generate(vocab: OntologyVocabulary, funds_count: int, days_count: int, seed:
         m.roles.append({"fund_code": code, "role_type": "FundAgentRole",
                         "party_id": next(p["party_id"] for p in m.parties if p["name_zh"] == agent[0])})
         if not is_private:
+            registrars = [p["party_id"] for p in m.parties if p["party_kind"] == "fund_registrar"]
             m.roles.append({"fund_code": code, "role_type": "FundRegistrarRole",
-                            "party_id": next(p["party_id"] for p in m.parties
-                                             if p["party_kind"] == "fund_registrar")})
+                            "party_id": registrars[len(m.funds) % len(registrars)]})
         m.assignments.append({"fund_code": code, "role_type": "FundManagerRole",
                               "party_id": fund["company_id"], "effective_from": inception.isoformat(),
                               "effective_to": None})
@@ -552,6 +554,16 @@ def generate(vocab: OntologyVocabulary, funds_count: int, days_count: int, seed:
             perf["tracking_error"] = None
         m.performances.append(perf)
         fund_idx += 1
+
+    # ---- 无在管基金的经理自然人（合法存在：在职未分派；仅出现在 RDF，不产生
+    # playsFundRole 边，体现"经理可无基金"；"基金必有人管理"由角色链+SHACL 保证）。
+    # 注意：使用独立派生随机源，不消费主 rng（保持数据集可复现、基准锚点稳定）。----
+    aux_rng = random.Random(seed + 0x5EED)
+    used_manager_names = {x["manager_name"] for x in m.managers}
+    while len(m.unassigned_managers) < 4:
+        name = pick(aux_rng, SURNAMES) + pick(aux_rng, GIVEN_M)
+        if name not in used_manager_names and name not in m.unassigned_managers:
+            m.unassigned_managers.append(name)
 
     # ---- 投资资产目录 ----
     asset_id = 0
@@ -1302,6 +1314,11 @@ def build_rdf(model: SimModel, nav_window_days: int | None = None,
             g.add((posnode, CNFO.positionCurrency, Literal(pos["currency"])))
             g.add((portfolio, CNFO.hasFundPortfolioPosition, posnode))
     # 投资资产
+    # 无在管基金的经理自然人（合法孤立：仅 type+label；不产生 playsFundRole 边）
+    for i, mgr_name in enumerate(model.unassigned_managers, start=1):
+        mperson = cnfoa(f"ManagerUnassigned{i}")
+        g.add((mperson, RDF.type, CNFO.FundManagerPerson))
+        g.add((mperson, RDFS.label, Literal(mgr_name, lang="zh")))
     for a in model.assets:
         asset = cnfoa(f"Asset{a['asset_id']}")
         g.add((asset, RDF.type, CNFO.FundInvestmentAsset))

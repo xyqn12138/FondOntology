@@ -34,7 +34,9 @@ def _local_name(uri: str) -> str:
 
 
 def execute_find(stack: DataStack, plan: dict,
-                 with_abox_inferred: bool = False) -> FindResult:
+                 with_abox_inferred: bool = True) -> FindResult:
+    """实例检索；默认在推理层启用的查询图上执行（定向物化：property chain +
+    逆关系传播，产物可经 stack.inference_registry 归因）。"""
     errors = validate_plan(plan)
     if errors:
         return FindResult(plan, "", 0, errors=errors)

@@ -32,7 +32,9 @@ QueryPlan → SPARQL → 证据 → 模板）；**QueryPlan v1.0 已冻结**
 `qa/lexicon.py`（"R4以上/国内"等确定性归一化）、`qa/intent.py`（LLM 解构 +
 Candidate Selection 协议 + resolution 三态；无 key 走确定性路径，有 key 走
 OpenAI 兼容接口且输出须过白名单）。`.env` 提供
-`OPENAI_API_KEY / OPENAI_BASE_URL / OPENAI_MODEL` 后 LLM 路径自动启用：
+`OPENAI_API_KEY / OPENAI_BASE_URL / OPENAI_MODEL`（兼容别名：`MODEL`、`API_BASE`；
+`BASE_URL` 可写完整端点 `…/chat/completions`）后 LLM 路径自动启用（意图候选选择、
+答案表达与引用闸门均走真 LLM，实测 `gate=llm_validated`、UCR=0）：
 
     .venv\Scripts\python.exe tools\qa_bench.py --stage intent    # 14 条 intent CQ，100%（Semantic Accuracy 10/10）
 
@@ -108,9 +110,26 @@ CNFO 当前覆盖基金、基金产品、基金财产、基金投资组合、基
   净值记录保留窗口，默认最近 15 个估值日，用于控制 SPARQL 校验成本；
   SQLite / TTL 中始终写入全量净值序列）。
 
+**推理层（已启用）**：问数引擎在显式图之上做**定向物化推理**（`qa/graph.py` 的
+`require_abox_inferred()`）——只传播本体声明的 `propertyChainAxiom`
+（`hasFundManagerRole∘rolePlayedBy→hasFundManager` 等 4 条链）与
+`playsFundRole→rolePlayedBy` 逆关系，产物登记在 `inference_registry`
+（三元组 → 规则名 + 前提三元组）。查询图 = TBOX + 显式 ABOX + 推理产物。
+问答证据链据此给"由什么推出"：锚点类问题（如"魏辉的基金"）直接走推理物化的
+快捷边（`^hasFundManager`），证据显示 `rule=property_chain:…` 且能逐条展开前提。
+
 全部数据为仿真虚构，与真实机构、个人无关。可按需调整规模：
 `--funds 40 --days 356 --seed 20260826`。可用 `--no-export-ttl` / `--no-explorer-json` /
 `--no-session-json` 关闭对应导出。
+
+数据建模语义约定（与本体/SHACL 一致）：
+- **基金必有管理主体**：每只基金经 `hasFundManagerRole → roleInFund → rolePlayedBy → 管理公司`
+  角色链闭合（SHACL `FundShape.hasFundManagerRole minCount 1` 兜底）；基金经理自然人与该角色
+  `playsFundRole`（与 `rolePlayedBy` 互逆），OWL-RL 物化 `propertyChainAxiom` 即得
+  `hasFundManager` 快捷关系。
+- **经理允许无在管基金**：模型保留 4 位"在职未分派"经理自然人（仅类型+姓名、无
+  `playsFundRole` 边），属合法存在而非数据缺陷。全数据集一致性以"审计"为准绳：
+  基金管理链闭合率 40/40；ABOX 孤立业务实体仅限这 4 位有意保留的经理。
 
 ### 加载进 Semantica
 

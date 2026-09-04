@@ -139,7 +139,8 @@ class IntentDeterministicTest(unittest.TestCase):
         self.assertEqual(len(r.intent.get("traversals") or []), 3)
 
     def test_manager_person_anchor_funds_chain(self) -> None:
-        # 魏辉是基金经理（FundManagerPerson），数据修复后经 playsFundRole→roleInFund 链可查
+        # 魏辉是基金经理（FundManagerPerson）；锚点链已切换为"推理边"：
+        # hasFundManager（propertyChainAxiom 物化产物）反向一跳直达基金
         r = self.intent("魏辉的基金有什么？")
         self.assertEqual(r.status, "RESOLVED")
         src = r.intent.get("source")
@@ -147,7 +148,8 @@ class IntentDeterministicTest(unittest.TestCase):
         self.assertTrue(any(t.rsplit("/", 1)[-1] == "FundManagerPerson"
                             for t in meta.get("types", [])), f"{src} 非基金经理实体")
         self.assertEqual([t["property"].rsplit("/", 1)[-1] for t in r.intent["traversals"]],
-                         ["playsFundRole", "roleInFund"])
+                         ["hasFundManager"])
+        self.assertEqual([t.get("inverse") for t in r.intent["traversals"]], [True])
 
 
 if __name__ == "__main__":

@@ -89,10 +89,12 @@ def answer_question(question: str, stack: DataStack, *,
             "object": intent["object"],
         }, slice_budget=slice_budget)
         if base.status == "ok" and base.report:
-            exp = explainer.verify_explanation(
-                tbox_verify(stack.query_graph(), intent["subject"],
-                            intent["relation"], intent["object"]),
-                base.report)
+            result = tbox_verify(stack.query_graph(), intent["subject"],
+                                 intent["relation"], intent["object"])
+            # 表达层与 find 一致走 LLM+闸门；未启用 LLM 时保留模板+证据链渲染
+            exp = explainer.explain(question, base.report, use_llm=use_llm)
+            if not exp.used_llm:
+                exp = explainer.verify_explanation(result, base.report)
         else:
             exp = explainer.Explanation(text=base.text)
         base.text = exp.text

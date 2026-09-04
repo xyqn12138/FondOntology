@@ -38,7 +38,11 @@ def build_select(plan: dict) -> str:
     prev = f"<{src}>" if src else result_var
     for i, trav in enumerate(hops, start=1):
         var = f"?h{i}"
-        lines.append(f"  {prev} {_iri(trav['property'])} {var} .")
+        prop = _iri(trav['property'])
+        if trav.get("inverse"):
+            lines.append(f"  {prev} ^{prop} {var} .")
+        else:
+            lines.append(f"  {prev} {prop} {var} .")
         prev = var
         flt = trav.get("filter")
         if flt and flt.get("kind") == "label" and flt.get("value"):

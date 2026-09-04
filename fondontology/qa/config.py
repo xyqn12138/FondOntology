@@ -14,7 +14,14 @@ _KEYS = ("OPENAI_API_KEY", "OPENAI_BASE_URL", "OPENAI_MODEL")
 
 
 def llm_config() -> dict:
-    return {k: os.environ.get(k, "").strip() for k in _KEYS}
+    """读取 LLM 配置；兼容常见别名：MODEL↔OPENAI_MODEL、API_BASE↔OPENAI_BASE_URL。"""
+    return {
+        "OPENAI_API_KEY": os.environ.get("OPENAI_API_KEY", "").strip(),
+        "OPENAI_BASE_URL": (os.environ.get("OPENAI_BASE_URL")
+                            or os.environ.get("API_BASE") or "").strip(),
+        "OPENAI_MODEL": (os.environ.get("OPENAI_MODEL")
+                         or os.environ.get("MODEL") or "").strip(),
+    }
 
 
 def llm_configured() -> bool:

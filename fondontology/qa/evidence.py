@@ -130,6 +130,39 @@ class EvidenceBuilder:
                 ids.append(eid)
             entity_evidence[entity] = ids
 
+        # ---- 推理层归因（锚点推理边：如 hasFundManager 由 propertyChain 物化）----
+        # 对 plan 中 inverse=true 的遍历属性，命中的 (entity, prop, source) 若在
+        # inference_registry 中，则附上 rule 与 premises（前提三元组证据化）。
+        infer_evidence: dict[str, list[str]] = {}
+        src_entity = (plan.get("source") or {}).get("entity")
+        inv_hop = next((h for h in plan.get("traversals") or [] if h.get("inverse")), None)
+        if src_entity and inv_hop:
+            prop_uri = inv_hop["property"]
+            registry = self.stack.inference_registry
+            for entity in focus:
+                fact = (URIRef(entity), URIRef(prop_uri), URIRef(src_entity))
+                reg = registry.get(fact)
+                if reg is None:
+                    continue
+                premise_eids = []
+                for pr in reg["premises"]:
+                    e_prem = self._next()
+                    report["evidence"].append({
+                        "id": e_prem, "kind": "declared",
+                        "source": [str(pr[0]), str(pr[1]), str(pr[2])],
+                        "premises": [], "derived": [],
+                    })
+                    premise_eids.append(e_prem)
+                e_inf = self._next()
+                report["evidence"].append({
+                    "id": e_inf, "kind": "inference",
+                    "rule": reg["rule"],
+                    "source": [str(fact[0]), str(fact[1]), str(fact[2])],
+                    "premises": premise_eids,
+                    "derived": [],
+                })
+                infer_evidence[entity] = premise_eids + [e_inf]
+
         # ---- Claim 映射 ----
         claims: list[dict] = []
         claims.append({
@@ -144,10 +177,13 @@ class EvidenceBuilder:
             "evidence": [query_eid],
         })
         for i, entity in enumerate(focus[:3]):
+            ev_ids = entity_evidence.get(entity, [query_eid])
+            if entity in infer_evidence:
+                ev_ids = infer_evidence[entity] + ev_ids
             claims.append({
                 "claim_id": f"C{3 + i}", "type": "classification",
                 "claim": f"实体「{entity_labels[entity]}」属于 {_local(target)}",
-                "evidence": entity_evidence.get(entity, [query_eid]),
+                "evidence": ev_ids,
             })
         report["claims"] = claims
 

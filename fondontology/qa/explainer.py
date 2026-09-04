@@ -51,8 +51,9 @@ def _llm_chat(question: str, claims: list[dict], context_summary: str,
     if feedback:
         prompt += f"\n上次输出的问题：{feedback}。请修正后重试。"
     cfg = llm_config()
+    from .intent import _chat_completions_url
     resp = httpx.post(
-        f"{cfg['OPENAI_BASE_URL'].rstrip('/')}/chat/completions",
+        _chat_completions_url(cfg["OPENAI_BASE_URL"]),
         headers={"Authorization": f"Bearer {cfg['OPENAI_API_KEY']}"},
         json={"model": cfg["OPENAI_MODEL"],
               "messages": [{"role": "user", "content": prompt}],

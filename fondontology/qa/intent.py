@@ -87,7 +87,10 @@ def _build_deterministic_intent(question: str, index: OntologyIndex) -> IntentRe
     if entity_anchor is not None and not viable:
         anchor_chain = _anchor_chain_for(index, entity_anchor)
         if anchor_chain is not None:
-            traversals = [{"property": str(_prop_iri(index, p))} for p in anchor_chain]
+            traversals = [
+                {"property": str(_prop_iri(index, p)), "inverse": inv}
+                for p, inv in anchor_chain
+            ]
             if all(t["property"] != "None" for t in traversals):
                 intent = {
                     "operation": "find",
@@ -240,14 +243,16 @@ def _entity_has_type(index: OntologyIndex, entity_iri: str, local_name: str) -> 
     return any(t.rsplit("/", 1)[-1] == local_name for t in meta.get("types", []))
 
 
-# 实体类型 → 到达基金的锚点遍历链（按本体属性路径设计）
-_ANCHOR_PATHS: dict[str, tuple[str, ...]] = {
-    "Investor": ("holdsFundPosition", "positionInFundUnit", "issuedByFund"),
-    "FundManagerPerson": ("playsFundRole", "roleInFund"),
+# 实体类型 → 到达基金的锚点遍历链（按本体属性路径设计；inverse=true 的跳依赖
+# 推理层物化的快捷边，如 hasFundManager 由 propertyChainAxiom 推得）
+_ANCHOR_PATHS: dict[str, tuple[tuple[str, bool], ...]] = {
+    "Investor": (("holdsFundPosition", False), ("positionInFundUnit", False),
+                 ("issuedByFund", False)),
+    "FundManagerPerson": (("hasFundManager", True),),   # 推理边：hasFundManagerRole∘rolePlayedBy
 }
 
 
-def _anchor_chain_for(index: OntologyIndex, entity: Candidate) -> tuple[str, ...] | None:
+def _anchor_chain_for(index: OntologyIndex, entity: Candidate) -> tuple[tuple[str, bool], ...] | None:
     """按实体类型返回锚点遍历链；未覆盖的类型返回 None。"""
     meta = index.entities.get(entity.iri, {})
     for local_name, chain in _ANCHOR_PATHS.items():
@@ -289,9 +294,10 @@ def _build_llm_intent(question: str, index: OntologyIndex) -> Optional[IntentRes
                                      "subPropertyOf", "domainOf", "rangeOf"]},
         "verify_object": {"type": "string", "enum": [c.iri for c in viable if c.kind == "class"][:8]},
     }
+    candidates_json = [_candidate_json(c) for c in candidates[:8]]
     prompt = (
         "你是基金领域本体的语义解构器。只允许从候选词汇中选择，输出 JSON：\n"
-        f"候选词汇（局部，非全量）：{json.dumps(candidates[:8], ensure_ascii=False)}\n"
+        f"候选词汇（局部，非全量）：{json.dumps(candidates_json, ensure_ascii=False)}\n"
         f"JSON schema：{json.dumps(schema, ensure_ascii=False)}\n"
         f"问题：{question}\n"
         "输出格式：{\"operation\": ..., \"target_class\": ...}（verify 时另含 "
@@ -301,7 +307,7 @@ def _build_llm_intent(question: str, index: OntologyIndex) -> Optional[IntentRes
         import httpx
         cfg = llm_config()
         resp = httpx.post(
-            f"{cfg['OPENAI_BASE_URL'].rstrip('/')}/chat/completions",
+            _chat_completions_url(cfg["OPENAI_BASE_URL"]),
             headers={"Authorization": f"Bearer {cfg['OPENAI_API_KEY']}"},
             json={"model": cfg["OPENAI_MODEL"],
                   "messages": [{"role": "user", "content": prompt}],
@@ -313,6 +319,14 @@ def _build_llm_intent(question: str, index: OntologyIndex) -> Optional[IntentRes
         return _parse_llm_intent(question, content, viable, validator)
     except Exception:
         return None
+
+
+def _chat_completions_url(base_url: str) -> str:
+    """兼容两种 .env 写法：base 已含 /chat/completions 端点则直接用，否则自动拼。"""
+    base = (base_url or "").rstrip("/")
+    if base.endswith("/chat/completions"):
+        return base
+    return f"{base}/chat/completions"
 
 
 def _parse_llm_intent(question: str, content: str, viable: list[Candidate],
