@@ -38,7 +38,6 @@ class Explanation:
 def _llm_chat(question: str, claims: list[dict], context_summary: str,
               feedback: str = "") -> Optional[dict]:
     """OpenAI 兼容 chat 调用：返回结构化 JSON（answer_sentences）。"""
-    import httpx  # 延迟导入（httpx 为 semantica 依赖，必装）
     prompt = (
         "你是基金领域问答的表达器。基于给定的 claims（每条 claim 都有 claim_id）回答用户问题。\n"
         f"本体切片摘要：{context_summary[:1500]}\n"
@@ -50,22 +49,17 @@ def _llm_chat(question: str, claims: list[dict], context_summary: str,
     )
     if feedback:
         prompt += f"\n上次输出的问题：{feedback}。请修正后重试。"
-    cfg = llm_config()
-    from .intent import _chat_completions_url
-    resp = httpx.post(
-        _chat_completions_url(cfg["OPENAI_BASE_URL"]),
-        headers={"Authorization": f"Bearer {cfg['OPENAI_API_KEY']}"},
-        json={"model": cfg["OPENAI_MODEL"],
-              "messages": [{"role": "user", "content": prompt}],
-              "temperature": 0.2},
-        timeout=60,
-    )
-    resp.raise_for_status()
-    content = resp.json()["choices"][0]["message"]["content"]
+    from .intent import _stream_chat_content
+    content = _stream_chat_content(prompt, temperature=0.2, max_attempts=1)
+    if content is None:
+        return None
     start, end = content.find("{"), content.rfind("}")
     if start < 0 or end < start:
         return None
-    return json.loads(content[start:end + 1])
+    try:
+        return json.loads(content[start:end + 1])
+    except json.JSONDecodeError:
+        return None
 
 
 def explain(question: str, report: dict, context_summary: str = "",
@@ -86,7 +80,12 @@ def explain(question: str, report: dict, context_summary: str = "",
         feedback = ""
         if attempt > 0 and last_bad:
             feedback = f"输出中包含未知 claim_id：{', '.join(last_bad)}"
-        data = _llm_chat(question, claims, context_summary, feedback)
+        try:
+            data = _llm_chat(question, claims, context_summary, feedback)
+        except Exception:
+            # 传输/限流/解析故障按"本次无输出"处理，走重试与模板回退，
+            # 不允许表达层异常击穿整个问数链路
+            data = None
         if data is None:
             continue
         sentences = [s for s in (data.get("answer_sentences") or []) if isinstance(s, dict)]

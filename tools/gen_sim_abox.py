@@ -8,10 +8,11 @@
 - 生命周期状态类: 由 cnfo:FundLifecycleStatus 的子类推导
 
 产出：
-- SQLite 数据库 artifacts/cnfo/abox/cnfo-sim.sqlite（主交付物，规范化镜像
-  本体中的核心业务类与关系）
 - Turtle A-BOX artifacts/cnfo/abox/cnfo-sim-abox.ttl（默认导出；标准 A-BOX
-  实例图，含 owl:Ontology 数据集头与 owl:imports，不含任何 T-BOX 声明）
+  实例图，含 owl:Ontology 数据集头与 owl:imports，不含任何 T-BOX 声明；
+  问数链路的实际数据源）
+- SQLite 数据库 artifacts/cnfo/abox/cnfo-sim.sqlite（可选，--sqlite 开启；
+  规范化关系镜像，问数/浏览器均不消费）
 - Semantica Explorer 图 artifacts/cnfo/abox/cnfo-sim-explorer.json（默认导出；
   nodes/edges 格式与 cnfo-fund-tbox-explorer.json 一致，可直接
   GraphSession.from_file 加载，或 POST /api/import 导入；不含 owl:Ontology 数据集头，
@@ -106,6 +107,8 @@ FUND_STYLES = [
     ("纯债", "纯债", "bond"),
     ("短债", "短债", "bond"),
     ("货币", "货币", "money"),
+    ("现金管理", "现金", "money"),
+    ("流动性管理", "流动", "money"),
     ("沪深300", "沪深300", "index"),
     ("中证500", "中证500", "index"),
     ("创业板指", "创业", "index"),
@@ -358,6 +361,10 @@ def generate(vocab: OntologyVocabulary, funds_count: int, days_count: int, seed:
             plan.insert(0, t)
 
     fund_idx = 0
+    # 最后一只股票型基金的序位：确定性覆盖为生物医药主题（行业主题问法的数据可达性）
+    last_equity_fi = max((i for i, t in enumerate(plan[:total_target]) if t == "equity"),
+                         default=-1)
+    used_fund_names: set[str] = set()
     for fi, ftype in enumerate(plan[:total_target]):
         if ftype in ("etf",):
             ftype_eff = "index"
@@ -374,7 +381,6 @@ def generate(vocab: OntologyVocabulary, funds_count: int, days_count: int, seed:
             "private-equity": "equity", "private-sec": "hybrid",
         }[ftype]
         style_pool = [s for s in FUND_STYLES if s[2] == style_tag]
-        style, style_short, _ = style_pool[(fi * 3 + fund_idx) % len(style_pool)]
         suffix_map = {
             "equity": "股票型证券投资基金", "hybrid": "混合型证券投资基金",
             "bond": "债券型证券投资基金", "money": "货币市场基金",
@@ -382,7 +388,24 @@ def generate(vocab: OntologyVocabulary, funds_count: int, days_count: int, seed:
             "fof": "基金中基金（FOF）", "qdii": "合格境内机构投资者（QDII）证券投资基金",
             "private-equity": "私募股权投资基金", "private-sec": "私募证券投资基金",
         }
-        fund_name = f"{company[1].replace('基金', '')}{style}{suffix_map[ftype]}"
+        # 基金名 = 公司简称 + 风格 + 类型后缀，必须全库唯一：同一公司撞上同一风格
+        # 时（如 4 只 FOF 仅 2 个 FOF 风格）沿风格池顺延，直到名称不重复。
+        pool_n = len(style_pool)
+        base = (fi * 3 + fund_idx) % pool_n
+        style = style_short = fund_name = None
+        for step in range(pool_n):
+            c_style, c_short, _ = style_pool[(base + step) % pool_n]
+            if fi == last_equity_fi:
+                c_style, c_short = "生物医药", "医药"
+            cand = f"{company[1].replace('基金', '')}{c_style}{suffix_map[ftype]}"
+            if cand not in used_fund_names:
+                style, style_short, fund_name = c_style, c_short, cand
+                break
+        if style is None:  # 风格池×公司组合耗尽（防御性兜底，正常不会触发）
+            style, style_short, _ = style_pool[base]
+            fund_name = (f"{company[1].replace('基金', '')}{style}"
+                         f"{suffix_map[ftype]}（第{fi + 1}号）")
+        used_fund_names.add(fund_name)
         short_name = f"{company[1].replace('基金', '')}{style_short}"
         inception = dt.date(2012, 1, 1) + dt.timedelta(days=rng.randrange(0, 14 * 365))
         if inception > TODAY:
@@ -554,6 +577,19 @@ def generate(vocab: OntologyVocabulary, funds_count: int, days_count: int, seed:
             perf["tracking_error"] = None
         m.performances.append(perf)
         fund_idx += 1
+
+    # ---- 经理多管（真实业务常态：一位基金经理可同时管理多只基金）----
+    # 第 3 个四分位区段的基金复用第 1 个四分位区段同位次基金的经理实体。
+    # 人名抽取与随机源消耗完全不变（只改归属关系），保证数据集可复现、
+    # 基准锚点（魏辉/Manager005377 等位于第 2 个四分位区段，不受共享影响）稳定。
+    q = len(m.funds) // 4
+    for idx in range(2 * q, 3 * q):
+        src_fund = m.funds[idx - 2 * q]
+        dst_fund = m.funds[idx]
+        src_mgr = next(x for x in m.managers if x["fund_code"] == src_fund["fund_code"])
+        dst_mgr = next(x for x in m.managers if x["fund_code"] == dst_fund["fund_code"])
+        dst_mgr["manager_name"] = src_mgr["manager_name"]
+        dst_mgr["shared_with"] = src_fund["fund_code"]
 
     # ---- 无在管基金的经理自然人（合法存在：在职未分派；仅出现在 RDF，不产生
     # playsFundRole 边，体现"经理可无基金"；"基金必有人管理"由角色链+SHACL 保证）。
@@ -1211,12 +1247,16 @@ def build_rdf(model: SimModel, nav_window_days: int | None = None,
         g.add((riskt, RDF.type, CNFO.FundRiskLevel))
         g.add((riskt, CNFO.riskLevelCode, Literal(CNFC[f["risk_level"]][len(str(CNFC)):])))
         g.add((obj, CNFO.hasIntendedRiskLevel, riskt))
-        # 基金经理人（自然人）
+        # 基金经理人（自然人）；经理多管时复用共享实体（一人管多只基金），不重复建人
         mgr = next((x for x in model.managers if x["fund_code"] == f["fund_code"]), None)
         if mgr:
-            mperson = cnfoa(f"Manager{f['fund_code']}")
-            g.add((mperson, RDF.type, CNFO.FundManagerPerson))
-            g.add((mperson, RDFS.label, Literal(mgr["manager_name"], lang="zh")))
+            shared_with = mgr.get("shared_with")
+            if shared_with:
+                mperson = cnfoa(f"Manager{shared_with}")
+            else:
+                mperson = cnfoa(f"Manager{f['fund_code']}")
+                g.add((mperson, RDF.type, CNFO.FundManagerPerson))
+                g.add((mperson, RDFS.label, Literal(mgr["manager_name"], lang="zh")))
         # 份额
         units = [u for u in model.units if u["fund_code"] == f["fund_code"]]
         for u in units:
@@ -1710,6 +1750,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--days", type=int, default=356, help="净值序列交易日数（默认 356）")
     ap.add_argument("--seed", type=int, default=SEED_DEFAULT, help="随机种子")
     ap.add_argument("--db", type=Path, default=DB_PATH, help="SQLite 输出路径")
+    ap.add_argument("--sqlite", action="store_true",
+                    help="额外产出 SQLite 关系镜像（可选；问数/浏览器均不消费，默认关闭）")
     ap.add_argument("--no-export-ttl", action="store_true",
                     help="不导出 Turtle A-BOX（默认导出 cnfo-sim-abox.ttl）")
     ap.add_argument("--no-explorer-json", action="store_true",
@@ -1760,8 +1802,11 @@ def main(argv: list[str] | None = None) -> int:
     print(f"[2/4] 生成仿真数据（seed={args.seed}, funds={args.funds}, days={args.days}）")
     model = generate(vocab, args.funds, args.days, args.seed)
 
-    print(f"[3/4] 写入 SQLite: {args.db}")
-    write_sqlite(model, args.db, vocab, args.seed)
+    if args.sqlite:
+        print(f"[3/4] 写入 SQLite: {args.db}")
+        write_sqlite(model, args.db, vocab, args.seed)
+    else:
+        print("[3/4] 跳过 SQLite（可选关系镜像，--sqlite 开启；问数链路消费 TTL 图）")
     n_funds = len(model.funds)
     n_units = len(model.units)
     n_navs = len(model.navs)

@@ -24,6 +24,7 @@ class FindResult:
     sparql: str
     count: int
     entities: list[str] = field(default_factory=list)
+    measures: dict = field(default_factory=dict)  # 聚合值：entity IRI -> float（COUNT 等）
     evidence: dict = field(default_factory=dict)   # entity IRI -> {"kind","via","chain"}
     errors: list[str] = field(default_factory=list)
 
@@ -36,7 +37,11 @@ def _local_name(uri: str) -> str:
 def execute_find(stack: DataStack, plan: dict,
                  with_abox_inferred: bool = True) -> FindResult:
     """实例检索；默认在推理层启用的查询图上执行（定向物化：property chain +
-    逆关系传播，产物可经 stack.inference_registry 归因）。"""
+    逆关系传播，产物可经 stack.inference_registry 归因）。
+
+    聚合计划（plan["aggregations"] 非空）时结果行为 (entity, agg_value)，
+    agg_value 进入 measures（如"在管基金数"），并供证据链按实体引用。
+    """
     errors = validate_plan(plan)
     if errors:
         return FindResult(plan, "", 0, errors=errors)
@@ -44,11 +49,33 @@ def execute_find(stack: DataStack, plan: dict,
     graph = stack.query_graph(with_abox_inferred=with_abox_inferred)
     sparql = build_select(plan)
     rows = list(graph.query(sparql))
-    entities = sorted({str(row[0]) for row in rows})
+
+    is_agg = bool(plan.get("aggregations"))
+    measures: dict[str, float] = {}
+    if is_agg:
+        for row in rows:
+            entity = str(row[0])
+            try:
+                measures[entity] = float(row[1])
+            except (TypeError, ValueError, IndexError):
+                measures[entity] = 0.0
+        # 排序与 SPARQL ORDER BY 保持一致：有 agg 排序时按值降/升，否则按 IRI
+        order_desc = any(o.get("by") == "agg" and o.get("direction") == "desc"
+                         for o in plan.get("ordering") or [])
+        order_asc = any(o.get("by") == "agg" and o.get("direction") != "desc"
+                        for o in plan.get("ordering") or [])
+        if order_desc:
+            entities = sorted(measures, key=lambda e: (-measures[e], e))
+        elif order_asc:
+            entities = sorted(measures, key=lambda e: (measures[e], e))
+        else:
+            entities = sorted(measures)
+    else:
+        entities = sorted({str(row[0]) for row in rows})
 
     target = plan.get("target", {}).get("concept", "")
     result = FindResult(plan=plan, sparql=sparql, count=len(entities),
-                        entities=entities)
+                        entities=entities, measures=measures)
     for entity in entities:
         result.evidence[entity] = type_evidence(stack, URIRef(entity), URIRef(target))
     return result

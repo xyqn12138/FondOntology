@@ -13,17 +13,21 @@ Edge = tuple[URIRef, URIRef, URIRef]  # (s, p, o)
 
 
 def descendants(graph: Graph, cls: URIRef, include_self: bool = False) -> set[URIRef]:
-    """rdfs:subClassOf+ 后代（若 include_self 则含自身）。"""
+    """rdfs:subClassOf+ 后代（子类闭包；若 include_self 则含自身）。
+
+    注意：rdflib 的 transitive_subjects(predicate, object) 求的是"经 predicate
+    链指向 object 的全部 subject"，即 cls 的子类方向；transitive_objects 相反。
+    """
     result: set[URIRef] = {cls} if include_self else set()
-    result.update(o for o in graph.transitive_objects(cls, RDFS.subClassOf)
-                  if isinstance(o, URIRef))
+    result.update(s for s in graph.transitive_subjects(RDFS.subClassOf, cls)
+                  if isinstance(s, URIRef) and s != cls)
     return result
 
 
 def ancestors(graph: Graph, cls: URIRef) -> set[URIRef]:
-    """rdfs:subClassOf+ 祖先。"""
-    return {s for s in graph.transitive_subjects(RDFS.subClassOf, cls)
-            if isinstance(s, URIRef)}
+    """rdfs:subClassOf+ 祖先（父类闭包，不含自身）。"""
+    return {o for o in graph.transitive_objects(cls, RDFS.subClassOf)
+            if isinstance(o, URIRef) and o != cls}
 
 
 def subproperty_path(graph: Graph, sub: URIRef, sup: URIRef) -> bool:

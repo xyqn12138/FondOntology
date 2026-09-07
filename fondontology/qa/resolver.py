@@ -13,6 +13,21 @@ _CONTAINS_BASE = 0.5
 _CONTAINS_BONUS_COEF = 0.3
 _VIABLE_THRESHOLD = 0.6
 
+# 日常口语类型词 → CNFO 类（规则兜底：先于子串匹配的一级同义词）
+_TYPE_SYNONYMS = {
+    "股票型基金": "EquityFund", "股票基金": "EquityFund",
+    "混合型基金": "HybridFund", "混合基金": "HybridFund",
+    "债券型基金": "BondFund", "债券基金": "BondFund",
+    "货币型基金": "MoneyMarketFund", "货币基金": "MoneyMarketFund",
+    "指数基金": "EquityFund", "指数型基金": "EquityFund",
+    "私募基金": "PrivateFund", "公募基金": "PublicFund",
+    "开放式基金": "OpenEndedFund", "封闭式基金": "ClosedEndedFund",
+    "ETF基金": "ExchangeTradedFund", "QDII基金": "QDIIFund",
+    "基金中基金": "FundOfFunds", "FOF基金": "FundOfFunds",
+    "养老基金": "PensionTargetFund", "REIT基金": "InfrastructurePublicREIT",
+    "跨境基金": "CrossBorderFund",
+}
+
 
 class VocabularyResolver:
     def __init__(self, index: OntologyIndex):
@@ -52,6 +67,18 @@ class VocabularyResolver:
                                          or idx.datatype_properties.get(u) or _local(u),
                                          "local_name", 0.95))
                     break
+        # 日常口语同义词（先于子串匹配，基本盘兜底；收集全部命中以保留歧义语义）
+        if not out:
+            for synonym, local_name in sorted(_TYPE_SYNONYMS.items(),
+                                              key=lambda kv: len(kv[0]), reverse=True):
+                if text.startswith(synonym) or synonym in text[: len(synonym) + 4]:
+                    for cls_iri in idx.class_iris:
+                        if cls_iri.rsplit("/", 1)[-1] == local_name:
+                            if not any(c.iri == cls_iri for c in out):
+                                out.append(Candidate(cls_iri, "class",
+                                                     idx.classes.get(cls_iri, local_name),
+                                                     "synonym", 0.85))
+                            break
         # 标签精确
         for hit, iri_list in idx._concept_labels.items():
             if hit != text:
@@ -63,8 +90,9 @@ class VocabularyResolver:
                 if any(c.iri == iri for c in out):
                     continue
                 out.append(Candidate(iri, kind, label, "label", 1.0))
-        # 中文子串（按命中长度占比加成，避免“基金”吞掉“基金中基金”）
-        if not out:
+        # 中文子串（按命中长度占比加成，避免“基金”吞掉“基金中基金”；
+        # 与同义词可并存——歧义语义（混合基金+股票基金）必须保留）
+        if not any(c.match_type == "label" for c in out):
             for label, iri_list in idx._concept_labels.items():
                 if label in text and isinstance(label, str) and label:
                     bonus = _CONTAINS_BONUS_COEF * len(label) / max(len(text), 1)

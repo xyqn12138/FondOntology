@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Optional
+from weakref import WeakKeyDictionary
 
 from . import explainer, templates
 from .abox_query import execute_find
@@ -18,18 +19,27 @@ from .query_planner import plan_find
 from .verify import verify as tbox_verify
 
 FIND_INTENT_KEYS = ("target", "source", "filters", "exclusions", "traversals",
-                    "projections", "ordering", "limit", "offset")
+                    "projections", "ordering", "limit", "offset",
+                    "related_class", "relation_path", "aggregation", "select")
 
-# 索引缓存（answer_question 复用，key 按 stack 对象身份）
-_INDEX_CACHE: dict[int, object] = {}
+# 索引缓存：弱引用键（DataStack 被回收即失效）。禁止使用 id() 作键——
+# 同一进程中 id 会被复用，全量测试/长生命周期下会命中陈旧索引。
+_INDEX_CACHE: WeakKeyDictionary = WeakKeyDictionary()
 
 
 def _get_index(stack: DataStack):
-    key = id(stack)
-    if key not in _INDEX_CACHE:
+    index = _INDEX_CACHE.get(stack)
+    if index is None:
         from .index import OntologyIndex
-        _INDEX_CACHE[key] = OntologyIndex(stack)
-    return _INDEX_CACHE[key]
+        index = OntologyIndex(stack)
+        _INDEX_CACHE[stack] = index
+    return index
+
+
+def _get_ctx(stack: DataStack):
+    """本体语义视图（planner 关系约束校验用；OntologyContext 自带弱引用缓存）。"""
+    from .semantics import OntologyContext
+    return OntologyContext.from_stack(stack)
 
 
 @dataclass
@@ -67,7 +77,8 @@ def answer_question(question: str, stack: DataStack, *,
     """
     from .intent import build_intent
 
-    intent_res = build_intent(question, _get_index(stack))
+    intent_res = build_intent(question, _get_index(stack),
+                              use_llm=(False if use_llm is False else None))
     if intent_res.status != "RESOLVED":
         cand_text = "、".join(_cand_label(c) for c in intent_res.candidates)
         text_map = {
@@ -104,13 +115,22 @@ def answer_question(question: str, stack: DataStack, *,
         }
         return base
 
-    # find：intent 过滤条件（lexicon_source）直接进计划；投资者锚点经 source+traversals
+    # find：intent 过滤条件（lexicon_source）直接进计划；投资者锚点经 source+traversals；
+    # 聚合/排名语义（related_class/relation_path/aggregation/ordering/limit）进计划，
+    # planner 经本体语义视图做 domain/range 关系约束校验
     filters = [dict(f) for f in intent.get("filters") or []]
     plan = plan_find(
         target=intent["target_class"], tbox=stack.tbox, abox=stack.abox,
         source=intent.get("source"),
         traversals=intent.get("traversals"),
         filters=filters,
+        related_class=intent.get("related_class"),
+        relation_path=intent.get("relation_path"),
+        aggregation=intent.get("aggregation"),
+        select=intent.get("select"),
+        ordering=intent.get("ordering"),
+        limit=intent.get("limit"),
+        ctx=_get_ctx(stack),
     )
     if plan.get("errors"):
         return QaAnswer(kind="find", status="invalid",
@@ -167,7 +187,7 @@ def answer(stack: DataStack, intent: dict, *,
 
     if operation == "find":
         kwargs = {k: intent[k] for k in FIND_INTENT_KEYS if k in intent}
-        plan = plan_find(tbox=stack.tbox, abox=stack.abox, **kwargs)
+        plan = plan_find(tbox=stack.tbox, abox=stack.abox, ctx=_get_ctx(stack), **kwargs)
         if plan.get("errors"):
             return QaAnswer(kind="find", status="invalid",
                             text=templates.render_invalid(plan["errors"]))

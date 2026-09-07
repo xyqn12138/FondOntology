@@ -1,24 +1,29 @@
-"""QA 语义查询引擎：确定性语义链（M1 起逐阶段实现）。
+"""QA 语义查询引擎：Ontology 三阶段生命周期的问数侧实现。
 
-本包职责划分见 docs（artifacts/cnfo-qa-system-design.md v0.4）：
-- verify  —— 四状态语义验证（M1）
-- graph   —— TBOX/ABOX/闭包分层装载 + GraphSnapshot（M2）
-- query_planner —— Semantic Query IR v1（手写 Intent，M2）
-- sparql_builder —— QueryPlan → SPARQL 纯函数（M2）
-- abox_query —— 实例查询 + explicit/inferred 证据 + 局部子图（M2）
-- evidence/context/templates/engine —— 证据链与确定性端到端（M3）
-- index/resolver/validator/lexicon/intent —— 词汇四件套 + NL 意图解构（M4）
+包结构（按三阶段组织）：
+- Stage 1 Semantic Modeling：ontology/*.ttl（本包之外）+ tbox/ 组件
+- Stage 2 Semantic Enforcement：enforce（数据导入语义控制层）
+- Stage 3 Semantic Querying：semantics（本体语义视图）→ intent（语义解析）
+  → query_planner（约束感知规划）→ sparql_builder → abox_query
+  → evidence/explainer/templates（证据与表达）
+- 支撑：graph（分层数据栈 + 定向物化推理）、index/resolver/validator/lexicon
+  （词汇四件套）、verify（T-BOX 四状态判链）、context（本体切片）
+
+模块按需惰性导入（PEP 562）：避免 import 包即拉起全部 15+ 模块的启动耦合。
 """
 from __future__ import annotations
 
-from . import (
-    abox_query, context, engine, evidence, explainer, graph, index, intent,
-    lexicon, query_planner, resolver, sparql_builder, templates, validator,
-    verify,
-)
+import importlib
 
 __all__ = [
-    "verify", "graph", "query_planner", "sparql_builder", "abox_query",
-    "evidence", "context", "templates", "engine",
+    "verify", "graph", "semantics", "query_planner", "sparql_builder",
+    "abox_query", "evidence", "context", "templates", "engine",
     "index", "resolver", "validator", "lexicon", "intent", "explainer",
+    "enforce",
 ]
+
+
+def __getattr__(name: str):
+    if name in __all__:
+        return importlib.import_module(f".{name}", __name__)
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

@@ -2,46 +2,73 @@
 
 中国基金领域本体项目。当前正式运行的是独立的 CNFO（China Fund Ontology）。
 
-规划中的"基金智能问数系统"（LLM 语义解构 + T-BOX 语义编译器 + A-BOX 查询 + 证据链）
-设计见 `artifacts/cnfo-qa-system-design.md`（v0.4 冻结稿）。
+**基金智能问数系统**按 Ontology 三阶段生命周期构建（重构后架构）：
 
-**M1 已落地**（确定性语义链，无需 LLM）：`fondontology/tbox/`（taxonomy/constraints/
-inference）+ `fondontology/qa/verify.py`（verify 四状态：ENTAILED/CONTRADICTED/
-UNKNOWN/INVALID_REQUEST）。回归与基准：
+```
+                Ontology（CNFO T-BOX）
+                   │
+     ┌─────────────┼─────────────┐
+     ↓                           ↓
+Stage 2 Semantic Enforcement   Stage 3 Semantic Querying
+（数据导入语义控制层）           （查询期语义世界模型）
+     │                           │
+ Raw Records ──enforce──→ Graph  用户问题
+ （类型/关系/属性约束、           ↓
+  继承闭环、验证）          semantics.OntologyContext
+     │                     （类层级+关系+domain/range 语义视图）
+     ↓                           ↓
+ Semantic Graph ──────────→ intent（LLM 语义解析为主/规则兜底）
+     ↑                       ↓
+     └──定向物化推理      query_planner（约束感知：domain/range 校验）
+       （propertyChain）      ↓
+                          sparql_builder（聚合 GROUP BY/HAVING、
+                           排名 ORDER BY/LIMIT、计数）
+                               ↓
+                          evidence → explainer（证据链 + 引用闸门）
+```
 
-    .venv\Scripts\python.exe -m unittest discover -s tests -p 'test_qa_verify.py'
-    .venv\Scripts\python.exe tools\qa_bench.py --stage verify   # 72 条 CQ，100%
+关键能力（确定性可回归，LLM 为增强）：
+- **聚合约束**："同时管理多个基金的基金经理有什么？" →
+  `FundManagerPerson ^hasFundManager→ Fund，COUNT(基金) >= 2`（GROUP BY/HAVING）
+- **排名**："在管基金最多的基金经理是谁？" → `ORDER BY COUNT DESC LIMIT 1`
+- **计数**："有多少位基金经理" → `select=count`
+- **关系约束**：planner 经 `OntologyContext` 逐跳校验 domain/range 闭包，
+  语义非法的过滤/路径在计划级拒绝（INVALID）
+- **关系路径终点过滤**："医药基金有哪些？" → `EquityFund ─usesInvestmentStrategy→
+  FundInvestmentStrategy`，`investmentFocus CONTAINS "医药"` 落在策略上
+  （属性属于谁，过滤就落在谁上面）
+- **记录类不作 target**："货币基金收益怎么样？" → target=MoneyMarketFund
+  （FundPerformanceRecord 只作 related）
+- **LLM 语义解析**：prompt 注入完整本体语义视图（类层级、类间关系、数据属性
+  分组），输出 SemanticParse 后过本体白名单 + domain/range 校验才采纳；
+  传输层走流式（stream）调用——非流式在复杂问题长推理（实测 145s）下会读超时；
+  未配置/失败/限流自动回落确定性规则与模板表达（终态 UCR=0）
 
-**M2 已落地**（查询链）：`qa/graph.py`（TBOX/ABOX 分层 + GraphSnapshot）、
-`qa/query_planner.py`（Semantic Query IR v1 草案）、`qa/sparql_builder.py`
-（QueryPlan→SPARQL 纯函数）、`qa/abox_query.py`（实例检索 + explicit/inferred
-类型证据 + 局部子图）：
+回归与基准：
 
-    .venv\Scripts\python.exe tools\qa_bench.py --stage find      # 16 条 find CQ，100%
+    .venv\Scripts\python.exe -m unittest discover -s tests -p 'test_qa_*.py'
+    .venv\Scripts\python.exe tools\qa_bench.py --stage find      # 16 条 find CQ
+    .venv\Scripts\python.exe tools\qa_bench.py --stage e2e       # 13 条端到端 CQ
+    .venv\Scripts\python.exe tools\qa_bench.py --stage verify    # 72 条 verify CQ
+    .venv\Scripts\python.exe tools\qa_bench.py --stage intent    # 16 条 intent CQ
+    .venv\Scripts\python.exe tools\qa_bench.py --stage intent-real  # 10 条真实口语问法（LLM 路径 100%）
+    .venv\Scripts\python.exe tools\qa_bench.py --stage citation  # 11 条 NL 问答（UCR=0）
 
-**M3 已落地**（确定性端到端）：`qa/evidence.py`（Claim-Evidence Map + premises/
-derived 证据链 + 引用校验）、`qa/context.py`（Ontology Slice 预算与截断）、
-`qa/templates.py`（无 LLM 模板作答）、`qa/engine.py`（手工 Intent →
-QueryPlan → SPARQL → 证据 → 模板）；**QueryPlan v1.0 已冻结**
-（`artifacts/qa/query_plan.schema.json`）：
+**数据导入（Stage 2 生产路径）**：`fondontology.qa.enforce.import_records`
+把原始记录批量约束为合法语义三元组并入数据栈，失败记录按条跳过并给出词表级
+错误；导入后问数链路即刻可答（含聚合问法）：
 
-    .venv\Scripts\python.exe tools\qa_bench.py --stage e2e       # 12 条端到端 CQ，100%
+    from fondontology.qa.enforce import import_records
+    r = import_records([{"person": "张三", "fund_code": "110011",
+                         "fund_name": "星河成长混合型证券投资基金", "fund_type": "混合型",
+                         "operation_mode": "开放式", "organization_form": "契约型",
+                         "risk_level": "R3", "management_company": "星河基金管理有限公司",
+                         "aum": "32.5亿"}], stack)
+    # r["imported"] / r["failed"] / r["validations"]
 
-**M4 已落地**（NL→Intent）：`qa/index.py`（词汇索引）、`qa/resolver.py`
-（string→candidates，含实体代码/受控归一化）、`qa/validator.py`（白名单）、
-`qa/lexicon.py`（"R4以上/国内"等确定性归一化）、`qa/intent.py`（LLM 解构 +
-Candidate Selection 协议 + resolution 三态；无 key 走确定性路径，有 key 走
-OpenAI 兼容接口且输出须过白名单）。`.env` 提供
-`OPENAI_API_KEY / OPENAI_BASE_URL / OPENAI_MODEL`（兼容别名：`MODEL`、`API_BASE`；
-`BASE_URL` 可写完整端点 `…/chat/completions`）后 LLM 路径自动启用（意图候选选择、
-答案表达与引用闸门均走真 LLM，实测 `gate=llm_validated`、UCR=0）：
-
-    .venv\Scripts\python.exe tools\qa_bench.py --stage intent    # 14 条 intent CQ，100%（Semantic Accuracy 10/10）
-
-**M5 已落地**（LLM 表达 + 引用闸门 + NL 全链路）：`qa/explainer.py`（LLM 逐句
-claim_id 结构化表达；知越权引用 → 带反馈重试 → 模板回退，终态 UCR=0）、
-`qa/engine.py::answer_question()`（自然语言 → intent → QueryPlan → SPARQL →
-证据 → 表达 全链路入口）、`tools/qa_cli.py`（单问 / REPL）：
+**仓库整理**：本体构建期脚手架（extract_*/std_mapping/v05_defs/gen_v05_report）
+已归档至 `archive/tools/`（非运行链路）；`cnfo-sim.sqlite` 为可选关系镜像
+（`tools/gen_sim_abox.py --sqlite` 开启，问数/浏览器均不消费）。
 
     .venv\Scripts\python.exe tools\qa_bench.py --stage citation  # 10 条 NL 问答，UCR=0，引用零越权
     .venv\Scripts\python.exe tools\qa_cli.py "有哪些交易型开放式指数基金"
@@ -79,22 +106,24 @@ CNFO 当前覆盖基金、基金产品、基金财产、基金投资组合、基
 
 模块层使用独立的技术命名空间 `https://ontology.example.cn/cnfo/module/` 描述模块层级、文件、顺序和术语归属，不计入 CNFO 业务类和属性统计。新增业务模块时，只需新增 Turtle 文件、声明 `owl:imports` 和模块元数据，现有构建器、API 和左侧目录即可递归加载。
 
-## 仿真数据（A-BOX / SQLite）
+## 仿真数据（A-BOX）
 
-`tools/gen_sim_abox.py` 根据当前最新版本体（0.5.3，经 `load_ontology_graph` 运行时加载）生成一批仿真业务数据，写入 SQLite 轻量数据库，并内置 SHACL 数据质量校验：
+`tools/gen_sim_abox.py` 根据当前最新版本体（0.5.3，经 `load_ontology_graph` 运行时加载）生成一批仿真业务数据，写入 Turtle A-BOX，并内置 SHACL 数据质量校验：
 
     .venv\Scripts\python.exe tools\gen_sim_abox.py
 
 产出：
-- `artifacts\cnfo\abox\cnfo-sim.sqlite` —— 规范化镜像本体核心类与关系的仿真 A-BOX：
-  Fund / FundUnit / NavRecord / FundPortfolio / PortfolioPosition / FundRoleAssignment /
-  FundParty / Investor / FundAccount / FundPosition / FundFee / FundPerformance /
-  FundBenchmark / MarketIndex / Regulation 等；`cnfc_code` 与 `lifecycle_status`
-  表直接来自本体图中的受控代码表与状态类，`meta` 表记录本体版本与生成参数。
-- `artifacts\cnfo\abox\cnfo-sim-abox.ttl` —— 标准 **A-BOX Turtle 图**（默认导出）。
+- `artifacts\cnfo\abox\cnfo-sim-abox.ttl` —— 标准 **A-BOX Turtle 图**（默认导出，
+  问数链路的实际数据源）。
   只含实例数据，不含任何 T-BOX 词汇声明；图头声明 `cnfo-a:CNFOSimulatedAbox a
   owl:Ontology`，并通过 `owl:imports` 关联 `cnfo:CNFODomain` / `cnfo:CNFOFundOntology` /
   `cnfom:CNFOModuleVocabulary`，即 T-BOX 与 A-BOX 正式分离。
+- `artifacts\cnfo\abox\cnfo-sim.sqlite` —— 规范化关系镜像（**可选**，`--sqlite`
+  开启；问数/浏览器均不消费）：Fund / FundUnit / NavRecord / FundPortfolio /
+  PortfolioPosition / FundRoleAssignment / FundParty / Investor / FundAccount /
+  FundPosition / FundFee / FundPerformance / FundBenchmark / MarketIndex /
+  Regulation 等；`cnfc_code` 与 `lifecycle_status` 表直接来自本体图中的受控
+  代码表与状态类，`meta` 表记录本体版本与生成参数。
 - `artifacts\cnfo\abox\cnfo-sim-explorer.json` —— Semantica Explorer 图（默认导出，
   nodes/edges 格式与 `cnfo-fund-tbox-explorer.json` 一致；为可浏览性不含约 3.5 万条
   净值记录节点）。**不含 owl:Ontology 数据集头节点**：Semantica 的
@@ -118,6 +147,21 @@ CNFO 当前覆盖基金、基金产品、基金财产、基金投资组合、基
 问答证据链据此给"由什么推出"：锚点类问题（如"魏辉的基金"）直接走推理物化的
 快捷边（`^hasFundManager`），证据显示 `rule=property_chain:…` 且能逐条展开前提。
 
+**Semantic Enforcement（数据导入语义控制层）**：`qa/enforce.py` 把一条松散
+记录（dict/JSON）约束成合法语义三元组——类型约束（"混合型"→HybridFund 等，
+本体词表非自由文本）、关系约束（domain/range 校验，不允许 Fund managedBy
+Fund）、属性约束（字段必须命中 CNFO/CNFC 词表，未知字段拒绝）、继承闭环
+（子类→祖先链显式补全）、aum→净值记录映射；产出可并入数据栈（`merge_into_stack`）
+后由推理层物化 `hasFundManager`，问数链路即刻可答：
+
+    from fondontology.qa.enforce import SemanticEnforcer
+    raw = {"person": "张三", "fund_code": "110011", "fund_name": "星河成长混合型证券投资基金",
+           "fund_type": "混合型", "operation_mode": "开放式", "organization_form": "契约型",
+           "risk_level": "R3", "management_company": "星河基金管理有限公司", "aum": "32.5亿"}
+    r = SemanticEnforcer(stack).enforce(raw)   # r.ok / r.errors / r.validations
+    SemanticEnforcer(stack).merge_into_stack(r)
+    answer_question("张三管理的基金有哪些？", stack).text   # → 星河成长混合型证券投资基金
+
 全部数据为仿真虚构，与真实机构、个人无关。可按需调整规模：
 `--funds 40 --days 356 --seed 20260826`。可用 `--no-export-ttl` / `--no-explorer-json` /
 `--no-session-json` 关闭对应导出。
@@ -130,6 +174,10 @@ CNFO 当前覆盖基金、基金产品、基金财产、基金投资组合、基
 - **经理允许无在管基金**：模型保留 4 位"在职未分派"经理自然人（仅类型+姓名、无
   `playsFundRole` 边），属合法存在而非数据缺陷。全数据集一致性以"审计"为准绳：
   基金管理链闭合率 40/40；ABOX 孤立业务实体仅限这 4 位有意保留的经理。
+- **经理多管（真实业务常态）**：第 3 个四分位区段的基金复用第 1 个区段同位次
+  基金的经理实体（人名抽取与随机源不变，数据集可复现），形成 10 位经理各管
+  2 只、20 位经理各管 1 只的分布——"同时管理多个基金的基金经理"类聚合问法
+  在仿真数据上有正例。
 
 ### 加载进 Semantica
 

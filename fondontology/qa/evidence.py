@@ -75,15 +75,21 @@ class EvidenceBuilder:
         graph = self.stack.query_graph()
 
         # ---- 查询证据 ----
+        aggs = plan.get("aggregations") or []
         query_eid = self._next()
-        report["evidence"].append({
+        query_ev = {
             "id": query_eid, "kind": "query",
             "source": [plan.get("kind", "find"), str(target)],
             "sparql": result.sparql,
             "row_count": result.count,
             "rows": result.entities[:max_query_rows],
             "premises": [], "derived": [],
-        })
+        }
+        if result.measures:
+            query_ev["measures"] = {e: result.measures[e]
+                                    for e in result.entities[:max_query_rows]
+                                    if e in result.measures}
+        report["evidence"].append(query_ev)
 
         # ---- 实体证据（declared / inference + provenance chain）----
         entity_evidence: dict[str, list[str]] = {}
@@ -164,13 +170,28 @@ class EvidenceBuilder:
                 infer_evidence[entity] = premise_eids + [e_inf]
 
         # ---- Claim 映射 ----
+        # 聚合语义描述（"关联「Fund」数量 >= 2"），让 count claim 携带约束而非裸计数
+        agg_desc = ""
+        aggs = plan.get("aggregations") or []
+        if aggs:
+            related_local = _local((plan.get("related") or {}).get("concept", ""))
+            having = aggs[0].get("having")
+            if having:
+                agg_desc = (f"（关联「{related_local}」数量 "
+                            f"{having['operator']} {having['value']}）")
+            else:
+                agg_desc = f"（按关联「{related_local}」数量聚合）"
         claims: list[dict] = []
         claims.append({
             "claim_id": "C1", "type": "count",
-            "claim": f"共找到 {result.count} 个「{_local(target)}」",
+            "claim": f"共找到 {result.count} 个「{_local(target)}」{agg_desc}",
             "evidence": [query_eid],
         })
-        listed = [entity_labels[e] for e in focus]
+        if result.measures:
+            listed = [f"{entity_labels[e]}（{result.measures[e]:g}）"
+                      for e in focus if e in result.measures]
+        else:
+            listed = [entity_labels[e] for e in focus]
         claims.append({
             "claim_id": "C2", "type": "fact",
             "claim": "结果实体：" + "、".join(listed[:10]) + ("…" if result.count > len(listed) else ""),

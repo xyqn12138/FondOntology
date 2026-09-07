@@ -36,6 +36,7 @@ DEFAULT_CQS = {
     "find": ROOT / "artifacts" / "qa" / "benchmarks" / "find.json",
     "e2e": ROOT / "artifacts" / "qa" / "benchmarks" / "e2e.json",
     "intent": ROOT / "artifacts" / "qa" / "benchmarks" / "intent.json",
+    "intent-real": ROOT / "artifacts" / "qa" / "benchmarks" / "intent_real.json",
     "citation": ROOT / "artifacts" / "qa" / "benchmarks" / "citation.json",
 }
 QUERY_PLAN_SCHEMA = ROOT / "artifacts" / "qa" / "query_plan.schema.json"
@@ -208,9 +209,8 @@ def run_citation_benchmark(stack, cqs_path: Path) -> int:
     return 0
 
 
-def run_intent_benchmark(stack, cqs_path: Path) -> int:
-    """M4：NL → Intent。无 key 走确定性路径；有 key 时打印 LLM 路径的 Semantic Accuracy
-    （LLM 输出经白名单校验后与确定性真相比对）。"""
+def run_intent_benchmark(stack, cqs_path: Path, use_llm: bool = False) -> int:
+    """M4：NL → Intent（use_llm=False 走确定性回归；True 走模型路径对照）。"""
     index = OntologyIndex(stack)
     data = json.loads(cqs_path.read_text(encoding="utf-8"))
     cases = data["cases"]
@@ -220,7 +220,7 @@ def run_intent_benchmark(stack, cqs_path: Path) -> int:
     failures: list[str] = []
     distributions: dict[str, int] = {}
     for case in cases:
-        result = build_intent(case["question"], index)
+        result = build_intent(case["question"], index, use_llm=use_llm)
         distributions[result.status] = distributions.get(result.status, 0) + 1
         exp = case["expected"]
         status_ok = result.status == exp.get("status")
@@ -275,7 +275,7 @@ def run_intent_llm_spot(stack, cqs_path: Path) -> None:
     data = json.loads(cqs_path.read_text(encoding="utf-8"))
     used = matched = 0
     for case in data["cases"]:
-        result = build_intent(case["question"], index)
+        result = build_intent(case["question"], index, use_llm=True)
         if not result.used_llm:
             continue
         used += 1
@@ -288,9 +288,31 @@ def run_intent_llm_spot(stack, cqs_path: Path) -> None:
           f"{matched}/{used} = {matched / used:.1%}" if used else "[LLM 路径] 未配置，跳过")
 
 
+def run_intent_llm_spot_real(stack, cqs_path: Path) -> None:
+    """真实口语问法的 LLM 路径报告（这些问法规则兜底约半数能解，模型承担其余）。"""
+    from fondontology.qa.config import llm_configured
+    if not llm_configured():
+        return
+    index = OntologyIndex(stack)
+    data = json.loads(cqs_path.read_text(encoding="utf-8"))
+    used = matched = 0
+    for case in data["cases"]:
+        result = build_intent(case["question"], index, use_llm=True)
+        if not result.used_llm:
+            continue
+        used += 1
+        exp_target = case["expected"].get("target")
+        if exp_target:
+            target_local = (result.intent.get("target_class") or "").rsplit("/", 1)[-1]
+            if target_local == exp_target:
+                matched += 1
+    print(f"[LLM 路径·真实问法] 启用 {used} 条；Semantic Accuracy: "
+          f"{matched}/{used} = {matched / used:.1%}" if used else "[LLM 路径] 未配置，跳过")
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="CNFO QA benchmark 跑批")
-    ap.add_argument("--stage", choices=["verify", "find", "e2e", "intent", "citation"],
+    ap.add_argument("--stage", choices=["verify", "find", "e2e", "intent", "citation", "intent-real"],
                     default="verify")
     ap.add_argument("--source", type=Path, default=DEFAULT_SOURCE)
     ap.add_argument("--abox", type=Path, default=DEFAULT_ABOX)
@@ -311,8 +333,13 @@ def main(argv: list[str] | None = None) -> int:
     if args.stage == "find":
         return run_find_benchmark(stack, args.cqs or DEFAULT_CQS["find"])
     if args.stage == "intent":
-        code = run_intent_benchmark(stack, args.cqs or DEFAULT_CQS["intent"])
+        code = run_intent_benchmark(stack, args.cqs or DEFAULT_CQS["intent"], use_llm=False)
         run_intent_llm_spot(stack, args.cqs or DEFAULT_CQS["intent"])
+        return code
+    if args.stage == "intent-real":
+        # 真实体验模式：LLM 优先（有 key），规则兜底；未配置 key 时等价确定性
+        code = run_intent_benchmark(stack, args.cqs or DEFAULT_CQS.get("intent-real", args.cqs),
+                                    use_llm=None)
         return code
     if args.stage == "citation":
         return run_citation_benchmark(stack, args.cqs or DEFAULT_CQS["citation"])

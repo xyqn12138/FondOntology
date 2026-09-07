@@ -51,7 +51,12 @@ class GraphSnapshot:
 
 @dataclass
 class DataStack:
-    """分层数据栈；查询图 = TBOX(显式) + ABOX(显式)（含绑定前缀）。"""
+    """分层数据栈；查询图 = TBOX(显式) + ABOX(显式)（含绑定前缀）。
+
+    注意：dataclass(eq=True) 会把 __hash__ 置为 None；此处恢复基于对象身份的
+    哈希，供 WeakKeyDictionary 索引缓存使用（DataStack 含 dict 字段，不可
+    按内容哈希）。
+    """
     tbox: Graph
     abox: Graph
     snapshot: GraphSnapshot
@@ -60,6 +65,9 @@ class DataStack:
     _combined: Optional[Graph] = field(default=None, repr=False)
     _inference_registry: Optional[dict] = field(default=None, repr=False)
     _inf_counts: Optional[dict] = field(default=None, repr=False)
+
+    def __hash__(self) -> int:
+        return object.__hash__(self)
 
     # ---- 惰性闭包 ----
     @property

@@ -30,6 +30,28 @@ cnfo:FundShape a sh:NodeShape ;
         sh:maxCount 1 ;
         sh:datatype xsd:string ;
     ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "基金代码全库唯一：存在另一只基金使用相同 fundCode（冗余录入）"@zh ;
+        sh:select """
+            SELECT $this WHERE {
+                $this cnfo:fundCode ?code .
+                ?other a cnfo:Fund ; cnfo:fundCode ?code .
+                FILTER (?other != $this)
+            }
+        """ ;
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "基金名称全库唯一：存在另一只基金使用相同 fundName（冗余录入）"@zh ;
+        sh:select """
+            SELECT $this WHERE {
+                $this cnfo:fundName ?name .
+                ?other a cnfo:Fund ; cnfo:fundName ?name .
+                FILTER (?other != $this)
+            }
+        """ ;
+    ] ;
     sh:property [
         sh:path cnfo:inceptionDate ;
         sh:name "成立日期"@zh ;

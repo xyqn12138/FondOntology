@@ -79,7 +79,8 @@ class IntentDeterministicTest(unittest.TestCase):
         cls.index = OntologyIndex(cls.stack)
 
     def intent(self, q: str):
-        return build_intent(q, self.index)
+        # 强制规则路径：确定性语义不受 .env/LLM 是否配置影响
+        return build_intent(q, self.index, use_llm=False)
 
     def test_find_resolved(self) -> None:
         r = self.intent("有哪些交易型开放式指数基金")
