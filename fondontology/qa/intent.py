@@ -461,6 +461,36 @@ def _hop_end_local(ctx: OntologyContext, start_local: str,
     return current
 
 
+def _pick_anchor_path(ctx: OntologyContext, paths: list[list[dict]],
+                      question: str, target_local: str) -> Optional[list[dict]]:
+    """锚点路径选择：优先"以 target 类命名的边"（target=FundManagerPerson →
+    hasFundManager 而非 hasFundDepositary——问题文本对"是谁"类问法无区分度），
+    并列时回退问题相关性选路。"""
+    generic = {"Fund", "Person", "Role", "Party", "Record", "Value"}
+    tokens: set[str] = set()
+    buf = ""
+    for ch in target_local:
+        if ch.isupper() and buf:
+            tokens.add(buf)
+            buf = ch
+        else:
+            buf += ch
+    if buf:
+        tokens.add(buf)
+    tokens -= generic
+    if tokens:
+        hits = [(sum(1 for h in p for t in tokens
+                     if t.lower() in h.get("property_local", "").lower()), i, p)
+                for i, p in enumerate(paths)]
+        top = max(h[0] for h in hits)
+        if top > 0:
+            candidates = [p for hit, _, p in hits if hit == top]
+            if len(candidates) == 1:
+                return candidates[0]
+            return ctx.best_path(candidates, question=question)
+    return ctx.best_path(paths, question=question)
+
+
 def _resolve_anchor_query(index: OntologyIndex, ctx: OntologyContext,
                           anchor: Candidate, question: str,
                           target_local: Optional[str] = None,
@@ -509,8 +539,9 @@ def _resolve_anchor_query(index: OntologyIndex, ctx: OntologyContext,
 
     if target_local is None:
         if ctx.is_subclass(anchor_type, "Fund") and "经理" in question:
-            pivot = ctx.find_relation_path(anchor_type, "FundManagerPerson",
-                                           question=question)
+            pivot = _pick_anchor_path(
+                ctx, ctx.find_relation_paths(anchor_type, "FundManagerPerson"),
+                question, "FundManagerPerson")
             if pivot:
                 if _COMPOUND_RE.search(question):
                     back = [{"property": h["property"], "inverse": not h["inverse"]}
@@ -543,11 +574,13 @@ def _resolve_anchor_query(index: OntologyIndex, ctx: OntologyContext,
                 hops.append({"property": str(iri), "inverse": inv})
             return ("Fund", hops, False)
 
-    path = ctx.find_relation_path(anchor_type, target_local, question=question)
-    if path:
-        return (target_local,
-                [{"property": h["property"], "inverse": h["inverse"]} for h in path],
-                ctx.is_subclass(anchor_type, target_local))
+    paths = ctx.find_relation_paths(anchor_type, target_local)
+    if paths:
+        path = _pick_anchor_path(ctx, paths, question, target_local)
+        if path:
+            return (target_local,
+                    [{"property": h["property"], "inverse": h["inverse"]} for h in path],
+                    ctx.is_subclass(anchor_type, target_local))
     return None
 
 
