@@ -76,6 +76,10 @@ def build_intent(question: str, index: OntologyIndex,
         return IntentResult(question, _UNRESOLVED, "find",
                             notes=["compare/对比 类问题属于 Phase 2，本版不支持"])
     if use_llm:
+        # 锚点快路径：实体锚点确定性成链时不付 LLM 调用成本（分钟级）
+        fast = _try_anchor_fast_path(question, index)
+        if fast is not None:
+            return fast
         result = _build_llm_intent(question, index)
         if result is not None and result.is_usable:
             return result
@@ -114,40 +118,23 @@ def _build_deterministic_intent(question: str, index: OntologyIndex) -> IntentRe
     viable = [c for c in resolver.viable(classes) if validator.validate(c, "class")[0]]
     filters = _lexicon_filters(question, index)
 
-    # 实体锚点（投资者/基金经理等个体）：来源锚定查询（entity → traversals → Fund）
+    # 实体锚点（基金/投资者/基金经理等个体）：来源锚定查询（entity → traversals → target）。
+    # 具体实体提及优先于类候选猜测——实体标签/代码是精确命中，类候选是模糊匹配
+    # （"恒信货币货币市场基金的基金经理是谁"中"货币市场基金"会误中 MoneyMarketFund 类）
     entity_anchor = _find_entity_mention(index, question)
-    if entity_anchor is not None and not viable:
-        anchor_chain = _anchor_chain_for(index, entity_anchor)
-        if anchor_chain is not None:
-            traversals = [
-                {"property": str(_prop_iri(index, p)), "inverse": inv}
-                for p, inv in anchor_chain
-            ]
-            if all(t["property"] != "None" for t in traversals):
-                intent = {
-                    "operation": "find",
-                    "target_concept": question,
-                    "target_class": str(_fund_iri(index)),
-                    "source": entity_anchor.iri,
-                    "traversals": traversals,
-                    "target_candidates": [_candidate_json(entity_anchor)],
-                    "filters": filters,
-                    "resolution": {"status": _RESOLVED,
-                                   "method": "deterministic_candidate_selection(entity_anchor)",
-                                   "candidates": 1},
-                }
-                return IntentResult(question, _RESOLVED, "find", intent=intent,
-                                    candidates=intent["target_candidates"],
-                                    notes=[f"实体锚点：{entity_anchor.label}（{entity_anchor.kind}）"])
-        anchor_types = index.entities.get(entity_anchor.iri, {}).get("types", [])
-        type_names = [_t.rsplit("/", 1)[-1] for _t in anchor_types
-                      if _t.startswith("https://ontology.example.cn/cnfo/ontology/")]
-        return IntentResult(
-            question, _UNRESOLVED, "find",
-            candidates=[_candidate_json(entity_anchor)],
-            notes=[f"已识别实体锚点「{entity_anchor.label}」（{'/'.join(type_names[:3]) or '未知类型'}），"
-                   "但该类别的锚点查询链尚未覆盖（当前支持：投资者→持仓→基金、"
-                   "基金经理→管理角色→基金）"])
+    if entity_anchor is not None:
+        anchored = _anchor_intent(question, index, entity_anchor, filters)
+        if anchored is not None:
+            return anchored
+        if not viable:
+            anchor_types = index.entities.get(entity_anchor.iri, {}).get("types", [])
+            type_names = [_t.rsplit("/", 1)[-1] for _t in anchor_types
+                          if _t.startswith("https://ontology.example.cn/cnfo/ontology/")]
+            return IntentResult(
+                question, _UNRESOLVED, "find",
+                candidates=[_candidate_json(entity_anchor)],
+                notes=[f"已识别实体锚点「{entity_anchor.label}」（{'/'.join(type_names[:3]) or '未知类型'}），"
+                       "但本体关系图中未找到从该实体类型到查询目标的关系路径"])
     # 聚合/排名/计数句型（"同时管理多个基金的基金经理"等）：resolver 阈值可能
     # 过滤掉子串候选，故基于本体语义视图直接做类提及检测，不依赖 viable
     agg = _try_aggregation_intent(question, index, filters)
@@ -412,28 +399,33 @@ def _find_entity_mention(index: OntologyIndex, question: str,
         if code and len(code) >= 4 and code in question:
             for iri in iris:
                 score = 1.0 + 0.001 * len(code)
+                # 同码多实体（基金与其份额/单位代码相同）时偏好基金本体：
+                # "基金001113"指基金，不是它的 FundUnit
+                if any(t.rsplit("/", 1)[-1] == "Fund"
+                       for t in index.entities[iri].get("types", [])):
+                    score += 0.0001
                 cand = Candidate(iri, "entity", index.entities[iri]["label"], "code", score)
                 if best is None or cand.score > best.score:
                     best = cand
     return best
 
 
-def _entity_has_type(index: OntologyIndex, entity_iri: str, local_name: str) -> bool:
-    meta = index.entities.get(entity_iri, {})
-    return any(t.rsplit("/", 1)[-1] == local_name for t in meta.get("types", []))
-
-
-# 实体类型 → 到达基金的锚点遍历链（按本体属性路径设计；inverse=true 的跳依赖
-# 推理层物化的快捷边，如 hasFundManager 由 propertyChainAxiom 推得）
+# 已知锚点类型 → 到达基金的语义偏好链：同一对端点在关系图上常有多条合法路径
+# （Investor→Fund 有"持仓 3 跳"与"风险等级匹配 2 跳"），BFS 只保证合法不保证
+# 语义贴合，故"X的基金"对已知类型固定选路；inverse=true 的跳依赖推理层物化的
+# 快捷边（如 hasFundManager 由 propertyChainAxiom 推得）
 _ANCHOR_PATHS: dict[str, tuple[tuple[str, bool], ...]] = {
     "Investor": (("holdsFundPosition", False), ("positionInFundUnit", False),
                  ("issuedByFund", False)),
     "FundManagerPerson": (("hasFundManager", True),),   # 推理边：hasFundManagerRole∘rolePlayedBy
 }
 
+# "除了这只/还管别的/其他基金"：锚点经由 pivot（基金经理等）回到自身类型的复合链
+_COMPOUND_RE = re.compile(r"除了|别的|其他|另外|还有")
+
 
 def _anchor_chain_for(index: OntologyIndex, entity: Candidate) -> tuple[tuple[str, bool], ...] | None:
-    """按实体类型返回锚点遍历链；未覆盖的类型返回 None。"""
+    """按实体类型返回锚点遍历链（旧硬编码兜底）；未覆盖的类型返回 None。"""
     meta = index.entities.get(entity.iri, {})
     for local_name, chain in _ANCHOR_PATHS.items():
         if any(t.rsplit("/", 1)[-1] == local_name for t in meta.get("types", [])):
@@ -441,11 +433,172 @@ def _anchor_chain_for(index: OntologyIndex, entity: Candidate) -> tuple[tuple[st
     return None
 
 
-def _fund_iri(index: OntologyIndex) -> Optional[str]:
-    for iri in index.class_iris:
-        if iri.rsplit("/", 1)[-1] == "Fund":
-            return iri
+def _anchor_primary_type(ctx: OntologyContext, index: OntologyIndex,
+                         entity_iri: str) -> Optional[str]:
+    """锚点实体的主类型：CNFO 类型中祖先闭包最大（最具体）者。"""
+    meta = index.entities.get(entity_iri, {})
+    types = [t.rsplit("/", 1)[-1] for t in meta.get("types", [])]
+    types = [t for t in types if t in ctx.classes]
+    if not types:
+        return None
+    return max(types, key=lambda t: len(ctx.ancestors_of(t)))
+
+
+def _hop_end_local(ctx: OntologyContext, start_local: str,
+                   hops: list[dict]) -> Optional[str]:
+    """沿跳链推终点类（domain/range 闭包）；任一跳无类端点则 None。"""
+    iri2prop = {p.iri: p for p in ctx.properties.values()}
+    current = start_local
+    for h in hops:
+        prop = iri2prop.get(h.get("property"))
+        if prop is None:
+            return None
+        candidates = prop.domains if h.get("inverse") else prop.ranges
+        nxt = next((c for c in candidates if c in ctx.classes), None)
+        if nxt is None:
+            return None
+        current = nxt
+    return current
+
+
+def _resolve_anchor_query(index: OntologyIndex, ctx: OntologyContext,
+                          anchor: Candidate, question: str,
+                          target_local: Optional[str] = None,
+                          llm_hops: Optional[list] = None
+                          ) -> Optional[tuple[str, list[dict], bool]]:
+    """实体锚点 → (target_local, hops, exclude_self)；本体关系图驱动，无路径返回 None。
+
+    锚点类型的祖先闭包（如 MoneyMarketFund ⊂ Fund）天然继承 Fund 的关系边，
+    BFS 即可发现 基金→hasFundManager→基金经理 等路径：
+    - target_local 缺省：锚点是基金且问"经理"→ FundManagerPerson（"是谁"）；
+      含"除了/别的/还有"等回指词 → 经 pivot 折返 Fund 的复合链（"还管哪些"）；
+      其余默认 Fund（投资者/经理→基金）。
+    - target=Fund 时已知类型（Investor/FundManagerPerson）走语义偏好链——
+      BFS 只保证路径合法不保证语义贴合（详见 _ANCHOR_PATHS 注释）。
+    - llm_hops：LLM 显式给出的锚点出发链（过属性白名单后优先采用）。
+    - exclude_self：锚点自身是 target 实例且经折返链可能回到自身时排除。
+    """
+    anchor_type = _anchor_primary_type(ctx, index, anchor.iri)
+    if anchor_type is None:
+        return None
+
+    # LLM 显式链（如"该经理还管哪些基金"的 hasFundManager 出+回 2 跳）
+    if llm_hops:
+        hops: Optional[list[dict]] = []
+        for h in llm_hops:
+            if not isinstance(h, dict):
+                hops = None
+                break
+            prop = ctx.properties.get(str(h.get("property") or ""))
+            if prop is None or prop.kind != "object":
+                hops = None
+                break
+            hops.append({"property": prop.iri, "inverse": bool(h.get("inverse"))})
+        if hops:
+            tl = target_local or _hop_end_local(ctx, anchor_type, hops)
+            if tl:
+                # 基金锚点经"经理"pivot 折返：LLM 给的链通常不带终点类约束，
+                # pivot 在 FundParty 层级时会混入管理公司，统一收窄到 FundManagerPerson
+                if (len(hops) >= 2 and tl == "Fund" and "经理" in question
+                        and ctx.is_subclass(anchor_type, "Fund")):
+                    mid = _hop_end_local(ctx, anchor_type, hops[:1])
+                    if mid and ctx.is_subclass("FundManagerPerson", mid):
+                        hops[0] = {**hops[0],
+                                   "to": ctx.classes["FundManagerPerson"].iri}
+                return (tl, hops, ctx.is_subclass(anchor_type, tl))
+
+    if target_local is None:
+        if ctx.is_subclass(anchor_type, "Fund") and "经理" in question:
+            pivot = ctx.find_relation_path(anchor_type, "FundManagerPerson",
+                                           question=question)
+            if pivot:
+                if _COMPOUND_RE.search(question):
+                    back = [{"property": h["property"], "inverse": not h["inverse"]}
+                            for h in reversed(pivot)]
+                    chain = pivot + back
+                    # pivot 限定为 FundManagerPerson：hasFundManager 的 range 是
+                    # FundParty，物化边同时覆盖经理个人与管理公司；"他还管哪些"
+                    # 的"他"指经理个人，须在 pivot 跳上加终点类约束
+                    chain[len(pivot) - 1] = {
+                        **chain[len(pivot) - 1],
+                        "to": ctx.classes["FundManagerPerson"].iri,
+                    }
+                    return ("Fund", chain, True)
+                return ("FundManagerPerson",
+                        [{"property": h["property"], "inverse": h["inverse"]}
+                         for h in pivot], False)
+        target_local = "Fund"
+
+    # 语义偏好链优先："他的基金"= 持仓/在管——BFS 会选出语义偏离的更短合法路径
+    # （如 Investor 经 hasInvestorRiskRating→investorRiskRatingForFund 到 Fund，
+    #  是"风险等级匹配的基金"而非"他持有的基金"），已知类型按本体语义固定选路
+    if target_local == "Fund":
+        legacy = _anchor_chain_for(index, anchor)
+        if legacy is not None:
+            hops = []
+            for p, inv in legacy:
+                iri = _prop_iri(index, p)
+                if iri is None:
+                    return None
+                hops.append({"property": str(iri), "inverse": inv})
+            return ("Fund", hops, False)
+
+    path = ctx.find_relation_path(anchor_type, target_local, question=question)
+    if path:
+        return (target_local,
+                [{"property": h["property"], "inverse": h["inverse"]} for h in path],
+                ctx.is_subclass(anchor_type, target_local))
     return None
+
+
+def _anchor_intent(question: str, index: OntologyIndex, anchor: Candidate,
+                   filters: list[dict]) -> Optional[IntentResult]:
+    """锚点实体 → find intent（本体关系图驱动）；无法成链返回 None。"""
+    ctx = OntologyContext.from_stack(index.stack)
+    resolved = _resolve_anchor_query(index, ctx, anchor, question)
+    if resolved is None:
+        return None
+    target_local, hops, exclude_self = resolved
+    intent: dict = {
+        "operation": "find",
+        "target_concept": question,
+        "target_class": ctx.classes[target_local].iri,
+        "source": anchor.iri,
+        "traversals": hops,
+        "target_candidates": [_candidate_json(anchor)],
+        "filters": filters,
+        "resolution": {"status": _RESOLVED,
+                       "method": "deterministic_candidate_selection(entity_anchor)",
+                       "candidates": 1},
+    }
+    if exclude_self:
+        intent["exclusions"] = [anchor.iri]
+    anchor_type = _anchor_primary_type(ctx, index, anchor.iri) or "?"
+    chain_desc = " → ".join(
+        f"{'^' if h['inverse'] else ''}{h['property'].rsplit('/', 1)[-1]}" for h in hops)
+    return IntentResult(question, _RESOLVED, "find", intent=intent,
+                        candidates=intent["target_candidates"],
+                        notes=[f"实体锚点：{anchor.label}（{anchor_type}），"
+                               f"本体关系图成链：{anchor_type} {chain_desc} {target_local}"])
+
+
+def _try_anchor_fast_path(question: str, index: OntologyIndex) -> Optional[IntentResult]:
+    """实体锚点快路径：锚点识别是高精度信号（实体标签/代码精确子串命中），
+    确定性成链时跳过 LLM——锚点问题不再承担一次分钟级意图调用。
+
+    保险：verify 标记/聚合触发词命中时不走快路径（交 LLM 或完整确定性流程）。
+    """
+    if any(m in question for m in ("是不是", "是否", "属于", "互斥", "等价")):
+        return None
+    if _MULTI_RE.search(question) or _TOP_RE.search(question) or _COUNT_RE.search(question):
+        return None
+    anchor = _find_entity_mention(index, question)
+    if anchor is None:
+        return None
+    result = _anchor_intent(question, index, anchor, _lexicon_filters(question, index))
+    if result is not None:
+        result.notes.append("锚点快路径：确定性成链，跳过 LLM 意图调用")
+    return result
 
 
 def _prop_iri(index: OntologyIndex, local_name: str) -> Optional[str]:
@@ -525,6 +678,16 @@ _LLM_EXAMPLES = """示例1：
   "aggregation": null, "order_by": null, "order_direction": "desc", "limit": null,
   "entity_label": null,
   "filters": [{"property": "investmentFocus", "operator": "contains", "value": "医药"}],
+  "verify_subject": null, "verify_object": null, "verify_relation": null}
+
+示例7（具体基金问经理及经理的其他基金——锚点基金经 hasFundManager 折返）：
+问题：恒信货币货币市场基金的基金经理是谁，他除了这个基金还有管理别的基金吗
+输出：{"operation": "find", "target": "Fund", "select": "entities",
+  "related": "FundManagerPerson",
+  "relation_path": [{"property": "hasFundManager", "inverse": false},
+                    {"property": "hasFundManager", "inverse": true}],
+  "aggregation": null, "order_by": null, "order_direction": "desc", "limit": null,
+  "entity_label": "恒信货币货币市场基金", "filters": [],
   "verify_subject": null, "verify_object": null, "verify_relation": null}"""
 
 
@@ -556,7 +719,12 @@ def _build_llm_intent(question: str, index: OntologyIndex) -> Optional[IntentRes
         "8. 行业/主题词（医药、消费、科技等）修饰'基金'时，target 用 EquityFund"
         "   （行业主题基金以股票型为主），主题词用 investmentFocus + contains 过滤，"
         "   该属性属于 FundInvestmentStrategy，须经 usesInvestmentStrategy 到达。\n"
-        "9. 过滤文本型属性（描述性字符串）时用 contains；代码/枚举型属性用 eq。\n\n"
+        "9. 过滤文本型属性（描述性字符串）时用 contains；代码/枚举型属性用 eq。\n"
+        "10. 提到具体基金名且问'基金经理是谁'→ target=FundManagerPerson + entity_label=基金名；\n"
+        "    问'该基金经理还管理哪些基金/除了这只还管别的吗'→ target=Fund + entity_label=基金名，"
+        "    relation_path 给出从该基金出发经基金经理折返的跳链：\n"
+        "    [{\"property\": \"hasFundManager\", \"inverse\": false},"
+        " {\"property\": \"hasFundManager\", \"inverse\": true}]。\n\n"
         f"【输出 Schema】只输出 JSON：\n{_LLM_SCHEMA}\n\n"
         f"{_LLM_EXAMPLES}\n\n"
         f"问题：{question}"
@@ -584,12 +752,14 @@ def _stream_chat_content(prompt: str, temperature: float = 0,
     global _LAST_LLM_ERROR
     _LAST_LLM_ERROR = None
     import httpx
+    from .config import llm_thinking_override
     cfg = llm_config()
     url = _chat_completions_url(cfg["OPENAI_BASE_URL"])
     headers = {"Authorization": f"Bearer {cfg['OPENAI_API_KEY']}"}
     payload = {"model": cfg["OPENAI_MODEL"],
                "messages": [{"role": "user", "content": prompt}],
-               "temperature": temperature, "stream": True}
+               "temperature": temperature, "stream": True,
+               **llm_thinking_override()}
     for attempt in range(1, max_attempts + 1):
         try:
             chunks: list[str] = []
@@ -697,16 +867,22 @@ def _parse_llm_intent(question: str, data: dict, index: OntologyIndex,
     if target_iri is None and entity_anchor is None:
         return None
 
-    # 实体锚点存在时目标语义由锚点链决定（如"魏辉管哪些基金"→Fund），
-    # 模型输出的 target 不再覆盖
+    # 实体锚点存在时目标语义由本体关系图决定：LLM 的 target/relation_path 作为
+    # 提示（relation_path 视为锚点出发的跳链），锚点类型的祖先闭包天然继承
+    # 父类关系边（如 MoneyMarketFund 继承 Fund 的 hasFundManager）
     anchor_chain = None
+    exclusions: list[str] = []
     if entity_anchor is not None:
-        anchor_chain = _anchor_chain_for(index, entity_anchor)
-        if anchor_chain is None:
+        target_hint = target_iri.rsplit("/", 1)[-1] if target_iri else None
+        resolved = _resolve_anchor_query(index, ctx, entity_anchor, question,
+                                         target_local=target_hint,
+                                         llm_hops=data.get("relation_path"))
+        if resolved is None:
             return None
-        target_iri = _fund_iri(index)
-        if anchor_chain is None:
-            return None
+        target_local, anchor_chain, exclude_self = resolved
+        target_iri = ctx.classes[target_local].iri
+        if exclude_self:
+            exclusions = [entity_anchor.iri]
 
     intent: dict = {
         "operation": "find",
@@ -718,10 +894,9 @@ def _parse_llm_intent(question: str, data: dict, index: OntologyIndex,
     }
     if entity_anchor is not None:
         intent["source"] = entity_anchor.iri
-        intent["traversals"] = [
-            {"property": str(_prop_iri(index, p)), "inverse": inv}
-            for p, inv in anchor_chain
-        ]
+        intent["traversals"] = [dict(h) for h in anchor_chain]
+        if exclusions:
+            intent["exclusions"] = exclusions
         notes.append(f"实体锚点：{entity_anchor.label}")
     else:
         # ---- 聚合/排名/计数语义（仅非锚点路径）----

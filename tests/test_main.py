@@ -8,7 +8,7 @@ from fondontology.qa.graph import build_stack
 from fondontology.qa.engine import answer_question
 from fondontology.qa import intent as intent_mod
 
-HEAD_LINES = 8  # 输入/输出各打印的行数
+HEAD_LINES = 10  # 输入/输出各打印的行数
 
 _orig_chat = intent_mod._stream_chat_content
 _call_no = {"n": 0}

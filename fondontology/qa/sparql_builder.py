@@ -49,7 +49,12 @@ def _build_plain(plan: dict) -> str:
     lines = [f"SELECT DISTINCT {result_var} WHERE {{"]
 
     target = plan.get("target", {}).get("concept")
-    if target:
+    # 模式顺序即 rdflib 求值顺序（无代价重排）：锚点模式下固定 IRI 出发的
+    # 跳链选择性极高，必须先放——若类型闭包 pattern 在先，rdflib 会先枚举
+    # 全图 (entity, type) 再做闭包（28 万三元组下约 16s）；跳链在先则类型
+    # 校验只落在链终点候选上（亚秒级）。非锚点模式保持类型 pattern 在先。
+    type_first = not (src and hops)
+    if target and type_first:
         # rdf:type/rdfs:subClassOf* —— 类型闭包（M2 用显式图即可，无需物化闭包）
         lines.append(_type_pattern(result_var, target))
 
@@ -63,6 +68,10 @@ def _build_plain(plan: dict) -> str:
         else:
             lines.append(f"  {prev} {prop} {var} .")
         prev = var
+        if trav.get("to"):
+            # 跳终点类约束（如复合锚点链把 pivot 收窄到 FundManagerPerson，
+            # 避免 hasFundManager 的 FundParty range 混入管理公司）
+            lines.append(_type_pattern(var, trav["to"]))
         flt = trav.get("filter")
         if flt and flt.get("kind") == "label" and flt.get("value"):
             # 标签带语言标记（@zh），需 STR() 比较
@@ -71,6 +80,9 @@ def _build_plain(plan: dict) -> str:
             lines.append(f"  FILTER(STR({lbl}) = {flt['value']!r})")
         elif flt and flt.get("kind") == "iri" and flt.get("value"):
             lines.append(f"  {var} {_iri(flt['value'])} .")
+
+    if target and not type_first:
+        lines.append(_type_pattern(result_var, target))
 
     lines.extend(_filter_lines(plan, result_var))
 

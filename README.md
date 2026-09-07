@@ -274,6 +274,27 @@ SELECT ?fname ?inc ?term WHERE {
 }
 ```
 
+## Web UI（M6：智能问数 + 本体查看器）
+
+统一 Web 界面（FastAPI + 单页 HTML），左侧边栏可在两个模块间切换：
+
+- **智能问数**：ChatGPT 风格聊天界面。`POST /api/qa/ask`（JSON）与
+  `GET /api/qa/ask/stream`（SSE 流式：phase → answer → done）接入
+  `engine.answer_question` 全链路（意图 → 计划 → 检索 → 证据 → 表达），
+  每条答案附「证据与溯源」折叠面板（Claims + Evidence + SPARQL + 表达闸门）；
+- **本体查看器**：复用 `fondontology.viewer` 的 `OntologyViewerSession`，独立页面
+  `/viewer/` 经 iframe 嵌入，API 路由（`/api/ontology/*`）注册在根域，查看器前端零改动。
+
+启动：
+
+    .venv\Scripts\python.exe tools\qa_web.py               # http://127.0.0.1:5173
+    .venv\Scripts\python.exe tools\qa_web.py --port 8000 --no-llm
+    python -m fondontology web --port 8000
+
+打开 http://127.0.0.1:5173，侧边栏底部「模块」区域切换智能问数 / 本体查看器。
+右下脚标可切换表达模式（自动 / 强制 LLM / 模板）。接口回归见
+`tests/test_qa_web.py`（10 例：meta/suggestions/JSON 问答/SSE 事件/查看器复用）。
+
 ## Build
 
 新环境（或重建虚拟环境）后先安装项目包，使 `fondontology` 可被直接导入，且不再依赖运行目录：

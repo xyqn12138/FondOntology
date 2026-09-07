@@ -63,6 +63,7 @@ class DataStack:
     _tbox_inferred: Optional[Graph] = field(default=None, repr=False)
     _abox_inferred: Optional[Graph] = field(default=None, repr=False)
     _combined: Optional[Graph] = field(default=None, repr=False)
+    _combined_inferred: Optional[Graph] = field(default=None, repr=False)
     _inference_registry: Optional[dict] = field(default=None, repr=False)
     _inf_counts: Optional[dict] = field(default=None, repr=False)
 
@@ -155,14 +156,18 @@ class DataStack:
     # ---- 查询图 ----
     def query_graph(self, with_abox_inferred: bool = False) -> Graph:
         if with_abox_inferred:
-            g = Graph()
-            g.bind("cnfo", CNFO)
-            g.bind("cnfc", CNFC)
-            g.bind("cnfo-a", CNFOA)
-            g += self.tbox
-            g += self.abox
-            g += self.require_abox_inferred()
-            return g
+            # 合并图按栈缓存：TBOX+ABOX+物化层合计 50 万+ 三元组，每次查询
+            # 重建需数秒（实测 ~8s）；数据变更由 merge_into_stack 失效缓存
+            if self._combined_inferred is None:
+                g = Graph()
+                g.bind("cnfo", CNFO)
+                g.bind("cnfc", CNFC)
+                g.bind("cnfo-a", CNFOA)
+                g += self.tbox
+                g += self.abox
+                g += self.require_abox_inferred()
+                self._combined_inferred = g
+            return self._combined_inferred
         if self._combined is None:
             g = Graph()
             g.bind("cnfo", CNFO)

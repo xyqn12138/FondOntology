@@ -78,6 +78,24 @@ class InferenceLayerTest(unittest.TestCase):
         c3 = [c for c in ans.report["claims"] if c.get("type") == "classification"][0]
         self.assertTrue(any(eid in c3["evidence"] for eid in {e["id"] for e in infer_ev}))
 
+    def test_fund_anchor_compound_e2e(self) -> None:
+        # 基金锚点复合链：恒信货币（F005659）→ 经理陶凯 → 其管理的其他基金；
+        # pivot claim 须给出经理名（表达层只消费 claims），锚点自身被排除
+        ans = answer_question(
+            "恒信货币货币市场基金的基金经理是谁，他除了这个基金还有管理别的基金吗",
+            self.stack, use_llm=False)
+        self.assertEqual(ans.status, "ok")
+        claim_texts = [c["claim"] for c in ans.report["claims"]]
+        self.assertTrue(any("陶凯" in t for t in claim_texts),
+                        f"pivot claim 未给出经理名：{claim_texts}")
+        self.assertTrue(any("恒信流动性管理货币市场基金" in t for t in claim_texts),
+                        f"结果未含陶凯管理的另一只货币基金：{claim_texts}")
+        rows = ans.report["evidence"][0]["rows"]
+        self.assertNotIn(str(CNFOA) + "F005659", rows)  # 锚点自身被 exclusions 排除
+        # 管理公司不得混入 pivot（FundParty range 被 to=FundManagerPerson 收窄）
+        self.assertFalse(any("恒信基金管理有限公司" in t for t in claim_texts),
+                         f"管理公司混入结果：{claim_texts}")
+
 
 if __name__ == "__main__":
     unittest.main()

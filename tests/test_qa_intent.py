@@ -152,6 +152,44 @@ class IntentDeterministicTest(unittest.TestCase):
                          ["hasFundManager"])
         self.assertEqual([t.get("inverse") for t in r.intent["traversals"]], [True])
 
+    def test_fund_anchor_manager_who(self) -> None:
+        # 基金锚点问"基金经理是谁"：锚点类型（MoneyMarketFund ⊂ Fund）经祖先
+        # 闭包继承 hasFundManager，本体关系图成链 → target=FundManagerPerson
+        r = self.intent("恒信货币货币市场基金的基金经理是谁")
+        self.assertEqual(r.status, "RESOLVED")
+        self.assertIn("FundManagerPerson", r.intent["target_class"])
+        hops = r.intent["traversals"]
+        self.assertEqual([(h["property"].rsplit("/", 1)[-1], h["inverse"]) for h in hops],
+                         [("hasFundManager", False)])
+
+    def test_fund_anchor_compound_other_funds(self) -> None:
+        # 复合问法"他还管别的基金吗"：基金→经理→其他基金 折返链，
+        # pivot 收窄到 FundManagerPerson（防 FundParty range 混入管理公司），
+        # 锚点自身进 exclusions
+        r = self.intent("恒信货币货币市场基金的基金经理是谁，他除了这个基金还有管理别的基金吗")
+        self.assertEqual(r.status, "RESOLVED")
+        self.assertIn("Fund", r.intent["target_class"])
+        hops = r.intent["traversals"]
+        self.assertEqual([(h["property"].rsplit("/", 1)[-1], h["inverse"]) for h in hops],
+                         [("hasFundManager", False), ("hasFundManager", True)])
+        self.assertTrue(hops[0].get("to", "").endswith("FundManagerPerson"))
+        self.assertEqual(r.intent.get("exclusions"), [r.intent["source"]])
+
+    def test_anchor_fast_path_skips_llm(self) -> None:
+        # 锚点快路径：确定性成链时不走 LLM（ notes 标记 + used_llm=False ）
+        r = build_intent("恒信货币货币市场基金的基金经理是谁", self.index, use_llm=True)
+        self.assertEqual(r.status, "RESOLVED")
+        self.assertFalse(r.used_llm)
+        self.assertTrue(any("快路径" in n for n in r.notes))
+
+    def test_investor_anchor_prefers_holdings_chain(self) -> None:
+        # 语义偏好链：Investor→Fund 须走"持仓 3 跳"，而非 BFS 找到的
+        # hasInvestorRiskRating→investorRiskRatingForFund（语义偏离的更短合法路径）
+        r = self.intent("钱强的基金有什么？")
+        self.assertEqual(r.status, "RESOLVED")
+        self.assertEqual([t["property"].rsplit("/", 1)[-1] for t in r.intent["traversals"]],
+                         ["holdsFundPosition", "positionInFundUnit", "issuedByFund"])
+
 
 if __name__ == "__main__":
     unittest.main()

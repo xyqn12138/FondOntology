@@ -19,4 +19,4 @@ artifacts/
 .env
 
 # workbuddy
-.workbuddy
+.workbuddy/

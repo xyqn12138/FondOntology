@@ -282,6 +282,7 @@ class SemanticEnforcer:
             self._abox.add(triple)
         self.stack._abox_inferred = None
         self.stack._combined = None
+        self.stack._combined_inferred = None
         self.stack._inference_registry = None
         # 索引缓存失效（弱引用键：栈对象仍在，需显式清出）
         from . import engine as _engine

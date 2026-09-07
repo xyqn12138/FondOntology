@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CNFO 智能问数</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏦</text></svg>">
+<style>
+  :root{
+    --sb-bg:#171717; --sb-bg2:#202020; --sb-line:#2e2e2e;
+    --sb-text:#ececec; --sb-muted:#9ca3af; --sb-active:#2b2b2b;
+    --accent:#0f9d8f; --accent-dark:#0c7f73; --accent-soft:#e6f4f2;
+    --bg:#ffffff; --bg-soft:#f7f7f8; --line:#e5e5e6;
+    --ink:#1f2328; --muted:#6b7280; --danger:#d64545;
+    --user-bubble:#0f9d8f; --user-text:#fff;
+    --radius:10px; --shadow:0 2px 12px rgba(15,23,42,.06);
+    font-family:"Segoe UI","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;
+    color:var(--ink); background:var(--bg);
+  }
+  *{box-sizing:border-box}
+  /* hidden 属性必须真正生效：作者样式的 display:flex/grid 会覆盖 UA 的
+     [hidden]{display:none}，导致 element.hidden=true 时元素仍可见 */
+  [hidden]{display:none !important}
+  html,body{height:100%}
+  body{margin:0;overflow:hidden;background:var(--bg);font-size:15px}
+  button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+  textarea{font:inherit}
+
+  /* ---------- 布局 ---------- */
+  .shell{display:flex;height:100vh}
+  .sidebar{width:276px;flex-shrink:0;background:var(--sb-bg);color:var(--sb-text);
+    display:flex;flex-direction:column;min-height:0}
+  .main{flex:1;min-width:0;display:flex;flex-direction:column;min-height:0;position:relative}
+  .chat-view{flex:1;min-height:0;display:flex;flex-direction:column}
+  .viewer-view{flex:1;min-height:0;position:relative}
+  .viewer-view iframe{width:100%;height:100%;border:0;display:block;background:var(--bg-soft)}
+
+  /* ---------- 侧边栏 ---------- */
+  .brand{display:flex;align-items:center;gap:10px;padding:16px 16px 10px}
+  .brand-mark{width:34px;height:34px;flex-shrink:0;display:grid;place-items:center;
+    border-radius:8px;background:linear-gradient(135deg,var(--accent),#0b6e63);
+    font-size:17px;font-weight:800;color:#fff;box-shadow:0 2px 6px rgba(15,157,143,.4)}
+  .brand-text b{display:block;font-size:15px;letter-spacing:.2px}
+  .brand-text span{font-size:11px;color:var(--sb-muted)}
+  .new-chat{margin:8px 12px 6px;display:flex;align-items:center;gap:8px;width:calc(100% - 24px);
+    padding:9px 12px;border:1px solid var(--sb-line);border-radius:8px;color:var(--sb-text);
+    background:var(--sb-bg2);font-size:13px;transition:background .15s}
+  .new-chat:hover{background:#2f2f2f}
+  .new-chat .plus{font-size:15px;line-height:1}
+  .sidebar-label{padding:12px 16px 6px;font-size:11px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--sb-muted);font-weight:600}
+  .convo-list{flex:1;min-height:0;overflow-y:auto;padding:2px 8px 8px;scrollbar-width:thin}
+  .convo{width:100%;display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:8px;
+    color:var(--sb-text);font-size:13px;text-align:left;margin-bottom:2px;cursor:pointer;transition:background .12s}
+  .convo:hover{background:var(--sb-active)}
+  .convo.active{background:var(--sb-active)}
+  .convo .title{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+  .convo .del{opacity:0;color:var(--sb-muted);font-size:13px;padding:2px 4px;border-radius:4px}
+  .convo:hover .del{opacity:1}
+  .convo .del:hover{color:#ff6b6b;background:rgba(255,107,107,.12)}
+  .convo-empty{padding:14px 10px;color:var(--sb-muted);font-size:12px;text-align:center}
+
+  .module-nav{padding:8px;border-top:1px solid var(--sb-line)}
+  .module-nav-label{padding:4px 8px 6px;font-size:11px;letter-spacing:.08em;color:var(--sb-muted);
+    text-transform:uppercase;font-weight:600}
+  .module-item{width:100%;display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;
+    color:var(--sb-text);font-size:13px;text-align:left;margin-bottom:2px;text-decoration:none}
+  .module-item:hover{background:var(--sb-active)}
+  .module-item.active{background:var(--sb-active);box-shadow:inset 2px 0 0 var(--accent)}
+  .module-item .ico{font-size:15px;width:20px;text-align:center}
+
+  .sidebar-footer{padding:10px 14px 14px;border-top:1px solid var(--sb-line);font-size:12px;color:var(--sb-muted)}
+  .foot-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px}
+  .foot-dot{width:7px;height:7px;border-radius:50%;background:#3d9d77;display:inline-block;margin-right:5px}
+  .llm-toggle{border:1px solid var(--sb-line);border-radius:6px;padding:4px 8px;font-size:11px;
+    color:var(--sb-text);background:var(--sb-bg2)}
+  .llm-toggle:hover{background:#2f2f2f}
+
+  /* ---------- 顶栏 ---------- */
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 22px;
+    border-bottom:1px solid var(--line);background:var(--bg);flex-shrink:0}
+  .topbar > div:first-child{display:flex;align-items:baseline;gap:8px;min-width:0}
+  .topbar h1{margin:0;font-size:16px;font-weight:650;white-space:nowrap}
+  .topbar .sub{color:var(--muted);font-size:12px;margin-left:8px}
+  .topbar-right{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px}
+
+  /* ---------- 聊天区 ---------- */
+  .chat-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:thin;scroll-behavior:smooth}
+  .thread{max-width:820px;margin:0 auto;padding:24px 22px 12px}
+
+  /* 欢迎屏 */
+  .welcome{max-width:820px;margin:0 auto;padding:9vh 22px 20px;text-align:center}
+  .welcome .w-logo{width:56px;height:56px;margin:0 auto 16px;display:grid;place-items:center;
+    border-radius:14px;background:linear-gradient(135deg,var(--accent),#0b6e63);color:#fff;font-size:28px;
+    box-shadow:0 6px 20px rgba(15,157,143,.35)}
+  .welcome h2{margin:0 0 8px;font-size:24px;font-weight:700;letter-spacing:.2px}
+  .welcome p{color:var(--muted);font-size:13.5px;margin:0 0 26px;line-height:1.7}
+  .sugg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;text-align:left}
+  .sugg{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--bg-soft);
+    text-align:left;transition:all .15s}
+  .sugg:hover{border-color:var(--accent);background:var(--accent-soft);box-shadow:var(--shadow)}
+  .sugg .s-q{font-size:13px;line-height:1.5;font-weight:600}
+  .sugg .s-h{display:block;margin-top:6px;font-size:11px;color:var(--muted)}
+
+  /* 消息 */
+  .msg{display:flex;gap:14px;padding:18px 0;border-bottom:1px solid var(--line)}
+  .msg:last-of-type{border-bottom:0}
+  .msg.user{flex-direction:row-reverse}
+  .avatar{width:30px;height:30px;flex-shrink:0;display:grid;place-items:center;border-radius:8px;font-size:14px}
+  .msg.user .avatar{background:var(--user-bubble);color:#fff}
+  .msg.assistant .avatar{background:linear-gradient(135deg,var(--accent),#0b6e63);color:#fff}
+  .msg-body{min-width:0;max-width:86%;flex:1}
+  .msg.user .msg-body{display:flex;justify-content:flex-end}
+  .msg.user .bubble{background:var(--user-bubble);color:var(--user-text);padding:10px 14px;
+    border-radius:14px 4px 14px 14px;font-size:14.5px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+  .msg.assistant .bubble{color:var(--ink);font-size:14.5px;line-height:1.75;word-break:break-word}
+  .msg.assistant .bubble p{margin:0 0 10px}
+  .msg.assistant .bubble p:last-child{margin-bottom:0}
+  .msg.assistant .bubble ul{margin:4px 0 10px;padding-left:20px}
+  .msg.assistant .bubble li{margin:2px 0}
+  .msg.assistant .bubble code{background:#f0f2f4;border:1px solid var(--line);border-radius:5px;
+    padding:1px 5px;font-size:12.5px;font-family:Consolas,monospace}
+  .msg.assistant .bubble .refs{display:inline-flex;gap:3px;vertical-align:middle;margin:0 2px}
+  .msg.assistant .bubble .ref{display:inline-block;padding:0 6px;border-radius:5px;font-size:11px;
+    font-weight:700;color:var(--accent-dark);background:var(--accent-soft);border:1px solid #cfe9e5;
+    line-height:1.6}
+  .msg-status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12.5px;margin-top:2px}
+  .spinner{width:14px;height:14px;border:2px solid var(--accent-soft);border-top-color:var(--accent);
+    border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .msg-actions{display:flex;gap:6px;margin-top:10px;opacity:0;transition:opacity .15s}
+  .msg:hover .msg-actions{opacity:1}
+  .msg-action{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);
+    background:var(--bg);color:var(--muted);font-size:12px;padding:4px 9px;border-radius:7px}
+  .msg-action:hover{border-color:var(--accent);color:var(--accent-dark)}
+  .error-text{color:var(--danger);background:#fdf0f0;border:1px solid #f0d0d0;border-radius:8px;
+    padding:10px 12px;font-size:13px;margin-top:4px}
+
+  /* 证据溯源 */
+  .evidence{margin-top:12px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg-soft)}
+  .evidence summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;
+    padding:10px 14px;font-size:12.5px;font-weight:650;color:var(--ink);user-select:none}
+  .evidence summary::-webkit-details-marker{display:none}
+  .evidence summary::before{content:"▸";transition:transform .15s;color:var(--muted)}
+  .evidence[open] summary::before{transform:rotate(90deg)}
+  .evidence .counts{margin-left:auto;color:var(--muted);font-weight:500;font-size:11.5px}
+  .evidence .inner{padding:4px 14px 14px;border-top:1px solid var(--line)}
+  .ev-sec{margin-top:12px}
+  .ev-sec h5{margin:0 0 8px;font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .exp-line{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px;color:var(--muted)}
+  .pill{border-radius:6px;padding:2px 8px;font-size:11px;font-weight:600;border:1px solid var(--line)}
+  .pill.gate-llm{color:#0b6e63;background:var(--accent-soft);border-color:#cfe9e5}
+  .pill.gate-tpl{color:#7c5a10;background:#fdf3dd;border-color:#f0dfae}
+  .pill.verdict{color:#fff}
+  .pill.v-ENTAILED{background:#1e9e6a}.pill.v-CONTRADICTED{background:var(--danger)}
+  .pill.v-UNKNOWN{background:#9aa0a6}.pill.v-INVALID_REQUEST{background:#d08770}
+  .claim-row{padding:8px 10px;background:var(--bg);border:1px solid var(--line);border-radius:8px;
+    margin-bottom:6px;font-size:13px;line-height:1.6}
+  .claim-row .cid{display:inline-block;font-weight:700;color:var(--accent-dark);margin-right:6px}
+  .claim-row .ctype{display:inline-block;margin-right:8px;font-size:11px;color:var(--muted);
+    border:1px solid var(--line);border-radius:5px;padding:0 6px}
+  .ev-item{padding:7px 10px;font-size:12px;color:var(--muted);background:var(--bg);
+    border:1px solid var(--line);border-radius:8px;margin-bottom:6px;line-height:1.55}
+  .ev-item .eid{font-weight:700;color:var(--ink)}
+  .ev-item .ekind{display:inline-block;font-size:10.5px;border-radius:5px;padding:0 6px;margin-left:6px;
+    background:#eef1f3;border:1px solid var(--line);color:var(--muted)}
+  .ev-item .rule{color:#7c5a10;font-size:11px}
+  .ev-item pre{margin:8px 0 0;background:#101418;color:#d6e2ea;border-radius:6px;padding:9px 11px;
+    font-size:11px;overflow:auto;white-space:pre-wrap;word-break:break-all;font-family:Consolas,monospace}
+  .ev-item .src{display:block;margin-top:5px;font-size:11px;color:var(--muted);word-break:break-all;
+    font-family:Consolas,monospace}
+
+  /* ---------- 输入区 ---------- */
+  .composer-wrap{padding:8px 22px 18px;background:linear-gradient(180deg,rgba(255,255,255,0),var(--bg) 30%)}
+  .composer{max-width:820px;margin:0 auto;display:flex;align-items:flex-end;gap:10px;
+    border:1px solid var(--line);border-radius:14px;padding:10px 10px 10px 16px;background:var(--bg);
+    box-shadow:var(--shadow);transition:border-color .15s}
+  .composer:focus-within{border-color:var(--accent)}
+  .composer textarea{flex:1;resize:none;border:0;outline:none;max-height:180px;line-height:1.6;
+    font-size:14.5px;color:var(--ink);background:transparent;padding:4px 0}
+  .composer textarea::placeholder{color:#a8aeb5}
+  .send-btn{width:36px;height:36px;flex-shrink:0;border-radius:10px;display:grid;place-items:center;
+    background:var(--accent);color:#fff;font-size:16px;transition:all .15s}
+  .send-btn:hover:not(:disabled){background:var(--accent-dark)}
+  .send-btn:disabled{background:#c9cdd1;cursor:not-allowed}
+  .stop-btn{width:36px;height:36px;flex-shrink:0;border-radius:10px;display:grid;place-items:center;
+    background:#fff;color:var(--danger);font-size:15px;border:1px solid #f0d0d0}
+  .stop-btn:hover{background:#fdf0f0}
+  .composer-hint{max-width:820px;margin:8px auto 0;text-align:center;color:#b0b6bd;font-size:11px}
+
+  ::-webkit-scrollbar{width:8px;height:8px}
+  ::-webkit-scrollbar-thumb{background:#d3d7db;border-radius:4px}
+  ::-webkit-scrollbar-thumb:hover{background:#b8bec5}
+  .sidebar ::-webkit-scrollbar-thumb{background:#3a3a3a}
+  .sidebar ::-webkit-scrollbar-thumb:hover{background:#4a4a4a}
+
+  @media (max-width:760px){
+    .sidebar{width:72px}
+    .brand-text,.new-chat .new-text,.sidebar-label,.convo .title,.convo .del,
+    .module-nav-label,.sidebar-footer{display:none}
+    .new-chat{justify-content:center;width:calc(100% - 16px)}
+    .module-item{justify-content:center}
+    .convo{justify-content:center}
+    .sugg-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <!-- ================= 侧边栏 ================= -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">CN</div>
+      <div class="brand-text"><b>CNFO 智能问数</b><span>基金领域语义问答</span></div>
+    </div>
+    <button class="new-chat" id="new-chat" title="新建对话">
+      <span class="plus">＋</span><span class="new-text">新建对话</span>
+    </button>
+    <div class="sidebar-label">对话历史</div>
+    <div class="convo-list" id="convo-list"><div class="convo-empty">暂无对话</div></div>
+    <div class="module-nav">
+      <div class="module-nav-label">模块</div>
+      <button type="button" class="module-item active" data-module="qa" title="智能问数">
+        <span class="ico">💬</span><span>智能问数</span>
+      </button>
+      <button type="button" class="module-item" data-module="viewer" title="本体查看器">
+        <span class="ico">🗂️</span><span>本体查看器</span>
+      </button>
+    </div>
+    <div class="sidebar-footer">
+      <div id="foot-status"><span class="foot-dot"></span>正在读取本体…</div>
+      <div class="foot-row">
+        <span id="foot-llm" title="表达模式：自动=有 key 走 LLM，无 key 走模板">LLM 自动</span>
+        <button class="llm-toggle" id="llm-toggle" title="切换表达模式（自动 / 强制 LLM / 模板）">自动</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= 主区 ================= -->
+  <main class="main">
+    <header class="topbar" id="topbar">
+      <div><h1 id="top-title">智能问数</h1><span class="sub" id="top-sub">CNFO 基金本体 · 语义查询引擎</span></div>
+      <div class="topbar-right" id="top-meta"></div>
+    </header>
+
+    <!-- 聊天视图 -->
+    <div class="chat-view" id="chat-view">
+      <div class="chat-scroll" id="chat-scroll">
+        <div id="welcome" class="welcome"></div>
+        <div id="thread" class="thread" hidden></div>
+      </div>
+      <div class="composer-wrap">
+        <div class="composer">
+          <textarea id="input" rows="1" placeholder="向 CNFO 本体提问，例如：有哪些货币市场基金？" autocomplete="off"></textarea>
+          <button class="stop-btn" id="stop-btn" title="停止生成" hidden>■</button>
+          <button class="send-btn" id="send-btn" title="发送">➤</button>
+        </div>
+        <div class="composer-hint">Enter 发送 · Shift+Enter 换行 · 答案引用均可溯源（Claim-Evidence Map）</div>
+      </div>
+    </div>
+
+    <!-- 本体查看器视图：iframe 内嵌独立页面，切换模块时仅替换主区内容，侧边栏不动 -->
+    <div class="viewer-view" id="viewer-view" hidden>
+      <iframe id="viewer-frame" title="本体查看器"></iframe>
+    </div>
+
+  </main>
+</div>
+
+<script>
+"use strict";
+/* ================= 工具 ================= */
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => 'm' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+
+/* ================= 状态 ================= */
+const LS_KEY = 'cnfo.qa.conversations.v1';
+const LS_LLM = 'cnfo.qa.llm.mode';
+let conversations = [];
+let activeId = null;
+let streaming = false;
+let currentSource = null;
+let gotAnswer = false;
+let uiLlm = localStorage.getItem(LS_LLM) === null ? null : (localStorage.getItem(LS_LLM) === 'true');
+
+function loadConversations(){
+  try{ conversations = JSON.parse(localStorage.getItem(LS_KEY) || '[]'); }
+  catch(e){ conversations = []; }
+  if(!Array.isArray(conversations)) conversations = [];
+}
+function saveConversations(){
+  const keep = conversations.slice(-20);   // 控制体积：仅保留最近 20 个对话
+  conversations = keep;
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(keep)); }catch(e){}
+}
+function activeConv(){ return conversations.find(c => c.id === activeId) || null; }
+
+/* ================= 会话管理 ================= */
+function newConversation(){
+  stopStreaming();
+  const conv = {id: uid(), title: '新对话', createdAt: Date.now(), messages: []};
+  conversations.unshift(conv);
+  activeId = conv.id;
+  saveConversations();
+  renderAll();
+  focusInput();
+}
+function openConversation(id){
+  if(streaming) return;
+  activeId = id;
+  renderAll();
+  focusInput();
+}
+function deleteConversation(id){
+  if(streaming) return;
+  conversations = conversations.filter(c => c.id !== id);
+  if(activeId === id) activeId = conversations.length ? conversations[0].id : null;
+  saveConversations();
+  renderAll();
+}
+function pushMessage(conv, msg){
+  conv.messages.push(msg);
+  if(conv.messages.filter(m => m.role === 'user').length === 1){
+    conv.title = conv.messages.find(m => m.role === 'user').content.slice(0, 18) + (msg.content.length > 18 ? '…' : '');
+  }
+  saveConversations();
+}
+
+/* ================= 渲染 ================= */
+function renderConversationList(){
+  const box = $('convo-list');
+  if(!conversations.length){
+    box.innerHTML = '<div class="convo-empty">暂无对话，点击「新建对话」开始</div>';
+    return;
+  }
+  box.innerHTML = conversations.map(c =>
+    '<div class="convo ' + (c.id === activeId ? 'active' : '') + '" data-convo="' + c.id + '" role="button" tabindex="0">' +
+      '<span class="ico">💬</span>' +
+      '<span class="title">' + esc(c.title) + '</span>' +
+      '<span class="del" data-del="' + c.id + '" title="删除">✕</span>' +
+    '</div>').join('');
+}
+function renderThread(){
+  const conv = activeConv();
+  const welcome = $('welcome'), thread = $('thread');
+  if(!conv || !conv.messages.length){
+    welcome.hidden = false; thread.hidden = true;
+    return;
+  }
+  welcome.hidden = true; thread.hidden = false;
+  thread.innerHTML = conv.messages.map((m, i) => renderMessage(m, i)).join('');
+}
+function renderMessage(m, i){
+  if(m.role === 'user'){
+    return '<div class="msg user"><div class="avatar">🧑</div><div class="msg-body">' +
+      '<div class="bubble">' + esc(m.content) + '</div></div></div>';
+  }
+  const status = m.meta && m.meta.streaming
+    ? '<div class="msg-status"><span class="spinner"></span><span>' + esc(m.meta.phase || '思考中…') + '</span></div>'
+    : '';
+  const actions = '<div class="msg-actions">' +
+    '<button class="msg-action" data-retry="' + i + '">↻ 重新回答</button>' +
+    '<button class="msg-action" data-copy="' + i + '">⧉ 复制</button></div>';
+  const error = m.meta && m.meta.error
+    ? '<div class="error-text">' + esc(m.meta.error) + '</div>' : '';
+  const verdictPill = (m.meta && m.meta.kind === 'verify' && m.meta.verdict)
+    ? '<div style="margin-bottom:8px"><span class="pill verdict v-' + esc(m.meta.verdict) + '">判定 · ' + esc(m.meta.verdict) + '</span></div>'
+    : '';
+  return '<div class="msg assistant">' +
+    '<div class="avatar">🤖</div>' +
+    '<div class="msg-body">' +
+      verdictPill +
+      '<div class="bubble">' + (m.content ? renderText(m.content) : '') + '</div>' +
+      status + error +
+      (m.meta && m.meta.claims && m.meta.claims.length ? evidencePanel(m.meta) : '') +
+      actions +
+    '</div></div>';
+}
+function renderAll(){
+  renderConversationList();
+  renderThread();
+  scrollBottom();
+}
+
+/* ================= 轻量 Markdown / 证据引用渲染 ================= */
+function inlineFormat(s){
+  s = esc(s);
+  // 全 IRI → 本地名（便于阅读；详情仍可在证据面板查看完整 IRI）
+  s = s.replace(/https:\/\/ontology\.example\.cn\/cnfo\/(?:ontology|abox|module|code)\/([A-Za-z0-9_]+)/g, '$1');
+  s = s.replace(/`([^`]+)`/g, (m, code) => '<code>' + code + '</code>');
+  s = s.replace(/\[(E\d+(?:\s+E\d+)*)\]/g, (m, ids) =>
+    '<span class="refs">' + ids.split(/\s+/).map(id => '<span class="ref">' + id + '</span>').join('') + '</span>');
+  s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  return s;
+}
+function renderText(text){
+  const lines = (text || '').split('\n');
+  let html = '', openUl = false;
+  const flushUl = () => { if(openUl){ html += '</ul>'; openUl = false; } };
+  for(const line of lines){
+    const t = line.trim();
+    if(/^[-•]\s+/.test(t)){
+      if(!openUl){ html += '<ul>'; openUl = true; }
+      html += '<li>' + inlineFormat(t.replace(/^[-•]\s+/, '')) + '</li>';
+    } else {
+      flushUl();
+      if(!t) continue;
+      html += '<p>' + inlineFormat(line) + '</p>';
+    }
+  }
+  flushUl();
+  return html || '<p></p>';
+}
+
+/* ================= 证据溯源面板 ================= */
+function buildMetaFromAnswer(ans){
+  const report = ans.report || {};
+  return {
+    kind: ans.kind, status: ans.status, verdict: ans.verdict,
+    intent_status: ans.intent_status,
+    explanation: ans.explanation || null,
+    verify: report.verify || null,
+    claims: (report.claims || []).map(c => ({claim_id:c.claim_id, type:c.type, claim:c.claim, evidence:c.evidence})),
+    evidence: (report.evidence || []).map(e => ({
+      id:e.id, kind:e.kind, rule:e.rule || null, sparql:e.sparql || null,
+      row_count:e.row_count || null, note:e.note || null, source:e.source || null
+    }))
+  };
+}
+function gatePill(exp){
+  if(!exp) return '<span class="pill gate-tpl">模板</span>';
+  const gate = exp.gate || '';
+  const cls = gate === 'llm_validated' ? 'gate-llm' : 'gate-tpl';
+  const label = gate === 'llm_validated' ? 'LLM 校验通过' :
+                gate === 'template_nokey' ? '模板（无 key）' :
+                gate === 'template_fallback' ? '模板回退' : gate;
+  return '<span class="pill ' + cls + '">' + esc(label) + '</span>';
+}
+function evidencePanel(meta){
+  const claims = meta.claims || [], evs = meta.evidence || [];
+  const exp = meta.explanation || {};
+  let html = '<details class="evidence"><summary>证据与溯源<span class="counts">' +
+    claims.length + ' claims · ' + evs.length + ' evidence</span></summary><div class="inner">';
+
+  // 表达与判定
+  html += '<div class="ev-sec"><h5>表达与判定</h5><div class="exp-line">' + gatePill(exp) +
+    (exp.used_llm != null ? '<span>used_llm=' + exp.used_llm + '</span>' : '') +
+    (exp.ucr != null ? '<span>UCR=' + exp.ucr + '</span>' : '') +
+    (meta.verdict ? '<span class="pill verdict v-' + esc(meta.verdict) + '">' + esc(meta.verdict) + '</span>' : '') +
+    (meta.status ? '<span>status=' + esc(meta.status) + '</span>' : '') +
+    '</div></div>';
+
+  if(claims.length){
+    html += '<div class="ev-sec"><h5>可验证陈述（Claims）</h5>';
+    html += claims.map(c => '<div class="claim-row"><span class="cid">' + esc(c.claim_id) + '</span>' +
+      '<span class="ctype">' + esc(c.type || '') + '</span>' + esc(c.claim) +
+      (c.evidence && c.evidence.length ? ' <span class="refs">' + c.evidence.map(e => '<span class="ref">' + esc(e) + '</span>').join('') + '</span>' : '') +
+      '</div>').join('');
+    html += '</div>';
+  }
+  if(evs.length){
+    html += '<div class="ev-sec"><h5>证据（Evidence）</h5>';
+    html += evs.map(e => {
+      let body = '<span class="eid">' + esc(e.id) + '</span><span class="ekind">' + esc(e.kind || '') + '</span>' +
+        (e.rule ? ' <span class="rule">rule=' + esc(e.rule) + '</span>' : '') +
+        (e.note ? ' <span>' + esc(e.note) + '</span>' : '') +
+        (e.row_count != null ? ' <span>rows=' + esc(e.row_count) + '</span>' : '');
+      if(e.sparql) body += '<pre>' + esc(e.sparql) + '</pre>';
+      if(e.source && e.source.length) body += '<span class="src">' + esc(e.source.join(' · ')) + '</span>';
+      return '<div class="ev-item">' + body + '</div>';
+    }).join('');
+    html += '</div>';
+  }
+  html += '</div></details>';
+  return html;
+}
+
+/* ================= 聊天动作 ================= */
+function scrollBottom(){
+  const sc = $('chat-scroll');
+  requestAnimationFrame(() => { sc.scrollTop = sc.scrollHeight; });
+}
+function focusInput(){ $('input').focus(); }
+function setStreaming(on){
+  streaming = on;
+  $('send-btn').hidden = on;
+  $('stop-btn').hidden = !on;
+  $('input').disabled = on;
+}
+function stopStreaming(){
+  if(currentSource){ currentSource.close(); currentSource = null; }
+  if(streaming){
+    const conv = activeConv();
+    const last = conv && conv.messages[conv.messages.length - 1];
+    if(last && last.role === 'assistant' && last.meta && last.meta.streaming){
+      last.meta.streaming = false;
+      if(!last.content) last.meta.error = '已停止生成';
+      saveConversations();
+    }
+    setStreaming(false);
+    renderAll();
+  }
+}
+
+function send(question){
+  question = (question || '').trim();
+  if(!question || streaming) return;
+  let conv = activeConv();
+  if(!conv){
+    newConversation();
+    conv = activeConv();
+  }
+  pushMessage(conv, {role:'user', content:question});
+  const placeholder = {role:'assistant', content:'', meta:{streaming:true, phase:'语义解析中'}, id:uid()};
+  pushMessage(conv, placeholder);
+  renderAll();
+  setStreaming(true);
+  gotAnswer = false;
+
+  const params = new URLSearchParams({q: question});
+  if(uiLlm !== null) params.set('use_llm', String(uiLlm));
+  const es = new EventSource('/api/qa/ask/stream?' + params.toString());
+  currentSource = es;
+
+  es.addEventListener('phase', e => {
+    try{
+      const d = JSON.parse(e.data);
+      placeholder.meta.phase = d.message || d.code;
+      updateStreamingStatus();
+    }catch(err){}
+  });
+  es.addEventListener('answer', e => {
+    try{
+      const d = JSON.parse(e.data);
+      const ans = d.answer;
+      placeholder.content = ans.text || '';
+      placeholder.meta = buildMetaFromAnswer(ans);
+      gotAnswer = true;
+      renderThread();
+    }catch(err){
+      placeholder.meta.error = '答案解析失败';
+    }
+  });
+  es.addEventListener('error', e => {
+    try{ const d = JSON.parse(e.data); placeholder.meta.error = d.message || '服务端错误'; }
+    catch(err){ if(!gotAnswer) placeholder.meta.error = '连接失败，请重试'; }
+    finishStream(placeholder);
+  });
+  es.addEventListener('done', e => {
+    finishStream(placeholder);
+  });
+  es.onerror = () => {
+    if(es.readyState === EventSource.CLOSED) finishStream(placeholder);
+  };
+}
+function finishStream(placeholder){
+  setStreaming(false);
+  if(currentSource){ currentSource.close(); currentSource = null; }
+  const conv = activeConv();
+  if(conv){
+    const last = conv.messages[conv.messages.length - 1];
+    if(last && last === placeholder){
+      last.meta.streaming = false;
+      if(!last.content && !last.meta.error) last.meta.error = '未获得答案';
+      saveConversations();
+    }
+  }
+  renderAll();
+}
+function updateStreamingStatus(){
+  const conv = activeConv();
+  if(!conv) return;
+  const last = conv.messages[conv.messages.length - 1];
+  const el = $('thread').querySelector('.msg:last-of-type .msg-status span:last-child');
+  if(el && last && last.meta) el.textContent = last.meta.phase || '思考中…';
+}
+function retry(index){
+  if(streaming) return;
+  const conv = activeConv();
+  if(!conv) return;
+  // 找到这条 assistant 消息之前最近的 user 消息，删掉它及之后的所有消息后重发
+  let userIdx = -1;
+  for(let i = index; i >= 0; i--){
+    if(conv.messages[i] && conv.messages[i].role === 'user'){ userIdx = i; break; }
+  }
+  if(userIdx < 0) return;
+  const question = conv.messages[userIdx].content;
+  conv.messages = conv.messages.slice(0, userIdx);
+  saveConversations();
+  renderAll();
+  send(question);
+}
+
+/* ================= 欢迎屏 ================= */
+async function renderWelcome(){
+  let suggs = [];
+  try{
+    const data = await (await fetch('/api/qa/suggestions')).json();
+    suggs = data.suggestions || [];
+  }catch(e){
+    suggs = [
+      {q:'交易型开放式指数基金有哪些？', hint:'分类列举'},
+      {q:'同时管理多只基金的基金经理是谁？', hint:'聚合 + 排名'},
+      {q:'交易型开放式指数基金是不是开放式基金？', hint:'T-BOX 判链'}
+    ];
+  }
+  $('welcome').innerHTML =
+    '<div class="w-logo">CN</div>' +
+    '<h2>向 CNFO 本体提问</h2>' +
+    '<p>自然语言问数 · 语义解析过白名单 · 确定性查询计划 · 证据可溯源（Claim-Evidence Map）</p>' +
+    '<div class="sugg-grid">' +
+    suggs.map(s => '<button class="sugg" data-q="' + esc(s.q) + '"><span class="s-q">' + esc(s.q) +
+      '</span><span class="s-h">' + esc(s.hint || '') + '</span></button>').join('') +
+    '</div>';
+  $('welcome').querySelectorAll('.sugg').forEach(b =>
+    b.addEventListener('click', () => send(b.dataset.q)));
+}
+
+/* ================= 元信息 ================= */
+async function loadMeta(){
+  try{
+    const m = await (await fetch('/api/meta')).json();
+    const onto = m.ontology || {}, data = m.data || {}, llm = m.llm || {};
+    $('foot-status').innerHTML = '<span class="foot-dot"></span>' +
+      (onto.version ? ('本体 v' + esc(onto.version)) : '本体') +
+      (data.entity_count ? (' · ' + data.entity_count + ' 实例') : '');
+    $('top-meta').textContent = (onto.class_count || 0) + ' 类 · ' + (onto.property_count || 0) + ' 属性' +
+      (data.abox_file ? ' · ' + esc(data.abox_file) : '');
+    applyLlmLabel(llm);
+    window.__llmMeta = llm;
+  }catch(e){
+    $('foot-status').innerHTML = '<span class="foot-dot" style="background:#d64545"></span>无法连接后端';
+  }
+}
+function applyLlmLabel(llm){
+  const t = $('llm-toggle');
+  if(uiLlm === true) t.textContent = 'LLM';
+  else if(uiLlm === false) t.textContent = '模板';
+  else t.textContent = '自动';
+  $('foot-llm').textContent =
+    uiLlm === true ? 'LLM 强制开启' :
+    uiLlm === false ? '模板模式' :
+    ((llm && llm.configured) ? 'LLM ' + (llm.model || '') : '模板（无 key）');
+}
+
+/* ================= 模块切换（智能问数 / 本体查看器） ================= */
+let activeModule = 'qa';
+let viewerLoaded = false;
+function switchModule(name){
+  if(name === activeModule) return;
+  activeModule = name;
+  const isViewer = name === 'viewer';
+  $('chat-view').hidden = isViewer;
+  $('topbar').hidden = isViewer;   // 查看器自带顶栏，避免双顶栏
+  $('viewer-view').hidden = !isViewer;
+  // 惰性加载：首次进入才创建 iframe；切走再切回时查看器状态保留
+  if(isViewer && !viewerLoaded){
+    $('viewer-frame').src = '/viewer/?embed=1';
+    viewerLoaded = true;
+  }
+  document.querySelectorAll('.module-item').forEach(el =>
+    el.classList.toggle('active', el.dataset.module === name));
+  history.replaceState(null, '', isViewer ? '#viewer' : location.pathname);
+}
+
+/* ================= 事件绑定 ================= */
+document.addEventListener('click', e => {
+  const convBtn = e.target.closest('[data-convo]');
+  if(convBtn){ openConversation(convBtn.dataset.convo); return; }
+  const delBtn = e.target.closest('[data-del]');
+  if(delBtn){ e.stopPropagation(); deleteConversation(delBtn.dataset.del); return; }
+  const retryBtn = e.target.closest('[data-retry]');
+  if(retryBtn){ retry(Number(retryBtn.dataset.retry)); return; }
+  const copyBtn = e.target.closest('[data-copy]');
+  if(copyBtn){
+    const conv = activeConv();
+    const m = conv && conv.messages[Number(copyBtn.dataset.copy)];
+    if(m && navigator.clipboard) navigator.clipboard.writeText(m.content).then(() => {
+      copyBtn.textContent = '✓ 已复制';
+      setTimeout(() => { copyBtn.textContent = '⧉ 复制'; }, 1200);
+    });
+    return;
+  }
+});
+$('new-chat').addEventListener('click', newConversation);
+document.querySelectorAll('.module-item').forEach(el =>
+  el.addEventListener('click', () => switchModule(el.dataset.module)));
+if(location.hash === '#viewer') switchModule('viewer');
+$('llm-toggle').addEventListener('click', () => {
+  uiLlm = uiLlm === null ? true : (uiLlm === true ? false : null);
+  localStorage.setItem(LS_LLM, String(uiLlm));
+  applyLlmLabel(window.__llmMeta || {});
+});
+$('send-btn').addEventListener('click', () => { send($('input').value); $('input').value = ''; autoGrow(); });
+$('stop-btn').addEventListener('click', stopStreaming);
+$('input').addEventListener('keydown', e => {
+  if(e.key === 'Enter' && !e.shiftKey){
+    e.preventDefault();
+    $('send-btn').click();
+  }
+});
+$('input').addEventListener('input', autoGrow);
+function autoGrow(){
+  const el = $('input');
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 180) + 'px';
+  $('send-btn').disabled = !el.value.trim();
+}
+
+/* ================= 启动 ================= */
+(async function init(){
+  loadConversations();
+  loadMeta();
+  renderWelcome();
+  if(!conversations.length){
+    newConversation();
+  } else {
+    activeId = conversations[0].id;
+    renderAll();
+  }
+  autoGrow();
+})();
+</script>
+</body>
+</html>

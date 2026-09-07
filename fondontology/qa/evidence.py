@@ -27,6 +27,69 @@ def _local(uri: str) -> str:
     return s.rsplit("/", 1)[-1].rsplit("#", 1)[-1]
 
 
+def _anchor_layers(graph: Graph, src: URIRef, hops: list[dict],
+                   cap: int = 500, tbox: Optional[Graph] = None) -> list[set]:
+    """锚点遍历的逐跳到达层：layers[0]={src}，layers[i]=第 i 跳到达的实体集。
+
+    hop 带 "to"（终点类 IRI）时按类型闭包过滤（与 SPARQL 的跳终点约束一致）。
+    """
+    to_closures: dict[int, set] = {}
+    if tbox is not None:
+        from rdflib.namespace import RDFS as _RDFS
+        for i, h in enumerate(hops):
+            if not h.get("to"):
+                continue
+            to_uri = URIRef(h["to"])
+            closure = {to_uri}
+            frontier = [to_uri]
+            while frontier:
+                cur = frontier.pop()
+                for s in tbox.subjects(_RDFS.subClassOf, cur):
+                    if isinstance(s, URIRef) and s not in closure:
+                        closure.add(s)
+                        frontier.append(s)
+            to_closures[i] = closure
+    layers: list[set] = [{src}]
+    for i, h in enumerate(hops):
+        prop = URIRef(h["property"])
+        nxt: set = set()
+        for x in layers[-1]:
+            if h.get("inverse"):
+                nxt |= {s for s in graph.subjects(prop, x) if isinstance(s, URIRef)}
+            else:
+                nxt |= {o for o in graph.objects(x, prop) if isinstance(o, URIRef)}
+            if len(nxt) >= cap:
+                break
+        if i in to_closures:
+            closure = to_closures[i]
+            nxt = {n for n in nxt
+                   if any((n, RDF.type, t) in graph for t in closure)}
+        layers.append(set(list(nxt)[:cap]))
+    return layers
+
+
+def _witness_path(graph: Graph, layers: list[set], hops: list[dict],
+                  entity: URIRef) -> list[tuple]:
+    """从结果实体沿各跳层回走一条到 source 的见证路径（事实列表，src→entity 序）。"""
+    facts: list[tuple] = []
+    cur = entity
+    for i in range(len(hops) - 1, -1, -1):
+        prop = URIRef(hops[i]["property"])
+        inverse = bool(hops[i].get("inverse"))
+        found = None
+        for x in layers[i]:
+            candidate = (cur, prop, x) if inverse else (x, prop, cur)
+            if candidate in graph:
+                found = candidate
+                break
+        if found is None:
+            return []
+        facts.append(found)
+        cur = found[2] if inverse else found[0]
+    facts.reverse()
+    return facts
+
+
 def zh_label(graph: Graph, uri: URIRef, default: str = "") -> str:
     for pred in (SKOS.prefLabel, RDFS.label):
         for o in graph.objects(uri, pred):
@@ -136,38 +199,82 @@ class EvidenceBuilder:
                 ids.append(eid)
             entity_evidence[entity] = ids
 
-        # ---- 推理层归因（锚点推理边：如 hasFundManager 由 propertyChain 物化）----
-        # 对 plan 中 inverse=true 的遍历属性，命中的 (entity, prop, source) 若在
-        # inference_registry 中，则附上 rule 与 premises（前提三元组证据化）。
+        # ---- 推理层归因（锚点链：逐跳见证路径上的物化边登记规则与前提）----
+        # 如 hasFundManager 由 propertyChain 物化；多跳链（基金→经理→其他基金）
+        # 沿见证路径逐跳归因，显式边也给 declared 证据，保证链上每跳可溯源。
         infer_evidence: dict[str, list[str]] = {}
+        pivot_claims: list[dict] = []
         src_entity = (plan.get("source") or {}).get("entity")
-        inv_hop = next((h for h in plan.get("traversals") or [] if h.get("inverse")), None)
-        if src_entity and inv_hop:
-            prop_uri = inv_hop["property"]
+        hops = [h for h in (plan.get("traversals") or []) if h.get("property")]
+        if src_entity and hops:
+            inf_graph = self.stack.require_abox_inferred()
             registry = self.stack.inference_registry
-            for entity in focus:
-                fact = (URIRef(entity), URIRef(prop_uri), URIRef(src_entity))
+            layers = _anchor_layers(inf_graph, URIRef(src_entity), hops,
+                                    tbox=self.stack.tbox)
+            fact_eids: dict[tuple, list[str]] = {}
+
+            def emit_fact(fact: tuple) -> list[str]:
+                """物化边 → inference 证据（含前提）；显式边 → declared 证据。按 fact 去重。"""
+                if fact in fact_eids:
+                    return fact_eids[fact]
+                eids: list[str] = []
                 reg = registry.get(fact)
-                if reg is None:
-                    continue
-                premise_eids = []
-                for pr in reg["premises"]:
-                    e_prem = self._next()
+                if reg is not None:
+                    premise_eids = []
+                    for pr in reg["premises"]:
+                        e_prem = self._next()
+                        report["evidence"].append({
+                            "id": e_prem, "kind": "declared",
+                            "source": [str(pr[0]), str(pr[1]), str(pr[2])],
+                            "premises": [], "derived": [],
+                        })
+                        premise_eids.append(e_prem)
+                    e_inf = self._next()
                     report["evidence"].append({
-                        "id": e_prem, "kind": "declared",
-                        "source": [str(pr[0]), str(pr[1]), str(pr[2])],
+                        "id": e_inf, "kind": "inference",
+                        "rule": reg["rule"],
+                        "source": [str(fact[0]), str(fact[1]), str(fact[2])],
+                        "premises": premise_eids,
+                        "derived": [],
+                    })
+                    eids = premise_eids + [e_inf]
+                else:
+                    e_dec = self._next()
+                    report["evidence"].append({
+                        "id": e_dec, "kind": "declared",
+                        "source": [str(fact[0]), str(fact[1]), str(fact[2])],
                         "premises": [], "derived": [],
                     })
-                    premise_eids.append(e_prem)
-                e_inf = self._next()
-                report["evidence"].append({
-                    "id": e_inf, "kind": "inference",
-                    "rule": reg["rule"],
-                    "source": [str(fact[0]), str(fact[1]), str(fact[2])],
-                    "premises": premise_eids,
-                    "derived": [],
-                })
-                infer_evidence[entity] = premise_eids + [e_inf]
+                    eids = [e_dec]
+                fact_eids[fact] = eids
+                return eids
+
+            for entity in focus:
+                witness = _witness_path(inf_graph, layers, hops, URIRef(entity))
+                eids: list[str] = []
+                for fact in witness:
+                    eids.extend(emit_fact(fact))
+                if eids:
+                    infer_evidence[entity] = eids
+
+            # 多跳锚点链的 pivot（第一跳到达的实体，如"基金的基金经理"）：
+            # 结果实体是链终点，pivot 不在结果集中——必须显式给 claim，
+            # 否则表达层拿不到"基金经理是谁"这一半问题的答案
+            if len(hops) >= 2 and len(layers) > 1 and layers[1]:
+                hop1 = hops[0]
+                prop_label = zh_label(self.stack.tbox, URIRef(hop1["property"]),
+                                      _local(hop1["property"]))
+                src_label = zh_label(graph, URIRef(src_entity), _local(src_entity))
+                for pivot in sorted(layers[1], key=str)[:3]:
+                    pivot_label = zh_label(graph, pivot, _local(str(pivot)))
+                    if not hop1.get("inverse"):
+                        fact = (URIRef(src_entity), URIRef(hop1["property"]), pivot)
+                        text = f"「{src_label}」{prop_label}「{pivot_label}」"
+                    else:
+                        fact = (pivot, URIRef(hop1["property"]), URIRef(src_entity))
+                        text = f"「{pivot_label}」{prop_label}「{src_label}」"
+                    pivot_claims.append({"type": "fact", "claim": text,
+                                         "evidence": emit_fact(fact)})
 
         # ---- Claim 映射 ----
         # 聚合语义描述（"关联「Fund」数量 >= 2"），让 count claim 携带约束而非裸计数
@@ -197,15 +304,20 @@ class EvidenceBuilder:
             "claim": "结果实体：" + "、".join(listed[:10]) + ("…" if result.count > len(listed) else ""),
             "evidence": [query_eid],
         })
+        seq = 3
+        for pc in pivot_claims:
+            claims.append({"claim_id": f"C{seq}", **pc})
+            seq += 1
         for i, entity in enumerate(focus[:3]):
             ev_ids = entity_evidence.get(entity, [query_eid])
             if entity in infer_evidence:
                 ev_ids = infer_evidence[entity] + ev_ids
             claims.append({
-                "claim_id": f"C{3 + i}", "type": "classification",
+                "claim_id": f"C{seq}", "type": "classification",
                 "claim": f"实体「{entity_labels[entity]}」属于 {_local(target)}",
                 "evidence": ev_ids,
             })
+            seq += 1
         report["claims"] = claims
 
         # ---- 局部子图（带上限，防撑爆上下文）----

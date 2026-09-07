@@ -696,10 +696,15 @@ class OntologyViewerSession:
         }
 
 
-def create_viewer_app(session: OntologyViewerSession) -> FastAPI:
+def register_viewer_api(app: FastAPI, session: OntologyViewerSession) -> None:
+    """把本体查看器的 API 路由与静态资源注册到任意 FastAPI 应用上（根域）。
+
+    供两类宿主复用：独立查看器应用（create_viewer_app）与统一 Web UI
+    （fondontology.webui）。路由固定挂在根域（/api/ontology/*、/assets），
+    保证 viewer_static/index.html 中的绝对路径 fetch 无需任何改动即可工作。
+    """
     if not STATIC_DIR.is_dir():
         raise FileNotFoundError(f"Viewer assets not found: {STATIC_DIR}")
-    app = FastAPI(title="Fund Ontology Browser", version="0.1.0")
 
     @app.get("/api/ontology/summary")
     async def ontology_summary():
@@ -735,11 +740,19 @@ def create_viewer_app(session: OntologyViewerSession) -> FastAPI:
         except KeyError as exc:
             raise HTTPException(status_code=404, detail=str(exc)) from exc
 
+    app.mount("/assets", StaticFiles(directory=str(STATIC_DIR)), name="assets")
+
+
+def create_viewer_app(session: OntologyViewerSession) -> FastAPI:
+    if not STATIC_DIR.is_dir():
+        raise FileNotFoundError(f"Viewer assets not found: {STATIC_DIR}")
+    app = FastAPI(title="Fund Ontology Browser", version="0.1.0")
+    register_viewer_api(app, session)
+
     @app.get("/")
     async def root():
         return FileResponse(STATIC_DIR / "index.html")
 
-    app.mount("/assets", StaticFiles(directory=str(STATIC_DIR)), name="assets")
     return app
 
 

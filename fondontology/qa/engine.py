@@ -7,7 +7,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import Callable, Optional
 from weakref import WeakKeyDictionary
 
 from . import explainer, templates
@@ -66,20 +66,33 @@ def _cand_label(c) -> str:
         return ""
 
 
+def _emit(on_phase: Optional[Callable[[str, str], None]], code: str, message: str) -> None:
+    """可选的阶段回调（Web UI SSE 进度用）；默认 None 时为空操作。"""
+    if on_phase is not None:
+        try:
+            on_phase(code, message)
+        except Exception:
+            pass  # 阶段回调异常不得影响问数链路
+
+
 def answer_question(question: str, stack: DataStack, *,
                     slice_budget: SliceBudget = SliceBudget(),
                     max_subgraph_entities: int = 8,
-                    use_llm: Optional[bool] = None) -> QaAnswer:
+                    use_llm: Optional[bool] = None,
+                    on_phase: Optional[Callable[[str, str], None]] = None) -> QaAnswer:
     """自然语言 → 答案（M4 意图三态 + M3/M5 链条）。
 
     无 LLM key：intent 走确定性，表达走模板（gate=template_nokey，UCR=0）；
     有 key：intent/表达走 LLM（候选选择过白名单；表达越权引用→重试→模板回退）。
+    on_phase(code, message)：可选阶段进度回调（intent/plan/query/evidence/explain）。
     """
     from .intent import build_intent
 
+    _emit(on_phase, "intent", "语义解析中")
     intent_res = build_intent(question, _get_index(stack),
                               use_llm=(False if use_llm is False else None))
     if intent_res.status != "RESOLVED":
+        _emit(on_phase, "intent", "意图未解析")
         cand_text = "、".join(_cand_label(c) for c in intent_res.candidates)
         text_map = {
             "AMBIGUOUS": "问题存在多个可成立的解释，请澄清（候选：" + cand_text + "）",
@@ -93,6 +106,7 @@ def answer_question(question: str, stack: DataStack, *,
 
     intent = intent_res.intent
     if intent["operation"] == "verify":
+        _emit(on_phase, "verify", "T-BOX 判链")
         base = answer(stack, {
             "operation": "verify",
             "subject": intent["subject"],
@@ -119,11 +133,13 @@ def answer_question(question: str, stack: DataStack, *,
     # 聚合/排名语义（related_class/relation_path/aggregation/ordering/limit）进计划，
     # planner 经本体语义视图做 domain/range 关系约束校验
     filters = [dict(f) for f in intent.get("filters") or []]
+    _emit(on_phase, "plan", "编译查询计划")
     plan = plan_find(
         target=intent["target_class"], tbox=stack.tbox, abox=stack.abox,
         source=intent.get("source"),
         traversals=intent.get("traversals"),
         filters=filters,
+        exclusions=intent.get("exclusions"),
         related_class=intent.get("related_class"),
         relation_path=intent.get("relation_path"),
         aggregation=intent.get("aggregation"),
@@ -135,14 +151,17 @@ def answer_question(question: str, stack: DataStack, *,
     if plan.get("errors"):
         return QaAnswer(kind="find", status="invalid",
                         text=templates.render_invalid(plan["errors"]))
+    _emit(on_phase, "query", "执行本体检索")
     result = execute_find(stack, plan)
     if result.errors:
         return QaAnswer(kind="find", status="invalid",
                         text=templates.render_invalid(result.errors))
     builder = EvidenceBuilder(stack)
+    _emit(on_phase, "evidence", "构建证据与溯源")
     report = builder.build_for_find(plan, result, max_subgraph_entities=max_subgraph_entities)
     slice_ = build_ontology_slice(stack.tbox, plan, slice_budget)
     local_context = assemble_local_context(report, slice_)
+    _emit(on_phase, "explain", "生成自然语言表达")
     exp = explainer.explain(question, report,
                             context_summary=f"{len(slice_['classes'])} 类切片",
                             use_llm=use_llm)

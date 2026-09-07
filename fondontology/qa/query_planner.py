@@ -139,12 +139,18 @@ def plan_find(*, target: str, tbox: Graph, abox: Optional[Graph] = None,
             if prop_uri is None:
                 errors.append(f"traversal 属性无法解析: {t.get('property')!r}")
                 continue
+            to_uri = None
+            if t.get("to"):
+                to_uri = resolve_iri(tbox, t["to"])
+                if to_uri is None:
+                    errors.append(f"traversal 终点类无法解析: {t.get('to')!r}")
+                    continue
             plan_traversals.append({
                 "property": str(prop_uri),
                 "inverse": bool(t.get("inverse")),
                 "filter": t.get("filter"),
                 "from": t.get("from"),
-                "to": t.get("to"),
+                "to": str(to_uri) if to_uri is not None else None,
             })
 
     # ---- 聚合：related + relation_path + aggregation ----
