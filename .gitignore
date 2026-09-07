@@ -17,3 +17,6 @@ artifacts/
 
 # api_key
 .env
+
+# workbuddy
+.workbuddy
