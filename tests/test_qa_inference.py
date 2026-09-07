@@ -74,9 +74,14 @@ class InferenceLayerTest(unittest.TestCase):
         for e in infer_ev:
             self.assertTrue(e["premises"])
             self.assertTrue(set(e["premises"]) <= eids)
-        # 分类 claim 应引用推理证据（E5 类）
-        c3 = [c for c in ans.report["claims"] if c.get("type") == "classification"][0]
-        self.assertTrue(any(eid in c3["evidence"] for eid in {e["id"] for e in infer_ev}))
+        # 锚点查询的关系 claim（「基金」具有基金管理人「魏辉」）应引用推理证据
+        rel = [c for c in ans.report["claims"]
+               if c.get("type") == "fact" and "魏辉" in c.get("claim", "")]
+        self.assertTrue(rel, "缺锚点关系 claim")
+        self.assertTrue(any(eid in rel[0]["evidence"] for eid in {e["id"] for e in infer_ev}))
+        # 锚点查询不再产出"属于 Fund"式同义反复的分类 claim
+        self.assertFalse([c for c in ans.report["claims"]
+                          if c.get("type") == "classification"])
 
     def test_fund_anchor_compound_e2e(self) -> None:
         # 基金锚点复合链：恒信货币（F005659）→ 经理陶凯 → 其管理的其他基金；

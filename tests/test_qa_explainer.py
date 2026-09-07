@@ -1,4 +1,4 @@
-"""M5：表达层回归（LLM 引用闸门 / 模板回退 / NL 全链路入口）。"""
+"""M5：表达层回归（LLM 引用闸门 / 模板回退 / NL 全链路入口 + 文本增量回调）。"""
 from __future__ import annotations
 
 import unittest
@@ -110,6 +110,43 @@ class AnswerQuestionNlTest(unittest.TestCase):
         ans = answer_question("混合基金股票基金", self.stack, use_llm=False)
         self.assertEqual(ans.status, "ambiguous")
         self.assertIn("澄清", ans.text)
+
+
+class TextDeltaCallbackTest(unittest.TestCase):
+    """on_text_delta：终稿增量回调（Web UI 流式渲染的引擎侧契约）。"""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.stack = build_stack(SOURCE, ABOX)
+
+    def test_deltas_join_to_final_text(self) -> None:
+        chunks: list[str] = []
+        ans = answer_question("有哪些交易型开放式指数基金", self.stack,
+                              use_llm=False, on_text_delta=chunks.append)
+        self.assertEqual(ans.status, "ok")
+        self.assertTrue(chunks, "应至少下发一个文本增量")
+        self.assertEqual("".join(chunks), ans.text,
+                         "增量拼接应等于终稿文本")
+
+    def test_delta_after_phases(self) -> None:
+        calls: list[tuple] = []
+        ans = answer_question(
+            "有哪些交易型开放式指数基金", self.stack, use_llm=False,
+            on_phase=lambda code, msg: calls.append(("phase", code)),
+            on_text_delta=lambda chunk: calls.append(("delta", chunk)))
+        self.assertEqual(ans.status, "ok")
+        first_delta = next(i for i, c in enumerate(calls) if c[0] == "delta")
+        last_phase = max(i for i, c in enumerate(calls) if c[0] == "phase")
+        self.assertLess(last_phase, first_delta,
+                        "全部 phase 事件应先于首个文本增量")
+
+    def test_broken_callback_does_not_break_answer(self) -> None:
+        def _boom(_chunk: str) -> None:
+            raise RuntimeError("boom")
+        ans = answer_question("有哪些交易型开放式指数基金", self.stack,
+                              use_llm=False, on_text_delta=_boom)
+        self.assertEqual(ans.status, "ok")
+        self.assertTrue(ans.text)
 
 
 if __name__ == "__main__":

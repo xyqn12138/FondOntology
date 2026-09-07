@@ -2,7 +2,8 @@
 
 - answer()：手工 Intent → QueryPlan → SPARQL → Evidence → 模板/LLM 表达
 - answer_question()：自然语言 → intent（Candidate Selection 三态）→ 同链条 →
-  explainer（LLM 表达 + citation 闸门，无 key 自动模板）
+  explainer（LLM 表达 + citation 闸门，无 key 自动模板）；支持 on_phase 阶段
+  回调与 on_text_delta 终稿增量回调（Web UI SSE 流式）
 """
 from __future__ import annotations
 
@@ -75,17 +76,51 @@ def _emit(on_phase: Optional[Callable[[str, str], None]], code: str, message: st
             pass  # 阶段回调异常不得影响问数链路
 
 
+def _emit_text_deltas(text: str, on_text_delta: Optional[Callable[[str], None]]) -> None:
+    """终稿答案文本切块后经 on_text_delta 增量下发（Web UI 流式渲染用）。
+
+    只在表达层（LLM 过闸终稿/模板）产出完整文本后调用：表达层输出是结构化
+    JSON 且须整句过 citation 闸门，无法做 LLM 原始 token 级直通，故按行切块、
+    单块上限 64 字符，由前端打字机平滑输出。下发异常不影响问数链路。
+    """
+    if on_text_delta is None or not text:
+        return
+    lines = text.split("\n")
+    for i, line in enumerate(lines):
+        chunk = line + ("\n" if i < len(lines) - 1 else "")
+        for j in range(0, len(chunk), 64):
+            try:
+                on_text_delta(chunk[j:j + 64])
+            except Exception:
+                return
+
+
 def answer_question(question: str, stack: DataStack, *,
                     slice_budget: SliceBudget = SliceBudget(),
                     max_subgraph_entities: int = 8,
                     use_llm: Optional[bool] = None,
-                    on_phase: Optional[Callable[[str, str], None]] = None) -> QaAnswer:
+                    on_phase: Optional[Callable[[str, str], None]] = None,
+                    on_text_delta: Optional[Callable[[str], None]] = None) -> QaAnswer:
     """自然语言 → 答案（M4 意图三态 + M3/M5 链条）。
 
     无 LLM key：intent 走确定性，表达走模板（gate=template_nokey，UCR=0）；
     有 key：intent/表达走 LLM（候选选择过白名单；表达越权引用→重试→模板回退）。
     on_phase(code, message)：可选阶段进度回调（intent/plan/query/evidence/explain）。
+    on_text_delta(chunk)：可选文本增量回调，answer 终稿按行/块流出（先于返回值）。
     """
+    ans = _answer_question_impl(question, stack, slice_budget=slice_budget,
+                                max_subgraph_entities=max_subgraph_entities,
+                                use_llm=use_llm, on_phase=on_phase)
+    _emit_text_deltas(ans.text, on_text_delta)
+    return ans
+
+
+def _answer_question_impl(question: str, stack: DataStack, *,
+                          slice_budget: SliceBudget = SliceBudget(),
+                          max_subgraph_entities: int = 8,
+                          use_llm: Optional[bool] = None,
+                          on_phase: Optional[Callable[[str, str], None]] = None) -> QaAnswer:
+    """answer_question 的同步实现（不含文本增量下发）。"""
     from .intent import build_intent
 
     _emit(on_phase, "intent", "语义解析中")

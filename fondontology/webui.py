@@ -10,7 +10,7 @@
 
 问答接口：
 - POST /api/qa/ask                 JSON 问答（一次返回完整答案，便于 curl/测试）
-- GET  /api/qa/ask/stream?q=...    SSE 流式问答（phase 阶段事件 + answer 终态）
+- GET  /api/qa/ask/stream?q=...    SSE 流式问答（phase 阶段 + delta 增量文本 + answer 终态）
 - GET  /api/meta                   系统/本体/数据/LLM 状态
 - GET  /api/qa/suggestions         推荐问题
 - GET  /viewer/                    本体查看器页面（iframe 内嵌用 ?embed=1；也可独立访问）
@@ -196,7 +196,8 @@ def create_web_app(*,
                 with qa_lock:
                     ans = answer_question(
                         question, stack, use_llm=effective_llm,
-                        on_phase=lambda code, msg: put("phase", {"code": code, "message": msg}))
+                        on_phase=lambda code, msg: put("phase", {"code": code, "message": msg}),
+                        on_text_delta=lambda chunk: put("delta", {"text": chunk}))
                 put("answer", {"answer": _qa_answer_dict(ans)})
             except Exception as exc:  # 服务端兜底：不击穿连接，错误经 SSE 下发
                 put("error", {"message": f"{type(exc).__name__}: {exc}"})
@@ -210,6 +211,8 @@ def create_web_app(*,
                 kind, payload = await queue.get()
                 if kind == "phase":
                     yield _sse("phase", payload)
+                elif kind == "delta":
+                    yield _sse("delta", payload)
                 elif kind == "answer":
                     yield _sse("answer", payload)
                 elif kind == "error":

@@ -2,7 +2,7 @@
 """M6：Web UI（FastAPI + HTML）回归。
 
 - 智能问数：/api/meta、/api/qa/suggestions、/api/qa/ask（JSON）、
-  /api/qa/ask/stream（SSE 流式：phase → answer → done）
+  /api/qa/ask/stream（SSE 流式：phase → delta* → answer → done）
 - 本体查看器模块：/viewer/ 独立页面 + /api/ontology/* 路由复用
 - 统一入口 / 返回聊天壳页面
 
@@ -94,25 +94,43 @@ class QaWebTest(unittest.TestCase):
         self.assertEqual(resp.status_code, 400)
 
     # ---- 智能问数：SSE 流式 ----
+    def _parse_sse(self, resp) -> tuple[list[str], dict[str, list]]:
+        """SSE 响应 → (事件名序列, payload dict)；payload 按事件名聚合。"""
+        order: list[str] = []
+        events: dict[str, list] = {}
+        current = None
+        for line in resp.text.splitlines():
+            if line.startswith("event:"):
+                current = line.split(":", 1)[1].strip()
+                order.append(current)
+            elif line.startswith("data:") and current:
+                payload = json.loads(line.split(":", 1)[1].strip())
+                events.setdefault(current, []).append(payload)
+        return order, events
+
     def test_ask_stream_sse_events(self) -> None:
         resp = self.client.get("/api/qa/ask/stream",
                                params={"q": VERIFY_Q, "use_llm": "false"})
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.headers["content-type"].split(";")[0],
                          "text/event-stream")
-        events: dict[str, list] = {"phase": [], "answer": [], "done": [], "error": []}
-        for line in resp.text.splitlines():
-            if line.startswith("event:"):
-                current = line.split(":", 1)[1].strip()
-            elif line.startswith("data:"):
-                payload = json.loads(line.split(":", 1)[1].strip())
-                events.setdefault(current, []).append(payload)
+        order, events = self._parse_sse(resp)
         self.assertTrue(events["phase"], "应至少下发一个 phase 阶段事件")
         self.assertEqual(len(events["answer"]), 1, "应恰好一次 answer 事件")
         self.assertEqual(len(events["done"]), 1, "应以 done 事件结束")
-        self.assertEqual(events["error"], [], "不应出现 error 事件")
+        self.assertEqual(events.get("error", []), [], "不应出现 error 事件")
         ans = events["answer"][0]["answer"]
         self.assertEqual(ans["verdict"], "ENTAILED")
+
+        # delta 流式契约：增量先于 answer，且拼接结果与终稿文本一致
+        first_answer = order.index("answer")
+        delta_positions = [i for i, e in enumerate(order) if e == "delta"]
+        self.assertTrue(delta_positions, "应下发 delta 增量事件")
+        self.assertTrue(all(i < first_answer for i in delta_positions),
+                        "delta 必须先于 answer 终态")
+        joined = "".join(d["text"] for d in events["delta"])
+        self.assertEqual(joined, ans["text"],
+                         "delta 增量拼接应等于 answer 终稿文本")
 
     def test_ask_stream_empty_rejected(self) -> None:
         resp = self.client.get("/api/qa/ask/stream", params={"q": "  "})

@@ -128,6 +128,10 @@
   .spinner{width:14px;height:14px;border:2px solid var(--accent-soft);border-top-color:var(--accent);
     border-radius:50%;animation:spin .8s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
+  /* 流式打字光标：答案增量输出期间显示在气泡末尾 */
+  .type-caret{display:inline-block;width:2px;height:1.05em;vertical-align:-2px;margin-left:2px;
+    background:var(--accent);animation:caret-blink .9s steps(1) infinite}
+  @keyframes caret-blink{50%{opacity:0}}
   .msg-actions{display:flex;gap:6px;margin-top:10px;opacity:0;transition:opacity .15s}
   .msg:hover .msg-actions{opacity:1}
   .msg-action{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);
@@ -368,7 +372,7 @@ function renderMessage(m, i){
   const verdictPill = (m.meta && m.meta.kind === 'verify' && m.meta.verdict)
     ? '<div style="margin-bottom:8px"><span class="pill verdict v-' + esc(m.meta.verdict) + '">判定 · ' + esc(m.meta.verdict) + '</span></div>'
     : '';
-  return '<div class="msg assistant">' +
+  return '<div class="msg assistant" data-mid="' + esc(m.id || '') + '">' +
     '<div class="avatar">🤖</div>' +
     '<div class="msg-body">' +
       verdictPill +
@@ -477,6 +481,63 @@ function evidencePanel(meta){
   return html;
 }
 
+/* ================= 流式打字机（delta 增量 → 平滑输出） ================= */
+/* 后端先推 delta 增量、再推 answer 终态；打字机缓冲增量并按步长平滑输出，
+   追上终稿后挂上终态 meta（证据面板/操作按钮随之出现）。 */
+let typer = null;   // {msg, buf, finalText, meta, timer}
+const TYPE_TICK = 33;
+function startTyper(msg){
+  flushTyper();
+  typer = {msg: msg, buf: '', finalText: null, meta: null,
+           timer: setInterval(typeStep, TYPE_TICK)};
+}
+function stopTyper(){
+  if(typer && typer.timer) clearInterval(typer.timer);
+  typer = null;
+}
+function flushTyper(){
+  /* 立即终态化当前打字会话（新提问前调用：旧答案直接补全并挂 meta） */
+  if(!typer) return;
+  const t = typer;
+  stopTyper();
+  if(t.finalText != null){
+    t.msg.content = t.finalText;
+    if(t.meta) t.msg.meta = t.meta;
+  }
+  if(t.msg.meta && t.msg.meta.streaming) t.msg.meta.streaming = false;
+}
+function typeStep(){
+  if(!typer) return;
+  const t = typer, m = t.msg;
+  // answer 终态到达后以 finalText 为权威（前缀不匹配时直接重置重打）
+  const source = t.finalText != null ? t.finalText : t.buf;
+  if(t.finalText != null && !source.startsWith(m.content)) m.content = '';
+  if(m.content === source){
+    if(t.finalText != null){
+      const meta = t.meta;
+      stopTyper();
+      m.meta = meta || m.meta;
+      saveConversations();
+      renderAll();
+    }
+    return;
+  }
+  const avail = source.length - m.content.length;
+  const step = Math.max(2, Math.ceil(avail / 25));   // 缓冲越大追越快，长答案不拖尾
+  m.content = source.slice(0, m.content.length + step);
+  const conv = activeConv();
+  if(conv && conv.messages.includes(m)){
+    updateStreamBubble(m);
+    scrollBottom();
+  }
+}
+function updateStreamBubble(m){
+  /* 打字期间只就地更新该条气泡，不整线程重渲（证据面板待完成后统一挂载） */
+  if(!m.id) return;
+  const el = document.querySelector('.msg[data-mid="' + m.id + '"] .bubble');
+  if(el) el.innerHTML = renderText(m.content) + '<span class="type-caret"></span>';
+}
+
 /* ================= 聊天动作 ================= */
 function scrollBottom(){
   const sc = $('chat-scroll');
@@ -502,6 +563,7 @@ function stopStreaming(){
     setStreaming(false);
     renderAll();
   }
+  stopTyper();   // 保留已打出的部分内容
 }
 
 function send(question){
@@ -518,6 +580,7 @@ function send(question){
   renderAll();
   setStreaming(true);
   gotAnswer = false;
+  startTyper(placeholder);
 
   const params = new URLSearchParams({q: question});
   if(uiLlm !== null) params.set('use_llm', String(uiLlm));
@@ -531,14 +594,32 @@ function send(question){
       updateStreamingStatus();
     }catch(err){}
   });
+  es.addEventListener('delta', e => {
+    try{
+      const d = JSON.parse(e.data);
+      if(typer && typer.msg === placeholder){
+        if(!typer.buf && !placeholder.content && placeholder.meta.phase !== '正在输出'){
+          placeholder.meta.phase = '正在输出';
+          updateStreamingStatus();
+        }
+        typer.buf += (d.text || '');
+      }
+    }catch(err){}
+  });
   es.addEventListener('answer', e => {
     try{
       const d = JSON.parse(e.data);
       const ans = d.answer;
-      placeholder.content = ans.text || '';
-      placeholder.meta = buildMetaFromAnswer(ans);
+      // 终稿为权威文本；打字机追上后再挂终态 meta（证据面板随完成出现）
+      if(typer && typer.msg === placeholder){
+        typer.finalText = ans.text || '';
+        typer.meta = buildMetaFromAnswer(ans);
+      } else {
+        placeholder.content = ans.text || '';
+        placeholder.meta = buildMetaFromAnswer(ans);
+        renderThread();
+      }
       gotAnswer = true;
-      renderThread();
     }catch(err){
       placeholder.meta.error = '答案解析失败';
     }
@@ -562,6 +643,13 @@ function finishStream(placeholder){
   if(conv){
     const last = conv.messages[conv.messages.length - 1];
     if(last && last === placeholder){
+      if(typer && typer.msg === placeholder && !placeholder.meta.error){
+        // 终稿已到但仍在打字：交回打字机，追上后由 typeStep 挂 meta 并重渲
+        placeholder.meta.streaming = false;
+        saveConversations();
+        return;
+      }
+      stopTyper();
       last.meta.streaming = false;
       if(!last.content && !last.meta.error) last.meta.error = '未获得答案';
       saveConversations();

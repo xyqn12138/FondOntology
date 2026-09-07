@@ -203,6 +203,7 @@ class EvidenceBuilder:
         # 如 hasFundManager 由 propertyChain 物化；多跳链（基金→经理→其他基金）
         # 沿见证路径逐跳归因，显式边也给 declared 证据，保证链上每跳可溯源。
         infer_evidence: dict[str, list[str]] = {}
+        witness_facts: dict[str, list[tuple]] = {}
         pivot_claims: list[dict] = []
         src_entity = (plan.get("source") or {}).get("entity")
         hops = [h for h in (plan.get("traversals") or []) if h.get("property")]
@@ -256,6 +257,7 @@ class EvidenceBuilder:
                     eids.extend(emit_fact(fact))
                 if eids:
                     infer_evidence[entity] = eids
+                    witness_facts[entity] = witness
 
             # 多跳锚点链的 pivot（第一跳到达的实体，如"基金的基金经理"）：
             # 结果实体是链终点，pivot 不在结果集中——必须显式给 claim，
@@ -309,14 +311,25 @@ class EvidenceBuilder:
             claims.append({"claim_id": f"C{seq}", **pc})
             seq += 1
         for i, entity in enumerate(focus[:3]):
-            ev_ids = entity_evidence.get(entity, [query_eid])
-            if entity in infer_evidence:
-                ev_ids = infer_evidence[entity] + ev_ids
-            claims.append({
-                "claim_id": f"C{seq}", "type": "classification",
-                "claim": f"实体「{entity_labels[entity]}」属于 {_local(target)}",
-                "evidence": ev_ids,
-            })
+            witness = witness_facts.get(entity)
+            if witness:
+                # 锚点查询：结果实体与锚点链末端的关系（末跳事实）即答案语义——
+                # 「结果基金」具有基金管理人「陶凯」，而非"属于 Fund"式同义反复
+                s, p, o = witness[-1]
+                s_label = zh_label(graph, s, _local(str(s)))
+                o_label = zh_label(graph, o, _local(str(o)))
+                p_label = zh_label(self.stack.tbox, p, _local(str(p)))
+                claims.append({
+                    "claim_id": f"C{seq}", "type": "fact",
+                    "claim": f"「{s_label}」{p_label}「{o_label}」",
+                    "evidence": infer_evidence.get(entity, [query_eid]),
+                })
+            else:
+                claims.append({
+                    "claim_id": f"C{seq}", "type": "classification",
+                    "claim": f"实体「{entity_labels[entity]}」属于 {_local(target)}",
+                    "evidence": entity_evidence.get(entity, [query_eid]),
+                })
             seq += 1
         report["claims"] = claims
 

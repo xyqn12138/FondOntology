@@ -45,6 +45,8 @@ def _llm_chat(question: str, claims: list[dict], context_summary: str,
         f"用户问题：{question}\n"
         "输出 JSON：{\"answer_sentences\": [{\"text\": \"…\", \"claim_id\": \"C1\"}]}\n"
         "规则：每个句子必须对应一条可用 claims 中的 claim_id；不得编造 claim_id；"
+        "结果实体与关系 claim（如「A」具有基金管理人「B」）就是答案本身，必须如实转述，"
+        "不得否认 claim 已给出的事实（如说“未提供相关数据”）；"
         "中文回答，可分 2-5 句。"
     )
     if feedback:
