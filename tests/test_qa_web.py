@@ -146,7 +146,8 @@ class QaWebTest(unittest.TestCase):
     def test_viewer_api_reused(self) -> None:
         resp = self.client.get("/api/ontology/summary")
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.json()["class_count"], 143)
+        # CNFO 命名空间口径：0.6.0 新增 5 类（年报/中报/季报/章节/条文），143 → 148
+        self.assertEqual(resp.json()["class_count"], 148)
 
         resp = self.client.get("/api/ontology/search", params={"q": "ETF", "limit": 5})
         self.assertEqual(resp.status_code, 200)

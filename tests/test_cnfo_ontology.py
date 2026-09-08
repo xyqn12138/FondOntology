@@ -227,6 +227,87 @@ class CnfoOntologyTest(unittest.TestCase):
 
         self.assertIn((CNFO.FundObject, OWL.disjointWith, CNFO.FundParty), self.source)
 
+    def test_text_asset_axioms_and_concepts(self) -> None:
+        """v0.6.0 文本资产实体化：定期报告子类、章节、条文的类/关系/约束。"""
+        # 新类存在且有中文定义
+        for class_iri in (
+            CNFO.FundAnnualReport,
+            CNFO.FundSemiAnnualReport,
+            CNFO.FundQuarterlyReport,
+            CNFO.ReportSection,
+            CNFO.RegulationArticle,
+        ):
+            self.assertIn((class_iri, RDF.type, OWL.Class), self.source)
+            self.assertTrue(list(self.source.objects(class_iri, SKOS.definition)),
+                            f"{class_iri} 缺中文定义")
+
+        # 定期报告三子类挂在 FundPeriodicReport 下
+        for class_iri in (CNFO.FundAnnualReport, CNFO.FundSemiAnnualReport,
+                          CNFO.FundQuarterlyReport):
+            self.assertIn((class_iri, RDFS.subClassOf, CNFO.FundPeriodicReport), self.source)
+
+        # 归属/构成关系：互逆属性对 + domain/range 闭合
+        inverse_pairs = [
+            (CNFO.reportForFund, CNFO.fundHasPeriodicReport, CNFO.FundPeriodicReport, CNFO.Fund),
+            (CNFO.hasReportSection, CNFO.sectionOf, CNFO.FundDocument, CNFO.ReportSection),
+            (CNFO.hasRegulationArticle, CNFO.articleOf, CNFO.Regulation, CNFO.RegulationArticle),
+        ]
+        for fwd, bwd, dom, rng in inverse_pairs:
+            self.assertIn((fwd, RDF.type, OWL.ObjectProperty), self.source)
+            self.assertIn((fwd, OWL.inverseOf, bwd), self.source)
+            self.assertIn((bwd, OWL.inverseOf, fwd), self.source)
+            self.assertIn((fwd, RDFS.domain, dom), self.source)
+            self.assertIn((fwd, RDFS.range, rng), self.source)
+
+        # 单向关系：文件→披露活动、条文→代码概念
+        self.assertIn((CNFO.disclosesInActivity, RDFS.domain, CNFO.FundDocument), self.source)
+        self.assertIn((CNFO.disclosesInActivity, RDFS.range, CNFO.InformationDisclosureActivity), self.source)
+        self.assertIn((CNFO.articleCitesCode, RDFS.domain, CNFO.RegulationArticle), self.source)
+
+        # 字面属性 domain 正确
+        for prop, dom in (
+            (CNFO.reportPeriod, CNFO.FundPeriodicReport),
+            (CNFO.reportPeriodStart, CNFO.FundPeriodicReport),
+            (CNFO.reportPeriodEnd, CNFO.FundPeriodicReport),
+            (CNFO.reportType, CNFO.FundPeriodicReport),
+            (CNFO.sectionTitle, CNFO.ReportSection),
+            (CNFO.sectionOrder, CNFO.ReportSection),
+            (CNFO.sectionHasContent, CNFO.ReportSection),
+            (CNFO.articleNumber, CNFO.RegulationArticle),
+            (CNFO.articleText, CNFO.RegulationArticle),
+        ):
+            self.assertIn((prop, RDFS.domain, dom), self.source)
+
+        # 结构约束：报告必须对应一只基金并有期间；章节/条文必须归属唯一父体
+        def restriction_on(cls, prop):
+            for _, _, b in self.source.triples((cls, RDFS.subClassOf, None)):
+                if (b, RDF.type, OWL.Restriction) in self.source and \
+                   (b, OWL.onProperty, prop) in self.source:
+                    return b
+            return None
+        self.assertIsNotNone(restriction_on(CNFO.FundPeriodicReport, CNFO.reportForFund))
+        self.assertIsNotNone(restriction_on(CNFO.FundPeriodicReport, CNFO.reportPeriod))
+        self.assertIsNotNone(restriction_on(CNFO.ReportSection, CNFO.sectionOf))
+        self.assertIsNotNone(restriction_on(CNFO.RegulationArticle, CNFO.articleOf))
+        self.assertIsNotNone(restriction_on(CNFO.RegulationArticle, CNFO.articleText))
+
+        # 期间字面属性为函数性（一份报告一个期间）
+        for prop in (CNFO.reportPeriod, CNFO.reportPeriodStart, CNFO.reportPeriodEnd,
+                     CNFO.sectionOrder, CNFO.articleNumber):
+            self.assertIn((prop, RDF.type, OWL.FunctionalProperty), self.source)
+
+        # containsTerm 登记：22 个新术语全部入册
+        contains = set(self.source.objects(CNFO.CNFOFundOntology, CNFOM.containsTerm))
+        for term in (CNFO.FundAnnualReport, CNFO.FundSemiAnnualReport, CNFO.FundQuarterlyReport,
+                     CNFO.ReportSection, CNFO.RegulationArticle,
+                     CNFO.reportForFund, CNFO.fundHasPeriodicReport, CNFO.disclosesInActivity,
+                     CNFO.hasReportSection, CNFO.sectionOf, CNFO.hasRegulationArticle,
+                     CNFO.articleOf, CNFO.articleCitesCode, CNFO.reportPeriod,
+                     CNFO.reportPeriodStart, CNFO.reportPeriodEnd, CNFO.reportType,
+                     CNFO.sectionTitle, CNFO.sectionOrder, CNFO.sectionHasContent,
+                     CNFO.articleNumber, CNFO.articleText):
+            self.assertIn(term, contains, f"{term} 未登记 containsTerm")
+
     def test_owlrl_entails_local_class_values_and_inverse_edges(self) -> None:
         graph = Graph()
         graph += self.source

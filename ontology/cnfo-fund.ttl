@@ -12,7 +12,7 @@ cnfo:ChinaFundOntology a owl:Ontology ;
     rdfs:label "中国基金领域本体兼容入口"@zh ;
     dcterms:modified "2026-09-01"^^xsd:date ;
     owl:imports cnfo:CNFOFundOntology ;
-    owl:versionInfo "0.5.3" ;
+    owl:versionInfo "0.6.0" ;
     skos:definition "兼容旧入口标识；完整基金业务术语定义位于 CNFO 基金本体模块。"@zh .
 
 cnfo:ActiveInvestmentStrategy a owl:Class ;
@@ -34,11 +34,11 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfom:OntologyModule ;
     rdfs:label "基金本体"@zh ;
     rdfs:comment "参考本地 FIBO SEC/Funds 模块、以中国基金业务语境独立定义的基金领域 T-BOX。"@zh ;
-    dcterms:modified "2026-09-01"^^xsd:date ;
+    dcterms:modified "2026-09-08"^^xsd:date ;
     owl:imports cnfom:CNFOModuleVocabulary,
         cnfc:CNFOFundCodes ;
-    owl:versionInfo "0.5.3" ;
-    skos:changeNote "v0.5.0 语义契约完善版本：① 完善基础抽象（新增基金业务对象 FundBusinessObject、基金账户 FundAccount 与 6 个代码取值类，业务对象重新挂载）；② 全部对象/数据属性补齐中文定义 skos:definition，形成属性关系契约；③ 代码表语义化：导入 SKOS 受控代码表（基金运作方式/组织形式/分红方式/风险等级/私募基金类型/收费方式），新增 6 个代码引用对象属性，类与代码概念建立 skos:closeMatch，isOpenEnded/isPrivate 等标注为兼容属性；④ 保留全部 IRI，兼容冻结策略。v0.5.1 语义勘误：新增基金持仓记录 FundPositionRecord 作为 FundPosition 与 PortfolioPosition 的共同父类，并将 positionQuantity、positionCurrency 的 domain 提升至该抽象类，修复示例数据触发的交叉类型推断。v0.5.2 基础概念补全：新增跨境基金与内地/香港互认基金层级，新增基金代理人机构主体、基金代理人角色及其基金关联关系。v0.5.3 专业审查升级：补充业绩、费率、法规、指数、投资资产和投资者风险评级概念；补充账户与持仓链、份额级净值关系、管理人与托管人派生属性链；升级关键分类等价类、键约束、互斥公理和 SHACL 场景约束。"@zh ;
+    owl:versionInfo "0.6.0" ;
+    skos:changeNote "v0.5.0 语义契约完善版本：① 完善基础抽象（新增基金业务对象 FundBusinessObject、基金账户 FundAccount 与 6 个代码取值类，业务对象重新挂载）；② 全部对象/数据属性补齐中文定义 skos:definition，形成属性关系契约；③ 代码表语义化：导入 SKOS 受控代码表（基金运作方式/组织形式/分红方式/风险等级/私募基金类型/收费方式），新增 6 个代码引用对象属性，类与代码概念建立 skos:closeMatch，isOpenEnded/isPrivate 等标注为兼容属性；④ 保留全部 IRI，兼容冻结策略。v0.5.1 语义勘误：新增基金持仓记录 FundPositionRecord 作为 FundPosition 与 PortfolioPosition 的共同父类，并将 positionQuantity、positionCurrency 的 domain 提升至该抽象类，修复示例数据触发的交叉类型推断。v0.5.2 基础概念补全：新增跨境基金与内地/香港互认基金层级，新增基金代理人机构主体、基金代理人角色及其基金关联关系。v0.5.3 专业审查升级：补充业绩、费率、法规、指数、投资资产和投资者风险评级概念；补充账户与持仓链、份额级净值关系、管理人与托管人派生属性链；升级关键分类等价类、键约束、互斥公理和 SHACL 场景约束。v0.6.0 文本资产实体化：新增基金年度报告/中期报告/季度报告子类（法定名称与时限依据《公开募集证券投资基金信息披露管理办法》第四章）、报告章节 ReportSection 与法规条文 RegulationArticle 一等实体及其归属/构成关系（互逆属性对 hasReportSection↔sectionOf、hasRegulationArticle↔articleOf）；新增定期报告↔基金关联（reportForFund）、报告期间字面属性（reportPeriod 及起止日期）、文件↔披露活动关联（disclosesInActivity）、条文引用代码概念（articleCitesCode）；条文可寻址化对齐 FIBO FND/Reporting 与 LOAN requirementSectionAndParagraph 的框架（FIBO 停留于字符串引用，CNFO 升为实体以支撑文本检索溯源指针链）。"@zh ;
     skos:definition "当前唯一已实际建模的 CNFO 基金业务模块，包含基金、基金产品、基金参与方、基金活动、基金资产、基金份额、组合、持仓和净值记录等概念及其约束。"@zh ;
     cnfom:containsTerm cnfo:ActiveInvestmentStrategy,
         cnfo:AssetValuationActivity,
@@ -82,6 +82,11 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:FundFeeModeValue,
         cnfo:FundFilingActivity,
         cnfo:FundFilingDocument,
+        cnfo:FundAnnualReport,
+        cnfo:FundSemiAnnualReport,
+        cnfo:FundQuarterlyReport,
+        cnfo:ReportSection,
+        cnfo:RegulationArticle,
         cnfo:FundHolderRole,
         cnfo:FundInvestmentAsset,
         cnfo:FundInvestmentObjective,
@@ -364,11 +369,28 @@ cnfo:CNFOFundOntology a owl:Ontology,
         cnfo:hasPrivateFundType,
         cnfo:investorRiskRatingForFund,
         cnfo:partyToContract,
+        cnfo:reportForFund,
+        cnfo:fundHasPeriodicReport,
+        cnfo:disclosesInActivity,
+        cnfo:hasReportSection,
+        cnfo:sectionOf,
+        cnfo:hasRegulationArticle,
+        cnfo:articleOf,
+        cnfo:articleCitesCode,
         cnfo:accountNumber,
         cnfo:accountOpeningDate,
         cnfo:accumulatedUnitNetAssetValue,
         cnfo:annualizedReturn,
         cnfo:articleReference,
+        cnfo:articleNumber,
+        cnfo:articleText,
+        cnfo:reportPeriod,
+        cnfo:reportPeriodStart,
+        cnfo:reportPeriodEnd,
+        cnfo:reportType,
+        cnfo:sectionTitle,
+        cnfo:sectionOrder,
+        cnfo:sectionHasContent,
         cnfo:cumulativeReturn,
         cnfo:excessReturn,
         cnfo:feeAmount,
@@ -445,6 +467,39 @@ cnfo:FundPeriodicReport a owl:Class ;
     rdfs:label "基金定期报告"@zh ;
     rdfs:subClassOf cnfo:FundDocument ;
     skos:definition "按照规定定期披露基金资产、投资运作、财务状况和其他重要事项的基金报告。"@zh .
+
+cnfo:FundAnnualReport a owl:Class ;
+    rdfs:label "基金年度报告"@zh ;
+    rdfs:subClassOf cnfo:FundPeriodicReport ;
+    skos:altLabel "年报"@zh ;
+    skos:definition "基金管理人应当在每年结束之日起三个月内编制并披露的基金年度报告；年度报告中的财务会计报告应当经过审计。"@zh ;
+    skos:scopeNote "报告时限与审计要求依据《公开募集证券投资基金信息披露管理办法》第四章。"@zh .
+
+cnfo:FundSemiAnnualReport a owl:Class ;
+    rdfs:label "基金中期报告"@zh ;
+    rdfs:subClassOf cnfo:FundPeriodicReport ;
+    skos:altLabel "中报"@zh, "半年度报告"@zh ;
+    skos:definition "基金管理人应当在上半年结束之日起两个月内编制并披露的基金中期报告。"@zh ;
+    skos:scopeNote "法定名称为中期报告；报告时限依据《公开募集证券投资基金信息披露管理办法》第四章。"@zh .
+
+cnfo:FundQuarterlyReport a owl:Class ;
+    rdfs:label "基金季度报告"@zh ;
+    rdfs:subClassOf cnfo:FundPeriodicReport ;
+    skos:altLabel "季报"@zh ;
+    skos:definition "基金管理人应当在季度结束之日起十五个工作日内编制并披露的基金季度报告，包括基金产品概况、主要财务指标、管理人报告和投资组合等章节。"@zh ;
+    skos:scopeNote "报告时限依据《公开募集证券投资基金信息披露管理办法》第四章；章节结构为问数系统文本检索（RAG）的天然切分边界。"@zh .
+
+cnfo:ReportSection a owl:Class ;
+    rdfs:label "报告章节"@zh ;
+    rdfs:subClassOf cnfo:FundBusinessObject ;
+    skos:definition "基金文件内按主题划分的结构成分，如季度报告中的重要提示、基金产品概况、主要财务指标、管理人报告和投资组合等章节；章节是文本检索与证据溯源的最小结构单元。"@zh ;
+    skos:scopeNote "章节作为一等实体入图（可图查询、可过滤），章节正文由文档检索层存储；FIBO 未提供报告章节建模，此为本体按国内披露格式扩展。"@zh .
+
+cnfo:RegulationArticle a owl:Class ;
+    rdfs:label "法规条文"@zh ;
+    rdfs:subClassOf cnfo:FundObject ;
+    skos:definition "法律法规或监管规范中可独立寻址的具体条文，是投资限制、披露义务等基金业务事实的规范性依据单元。"@zh ;
+    skos:scopeNote "FIBO 的 requirementSectionAndParagraph 属性停留在字符串引用；CNFO 将条文升为一等实体，用于建立『业务事实 → 条文 → 条文正文』的溯源指针链。"@zh .
 
 cnfo:FundPurchaseActivity a owl:Class ;
     rdfs:label "基金申购活动"@zh ;
@@ -2729,6 +2784,61 @@ cnfo:regulationForActivity a owl:ObjectProperty ;
     owl:inverseOf cnfo:activityUnderRegulation ;
     skos:definition "表示法律法规或监管规范适用的基金业务活动，与 activityUnderRegulation 互逆。"@zh .
 
+# ---------- 定期报告、章节与条文（文本检索 RAG 支撑，v0.6.0） ----------
+cnfo:reportForFund a owl:ObjectProperty ;
+    rdfs:label "定期报告对应基金"@zh ;
+    rdfs:domain cnfo:FundPeriodicReport ;
+    rdfs:range cnfo:Fund ;
+    owl:inverseOf cnfo:fundHasPeriodicReport ;
+    skos:definition "表示基金定期报告所披露的基金，与 fundHasPeriodicReport 互逆。"@zh .
+
+cnfo:fundHasPeriodicReport a owl:ObjectProperty ;
+    rdfs:label "基金具有定期报告"@zh ;
+    rdfs:domain cnfo:Fund ;
+    rdfs:range cnfo:FundPeriodicReport ;
+    owl:inverseOf cnfo:reportForFund ;
+    skos:definition "表示基金按期编制披露的定期报告，与 reportForFund 互逆。"@zh .
+
+cnfo:disclosesInActivity a owl:ObjectProperty ;
+    rdfs:label "文件披露于披露活动"@zh ;
+    rdfs:domain cnfo:FundDocument ;
+    rdfs:range cnfo:InformationDisclosureActivity ;
+    skos:definition "表示基金文件通过相应信息披露活动对外披露。"@zh .
+
+cnfo:hasReportSection a owl:ObjectProperty ;
+    rdfs:label "文件具有报告章节"@zh ;
+    rdfs:domain cnfo:FundDocument ;
+    rdfs:range cnfo:ReportSection ;
+    owl:inverseOf cnfo:sectionOf ;
+    skos:definition "表示基金文件由哪些章节构成，与 sectionOf 互逆。"@zh .
+
+cnfo:sectionOf a owl:ObjectProperty ;
+    rdfs:label "章节隶属于文件"@zh ;
+    rdfs:domain cnfo:ReportSection ;
+    rdfs:range cnfo:FundDocument ;
+    owl:inverseOf cnfo:hasReportSection ;
+    skos:definition "表示报告章节所属的基金文件，与 hasReportSection 互逆。"@zh .
+
+cnfo:hasRegulationArticle a owl:ObjectProperty ;
+    rdfs:label "法规具有条文"@zh ;
+    rdfs:domain cnfo:Regulation ;
+    rdfs:range cnfo:RegulationArticle ;
+    owl:inverseOf cnfo:articleOf ;
+    skos:definition "表示法律法规或监管规范由哪些具体条文构成，与 articleOf 互逆。"@zh .
+
+cnfo:articleOf a owl:ObjectProperty ;
+    rdfs:label "条文隶属于法规"@zh ;
+    rdfs:domain cnfo:RegulationArticle ;
+    rdfs:range cnfo:Regulation ;
+    owl:inverseOf cnfo:hasRegulationArticle ;
+    skos:definition "表示法规条文所属的法律法规或监管规范，与 hasRegulationArticle 互逆。"@zh .
+
+cnfo:articleCitesCode a owl:ObjectProperty ;
+    rdfs:label "条文引用代码概念"@zh ;
+    rdfs:domain cnfo:RegulationArticle ;
+    rdfs:range skos:Concept ;
+    skos:definition "表示法规条文中引用或定义的标准代码概念（如风险等级、运作方式代码），使『什么是 R4』类问题可经条文获得规范出处。"@zh .
+
 # ---------- 基准指数、适当性、合同与活动主体 ----------
 cnfo:fundBenchmark a owl:ObjectProperty ;
     rdfs:label "基金具有业绩比较基准"@zh ;
@@ -2933,7 +3043,64 @@ cnfo:articleReference a owl:DatatypeProperty ;
     rdfs:label "条文引用"@zh ;
     rdfs:domain cnfo:Regulation ;
     rdfs:range xsd:string ;
-    skos:definition "投资限制、披露义务或其他业务事实所引用的法规条文位置。"@zh .
+    skos:definition "投资限制、披露义务或其他业务事实所引用的法规条文位置。"@zh ;
+    skos:scopeNote "v0.6.0 起优先以 RegulationArticle 实体与 articleOf 关系表达可寻址条文引用；本属性保留用于仅记录条文位置文字、未建条文实体的场合。"@zh .
+
+# ---------- 定期报告、章节与条文的字面属性（v0.6.0） ----------
+cnfo:reportPeriod a owl:DatatypeProperty ;
+    rdfs:label "报告期间标识"@zh ;
+    rdfs:domain cnfo:FundPeriodicReport ;
+    rdfs:range xsd:string ;
+    skos:definition "基金定期报告覆盖期间的规范标识：季度报告 YYYY-Qn，中期报告 YYYY-Hn，年度报告 YYYY。"@zh ;
+    skos:scopeNote "格式可解析可过滤（文本检索的 period 维度）；期间起止日期另见 reportPeriodStart / reportPeriodEnd。FIBO 以 DatePeriod 实体表达报告期，CNFO 采用字面量组合以避免实例化开销。"@zh .
+
+cnfo:reportPeriodStart a owl:DatatypeProperty ;
+    rdfs:label "报告期间起始日"@zh ;
+    rdfs:domain cnfo:FundPeriodicReport ;
+    rdfs:range xsd:date ;
+    skos:definition "基金定期报告覆盖期间的第一天。"@zh .
+
+cnfo:reportPeriodEnd a owl:DatatypeProperty ;
+    rdfs:label "报告期间截止日"@zh ;
+    rdfs:domain cnfo:FundPeriodicReport ;
+    rdfs:range xsd:date ;
+    skos:definition "基金定期报告覆盖期间的最后一天。"@zh .
+
+cnfo:reportType a owl:DatatypeProperty ;
+    rdfs:label "报告类型代码"@zh ;
+    rdfs:domain cnfo:FundPeriodicReport ;
+    rdfs:range xsd:string ;
+    skos:definition "定期报告的类型标识：annual（年度报告）、semi-annual（中期报告）、quarterly（季度报告）。"@zh .
+
+cnfo:sectionTitle a owl:DatatypeProperty ;
+    rdfs:label "章节标题"@zh ;
+    rdfs:domain cnfo:ReportSection ;
+    rdfs:range xsd:string ;
+    skos:definition "报告章节的标题文字，如『管理人报告』『投资组合』。"@zh .
+
+cnfo:sectionOrder a owl:DatatypeProperty ;
+    rdfs:label "章节顺序号"@zh ;
+    rdfs:domain cnfo:ReportSection ;
+    rdfs:range xsd:integer ;
+    skos:definition "报告章节在文件中的编排顺序号，从 1 起。"@zh .
+
+cnfo:sectionHasContent a owl:DatatypeProperty ;
+    rdfs:label "章节正文"@zh ;
+    rdfs:domain cnfo:ReportSection ;
+    rdfs:range xsd:string ;
+    skos:definition "报告章节的正文文本。用于条文等短文本回填图内；长正文以外部检索层存储为原则。"@zh .
+
+cnfo:articleNumber a owl:DatatypeProperty ;
+    rdfs:label "条文编号"@zh ;
+    rdfs:domain cnfo:RegulationArticle ;
+    rdfs:range xsd:string ;
+    skos:definition "法规条文的编号文字，如『第十五条』『第二十一条第二款』。"@zh .
+
+cnfo:articleText a owl:DatatypeProperty ;
+    rdfs:label "条文正文"@zh ;
+    rdfs:domain cnfo:RegulationArticle ;
+    rdfs:range xsd:string ;
+    skos:definition "法规条文的完整正文文本。"@zh .
 
 cnfo:investorRiskRatingCode a owl:DatatypeProperty ;
     rdfs:label "投资者风险评级代码"@zh ;
@@ -3016,3 +3183,30 @@ cnfo:FundPerformanceRecord rdfs:subClassOf
     [ a owl:Restriction ; owl:onClass cnfo:Fund ; owl:onProperty cnfo:performanceForFund ; owl:qualifiedCardinality 1 ],
     [ a owl:Restriction ; owl:onProperty cnfo:performancePeriodStart ; owl:cardinality 1 ],
     [ a owl:Restriction ; owl:onProperty cnfo:performancePeriodEnd ; owl:cardinality 1 ] .
+
+# ---------- 定期报告 / 章节 / 条文的结构关系（v0.6.0） ----------
+cnfo:FundPeriodicReport rdfs:subClassOf
+    [ a owl:Restriction ; owl:onClass cnfo:Fund ; owl:onProperty cnfo:reportForFund ; owl:qualifiedCardinality 1 ],
+    [ a owl:Restriction ; owl:onProperty cnfo:reportPeriod ; owl:cardinality 1 ],
+    [ a owl:Restriction ; owl:onProperty cnfo:reportPeriodStart ; owl:cardinality 1 ],
+    [ a owl:Restriction ; owl:onProperty cnfo:reportPeriodEnd ; owl:cardinality 1 ],
+    [ a owl:Restriction ; owl:onProperty cnfo:hasReportSection ; owl:someValuesFrom cnfo:ReportSection ] .
+
+cnfo:ReportSection rdfs:subClassOf
+    [ a owl:Restriction ; owl:onClass cnfo:FundDocument ; owl:onProperty cnfo:sectionOf ; owl:qualifiedCardinality 1 ],
+    [ a owl:Restriction ; owl:onProperty cnfo:sectionTitle ; owl:cardinality 1 ],
+    [ a owl:Restriction ; owl:onProperty cnfo:sectionOrder ; owl:cardinality 1 ] .
+
+cnfo:RegulationArticle rdfs:subClassOf
+    [ a owl:Restriction ; owl:onClass cnfo:Regulation ; owl:onProperty cnfo:articleOf ; owl:qualifiedCardinality 1 ],
+    [ a owl:Restriction ; owl:onProperty cnfo:articleNumber ; owl:cardinality 1 ],
+    [ a owl:Restriction ; owl:onProperty cnfo:articleText ; owl:cardinality 1 ] .
+
+cnfo:FundDocument rdfs:subClassOf
+    [ a owl:Restriction ; owl:onProperty cnfo:hasReportSection ; owl:allValuesFrom cnfo:ReportSection ] .
+
+cnfo:reportPeriod a owl:FunctionalProperty .
+cnfo:reportPeriodStart a owl:FunctionalProperty .
+cnfo:reportPeriodEnd a owl:FunctionalProperty .
+cnfo:sectionOrder a owl:FunctionalProperty .
+cnfo:articleNumber a owl:FunctionalProperty .
