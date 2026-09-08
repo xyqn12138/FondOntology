@@ -13,13 +13,6 @@
   问数链路的实际数据源）
 - SQLite 数据库 artifacts/cnfo/abox/cnfo-sim.sqlite（可选，--sqlite 开启；
   规范化关系镜像，问数/浏览器均不消费）
-- Semantica Explorer 图 artifacts/cnfo/abox/cnfo-sim-explorer.json（默认导出；
-  nodes/edges 格式与 cnfo-fund-tbox-explorer.json 一致，可直接
-  GraphSession.from_file 加载，或 POST /api/import 导入；不含 owl:Ontology 数据集头，
-  避免被 Ontology Hub 推断为“本体”条目）
-- T-BOX + A-BOX 会话图 artifacts/cnfo/abox/cnfo-sim-session.json（默认导出；合并
-  cnfo-fund-tbox-explorer.json 与 A-BOX 图，补上真正的 T-BOX 本体节点与
-  scheme_uri 标注，Ontology 面板会显示设计的 T-BOX 及其类/属性计数）
 - 内置 SHACL 校验：用 ontology/shacl/cnfo-fund-shapes.ttl 对生成的 A-BOX
   做数据质量校验，打印 conforms 结论与违规统计
 
@@ -54,7 +47,6 @@ SHAPES = ROOT / "ontology" / "shacl" / "cnfo-fund-shapes.ttl"
 ABOX_DIR = ROOT / "artifacts" / "cnfo" / "abox"
 DB_PATH = ABOX_DIR / "cnfo-sim.sqlite"
 TTL_PATH = ABOX_DIR / "cnfo-sim-abox.ttl"
-EXPLORER_JSON_PATH = ABOX_DIR / "cnfo-sim-explorer.json"
 
 CNFO = Namespace("https://ontology.example.cn/cnfo/ontology/")
 CNFC = Namespace("https://ontology.example.cn/cnfo/code/")
@@ -1474,249 +1466,6 @@ def build_rdf(model: SimModel, nav_window_days: int | None = None,
     return g
 
 
-def _first_zh_label(graph: Graph, uri) -> str:
-    for pred in (SKOS.prefLabel, RDFS.label):
-        for o in graph.objects(uri, pred):
-            if getattr(o, "language", None) == "zh":
-                return str(o)
-    return ""
-
-
-def _compact_predicate(pred) -> str:
-    s = str(pred)
-    for ns, pfx in ((str(CNFO), "cnfo"), (str(CNFC), "cnfc"), (str(CNFOM), "cnfom"),
-                    (str(RDF), "rdf"), (str(RDFS), "rdfs"), (str(OWL), "owl")):
-        if s.startswith(ns):
-            return f"{pfx}:{s[len(ns):]}"
-    return s
-
-
-def _pick_node_type(types: list[str]) -> str:
-    """Explorer 每个节点只有一个 type（SPARQL 投影为 rdf:type 断言）。
-
-    词法排序会有 Bug 式取舍（如 BondFund/EquityFund/ExchangeTradedFund 排在
-    Fund 前面，导致 a ent:cnfo:Fund 查不全）。这里优先使用“种类”类，让
-    a ent:cnfo:Fund / a ent:cnfo:FundParty / a ent:cnfo:FundUnit 等常用查询
-    全部命中；具体子类型仍保留在 properties.rdf:type 中，并可用
-    prop:cnfo:fundTypeCode 等数据属性过滤。
-    """
-    _priorities = (
-        (str(CNFO.Fund), "cnfo:Fund"),
-        (str(CNFO.FundParty), "cnfo:FundParty"),
-        (str(CNFO.FundUnit), "cnfo:FundUnit"),
-        (str(CNFO.FundAccount), "cnfo:FundAccount"),
-    )
-    for iri, compact in _priorities:
-        if iri in types:
-            return compact
-    return _compact_predicate(URIRef(sorted(types)[0]))
-
-
-def export_explorer_json(model: SimModel, rdf: Graph, out_path: Path,
-                         vocab: OntologyVocabulary) -> dict[str, int]:
-    """导出 Semantica Explorer 图（graph_id/nodes/edges，与 cnfo-fund-tbox-explorer.json
-    同构）。为了可浏览性排除 3 万余条净值记录节点；代码概念与状态值以轻量节点补全，
-    保证关系边两端都存在节点。
-
-    注意：不导出 A-BOX 数据集头节点（cnfo-a:CNFOSimulatedAbox）。Semantica 的
-    /api/ontology/registry 会把图中每个 owl:Ontology 节点推断为一个”本体“条目，
-    若保留该节点，Ontology 面板就会显示”CNFO 仿真 A-BOX…0 Classes/0 Concepts/0 Props“，
-    掩盖了真正的 T-BOX。A-BOX 数据集头只保留在 cnfo-sim-abox.ttl 中。
-    """
-    ppos_lookup = {(p["fund_code"], p["asset_id"]): p for p in model.portfolio_positions}
-
-    def extra_props(s, props: dict[str, str]) -> None:
-        # 组合持仓市值只存在于关系模型，补进节点属性
-        if str(s).startswith(str(CNFOA) + "PPos"):
-            for (fc, aid), pw in ppos_lookup.items():
-                if s == CNFOA[f"PPos{fc}{aid}"]:
-                    props["cnfo:positionMarketValue"] = str(pw["market_value"])
-                    break
-
-    nodes, _ = _explorer_parts(rdf, skip_prefixes=("NAV",), extra_props=extra_props)
-    node_ids = {str(n["id"]) for n in nodes}
-    for code_local, (scheme, label) in sorted(vocab.code_concepts.items()):
-        uri = str(CNFC) + code_local
-        if uri in node_ids:
-            continue
-        node_ids.add(uri)
-        nodes.append({"id": uri, "type": "cnfc:code", "content": label,
-                      "properties": {"iri": uri, "label": label, "scheme": scheme, "source": "CNFO"}})
-    for status_local, label in sorted(vocab.lifecycle_statuses.items()):
-        uri = str(CNFO) + status_local
-        if uri in node_ids:
-            continue
-        node_ids.add(uri)
-        nodes.append({"id": uri, "type": "cnfo:lifecycle", "content": label,
-                      "properties": {"iri": uri, "label": label, "source": "CNFO"}})
-    # 边必须在补全代码/状态节点后构建，否则指向这些词汇节点的关系会丢失
-    edges: list[dict[str, object]] = []
-    for s, p, o in rdf:
-        if p == RDF.type or p == OWL.imports:
-            continue
-        if not isinstance(s, URIRef) or not isinstance(o, URIRef):
-            continue
-        if str(s) not in node_ids or str(o) not in node_ids:
-            continue
-        edges.append({
-            "source": str(s), "target": str(o),
-            "type": _compact_predicate(p), "weight": 1.0,
-            "properties": {"predicate": str(p), "source": "CNFO-SIM"},
-        })
-
-    payload = {"graph_id": "cnfo-sim-abox", "nodes": nodes, "edges": edges}
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(
-        json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    return {"node_count": len(nodes), "edge_count": len(edges)}
-
-
-def _explorer_parts(rdf: Graph, skip_prefixes: tuple[str, ...] = (),
-                    extra_props=None) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
-    """通用转换：把任意 RDF 图转成 Explorer 图的 nodes/edges 两部分。
-
-    - 每个带 rdf:type 的 URIRef 主体成为一个节点；owl:Ontology（本体/数据集头）
-      与 BNode 不作为实体节点。
-    - 节点 type 优先按“种类类”（cnfo:Fund / cnfo:FundParty / ...），否则取词法
-      第一类型；子类型保留在 properties.rdf:type 中。
-    - 数据属性（字面量）以 "cnfo:xxx" 形式进节点 properties（网页端 SPARQL 投影
-      后为 prop:cnfo:xxx）。
-    - 边：URI-URI 关系；rdf:type 与 owl:imports 不作为边。
-    - skip_prefixes：按节点局部名前缀排除（如 "NAV"）。
-    """
-    node_ids: set[str] = set()
-    nodes: list[dict[str, object]] = []
-    for s in sorted({s for s in rdf.subjects(RDF.type, None) if isinstance(s, URIRef)}, key=str):
-        types = sorted({str(o) for o in rdf.objects(s, RDF.type)})
-        if str(OWL.Ontology) in types or str(SKOS.ConceptScheme) in types:
-            continue  # 本体/数据集头/SKOS 代码表方案不作为实体节点（避免 Registry 噪音）
-        local_name = str(s).rstrip("/#").rsplit("/", 1)[-1].rsplit("#", 1)[-1]
-        if any(local_name.startswith(p) for p in skip_prefixes):
-            continue
-        label = _first_zh_label(rdf, s) or local_name
-        node_ids.add(str(s))
-        props: dict[str, str] = {"iri": str(s), "label": label,
-                                 "rdf:type": ";".join(types), "source": "CNFO-SIM"}
-        for p, o in rdf.predicate_objects(s):
-            if p == RDF.type or p == RDFS.label or not isinstance(o, Literal):
-                continue
-            key = _compact_predicate(p)
-            if key == "cnfo:sourceIdentifier":
-                continue  # 冗余噪音
-            props[key] = str(o)
-        if extra_props is not None:
-            extra_props(s, props)
-        nodes.append({"id": str(s), "type": _pick_node_type(types),
-                      "content": label, "properties": props})
-    edges: list[dict[str, object]] = []
-    for s, p, o in rdf:
-        if p == RDF.type or p == OWL.imports:
-            continue
-        if not isinstance(s, URIRef) or not isinstance(o, URIRef):
-            continue
-        if str(s) not in node_ids or str(o) not in node_ids:
-            continue
-        edges.append({
-            "source": str(s), "target": str(o),
-            "type": _compact_predicate(p), "weight": 1.0,
-            "properties": {"predicate": str(p), "source": "CNFO-SIM"},
-        })
-    return nodes, edges
-
-
-def ttl_to_explorer_json(ttl_path: Path, out_path: Path,
-                         skip_prefixes: tuple[str, ...] = (),
-                         tbox_path: Path | None = None) -> dict[str, int]:
-    """把任意 Turtle A-BOX 文件转换为 Explorer 图 JSON（--graph 仅支持 JSON）。
-
-    - 可选 --tbox：合并 T-BOX Turtle，使 cnfc 代码概念/状态类有类型与中文标签，
-      指向它们的边不会被丢弃。
-    - 注意：约 3.5 万条净值记录会让 JSON 过大且超出 SPARQL 的 50k 边上限；
-      转换 cnfo-sim-abox.ttl 时请加 --ttl-skip NAV。
-    """
-    g = Graph()
-    g.parse(str(ttl_path), format="turtle")
-    if tbox_path is not None:
-        g.parse(str(tbox_path), format="turtle")
-    nodes, edges = _explorer_parts(g, skip_prefixes=tuple(skip_prefixes))
-    payload = {"graph_id": out_path.stem, "nodes": nodes, "edges": edges}
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(
-        json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    return {"node_count": len(nodes), "edge_count": len(edges)}
-
-
-_VOCAB_NODE_TYPES = frozenset({
-    "owl:Class", "rdfs:Class", "owl:ObjectProperty", "owl:DatatypeProperty",
-    "owl:AnnotationProperty", "rdf:Property", "rdfs:Datatype",
-})
-TBOX_EXPLORER_JSON = ROOT / "artifacts" / "cnfo" / "cnfo-fund-tbox-explorer.json"
-SESSION_JSON_PATH = ABOX_DIR / "cnfo-sim-session.json"
-
-
-def build_session_json(tbox_explorer: Path, abox_explorer: Path, out_path: Path,
-                       ontology_version: str) -> dict[str, int] | None:
-    """合并 T-BOX Explorer 图与 A-BOX Explorer 图为一个会话图。
-
-    Semantica 的 Ontology Hub 会从图中 owl:Ontology 节点推断本体条目；T-BOX
-    Explorer JSON（cnfo_tbox.export_explorer）本身不含 owl:Ontology 节点，因此这里
-    补上真正的 T-BOX 本体节点（cnfo:CNFODomain，标签/版本取自 T-BOX），并给 T-BOX
-    的类/属性/概念节点标注 scheme_uri，使 Registry 的 Class/Property 计数归到该
-    本体条目。A-BOX 数据集头节点不出现在会话图中。
-    """
-    if not tbox_explorer.is_file():
-        return None
-    with tbox_explorer.open(encoding="utf-8") as f:
-        tbox_data = json.load(f)
-    with abox_explorer.open(encoding="utf-8") as f:
-        abox_data = json.load(f)
-
-    onto_uri = str(CNFO.CNFODomain)
-    onto_label = "CNFO 基金领域入口"
-    version = ontology_version
-    # 尽量从 T-BOX 文件中取真实标签/版本
-    try:
-        ttl_path = ABOX_DIR.parent / "cnfo-fund-tbox.ttl"
-        if ttl_path.is_file():
-            tg = Graph()
-            tg.parse(str(ttl_path), format="turtle")
-            lbl = _first_zh_label(tg, CNFO.CNFODomain)
-            if lbl:
-                onto_label = lbl
-            v = tg.value(CNFO.CNFODomain, OWL.versionInfo)
-            if v is not None:
-                version = str(v)
-    except Exception:
-        pass
-
-    nodes: dict[str, dict] = {}
-    edges: dict[tuple[str, str, str], dict] = {}
-    for node in tbox_data.get("nodes", []):
-        n2 = json.loads(json.dumps(node))
-        props = n2.setdefault("properties", {})
-        if n2.get("type") in _VOCAB_NODE_TYPES:
-            props["scheme_uri"] = onto_uri
-        nodes[n2["id"]] = n2
-    for node in abox_data.get("nodes", []):
-        nodes.setdefault(node["id"], node)
-    for edge in tbox_data.get("edges", []) + abox_data.get("edges", []):
-        key = (edge["source"], edge["target"], edge["type"])
-        edges[key] = edge
-
-    if onto_uri not in nodes:
-        nodes[onto_uri] = {
-            "id": onto_uri, "type": "owl:Ontology", "content": onto_label,
-            "properties": {"iri": onto_uri, "label": onto_label, "rdf:type": "owl:Ontology",
-                           "owl:versionInfo": version, "format": "turtle", "source": "CNFO"},
-        }
-
-    payload = {"graph_id": "cnfo-sim-session", "nodes": list(nodes.values()),
-               "edges": list(edges.values())}
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    return {"node_count": len(payload["nodes"]), "edge_count": len(payload["edges"])}
-
-
 def validate_rdf(graph: Graph) -> tuple[bool, str]:
     from pyshacl import validate
     conforms, results_graph, text = validate(
@@ -1754,44 +1503,11 @@ def main(argv: list[str] | None = None) -> int:
                     help="额外产出 SQLite 关系镜像（可选；问数/浏览器均不消费，默认关闭）")
     ap.add_argument("--no-export-ttl", action="store_true",
                     help="不导出 Turtle A-BOX（默认导出 cnfo-sim-abox.ttl）")
-    ap.add_argument("--no-explorer-json", action="store_true",
-                    help="不导出 Semantica Explorer 图（默认导出 cnfo-sim-explorer.json）")
-    ap.add_argument("--explorer-json-out", type=Path, default=EXPLORER_JSON_PATH,
-                    help="Semantica Explorer 图输出路径")
-    ap.add_argument("--no-session-json", action="store_true",
-                    help="不导出 T-BOX+A-BOX 合并会话图（默认导出 cnfo-sim-session.json）")
-    ap.add_argument("--session-json-out", type=Path, default=SESSION_JSON_PATH,
-                    help="T-BOX+A-BOX 会话图输出路径")
-    ap.add_argument("--ttl-to-json", type=Path, default=None,
-                    help="仅把指定 Turtle A-BOX 转换为 Explorer 图 JSON，然后退出")
-    ap.add_argument("--ttl-skip", action="append", default=[],
-                    help="--ttl-to-json 时按局部名前缀排除节点（可重复，如 NAV）")
-    ap.add_argument("--tbox", type=Path, default=None,
-                    help="--ttl-to-json 时合并的 T-BOX Turtle（提供代码概念类型与中文标签）")
-    ap.add_argument("--ttl-json-out", type=Path, default=None,
-                    help="--ttl-to-json 的输出路径（默认 <ttl 同名>.explorer.json）")
     ap.add_argument("--validate-days", type=int, default=15,
                     help="SHACL 校验时每个基金的净值记录保留最近 N 个估值日（默认 15，"
                          "控制 SPARQL 校验成本；SQLite 中仍写入全量序列）")
     ap.add_argument("--no-validate", action="store_true", help="跳过 SHACL 校验")
     args = ap.parse_args(argv)
-
-    if args.ttl_to_json is not None:
-        ttl_in = Path(args.ttl_to_json).expanduser().resolve()
-        if not ttl_in.is_file():
-            print(f"TTL 文件不存在: {ttl_in}")
-            return 1
-        ttl_out = Path(args.ttl_json_out).expanduser().resolve() if args.ttl_json_out \
-            else ttl_in.with_name(ttl_in.stem + ".explorer.json")
-        tbox_in = Path(args.tbox).expanduser().resolve() if args.tbox else None
-        print(f"[ttl-to-json] 转换: {ttl_in}")
-        if tbox_in:
-            print(f"  合并 T-BOX: {tbox_in}")
-        counts = ttl_to_explorer_json(ttl_in, ttl_out,
-                                      tuple(args.ttl_skip or ()), tbox_in)
-        print(f"  输出: {ttl_out}（节点 {counts['node_count']} / 边 {counts['edge_count']}）")
-        print("  可用 fondontology\\explorer.py --mode graph --graph <输出路径> 加载浏览")
-        return 0
 
     print(f"[1/4] 加载本体: {TBOX_ENTRY.relative_to(ROOT)}")
     graph = load_ontology_graph(TBOX_ENTRY)
@@ -1828,21 +1544,6 @@ def main(argv: list[str] | None = None) -> int:
         check = Graph()
         check.parse(str(out_ttl), format="turtle")
         print(f"      回读校验: {len(check)} 三元组（与内存一致: {len(check) == len(rdf)}）")
-
-    if not args.no_explorer_json:
-        print(f"      导出 Semantica Explorer 图: {args.explorer_json_out}")
-        counts = export_explorer_json(model, rdf, args.explorer_json_out, vocab)
-        print(f"      节点 {counts['node_count']} / 边 {counts['edge_count']}")
-
-    if not args.no_session_json:
-        print(f"      导出 T-BOX+A-BOX 会话图: {args.session_json_out}")
-        ses = build_session_json(TBOX_EXPLORER_JSON, args.explorer_json_out,
-                                 args.session_json_out, vocab.ontology_version)
-        if ses is None:
-            print("      跳过：未找到 T-BOX Explorer 图，请先运行 "
-                  "`.venv\\Scripts\\python.exe main.py export-explorer`")
-        else:
-            print(f"      节点 {ses['node_count']} / 边 {ses['edge_count']}")
 
     if args.no_validate:
         print("[4/4] 已跳过 SHACL 校验")

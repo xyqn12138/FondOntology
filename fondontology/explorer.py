@@ -1,9 +1,8 @@
-"""Run the independent CNFO ontology viewer or the legacy graph UI."""
+"""Run the independent CNFO ontology viewer (served standalone)."""
 
 from __future__ import annotations
 
 import argparse
-import os
 import sys
 from pathlib import Path
 
@@ -17,22 +16,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Serve the independent CNFO ontology viewer"
     )
-    parser.add_argument(
-        "--mode",
-        choices=["viewer", "graph"],
-        default="viewer",
-        help="Use the class-centric ontology viewer or the legacy graph UI",
-    )
-    parser.add_argument(
-        "--graph",
-        type=Path,
-        default=Path(r"artifacts\cnfo\abox\cnfo-sim-session.json"),
-        help="Explorer graph JSON（默认 T-BOX+A-BOX 合并会话图；"
-             "仅 A-BOX 用 cnfo-sim-explorer.json，仅 T-BOX 用 cnfo-fund-tbox-explorer.json）",
-    )
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=5173)
-    parser.add_argument("--api-key", default=None, help="Optional API key for the local service")
     parser.add_argument(
         "--ttl",
         type=Path,
@@ -44,43 +29,15 @@ def build_parser() -> argparse.ArgumentParser:
 
 def run(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    if args.mode == "viewer":
-        if __package__ in {None, ""}:
-            from fondontology.viewer import OntologyViewerSession, create_viewer_app
-        else:
-            from .viewer import OntologyViewerSession, create_viewer_app
-        import uvicorn
-
-        session = OntologyViewerSession(args.ttl)
-        uvicorn.run(
-            create_viewer_app(session),
-            host=args.host,
-            port=args.port,
-            log_level="info",
-            timeout_graceful_shutdown=5,
-        )
-        return 0
-
-    graph_path = args.graph.expanduser().resolve()
-    if not graph_path.is_file():
-        raise FileNotFoundError(
-            f"Explorer graph not found: {graph_path}. Run export-explorer first."
-        )
-
-    if args.api_key:
-        os.environ["SEMANTICA_API_KEY"] = args.api_key
-        os.environ.pop("SEMANTICA_ALLOW_ANONYMOUS", None)
-    elif args.host in {"127.0.0.1", "localhost", "::1"}:
-        os.environ.setdefault("SEMANTICA_ALLOW_ANONYMOUS", "true")
-
-    from semantica.explorer.app import create_app
-    from semantica.explorer.session import GraphSession
+    if __package__ in {None, ""}:
+        from fondontology.viewer import OntologyViewerSession, create_viewer_app
+    else:
+        from .viewer import OntologyViewerSession, create_viewer_app
     import uvicorn
 
-    session = GraphSession.from_file(str(graph_path))
-    app = create_app(session=session)
+    session = OntologyViewerSession(args.ttl)
     uvicorn.run(
-        app,
+        create_viewer_app(session),
         host=args.host,
         port=args.port,
         log_level="info",

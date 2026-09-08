@@ -124,17 +124,6 @@ CNFO 当前覆盖基金、基金产品、基金财产、基金投资组合、基
   FundPosition / FundFee / FundPerformance / FundBenchmark / MarketIndex /
   Regulation 等；`cnfc_code` 与 `lifecycle_status` 表直接来自本体图中的受控
   代码表与状态类，`meta` 表记录本体版本与生成参数。
-- `artifacts\cnfo\abox\cnfo-sim-explorer.json` —— Semantica Explorer 图（默认导出，
-  nodes/edges 格式与 `cnfo-fund-tbox-explorer.json` 一致；为可浏览性不含约 3.5 万条
-  净值记录节点）。**不含 owl:Ontology 数据集头节点**：Semantica 的
-  `/api/ontology/registry` 会把图中每个 owl:Ontology 节点推断为一个“本体”条目，
-  若把 A-BOX 数据集头放进图里，Ontology 面板就会显示“CNFO 仿真 A-BOX…0 Classes”，
-  掩盖真正的 T-BOX。A-BOX 数据集头只保留在 `cnfo-sim-abox.ttl` 中。
-- `artifacts\cnfo\abox\cnfo-sim-session.json` —— **T-BOX + A-BOX 合并会话图**（默认
-  导出）。合并 `cnfo-fund-tbox-explorer.json` 与 A-BOX 图，补齐 T-BOX 本体节点
-  （`cnfo:CNFODomain`，标签与版本取自 T-BOX）并给类/属性节点标注 `scheme_uri`，
-  因此 Ontology 面板显示设计好的 T-BOX（如：CNFO 基金领域入口，143 类 / 204 属性），
-  A-BOX 实例作为普通图数据浏览。
 - 默认在内存中对 A-BOX + T-BOX 合并图运行 SHACL 校验（`--validate-days` 控制
   净值记录保留窗口，默认最近 15 个估值日，用于控制 SPARQL 校验成本；
   SQLite / TTL 中始终写入全量净值序列）。
@@ -163,8 +152,7 @@ Fund）、属性约束（字段必须命中 CNFO/CNFC 词表，未知字段拒�
     answer_question("张三管理的基金有哪些？", stack).text   # → 星河成长混合型证券投资基金
 
 全部数据为仿真虚构，与真实机构、个人无关。可按需调整规模：
-`--funds 40 --days 356 --seed 20260826`。可用 `--no-export-ttl` / `--no-explorer-json` /
-`--no-session-json` 关闭对应导出。
+`--funds 40 --days 356 --seed 20260826`。可用 `--no-export-ttl` 关闭 TTL 导出。
 
 数据建模语义约定（与本体/SHACL 一致）：
 - **基金必有管理主体**：每只基金经 `hasFundManagerRole → roleInFund → rolePlayedBy → 管理公司`
@@ -178,101 +166,6 @@ Fund）、属性约束（字段必须命中 CNFO/CNFC 词表，未知字段拒�
   基金的经理实体（人名抽取与随机源不变，数据集可复现），形成 10 位经理各管
   2 只、20 位经理各管 1 只的分布——"同时管理多个基金的基金经理"类聚合问法
   在仿真数据上有正例。
-
-### 加载进 Semantica
-
-- **Explorer 图（推荐）**：T-BOX 与 A-BOX 一起浏览用合并会话图（Ontology 面板显示
-  设计好的 T-BOX，实例作为数据）：
-
-      .venv\Scripts\python.exe fondontology\explorer.py --mode graph --graph artifacts\cnfo\abox\cnfo-sim-session.json
-
-  只浏览 A-BOX 实例可用 `--graph artifacts\cnfo\abox\cnfo-sim-explorer.json`（此时
-  Ontology 面板为空——A-BOX 不是本体，属预期行为）。也可在 Explorer 的 Import 页面
-  上传 JSON（`POST /api/import`）。
-- **Ontology Hub 上传 Turtle**：`POST /api/ontology/load` 支持 Turtle 文件。T-BOX 通过
-  OntologyIngestor 提取类/属性；纯 A-BOX（无类声明）会走通用 RDF 解析回退路径，实例
-  与关系会成为图节点/边。建议先上传 T-BOX（`cnfo-fund-tbox.ttl`）再上传 A-BOX
-  （`cnfo-sim-abox.ttl`）。注意 Hub 会把每个上传文件登记为一个本体条目，A-BOX 条目
-  会显示 0 类（它是数据集不是本体）；要按“本体 + 数据”的方式浏览，请用上面的
-  会话图或 /api/import。
-- **代码方式**：SPARQL / 校验可把 T-BOX 与 A-BOX 合并加载（`load_ontology_graph`
-  或直接 `rdflib` 解析两个文件后合并）。
-- **把任意 TTL 转成 Explorer 图**：`--graph` 只接受 JSON（`GraphSession.from_file`
-  仅支持 JSON）。可用生成器内置的通用转换：
-
-      .venv\Scripts\python.exe tools\gen_sim_abox.py --ttl-to-json artifacts\cnfo\abox\cnfo-sim-abox.ttl --ttl-skip NAV --tbox artifacts\cnfo\cnfo-fund-tbox.ttl
-
-  `--tbox` 合并 T-BOX（代码概念有类型和中文标签）；`--ttl-skip` 按局部名前缀
-  排除节点（模拟数据约 3.5 万条净值记录应排除，否则超出 SPARQL 的 50k 上限）；
-  输出 `<同名>.explorer.json`，再用 `--mode graph --graph <该文件>` 加载。
-
-### 网页端 SPARQL（Explorer SPARQL 工作台）
-
-工作台把会话图投影为两个命名空间：
-- `ent:`（`http://semantica.local/entity/` + 节点 ID）——实体；节点的单一
-  `type` 成为 `rdf:type` 断言（基金节点统一为 `ent:cnfo:Fund`，子类型在节点
-  属性 `rdf:type` 中，可用 `prop:cnfo:fundTypeCode` 过滤）。
-- `prop:`（`http://semantica.local/prop/` + 谓词）——关系边与节点数据属性
-  （键形如 `cnfo:fundCode`、`cnfo:hasFundUnit`）；节点 content 提供
-  `rdfs:label`。
-
-注意事项：每个 `PREFIX` 必须单独一行（服务端只读校验按行剥离声明）；
-只允许 SELECT / ASK / CONSTRUCT / DESCRIBE；净值记录未进入会话图
-（`a ent:cnfo:NetAssetValueRecord` 计数为 0），净值查询请用 TTL + rdflib。
-
-```sparql
-# 1) 全部基金（代码/名称/成立日期）
-PREFIX ent: <http://semantica.local/entity/>
-PREFIX prop: <http://semantica.local/prop/>
-SELECT ?f ?code ?name ?inc WHERE {
-  ?f a ent:cnfo:Fund ; prop:cnfo:fundCode ?code ; rdfs:label ?name .
-  OPTIONAL { ?f prop:cnfo:inceptionDate ?inc . }
-} LIMIT 20
-
-# 2) 基金 -> 份额类别 -> 分红方式（含 C 类）
-PREFIX ent: <http://semantica.local/entity/>
-PREFIX prop: <http://semantica.local/prop/>
-SELECT ?fname ?ucode ?dist WHERE {
-  ?f a ent:cnfo:Fund ; rdfs:label ?fname ; prop:cnfo:hasFundUnit ?u .
-  ?u prop:cnfo:fundUnitCode ?ucode ; prop:cnfo:hasFundDistributionMode ?d .
-  ?d rdfs:label ?dist .
-} LIMIT 20
-
-# 3) 基金管理人/托管人（角色 -> 主体）
-PREFIX ent: <http://semantica.local/entity/>
-PREFIX prop: <http://semantica.local/prop/>
-SELECT ?fname ?mgr ?dep WHERE {
-  ?f a ent:cnfo:Fund ; rdfs:label ?fname ;
-     prop:cnfo:hasFundManagerRole ?rm ; prop:cnfo:hasFundDepositaryRole ?rd .
-  ?rm prop:cnfo:rolePlayedBy ?pm . ?pm rdfs:label ?mgr .
-  ?rd prop:cnfo:rolePlayedBy ?pd . ?pd rdfs:label ?dep .
-}
-
-# 4) 投资者 -> 持仓 -> 份额 -> 基金
-PREFIX ent: <http://semantica.local/entity/>
-PREFIX prop: <http://semantica.local/prop/>
-SELECT ?inv ?unit ?fund ?qty WHERE {
-  ?i a ent:cnfo:Investor ; rdfs:label ?inv ; prop:cnfo:holdsFundPosition ?pos .
-  ?pos prop:cnfo:positionInFundUnit ?u ; prop:cnfo:positionQuantity ?qty .
-  ?u prop:cnfo:fundUnitCode ?unit ; prop:cnfo:issuedByFund ?f .
-  ?f rdfs:label ?fund .
-} LIMIT 20
-
-# 5) 按类型统计（BOND/EQUITY/ETF/FOF/QDII/MONEY/...）
-PREFIX ent: <http://semantica.local/entity/>
-PREFIX prop: <http://semantica.local/prop/>
-SELECT ?t (COUNT(?f) AS ?n) WHERE {
-  ?f a ent:cnfo:Fund ; prop:cnfo:fundTypeCode ?t .
-} GROUP BY ?t ORDER BY ?t
-
-# 6) 已终止基金
-PREFIX ent: <http://semantica.local/entity/>
-PREFIX prop: <http://semantica.local/prop/>
-SELECT ?fname ?inc ?term WHERE {
-  ?f a ent:cnfo:Fund ; rdfs:label ?fname ; prop:cnfo:inceptionDate ?inc ;
-     prop:cnfo:terminationDate ?term .
-}
-```
 
 ## Web UI（M6：智能问数 + 本体查看器）
 
@@ -305,28 +198,11 @@ SELECT ?fname ?inc ?term WHERE {
 
     .venv\Scripts\python.exe tests\test_cnfo_shacl.py
 
-使用项目虚拟环境：
+## 本体查看器（独立运行）
 
-    .venv\Scripts\python.exe main.py inspect
-    .venv\Scripts\python.exe main.py build
-    .venv\Scripts\python.exe main.py export-explorer
+除智能问数 Web UI 内嵌的 `/viewer/` 外，本体查看器也可独立启动：
 
-以上命令只构建 CNFO。
-
-也可以直接使用 CNFO 模块：
-
-    .venv\Scripts\python.exe -m fondontology.cnfo_tbox inspect
-    .venv\Scripts\python.exe -m fondontology.cnfo_tbox build
-    .venv\Scripts\python.exe -m fondontology.cnfo_tbox export-explorer
-
-## Browser
-
-直接启动本体查看器：
-
-    .venv\Scripts\python.exe main.py
-
-也可以使用：
-
+    .venv\Scripts\python.exe main.py viewer
     .venv\Scripts\python.exe fondontology\explorer.py
     .venv\Scripts\python.exe -m fondontology.explorer
 
@@ -347,8 +223,3 @@ Class Inspector 的中文定义来自类的 `skos:definition`，名称/别名来
 
 关系图作为可选视图，支持圆形和树型布局。关系图只使用 CNFO 正式本体数据。
 
-## Semantica
-
-本地查看器使用 Semantica 项目环境中的 FastAPI 运行能力和 RDF 解析能力。Ontology Hub 上传正式文件时使用 artifacts/cnfo/cnfo-fund-tbox.ttl，入口选择 Ontology Hub -> File Upload，格式选择 Turtle。
-
-当前正式 CNFO 仍是 T-BOX，不包含具体基金产品、管理机构、净值记录和持仓实例。OWL restriction 用于表达开放世界下的结构语义；实际数据质量校验仍应在独立 A-BOX 和 SHACL 文件中完成。
