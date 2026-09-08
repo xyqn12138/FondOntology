@@ -107,6 +107,13 @@ class EvidenceBuilder:
         self.stack = stack
         self._seq = 0
 
+    def _disp(self, value) -> str:
+        """实体/类引用的用户可读名：IRI → T-BOX 中文 label，其余原样。"""
+        s = str(value or "")
+        if s.startswith("http"):
+            return zh_label(self.stack.tbox, URIRef(s), _local(s))
+        return s
+
     def _next(self) -> str:
         self._seq += 1
         return f"E{self._seq}"
@@ -136,6 +143,10 @@ class EvidenceBuilder:
 
         target = plan.get("target", {}).get("concept", "")
         graph = self.stack.query_graph()
+        # 面向用户的 claim 文本一律用中文 label（如「基金经理」），
+        # 不得出现本体内部名/IRI（如 FundManagerPerson）
+        target_label = (zh_label(graph, URIRef(target), _local(target))
+                        if target else target)
 
         # ---- 查询证据 ----
         aggs = plan.get("aggregations") or []
@@ -279,21 +290,23 @@ class EvidenceBuilder:
                                          "evidence": emit_fact(fact)})
 
         # ---- Claim 映射 ----
-        # 聚合语义描述（"关联「Fund」数量 >= 2"），让 count claim 携带约束而非裸计数
+        # 聚合语义描述（"关联「基金」数量 >= 2"），让 count claim 携带约束而非裸计数
         agg_desc = ""
         aggs = plan.get("aggregations") or []
         if aggs:
-            related_local = _local((plan.get("related") or {}).get("concept", ""))
+            related_uri = (plan.get("related") or {}).get("concept", "")
+            related_label = (zh_label(graph, URIRef(related_uri), _local(related_uri))
+                             if related_uri else "")
             having = aggs[0].get("having")
             if having:
-                agg_desc = (f"（关联「{related_local}」数量 "
+                agg_desc = (f"（关联「{related_label}」数量 "
                             f"{having['operator']} {having['value']}）")
             else:
-                agg_desc = f"（按关联「{related_local}」数量聚合）"
+                agg_desc = f"（按关联「{related_label}」数量聚合）"
         claims: list[dict] = []
         claims.append({
             "claim_id": "C1", "type": "count",
-            "claim": f"共找到 {result.count} 个「{_local(target)}」{agg_desc}",
+            "claim": f"共找到 {result.count} 个「{target_label}」{agg_desc}",
             "evidence": [query_eid],
         })
         if result.measures:
@@ -327,7 +340,7 @@ class EvidenceBuilder:
             else:
                 claims.append({
                     "claim_id": f"C{seq}", "type": "classification",
-                    "claim": f"实体「{entity_labels[entity]}」属于 {_local(target)}",
+                    "claim": f"「{entity_labels[entity]}」属于「{target_label}」",
                     "evidence": entity_evidence.get(entity, [query_eid]),
                 })
             seq += 1
@@ -366,7 +379,9 @@ class EvidenceBuilder:
                 })
             claims.append({
                 "claim_id": "C1", "type": "classification",
-                "claim": f"「{result.subject}」{_relation_zh(result.relation)}「{result.object}」：{result.answer}",
+                "claim": f"「{self._disp(result.subject)}」"
+                         f"{_relation_zh(result.relation)}"
+                         f"「{self._disp(result.object)}」：{result.answer}",
                 "evidence": [e["id"] for e in evidence],
             })
         report = {

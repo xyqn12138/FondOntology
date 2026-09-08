@@ -47,6 +47,10 @@ def _llm_chat(question: str, claims: list[dict], context_summary: str,
         "规则：每个句子必须对应一条可用 claims 中的 claim_id；不得编造 claim_id；"
         "结果实体与关系 claim（如「A」具有基金管理人「B」）就是答案本身，必须如实转述，"
         "不得否认 claim 已给出的事实（如说“未提供相关数据”）；"
+        "回答面向最终用户：直接使用 claims 里的中文名称，"
+        "禁止出现本体内部名、英文类名或 IRI（如 FundManagerPerson、https://…）；"
+        "classification（属于某类）claim 仅作类型佐证，除非问题就是在问分类/归属，"
+        "否则不要单独复述它；"
         "中文回答，可分 2-5 句。"
     )
     if feedback:
