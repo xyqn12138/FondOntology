@@ -56,6 +56,30 @@ class ExplainerGateTest(unittest.TestCase):
         self.assertEqual(exp.ucr, 0.0)
         self.assertTrue(exp.used_llm)
 
+    def test_array_claim_ids_pass_gate_and_merge(self) -> None:
+        # 一句自然话由多条 claim 共同支撑（claim_id 数组）→ 过闸并合并证据引用
+        with mock.patch.object(explainer, "_llm_chat", return_value={
+            "answer_sentences": [
+                {"text": "共有4只交易型开放式指数基金，包括磐石创业板指ETF等。",
+                 "claim_id": ["C1", "C2"]},
+            ]}):
+            exp = explainer.explain("有哪些ETF", self.report, use_llm=True)
+        self.assertEqual(exp.gate, "llm_validated")
+        self.assertEqual(exp.ucr, 0.0)
+        self.assertEqual(exp.claims_used, ["C1", "C2"])
+        self.assertIn("[E1", exp.text)
+
+    def test_bad_id_inside_array_is_rejected(self) -> None:
+        # 数组中混入未知 claim_id → 判越权，走重试→模板回退
+        with mock.patch.object(explainer, "_llm_chat", return_value={
+            "answer_sentences": [
+                {"text": "共有4只。", "claim_id": ["C1", "C999"]},
+            ]}):
+            exp = explainer.explain("有哪些ETF", self.report, use_llm=True)
+        self.assertEqual(exp.gate, "template_fallback")
+        self.assertEqual(exp.violations_before_gate, 3)  # 3 次尝试 × 每次 1 个坏 id
+        self.assertEqual(exp.ucr, 0.0)
+
     def test_invalid_citations_retry_then_fallback(self) -> None:
         # 第一次越权（E99），第二次仍越权（C999）→ 重试耗尽 → 模板回退；
         # 终态 UCR=0（全部句子有 claim 支撑），越权数记于 violations_before_gate

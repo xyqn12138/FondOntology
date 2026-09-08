@@ -44,14 +44,20 @@ def _llm_chat(question: str, claims: list[dict], context_summary: str,
         f"可用 claims：{json.dumps(claims, ensure_ascii=False)}\n"
         f"用户问题：{question}\n"
         "输出 JSON：{\"answer_sentences\": [{\"text\": \"…\", \"claim_id\": \"C1\"}]}\n"
-        "规则：每个句子必须对应一条可用 claims 中的 claim_id；不得编造 claim_id；"
-        "结果实体与关系 claim（如「A」具有基金管理人「B」）就是答案本身，必须如实转述，"
-        "不得否认 claim 已给出的事实（如说“未提供相关数据”）；"
-        "回答面向最终用户：直接使用 claims 里的中文名称，"
-        "禁止出现本体内部名、英文类名或 IRI（如 FundManagerPerson、https://…）；"
-        "classification（属于某类）claim 仅作类型佐证，除非问题就是在问分类/归属，"
-        "否则不要单独复述它；"
-        "中文回答，可分 2-5 句。"
+        "claim_id 也可为数组（如 [\"C3\", \"C4\"]），表示该句由多条 claim 共同支撑。\n"
+        "表达规则：\n"
+        "1) 直接回答问题本身：先给结论，按需补充；不要逐条罗列 claims，"
+        "不要复述与问题无关的 claim；\n"
+        "2) 不要用三元组式句子作答（如「A」具有基金管理人「B」）；把关系融入自然中文，"
+        "如「杨洋管理的基金有：华曦A基金、华曦B基金。」；同类事实可合并成一句并列；\n"
+        "3) 列举本身已隐含数量时，不必单独复述计数 claim；\n"
+        "4) 句子内容必须与所引 claims 完全一致，不得编造，"
+        "也不得否认 claim 已给出的事实（如说“未提供相关数据”）；\n"
+        "5) classification（属于某类）claim 仅作类型佐证，除非问题就是在问分类/归属，"
+        "否则不要单独复述它；\n"
+        "6) 面向最终用户：直接使用 claims 里的中文名称，"
+        "禁止出现本体内部名、英文类名或 IRI（如 FundManagerPerson、https://…）；\n"
+        "7) 中文回答，通常 1-3 句。"
     )
     if feedback:
         prompt += f"\n上次输出的问题：{feedback}。请修正后重试。"
@@ -66,6 +72,15 @@ def _llm_chat(question: str, claims: list[dict], context_summary: str,
         return json.loads(content[start:end + 1])
     except json.JSONDecodeError:
         return None
+
+
+def _sentence_claim_ids(sentence) -> list[str]:
+    """句子的 claim_id 归一化：兼容 "C1" 与 ["C1","C2"] 两种形态。"""
+    cid = sentence.get("claim_id") if isinstance(sentence, dict) else None
+    if isinstance(cid, (list, tuple)):
+        return [str(c).strip() for c in cid if str(c).strip()]
+    cid = str(cid).strip() if cid is not None else ""
+    return [cid] if cid else []
 
 
 def explain(question: str, report: dict, context_summary: str = "",
@@ -95,8 +110,8 @@ def explain(question: str, report: dict, context_summary: str = "",
         if data is None:
             continue
         sentences = [s for s in (data.get("answer_sentences") or []) if isinstance(s, dict)]
-        last_bad = [str(s.get("claim_id")) for s in sentences
-                    if s.get("claim_id") not in claims_by_id]
+        last_bad = [cid for s in sentences for cid in _sentence_claim_ids(s)
+                    if cid not in claims_by_id]
         violations += len(last_bad)   # 累计各次尝试的越权数（闸前指纹）
         if not last_bad and sentences:
             return _assemble(question, sentences, claims_by_id, used_llm=True,
@@ -115,15 +130,17 @@ def _assemble(question: str, sentences: list, claims_by_id: dict, *,
     used_ids: list[str] = []
     lines: list[str] = []
     for s in sentences:
-        cid = s.get("claim_id") if isinstance(s, dict) else None
-        if cid is None:
+        ids = [cid for cid in _sentence_claim_ids(s) if cid in claims_by_id]
+        if not ids:
             continue
-        claim = claims_by_id.get(cid)
-        if claim is None:
-            continue
-        used_ids.append(cid)
-        ev = list(claim.get("evidence") or [])
-        evidence_map[cid] = ev
+        used_ids.extend(ids)
+        ev: list[str] = []
+        for cid in ids:
+            claim_ev = list(claims_by_id[cid].get("evidence") or [])
+            evidence_map.setdefault(cid, claim_ev)
+            for e in claim_ev:
+                if e not in ev:
+                    ev.append(e)
         lines.append(f"{s['text']} [{' '.join(ev)}]" if ev else s["text"])
     # 终态 UCR=0：三种路径（无 key 模板 / llm_validated 闸内 / 回退）产出的
     # 句子全部有 claim 支撑；violations 是闸前的指纹（violations_before_gate）。
