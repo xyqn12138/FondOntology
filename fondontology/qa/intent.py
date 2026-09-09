@@ -25,7 +25,7 @@ import re
 from dataclasses import dataclass, field
 from typing import Optional
 
-from .config import llm_config, llm_configured
+from .config import llm_config, llm_configured, rag_enabled
 from .index import Candidate, OntologyIndex
 from .resolver import VocabularyResolver
 from .semantics import OntologyContext
@@ -71,8 +71,8 @@ def build_intent(question: str, index: OntologyIndex,
     """
     if use_llm is None:
         use_llm = llm_configured()
-    # Phase 2 边界对 LLM/确定性两路径一致：compare/对比类直接拒答
-    if any(k in question for k in ("区别", "比较", "对比")):
+    # compare/对比类：RAG explain 开启时可经定义卡作答，关闭时维持 Phase 2 拒答
+    if not rag_enabled() and any(k in question for k in ("区别", "比较", "对比")):
         return IntentResult(question, _UNRESOLVED, "find",
                             notes=["compare/对比 类问题属于 Phase 2，本版不支持"])
     if use_llm:
@@ -99,6 +99,25 @@ def _build_deterministic_intent(question: str, index: OntologyIndex) -> IntentRe
     validator = WhitelistValidator(index)
     notes: list[str] = []
 
+    # classify 语义（T-BOX 层问题）：「X有哪些分类/分几类/有哪些类型」→ 枚举类层级。
+    # 答案是类清单而非实例清单，与 RAG 开关无关（T-BOX 是图的固定部分）
+    classify = _try_classify_intent(question, index, resolver, validator)
+    if classify is not None:
+        return classify
+
+    # define 语义（T-BOX 定义，一等能力）：「什么是X/X指什么/是什么意思」→ 定义卡。
+    # 读 T-BOX 定义，不依赖 RAG 开关（与 classify 同理）
+    define = _try_define_intent(question, index, resolver, validator)
+    if define is not None:
+        return define
+
+    # explain 其余形态（describe/compare，文本检索路径）：介绍/观点/对比，
+    # 依赖 RAG 开关（chunk 池属扩展数据面）
+    if rag_enabled():
+        explain = _try_explain_intent(question, index, resolver, validator)
+        if explain is not None:
+            return explain
+
     # verify 语义：优先匹配更具体的标记（"是否互斥/是否等价" 不能被 "是否" 抢先）
     if "互斥" in question:
         return _build_verify(question, "与", resolver, validator, notes, "disjointWith")
@@ -109,9 +128,6 @@ def _build_deterministic_intent(question: str, index: OntologyIndex) -> IntentRe
             return _build_verify(question, marker, resolver, validator, notes, "subClassOf")
     if "属于" in question or "子类" in question:
         return _build_verify(question, "属于", resolver, validator, notes, "subClassOf")
-    if any(k in question for k in ("区别", "比较", "对比")):
-        return IntentResult(question, _UNRESOLVED, "find",
-                            notes=["compare/对比 类问题属于 Phase 2，本版不支持"])
 
     # find：整句解析类候选
     classes = [c for c in resolver.resolve_concept(question) if c.kind == "class"]
@@ -181,6 +197,235 @@ def _build_deterministic_intent(question: str, index: OntologyIndex) -> IntentRe
     }
     return IntentResult(question, _RESOLVED, "find", intent=intent,
                         candidates=intent["target_candidates"], notes=notes)
+
+
+# ---------------------------------------------------------------------------
+# classify 语义（M7）：「X 有哪些分类」→ 枚举 T-BOX 类层级（schema 级问题）
+# ---------------------------------------------------------------------------
+# 分类体系目录类：本身不是答案（无实例无子类），但它是"分类"语义的正确出口，
+# LLM 偶发把它解为 find target 时应改路由 classify 而非空转查询
+_CLASSIFICATION_SCHEME_LOCALS = {"FundClassification", "FundClassificationScheme",
+                                 "FundClassifier"}
+
+# 分类句式：目标词 + 分类标记
+_CLASSIFY_RE = re.compile(r"(有哪些|分了|分几|分为|几种|几类|什么类型|哪些类型|哪些分类|有哪些分类)")
+
+
+def _try_classify_intent(question: str, index: OntologyIndex,
+                         resolver: VocabularyResolver,
+                         validator: WhitelistValidator) -> Optional[IntentResult]:
+    """分类枚举问法 → operation=classify（答案是类清单，读 T-BOX 类层级）。
+
+    命中条件：问句含分类标记，且能锚定一个"被分类的类"（如 基金/基金活动）。
+    返回 None 表示不是分类问法（落回 explain/find 链路）。
+    """
+    q = question.strip()
+    if not _CLASSIFY_RE.search(q):
+        return None
+    # 「有哪些」是弱标记（find 列举也用）；只有伴随"分类/类型/几种"语义词才进 classify，
+    # 否则「基金有哪些」应走 find 枚举实例
+    weak_only = ("有哪些" in q or "分为" in q) and not any(
+        w in q for w in ("分类", "类型", "几种", "几类", "分几"))
+    if weak_only:
+        return None
+
+    # 目标类锚定：剥掉分类标记词后的剩余文本，取类候选
+    body = _CLASSIFY_RE.sub("", q).rstrip("？?。: ：").strip()
+    # 分类语义残留词剥除（「基金有哪些分类」剥离标记后剩「基金分类」→「基金」）
+    for tail in ("的概念", "的概念", "概念", "的类别", "类别", "的分类", "分类", "的类型", "类型", "的"):
+        while body.endswith(tail) and len(body) > len(tail):
+            body = body[: -len(tail)]
+    body = body.strip()
+    if not body:
+        body = q
+        # 整句都是标记词时（「有哪些分类」）：从原句找业务词
+        for w in ("基金", "债券", "股票", "投资者"):
+            if w in body:
+                body = w
+                break
+
+    def _class_for(term: str):
+        if not term:
+            return None
+        hits = [c for c in resolver.resolve_concept(term) if c.kind == "class"]
+        viable = [c for c in resolver.viable(hits) if validator.validate(c, "class")[0]]
+        return viable[0] if viable else None
+
+    target = _class_for(body) if body else None
+    if target is None and "基金" in q:
+        # 「基金有哪些分类」body 为空（标记词吃掉了'有哪些'整段）时兜底锚定 Fund
+        target = _class_for("基金")
+    if target is None:
+        return None
+
+    local = target.iri.rsplit("/", 1)[-1]
+    # 目录类本身不作分类目标——改问其挂靠的业务类（FundClassification 的成员概念
+    # 实际是 Fund 的子类层级）；目录类没有上下文时放弃
+    if local in _CLASSIFICATION_SCHEME_LOCALS:
+        return None
+
+    intent = {
+        "operation": "classify", "topic": target.iri,
+        "target_concept": q, "target_candidates": [_candidate_json(target)],
+        "resolution": {"status": _RESOLVED, "method": "classify_rule"},
+    }
+    return IntentResult(q, _RESOLVED, "classify", intent=intent,
+                        candidates=intent["target_candidates"])
+
+
+# ---------------------------------------------------------------------------
+# define 语义（M7，一等能力）：「什么是X / X指什么 / X是什么意思」→ T-BOX 定义卡
+# ---------------------------------------------------------------------------
+_DEFINE_BEFORE = ("什么是", "何为", "什么叫", "什么叫做")
+_DEFINE_AFTER = ("的定义", "的定义是什么", "指什么", "是什么意思", "是什么",
+                 "是啥", "啥意思", "怎么理解")
+
+
+def _try_define_intent(question: str, index: OntologyIndex,
+                       resolver: VocabularyResolver,
+                       validator: WhitelistValidator) -> Optional[IntentResult]:
+    """定义问法 → operation=explain + explain_type=define（读 T-BOX 定义）。
+
+    不依赖 RAG 开关：T-BOX 定义是图的固定部分。
+    含口语容差：「开放型基金」→「开放式基金」（形近字变体归一后再锚定）。
+    返回 None 表示不是定义问法。
+    """
+    q = question.strip()
+    term = None
+    for marker in _DEFINE_BEFORE:
+        if marker in q:
+            term = q.split(marker, 1)[1]
+            break
+    if term is None:
+        for marker in _DEFINE_AFTER:
+            if q.endswith(marker):
+                term = q[: -len(marker)]
+                break
+    if term is None:
+        return None
+    term = term.rstrip("？?。！! ").strip()
+    if len(term) < 2:
+        return None
+
+    def _class_for(t: str):
+        if not t:
+            return None
+        hits = [c for c in resolver.resolve_concept(t) if c.kind == "class"]
+        viable = [c for c in resolver.viable(hits) if validator.validate(c, "class")[0]]
+        return viable[0] if viable else None
+
+    # 口语容差优先：含已知形近变体时先试归一形式（「开放型基金」→「开放式基金」），
+    # 避免变体词串匹配落到宽泛基类（"基金"）上
+    normalized = term
+    for old, new in (("开放型", "开放式"), ("封闭型", "封闭式"),
+                     ("股票型基金", "股票基金"), ("债券型基金", "债券基金")):
+        if old in normalized:
+            normalized = normalized.replace(old, new)
+    cls = _class_for(normalized) if normalized != term else None
+    if cls is None:
+        cls = _class_for(term)   # 归一未命中再按原词（可能就是标准名）
+    if cls is None:
+        return None
+    intent = {
+        "operation": "explain", "explain_type": "define", "topic": cls.iri,
+        "target_concept": q, "target_candidates": [_candidate_json(cls)],
+        "resolution": {"status": _RESOLVED, "method": "define_rule"},
+    }
+    return IntentResult(q, _RESOLVED, "explain", intent=intent,
+                        candidates=intent["target_candidates"])
+
+
+# ---------------------------------------------------------------------------
+# explain 语义（M7-R2）：定义/介绍/对比 → 文本检索路径（RAG）
+# ---------------------------------------------------------------------------
+def _try_explain_intent(question: str, index: OntologyIndex,
+                        resolver: VocabularyResolver,
+                        validator: WhitelistValidator) -> Optional[IntentResult]:
+    """解释类问法 → operation=explain。
+
+    命中规则：
+    - define：「什么是/何为/X的定义」+ 类锚定；
+    - compare：「X和Y的区别/差异/对比」（原 Phase 2 拒答，现在经定义卡可答）；
+    - describe：「介绍/说说X」+ 实体锚点（季报文本）；「X怎么看后市」。
+    返回 None 表示不是解释类问法（落回 find/verify 链路）。
+    """
+    q = question
+    is_compare = any(k in q for k in ("区别", "差异", "对比"))
+    # define 已上移为独立一等规则（_try_define_intent，不受 RAG 开关限制），
+    # 此处只承接 compare（定义卡对比，T-BOX 读取）与 describe（文本检索）
+    is_describe = (q.startswith(("介绍", "说说", "讲讲")) or "介绍一下" in q
+                   or any(k in q for k in ("怎么看", "如何评价", "观点")))
+    if not (is_compare or is_describe):
+        return None
+
+    def _class_for(term: str):
+        if not term:
+            return None
+        hits = [c for c in resolver.resolve_concept(term) if c.kind == "class"]
+        viable = [c for c in resolver.viable(hits) if validator.validate(c, "class")[0]]
+        return viable[0] if viable else None
+
+    if is_compare:
+        parts = _split_compare_terms(q)
+        if len(parts) < 2:
+            return None
+        c1, c2 = _class_for(parts[0]), _class_for(parts[1])
+        if c1 is None or c2 is None:
+            return None
+        intent = {
+            "operation": "explain", "explain_type": "compare",
+            "topic": c1.iri, "compare_topic": c2.iri,
+            "target_concept": q,
+            "target_candidates": [_candidate_json(c1), _candidate_json(c2)],
+            "resolution": {"status": _RESOLVED, "method": "explain_compare_rule"},
+        }
+        return IntentResult(q, _RESOLVED, "explain", intent=intent,
+                            candidates=intent["target_candidates"])
+
+    # describe：实体锚点优先（介绍某基金/某经理 → 季报文本），类锚定回落 define
+    entity = _find_entity_mention(index, q)
+    if entity is not None:
+        section_hint = "管理人报告" if any(k in q for k in ("怎么看", "观点", "展望", "后市")) else None
+        intent = {
+            "operation": "explain", "explain_type": "describe",
+            "entity_iri": entity.iri, "entity_label": entity.label,
+            "target_concept": q, "target_candidates": [_candidate_json(entity)],
+            "section_hint": section_hint,
+            "resolution": {"status": _RESOLVED, "method": "explain_describe_entity"},
+        }
+        return IntentResult(q, _RESOLVED, "explain", intent=intent,
+                            candidates=intent["target_candidates"])
+    term = q
+    for marker in ("介绍一下", "介绍", "说说", "讲讲"):
+        if marker in term:
+            term = term.split(marker, 1)[1]
+            break
+    term = term.rstrip("？?。").strip()
+    cls = _class_for(term)
+    if cls is not None:
+        intent = {
+            "operation": "explain", "explain_type": "define", "topic": cls.iri,
+            "target_concept": q, "target_candidates": [_candidate_json(cls)],
+            "resolution": {"status": _RESOLVED, "method": "explain_describe_class"},
+        }
+        return IntentResult(q, _RESOLVED, "explain", intent=intent,
+                            candidates=intent["target_candidates"])
+    return None
+
+
+def _split_compare_terms(question: str) -> list[str]:
+    """「货币市场基金和债券基金的区别」→ [货币市场基金, 债券基金]。"""
+    body = question
+    for marker in ("有什么区别", "的区别", "有什么差异", "的差异", "区别", "差异", "对比"):
+        if marker in body:
+            body = body.split(marker, 1)[0]
+            break
+    body = body.rstrip("？?。").strip()
+    for sep in ("和", "与"):
+        if sep in body:
+            left, right = body.split(sep, 1)
+            return [left.strip(), right.strip()]
+    return []
 
 
 # ---------------------------------------------------------------------------
@@ -395,6 +640,7 @@ def _find_entity_mention(index: OntologyIndex, question: str,
         cand = Candidate(iri, "entity", label, "label", score)
         if best is None or cand.score > best.score:
             best = cand
+    best = _find_entity_mention_fuzzy(index, question, best)
     for code, iris in index._entity_codes.items():
         if code and len(code) >= 4 and code in question:
             for iri in iris:
@@ -407,6 +653,49 @@ def _find_entity_mention(index: OntologyIndex, question: str,
                 cand = Candidate(iri, "entity", index.entities[iri]["label"], "code", score)
                 if best is None or cand.score > best.score:
                     best = cand
+    return best
+
+
+def _find_entity_mention_fuzzy(index: OntologyIndex, question: str,
+                               exact: Optional[Candidate]) -> Optional[Candidate]:
+    """容差实体提及（explain describe 用）：用户说法与索引标签的常见变形。
+
+    - 「云帆中证500指数基金」vs「云帆中证500指数型证券投资基金」：
+      问句片段是标签前缀（"指数基金"是"指数型证券投资基金"的口语缩并）；
+    - 「云帆中证500」：简称即标签去尾部。
+    规则：从问句剥掉「介绍一下/说说」等引导词后，若存在实体标签以
+    归一化后的问句实体片段开头（且片段足够长），取最长命中。
+    已有精确命中（exact）时不动。
+    """
+    if exact is not None:
+        return exact
+    q = question
+    for marker in ("介绍一下", "介绍", "说说", "讲讲", "请", "帮忙"):
+        while marker in q:
+            q = q.replace(marker, "", 1)
+    q = q.rstrip("？?。！! ").strip()
+    if len(q) < 4:
+        return None
+
+    def _norm(s: str) -> str:
+        return (s.replace("指数基金", "指数型证券投资基金")
+                 .replace("基金", "")
+                 .replace("公司", "").replace("的", ""))
+
+    qn = _norm(q)
+    if len(qn) < 4:
+        return None
+    best: Optional[Candidate] = None
+    best_len = 0
+    for iri, meta in index.entities.items():
+        label = meta.get("label", "")
+        if len(label) < 4:
+            continue
+        if label.startswith(qn) or _norm(label).startswith(qn):
+            if len(label) > best_len:
+                best_len = len(label)
+                best = Candidate(iri, "entity", label, "label",
+                                 round(0.9 + 0.01 * len(label), 4))
     return best
 
 
@@ -645,7 +934,7 @@ def _prop_iri(index: OntologyIndex, local_name: str) -> Optional[str]:
 # LLM 语义解析（注入本体语义视图：类层级 + 类间关系 + 属性约束）
 # ---------------------------------------------------------------------------
 _LLM_SCHEMA = """{
-  "operation": "find" 或 "verify",
+  "operation": "find" 或 "verify" 或 "classify" 或 "explain",
   "target": "<类 local 名>" 或 null,
   "select": "entities" 或 "count",
   "related": "<类 local 名>" 或 null,
@@ -656,6 +945,7 @@ _LLM_SCHEMA = """{
   "limit": 数字 或 null,
   "entity_label": "<问题中的具体人名/公司名/编号原文>" 或 null,
   "filters": [{"property": "<属性 local 名>", "operator": "eq|contains|>=|<=|>|<", "value": "<值原文>"}],
+  "explain_type": "define" 或 null,
   "verify_subject": "<类 local 名>" 或 null,
   "verify_object": "<类 local 名>" 或 null,
   "verify_relation": "subClassOf|equivalentClass|disjointWith" 或 null
@@ -668,7 +958,22 @@ _LLM_EXAMPLES = """示例1：
   "order_direction": "desc", "limit": null, "entity_label": null, "filters": [],
   "verify_subject": null, "verify_object": null, "verify_relation": null}
 
-示例2（聚合约束——"同时管理多个"是 COUNT(基金)>=2，不是普通列举）：
+示例2（分类枚举——"有哪些分类/分几类/哪些类型"问的是类层级本身，不是实例清单）：
+问题：基金有哪些分类？
+输出：{"operation": "classify", "target": "Fund", "select": "entities",
+  "related": null, "relation_path": null, "aggregation": null, "order_by": null,
+  "order_direction": "desc", "limit": null, "entity_label": null, "filters": [],
+  "explain_type": null, "verify_subject": null, "verify_object": null, "verify_relation": null}
+
+示例3（定义问法——"什么是X/X指什么/是什么意思"要的是 X 的定义，用 explain+define，
+不要用 find（那会列举实例）也不要用 classify（那会枚举子类））：
+问题：ETF指什么？
+输出：{"operation": "explain", "target": "ExchangeTradedFund", "explain_type": "define",
+  "select": "entities", "related": null, "relation_path": null, "aggregation": null,
+  "order_by": null, "order_direction": "desc", "limit": null, "entity_label": null,
+  "filters": [], "verify_subject": null, "verify_object": null, "verify_relation": null}
+
+示例4（聚合约束——"同时管理多个"是 COUNT(基金)>=2，不是普通列举）：
 问题：同时管理多个基金的基金经理有什么？
 输出：{"operation": "find", "target": "FundManagerPerson", "select": "entities",
   "related": "Fund", "relation_path": [{"property": "hasFundManager", "inverse": true}],
@@ -677,7 +982,7 @@ _LLM_EXAMPLES = """示例1：
   "entity_label": null, "filters": [],
   "verify_subject": null, "verify_object": null, "verify_relation": null}
 
-示例3（排名——"最多"是 ORDER BY COUNT DESC LIMIT 1）：
+示例4（排名——"最多"是 ORDER BY COUNT DESC LIMIT 1）：
 问题：在管基金最多的基金经理是谁？
 输出：{"operation": "find", "target": "FundManagerPerson", "select": "entities",
   "related": "Fund", "relation_path": [{"property": "hasFundManager", "inverse": true}],
@@ -884,8 +1189,66 @@ def _parse_llm_intent(question: str, data: dict, index: OntologyIndex,
                             candidates=[], used_llm=True,
                             notes=["LLM 语义解析已过白名单校验"])
 
+    if operation == "classify":
+        # LLM 判定为分类枚举（schema 级问题）：target 过白名单后交 engine 读类层级
+        target_iri_c = _resolve_class(data.get("target"))
+        if target_iri_c is None:
+            return None
+        if target_iri_c.rsplit("/", 1)[-1] in _CLASSIFICATION_SCHEME_LOCALS:
+            # 目录类改挂业务基类（与确定性路径同策略）
+            if "Fund" in ctx.classes:
+                target_iri_c = ctx.classes["Fund"].iri
+            else:
+                return None
+        intent = {
+            "operation": "classify", "topic": target_iri_c,
+            "target_concept": question, "target_candidates": [],
+            "resolution": {"status": _RESOLVED, "method": "llm_classify"},
+        }
+        return IntentResult(question, _RESOLVED, "classify", intent=intent,
+                            candidates=[], used_llm=True,
+                            notes=["LLM 语义解析已过白名单校验"])
+
+    if operation == "explain":
+        # LLM 判定为定义问法：target 过白名单；explain_type 目前只支持 define
+        # （describe/compare 由确定性规则/后续版本承接）
+        if str(data.get("explain_type") or "define") != "define":
+            return None
+        target_iri_e = _resolve_class(data.get("target"))
+        if target_iri_e is None:
+            return None
+        intent = {
+            "operation": "explain", "explain_type": "define",
+            "topic": target_iri_e,
+            "target_concept": question, "target_candidates": [],
+            "resolution": {"status": _RESOLVED, "method": "llm_define"},
+        }
+        return IntentResult(question, _RESOLVED, "explain", intent=intent,
+                            candidates=[], used_llm=True,
+                            notes=["LLM 语义解析已过白名单校验"])
+
     target_iri = _resolve_class(data.get("target"))
     entity_label = str(data.get("entity_label") or "").strip()
+
+    # 分类体系目录类不作 find target（无实例无子类，查询必然空转）；
+    # "分类"语义的正确出口是 classify（枚举业务类的子类层级），
+    # LLM 解到目录类时改路由 classify：目标取其语义挂靠的业务基类
+    if target_iri is not None and \
+            target_iri.rsplit("/", 1)[-1] in _CLASSIFICATION_SCHEME_LOCALS:
+        scheme_local = target_iri.rsplit("/", 1)[-1]
+        # FundClassification* 的成员概念建模为 Fund 子类层级
+        business_local = "Fund"
+        if business_local in ctx.classes:
+            return IntentResult(
+                question, _RESOLVED, "classify",
+                intent={"operation": "classify",
+                        "topic": ctx.classes[business_local].iri,
+                        "target_concept": question,
+                        "target_candidates": [],
+                        "resolution": {"status": _RESOLVED,
+                                       "method": "llm_classification_scheme_redirect"}},
+                candidates=[], used_llm=True,
+                notes=[f"目录类 {scheme_local} 不可作查询目标，已改路由分类枚举"])
 
     entity_anchor = None
     if entity_label:

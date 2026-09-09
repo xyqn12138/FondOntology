@@ -30,7 +30,7 @@ from fastapi.responses import (FileResponse, HTMLResponse, JSONResponse,
 from pydantic import BaseModel, Field
 
 from . import viewer as viewer_mod
-from .qa.config import llm_config, llm_configured
+from .qa.config import llm_config, llm_configured, rag_enabled
 from .qa.engine import QaAnswer, answer_question
 from .qa.graph import DataStack, build_stack
 
@@ -131,6 +131,7 @@ def create_web_app(*,
         summary = viewer_session.summary()
         cfg = llm_config()
         configured = llm_configured()
+        rag = rag_enabled()
         return {
             "app": "CNFO 智能问数",
             "module": "qa",
@@ -153,11 +154,31 @@ def create_web_app(*,
                 "base_url": cfg["OPENAI_BASE_URL"] or "",
                 "mode": "llm" if configured else "template",
             },
+            "rag": {
+                "enabled": rag,
+                "toggleable": True,
+            },
             "engine": {
                 "default_use_llm": default_use_llm,
                 "suggestion_count": len(SUGGESTIONS),
             },
         }
+
+    @app.get("/api/rag/status")
+    def api_rag_status():
+        return {"enabled": rag_enabled()}
+
+    @app.post("/api/rag/toggle")
+    def api_rag_toggle():
+        """运行时切换 RAG explain 扩展（无需重启服务）。
+
+        环境变量是进程级的：qa_lock 串行化问答请求，切换与问答不会交错；
+        引擎侧 rag_enabled() 每次问答即时读取，开关立即生效。
+        """
+        import os
+        with qa_lock:
+            os.environ["RAG_ENABLED"] = "0" if rag_enabled() else "1"
+        return {"enabled": rag_enabled()}
 
     @app.get("/api/qa/suggestions")
     def api_suggestions():
@@ -288,13 +309,19 @@ def build_parser() -> argparse.ArgumentParser:
                         help="查看器 T-BOX（默认 artifacts/cnfo/cnfo-fund-tbox.ttl）")
     parser.add_argument("--no-llm", action="store_true",
                         help="强制模板表达（等价 use_llm=False）")
+    parser.add_argument("--rag", action="store_true",
+                        help="启用 RAG 解释类问答扩展（explain/定义/介绍/对比；默认关闭）")
     return parser
 
 
 def run(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
+    import os
+
     import uvicorn
 
+    if args.rag:
+        os.environ["RAG_ENABLED"] = "1"
     default_use_llm = False if args.no_llm else None
     app = create_web_app(
         tbox_source=args.source,
@@ -302,10 +329,12 @@ def run(argv: list[str] | None = None) -> int:
         viewer_ttl=args.viewer_ttl,
         default_use_llm=default_use_llm,
     )
+    from .qa.config import rag_enabled
     print(f"CNFO 智能问数 Web UI：http://{args.host}:{args.port}")
     print(f"  QA 本体：{args.source} + {args.abox.name}")
     print(f"  查看器： {args.viewer_ttl}（http://{args.host}:{args.port}/viewer/）")
     print(f"  LLM 模式：{llm_config().get('OPENAI_MODEL') or '未配置（确定性模板）'}")
+    print(f"  RAG 扩展：{'开启（--rag）' if rag_enabled() else '关闭（加 --rag 启用解释类问答）'}")
     uvicorn.run(
         app,
         host=args.host,

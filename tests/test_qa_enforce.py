@@ -127,6 +127,8 @@ class BatchImportTest(unittest.TestCase):
         ans = answer_question("张三管理的基金有哪些？", stack, use_llm=False)
         self.assertEqual(ans.status, "ok", ans.text)
         self.assertIn("共找到 2 个", ans.text)
+        self.assertIn("星河成长", ans.text)
+        print(ans.report["evidence"])
 
 
 if __name__ == "__main__":

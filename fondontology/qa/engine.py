@@ -140,6 +140,51 @@ def _answer_question_impl(question: str, stack: DataStack, *,
                         intent_status=intent_res.status)
 
     intent = intent_res.intent
+    if intent["operation"] == "classify":
+        # T-BOX 层问题（schema 枚举）：答案是类清单，读类层级即可，不依赖 RAG 开关
+        from .rag.answer import answer_classify
+        _emit(on_phase, "retrieve", "读取本体类层级")
+        ctx = _get_ctx(stack)
+        exp = answer_classify(question, intent, ctx)
+        if exp.status != "ok":
+            return QaAnswer(kind="classify", status="unresolved", text=exp.text,
+                            intent_status="UNRESOLVED")
+        return QaAnswer(
+            kind="classify", status="ok", text=exp.text,
+            claims=(exp.report or {}).get("claims", []),
+            cited_evidence=[e["id"] for e in (exp.report or {}).get("evidence", [])],
+            report=exp.report,
+            explanation={"gate": "tbox_hierarchy", "used_llm": intent_res.used_llm,
+                         "ucr": 0.0,
+                         "claims_used": [c["claim_id"] for c in (exp.report or {}).get("claims", [])]},
+        )
+
+    if intent["operation"] == "explain":
+        from .config import rag_enabled
+        # define/compare 读 T-BOX（一等能力，不受 RAG 开关限制）；
+        # describe 依赖 chunk 池（RAG 扩展数据面），受开关控制
+        if intent.get("explain_type") == "describe" and not rag_enabled():
+            return QaAnswer(kind="intent", status="unresolved",
+                            text="解释类问答（RAG）当前未启用",
+                            intent_status="UNRESOLVED")
+        _emit(on_phase, "retrieve", "检索文本与定义")
+        from .rag import answer_explain
+        ctx = _get_ctx(stack)
+        exp = answer_explain(question, intent, ctx, stack.query_graph())
+        if exp.status != "ok":
+            return QaAnswer(kind="explain", status="unresolved", text=exp.text,
+                            intent_status="UNRESOLVED")
+        _emit(on_phase, "explain", "组织解释性回答")
+        return QaAnswer(
+            kind="explain", status="ok", text=exp.text,
+            claims=(exp.report or {}).get("claims", []),
+            cited_evidence=[e["id"] for e in (exp.report or {}).get("evidence", [])],
+            report=exp.report,
+            explanation={"gate": "template_rag", "used_llm": False,
+                         "ucr": 0.0, "claims_used":
+                         [c["claim_id"] for c in (exp.report or {}).get("claims", [])]},
+        )
+
     if intent["operation"] == "verify":
         _emit(on_phase, "verify", "T-BOX 判链")
         base = answer(stack, {

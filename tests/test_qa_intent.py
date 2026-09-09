@@ -25,9 +25,10 @@ class VocabularyTest(unittest.TestCase):
         cls.validator = WhitelistValidator(cls.index)
 
     def test_index_counts(self) -> None:
-        self.assertEqual(len(self.index.classes), 143)
-        self.assertEqual(len(self.index.object_properties), 143)
-        self.assertEqual(len(self.index.datatype_properties), 61)
+        # v0.6.0 文本资产实体化：+5 类（年报/中报/季报/章节/条文）、+8 对象属性、+9 数据属性
+        self.assertEqual(len(self.index.classes), 148)
+        self.assertEqual(len(self.index.object_properties), 151)
+        self.assertEqual(len(self.index.datatype_properties), 70)
         self.assertGreaterEqual(len(self.index.codes), 27)
         self.assertGreaterEqual(len(self.index.entities), 3000)
 
@@ -98,7 +99,8 @@ class IntentDeterministicTest(unittest.TestCase):
 
     def test_unresolved(self) -> None:
         self.assertEqual(self.intent("电磁炉").status, "UNRESOLVED")
-        # compare 类问题显式拒绝（Phase 2）
+        # compare 类问题：RAG explain 默认关闭时维持拒答
+        # （开启时经定义卡可答，见 tests/test_rag_explain.py）
         self.assertEqual(self.intent("公募基金和私募基金有什么区别").status, "UNRESOLVED")
         # 实体锚点识别（source 查询待后续版本）
         self.assertEqual(self.intent("基金001113的管理人是谁").status, "UNRESOLVED")

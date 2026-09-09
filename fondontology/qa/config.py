@@ -49,3 +49,14 @@ def llm_thinking_override() -> dict:
 def llm_configured() -> bool:
     cfg = llm_config()
     return bool(cfg["OPENAI_API_KEY"] and cfg["OPENAI_BASE_URL"] and cfg["OPENAI_MODEL"])
+
+
+def rag_enabled() -> bool:
+    """RAG explain 扩展总开关（M7，默认关闭）。
+
+    关闭时系统行为与 RAG 引入前完全一致：explain 规则不参与意图路由，
+    compare 类问题维持原拒答话术，engine 不走文本检索路径。
+    演示基线功能期间保持关闭；RAG 完成后（R3 LLM 表达接入）改默认开启。
+    .env: RAG_ENABLED=1 开启。
+    """
+    return os.environ.get("RAG_ENABLED", "").strip().lower() in ("1", "true", "on", "enabled")

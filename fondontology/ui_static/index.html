@@ -237,6 +237,10 @@
         <span id="foot-llm" title="表达模式：自动=有 key 走 LLM，无 key 走模板">LLM 自动</span>
         <button class="llm-toggle" id="llm-toggle" title="切换表达模式（自动 / 强制 LLM / 模板）">自动</button>
       </div>
+      <div class="foot-row">
+        <span id="foot-rag" title="RAG 扩展：解释类问答（定义/介绍/对比）走文本检索路径">RAG 关闭</span>
+        <button class="llm-toggle" id="rag-toggle" title="切换 RAG 解释类问答扩展（无需重启）">开启</button>
+      </div>
     </div>
   </aside>
 
@@ -718,6 +722,7 @@ async function loadMeta(){
       (data.abox_file ? ' · ' + esc(data.abox_file) : '');
     applyLlmLabel(llm);
     window.__llmMeta = llm;
+    applyRagLabel(m.rag || {});
   }catch(e){
     $('foot-status').innerHTML = '<span class="foot-dot" style="background:#d64545"></span>无法连接后端';
   }
@@ -731,6 +736,13 @@ function applyLlmLabel(llm){
     uiLlm === true ? 'LLM 强制开启' :
     uiLlm === false ? '模板模式' :
     ((llm && llm.configured) ? 'LLM ' + (llm.model || '') : '模板（无 key）');
+}
+let ragOn = null;   // null=未知（后端未响应）
+function applyRagLabel(rag){
+  ragOn = !!(rag && rag.enabled);
+  $('rag-toggle').textContent = ragOn ? '关闭' : '开启';
+  $('rag-toggle').style.display = (rag && rag.toggleable) ? '' : 'none';
+  $('foot-rag').textContent = ragOn ? 'RAG 开启' : 'RAG 关闭';
 }
 
 /* ================= 模块切换（智能问数 / 本体查看器） ================= */
@@ -780,6 +792,16 @@ $('llm-toggle').addEventListener('click', () => {
   uiLlm = uiLlm === null ? true : (uiLlm === true ? false : null);
   localStorage.setItem(LS_LLM, String(uiLlm));
   applyLlmLabel(window.__llmMeta || {});
+});
+$('rag-toggle').addEventListener('click', async () => {
+  const btn = $('rag-toggle');
+  btn.disabled = true;
+  try{
+    const r = await fetch('/api/rag/toggle', {method: 'POST'});
+    const d = await r.json();
+    applyRagLabel(d);
+  }catch(e){ /* 网络失败保持原状态 */ }
+  btn.disabled = false;
 });
 $('send-btn').addEventListener('click', () => { send($('input').value); $('input').value = ''; autoGrow(); });
 $('stop-btn').addEventListener('click', stopStreaming);
