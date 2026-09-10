@@ -336,6 +336,9 @@ function deleteConversation(id){
     }
     return;
   }
+  const conv = conversations.find(c => c.id === id);
+  const title = conv ? conv.title : '该对话';
+  if(!confirm('删除对话「' + title + '」？\n删除后不可恢复。')) return;
   conversations = conversations.filter(c => c.id !== id);
   if(activeId === id) activeId = conversations.length ? conversations[0].id : null;
   saveConversations();
