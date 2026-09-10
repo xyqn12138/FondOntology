@@ -13,6 +13,7 @@ from __future__ import annotations
 from .store import ChunkStore, RagChunk, get_store
 from .retrieve import RetrievalResult, retrieve
 from .answer import answer_classify, answer_explain
+from .reranker import rerank
 
 __all__ = ["ChunkStore", "RagChunk", "get_store", "RetrievalResult", "retrieve",
-           "answer_classify", "answer_explain"]
+           "answer_classify", "answer_explain", "rerank"]

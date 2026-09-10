@@ -390,6 +390,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--no-reports", action="store_true", help="不生成季报")
     ap.add_argument("--no-articles", action="store_true", help="不生成法规条文")
     ap.add_argument("--no-md", action="store_true", help="不导出报告 md 正文（只出 TTL + chunks）")
+    ap.add_argument("--build-vectors", action="store_true",
+                    help="构建 chunk 向量索引（vectors.npy，需 .env 配置 embedding；M7-R4）")
     args = ap.parse_args(argv)
 
     print(f"[1/4] 加载本体: {TBOX_ENTRY.relative_to(ROOT)}")
@@ -452,6 +454,18 @@ def main(argv: list[str] | None = None) -> int:
                     lines += [f"## {title}", "", c["text"], ""]
             (md_dir / f"{doc_id}.md").write_text("\n".join(lines), encoding="utf-8")
         print(f"      报告正文: {md_dir.relative_to(ROOT)}（{len(by_doc)} 份 md）")
+
+    if args.build_vectors:
+        from fondontology.qa.config import embedding_configured
+        if not embedding_configured():
+            print("      向量索引：.env 未配置 embedding（EMBEDDING_MODEL/URL/KEY），跳过")
+        else:
+            from fondontology.qa.rag.embedder import build_vectors
+            n = build_vectors(CHUNKS_JSONL)
+            if n is None:
+                print("      向量索引：构建失败（网络/服务端错误）")
+                return 1
+            print(f"      向量索引：vectors.npy（{n} 条，检索层自动启用 RRF 融合）")
     return 0
 
 

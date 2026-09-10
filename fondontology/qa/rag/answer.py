@@ -215,6 +215,184 @@ def answer_classify(question: str, intent: dict, ctx: OntologyContext) -> Explai
     return ExplainAnswer(status="ok", text="\n".join(lines), report=report)
 
 
+def answer_regulation(question: str, intent: dict, ctx: OntologyContext,
+                      query_graph: Graph, *,
+                      store: Optional[ChunkStore] = None) -> ExplainAnswer:
+    """regulation 语义 → 检索法规条文（答案=条文原文+引用）。
+
+    相关度两步走（R3c）：
+    1) 图边缩小范围：主题类的实例经 governedByRegulation 关联的法规集合
+       （货币基金→JL-001/002/005），条文 chunk 只在该集合内检索——
+       排除与主题无关的条文（如私募办法对公募货币基金不适用）；
+    2) 范围内 BM25 排序。
+    图边缺失时退化为全量条文检索（不阻断）。
+    """
+    store = store or get_store()
+    topic = intent.get("topic")
+    topic_label = ""
+    scope_reg_uris: set[str] | None = None
+    if topic:
+        topic_local = topic.rsplit("/", 1)[-1]
+        info = ctx.classes.get(topic_local)
+        topic_label = info.label if info else topic_local
+        # 图边缩小：该类任一实例 governedByRegulation 的法规集合
+        reg_uris: set[str] = set()
+        from rdflib import RDF as _RDF
+        for fund in query_graph.subjects(_RDF.type, URIRef(topic)):
+            for reg in query_graph.objects(fund, CNFO.governedByRegulation):
+                reg_uris.add(str(reg))
+        if reg_uris:
+            scope_reg_uris = reg_uris
+
+    articles = store.chunks_by_doc_type("regulation_article")
+    if not articles:
+        return _unresolved(question, "法规条文索引未构建")
+
+    # 条文 chunk → 法规 IRI 映射（cnfo-sim-reports.ttl 的 articleOf 边）
+    reg_by_article: dict[str, str] = {}
+    if scope_reg_uris is not None:
+        from pathlib import Path as _P
+        reports_g = Graph()
+        rp = _P("artifacts/cnfo/abox/cnfo-sim-reports.ttl")
+        if rp.is_file():
+            reports_g.parse(str(rp), format="turtle")
+            for art in reports_g.subjects(CNFO.articleOf, None):
+                reg = reports_g.value(art, CNFO.articleOf)
+                if reg is not None:
+                    reg_by_article[str(art).rsplit("/", 1)[-1]] = str(reg)
+        scoped = [c for c in articles
+                  if reg_by_article.get(c.locator.get("entity", ""), None) in scope_reg_uris]
+        articles = scoped or articles   # 范围空命中时退化为全量（不静默空白）
+
+    # 范围内 BM25：主题词 + 监管语义词联合查询。
+    # 注意不用问句原文——问句里的泛化词（"基金"）会让所有条文同分
+    # （模拟数据中每只基金 governedByRegulation 全部法规，图边当前无
+    # 区分度；真实数据中该边分化后图过滤自然生效）
+    query_text = f"{topic_label} 投资 运作 限制 比例"
+    hits = store.bm25_search(query_text, k=10)
+    article_ids = {c.chunk_id for c in articles}
+    ranked = [c for c, _ in hits if c.chunk_id in article_ids]
+    if not ranked:
+        ranked = articles[:3]   # 查询词零命中时按 chunk 序兜底
+    if not ranked:
+        return _unresolved(question, f"未找到与「{topic_label}」相关的法规条文")
+
+    lines: list[str] = []
+    evidence: list[dict] = []
+    claims: list[dict] = []
+    for i, chunk in enumerate(ranked[:3], 1):
+        eid = f"R{i}"
+        evidence.append(_document_evidence(i, chunk))
+        claims.append({"claim_id": f"C{i}", "type": "fact",
+                       "claim": f"（{chunk.section}）{chunk.text}",
+                       "evidence": [eid]})
+        lines.append(f"（{chunk.section}）{chunk.text} [{eid}]")
+    report = {
+        "meta": {"reasoning": {"profile": "regulation_retrieval",
+                               "inference_enabled": False,
+                               "query_graph": "法规条文 chunk 池（BM25）"}},
+        "evidence": evidence, "claims": claims, "unresolved": [],
+    }
+    return ExplainAnswer(status="ok", text="\n".join(lines), report=report)
+
+
+def answer_code(question: str, intent: dict, ctx: OntologyContext,
+                query_graph: Graph, *,
+                store: Optional[ChunkStore] = None) -> ExplainAnswer:
+    """code 语义 → 代码概念解释（图指针优先：articleCitesCode → 条文正文）。
+
+    「R4是什么意思」：R4 是 cnfc 代码概念；适当性指引第八条 articleCitesCode
+    指向 R1-R5 → 答案=条文原文。无指针条文时降级代码表 label。
+    """
+    from rdflib import Namespace
+    CNFC = Namespace("https://ontology.example.cn/cnfo/code/")
+    code_local = intent.get("code") or ""
+    # 裸代码（R4/C3）按代码表前缀族扩展（cnfc 概念本地名带 scheme 前缀）
+    _CODE_FAMILY = (("R", "FundRiskLevel"), ("C", "InvRating"))
+    code_iri = None
+    if code_local:
+        candidates = [code_local]
+        for prefix, family in _CODE_FAMILY:
+            if code_local.startswith(prefix) and code_local[1:].isdigit():
+                candidates.insert(0, family + code_local)
+        for local in candidates:
+            iri = URIRef(str(CNFC) + local)
+            if (iri, None, None) in ctx._g or (iri, None, None) in query_graph:
+                code_iri = iri
+                break
+
+    lines: list[str] = []
+    evidence: list[dict] = []
+    claims: list[dict] = []
+
+    # 1) 图指针：条文 articleCitesCode → 代码
+    if code_iri is not None:
+        # articleCitesCode 在 reports A-BOX；query_graph 若未含 reports 则查 tbox+abox 需外部图
+        # 此处经 query_graph 查（engine 传入 stack.query_graph()，含主 A-BOX；
+        # reports 图单独加载——指针边在 cnfo-sim-reports.ttl）
+        from pathlib import Path as _P
+        reports_g = Graph()
+        rp = _P("artifacts/cnfo/abox/cnfo-sim-reports.ttl")
+        if rp.is_file():
+            reports_g.parse(str(rp), format="turtle")
+        from rdflib.namespace import RDF as _RDF, RDFS as _RDFS, SKOS as _SKOS
+        citing = [a for a in reports_g.subjects(CNFO.articleCitesCode, code_iri)]
+        if citing:
+            # 取第一条引用条文（模拟数据中 R 系代码仅适当性条文引用）
+            art = citing[0]
+            number = reports_g.value(art, CNFO.articleNumber)
+            text = reports_g.value(art, CNFO.articleText)
+            reg = reports_g.value(art, CNFO.articleOf)
+            reg_title = query_graph.value(reg, CNFO.regulationTitle) if reg else None
+            src = str(reg_title or reg or "")
+            evidence.append({
+                "id": "R1", "kind": "document",
+                "source": [src, str(number or "")], "note": f"{src} {number}",
+                "text": str(text or ""), "locator": {"entity": str(art).rsplit("/", 1)[-1]},
+                "premises": [], "derived": [],
+            })
+            claims.append({"claim_id": "C1", "type": "fact",
+                           "claim": f"{code_local} 的规范出处（{src} {number}）：{text}",
+                           "evidence": ["R1"]})
+            label = _code_label(query_graph, code_iri)
+            head = f"{label}：" if label else f"{code_local}："
+            return ExplainAnswer(
+                status="ok",
+                text=f"{head}{text} [R1]",
+                report={"meta": {"reasoning": {"profile": "code_pointer",
+                                               "inference_enabled": False,
+                                               "query_graph": "articleCitesCode 图指针 → 条文"}},
+                        "evidence": evidence, "claims": claims, "unresolved": []})
+
+    # 2) 降级：代码表 label（cnfc 概念的中文标签，在 T-BOX）
+    label = _code_label(ctx._g, code_iri) if code_iri is not None else None
+    if label:
+        return ExplainAnswer(
+            status="ok", text=f"{code_local} 的代码含义：{label}。",
+            report={"meta": {"reasoning": {"profile": "code_label",
+                                           "inference_enabled": False,
+                                           "query_graph": "cnfc 代码表 label"}},
+                    "evidence": [{"id": "R1", "kind": "definition",
+                                  "source": ["cnfo-fund-codes.ttl", code_local, "prefLabel"],
+                                  "note": f"代码概念 {code_local}",
+                                  "text": label,
+                                  "locator": {"iri": str(code_iri)},
+                                  "premises": [], "derived": []}],
+                    "claims": [{"claim_id": "C1", "type": "definition",
+                                "claim": f"{code_local} 的代码含义：{label}",
+                                "evidence": ["R1"]}],
+                    "unresolved": []})
+    return _unresolved(question, f"代码概念 {code_local} 不在本体代码表中")
+
+
+def _code_label(graph: Graph, code_iri: URIRef) -> str:
+    from rdflib.namespace import RDFS, SKOS
+    for pred in (SKOS.prefLabel, RDFS.label):
+        for o in graph.objects(code_iri, pred):
+            return str(o)
+    return ""
+
+
 def _unresolved(question: str, note: str) -> ExplainAnswer:
     return ExplainAnswer(status="unresolved",
                          text=f"未能回答该解释类问题（{note}）。")

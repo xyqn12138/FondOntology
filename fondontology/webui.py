@@ -334,7 +334,7 @@ def run(argv: list[str] | None = None) -> int:
     print(f"  QA 本体：{args.source} + {args.abox.name}")
     print(f"  查看器： {args.viewer_ttl}（http://{args.host}:{args.port}/viewer/）")
     print(f"  LLM 模式：{llm_config().get('OPENAI_MODEL') or '未配置（确定性模板）'}")
-    print(f"  RAG 扩展：{'开启（--rag）' if rag_enabled() else '关闭（加 --rag 启用解释类问答）'}")
+    print(f"  RAG 扩展：{'开启' if rag_enabled() else '关闭（RAG_ENABLED=1 或 --rag 开启）'}")
     uvicorn.run(
         app,
         host=args.host,

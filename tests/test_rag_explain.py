@@ -93,28 +93,39 @@ class ExplainIntentTest(unittest.TestCase):
 
 
 class RagSwitchTest(unittest.TestCase):
-    """RAG 总开关：关闭（默认）时 describe 不可用；define 是一等能力不受控。"""
+    """RAG 总开关：R3b 起默认开启；关闭时 describe 不可用，
+    define/compare 一等能力始终可用。"""
 
-    def test_disabled_by_default(self) -> None:
+    def test_enabled_by_default(self) -> None:
+        import os
+        from fondontology.qa.config import rag_enabled
+        prev = os.environ.get("RAG_ENABLED")
+        try:
+            os.environ.pop("RAG_ENABLED", None)
+            self.assertTrue(rag_enabled())   # R3b 默认开启
+        finally:
+            if prev is not None:
+                os.environ["RAG_ENABLED"] = prev
+
+    def test_disabled_blocks_describe_only(self) -> None:
         import os
         from fondontology.qa.config import rag_enabled
         stack = build_stack(SOURCE, ABOX)
         index = OntologyIndex(stack)
         prev = os.environ.get("RAG_ENABLED")
         try:
-            os.environ["RAG_ENABLED"] = ""
+            os.environ["RAG_ENABLED"] = "0"
             self.assertFalse(rag_enabled())
             import fondontology.qa.intent as intent_mod
-            # define 读 T-BOX，不受 RAG 开关限制（一等能力）
+            # define/compare 读 T-BOX，不受开关限制（一等能力）
             res = intent_mod.build_intent("什么是货币市场基金？", index, use_llm=False)
-            self.assertEqual(res.intent.get("operation"), "explain")
             self.assertEqual(res.intent.get("explain_type"), "define")
-            # describe 依赖 chunk 池，受开关控制：意图层关闭时不路由
+            res_cmp = intent_mod.build_intent(
+                "公募基金和私募基金有什么区别", index, use_llm=False)
+            self.assertEqual(res_cmp.intent.get("explain_type"), "compare")
+            # describe 依赖 chunk 池，受开关控制：关闭时不路由
             res2 = intent_mod.build_intent("介绍一下云帆中证500指数基金", index, use_llm=False)
             self.assertNotEqual(res2.intent.get("explain_type"), "describe")
-            # compare 类维持拒答（原 Phase 2 行为）
-            res3 = intent_mod.build_intent("公募基金和私募基金有什么区别", index, use_llm=False)
-            self.assertEqual(res3.status, "UNRESOLVED")
         finally:
             if prev is None:
                 os.environ.pop("RAG_ENABLED", None)

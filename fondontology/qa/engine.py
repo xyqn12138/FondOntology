@@ -162,27 +162,60 @@ def _answer_question_impl(question: str, stack: DataStack, *,
     if intent["operation"] == "explain":
         from .config import rag_enabled
         # define/compare 读 T-BOX（一等能力，不受 RAG 开关限制）；
-        # describe 依赖 chunk 池（RAG 扩展数据面），受开关控制
-        if intent.get("explain_type") == "describe" and not rag_enabled():
+        # describe/regulation/code 依赖 chunk 池（RAG 扩展数据面），受开关控制
+        if intent.get("explain_type") in ("describe", "regulation", "code") \
+                and not rag_enabled():
             return QaAnswer(kind="intent", status="unresolved",
                             text="解释类问答（RAG）当前未启用",
                             intent_status="UNRESOLVED")
         _emit(on_phase, "retrieve", "检索文本与定义")
         from .rag import answer_explain
+        from .rag.answer import answer_code, answer_regulation
         ctx = _get_ctx(stack)
-        exp = answer_explain(question, intent, ctx, stack.query_graph())
+        explain_type = intent.get("explain_type") or "define"
+        if explain_type == "regulation":
+            exp = answer_regulation(question, intent, ctx, stack.query_graph())
+        elif explain_type == "code":
+            exp = answer_code(question, intent, ctx, stack.query_graph())
+        else:
+            exp = answer_explain(question, intent, ctx, stack.query_graph())
         if exp.status != "ok":
             return QaAnswer(kind="explain", status="unresolved", text=exp.text,
                             intent_status="UNRESOLVED")
         _emit(on_phase, "explain", "组织解释性回答")
+        # R3b：LLM 表达（模板事实层 → 自然语言；闸门+短语核查，失败回退模板）
+        if use_llm is None or use_llm:
+            from .config import llm_configured
+            if llm_configured():
+                from .rag.explain_llm import express_explain
+                allow = [intent.get("entity_label")] if intent.get("entity_label") else []
+                context = f"{explain_type} 类问题；" + (
+                    f"锚定实体：{intent.get('entity_label')}" if intent.get("entity_label") else "")
+                # 归属断言的图级判定：中文类名 → is_subclass（确定性，惰性计算）
+                _label_to_local = {info.label: local
+                                   for local, info in ctx.classes.items()}
+
+                def _subclass_probe(subj_label: str, obj_label: str):
+                    s = _label_to_local.get(subj_label)
+                    o = _label_to_local.get(obj_label)
+                    if s and o:
+                        return ctx.is_subclass(s, o)
+                    return None
+
+                exp = express_explain(question, exp, context=context,
+                                      use_llm=use_llm, allow_names=allow,
+                                      subclass_probe=_subclass_probe)
+        report = exp.report or {}
+        # explanation 由表达层写入（R3b：gate ∈ template_rag|llm_validated|template_fallback）
+        explanation = report.get("explanation") or {
+            "gate": "template_rag", "used_llm": False, "ucr": 0.0,
+            "claims_used": [c["claim_id"] for c in report.get("claims", [])]}
         return QaAnswer(
             kind="explain", status="ok", text=exp.text,
-            claims=(exp.report or {}).get("claims", []),
-            cited_evidence=[e["id"] for e in (exp.report or {}).get("evidence", [])],
-            report=exp.report,
-            explanation={"gate": "template_rag", "used_llm": False,
-                         "ucr": 0.0, "claims_used":
-                         [c["claim_id"] for c in (exp.report or {}).get("claims", [])]},
+            claims=report.get("claims", []),
+            cited_evidence=[e["id"] for e in report.get("evidence", [])],
+            report=report,
+            explanation=explanation,
         )
 
     if intent["operation"] == "verify":

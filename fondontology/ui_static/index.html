@@ -291,7 +291,10 @@ let activeId = null;
 let streaming = false;
 let currentSource = null;
 let gotAnswer = false;
-let uiLlm = localStorage.getItem(LS_LLM) === null ? null : (localStorage.getItem(LS_LLM) === 'true');
+/* 表达模式不跨会话持久化：每次启动默认"自动"（有 key 走 LLM）；
+   历史遗留的持久化值一并清除，会话内切换仅当次有效 */
+localStorage.removeItem(LS_LLM);
+let uiLlm = null;
 
 function loadConversations(){
   try{ conversations = JSON.parse(localStorage.getItem(LS_KEY) || '[]'); }
@@ -790,7 +793,6 @@ document.querySelectorAll('.module-item').forEach(el =>
 if(location.hash === '#viewer') switchModule('viewer');
 $('llm-toggle').addEventListener('click', () => {
   uiLlm = uiLlm === null ? true : (uiLlm === true ? false : null);
-  localStorage.setItem(LS_LLM, String(uiLlm));
   applyLlmLabel(window.__llmMeta || {});
 });
 $('rag-toggle').addEventListener('click', async () => {

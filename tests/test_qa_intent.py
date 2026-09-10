@@ -99,9 +99,11 @@ class IntentDeterministicTest(unittest.TestCase):
 
     def test_unresolved(self) -> None:
         self.assertEqual(self.intent("电磁炉").status, "UNRESOLVED")
-        # compare 类问题：RAG explain 默认关闭时维持拒答
-        # （开启时经定义卡可答，见 tests/test_rag_explain.py）
-        self.assertEqual(self.intent("公募基金和私募基金有什么区别").status, "UNRESOLVED")
+        # compare 类问题：v3.1 起为一等能力（T-BOX 定义卡对比），默认可答
+        r = self.intent("公募基金和私募基金有什么区别")
+        self.assertEqual(r.status, "RESOLVED")
+        self.assertEqual(r.intent["operation"], "explain")
+        self.assertEqual(r.intent["explain_type"], "compare")
         # 实体锚点识别（source 查询待后续版本）
         self.assertEqual(self.intent("基金001113的管理人是谁").status, "UNRESOLVED")
 

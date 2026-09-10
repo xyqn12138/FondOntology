@@ -38,6 +38,8 @@ DEFAULT_CQS = {
     "intent": ROOT / "artifacts" / "qa" / "benchmarks" / "intent.json",
     "intent-real": ROOT / "artifacts" / "qa" / "benchmarks" / "intent_real.json",
     "citation": ROOT / "artifacts" / "qa" / "benchmarks" / "citation.json",
+    "explain": ROOT / "artifacts" / "qa" / "benchmarks" / "explain.json",
+    "explain-real": ROOT / "artifacts" / "qa" / "benchmarks" / "explain_real.json",
 }
 QUERY_PLAN_SCHEMA = ROOT / "artifacts" / "qa" / "query_plan.schema.json"
 
@@ -310,9 +312,71 @@ def run_intent_llm_spot_real(stack, cqs_path: Path) -> None:
           f"{matched}/{used} = {matched / used:.1%}" if used else "[LLM 路径] 未配置，跳过")
 
 
+def run_explain_benchmark(stack, cqs_path: Path, use_llm: bool = False) -> int:
+    """M7-R3c：explain 类问题基准（describe/regulation/code/compare）。
+
+    use_llm=False（explain 档）：规则兜底路径，CI 确定性跑批；
+    use_llm=None（explain-real 档）：LLM 主判+表达全链路，需 key。
+    断言 kind/status/文本关键词（含防串台 not_contains）+ 证据合同。
+    """
+    from fondontology.qa.engine import answer_question
+
+    data = json.loads(cqs_path.read_text(encoding="utf-8"))
+    cases = data["cases"]
+    passed = 0
+    failures: list[str] = []
+    contract_checked = 0
+    gates: dict[str, int] = {}
+    for case in cases:
+        ans = answer_question(case["question"], stack, use_llm=use_llm)
+        exp = case["expected"]
+        detail = []
+        if exp.get("kind") and ans.kind != exp["kind"]:
+            detail.append(f"kind expected={exp['kind']} actual={ans.kind}")
+        if ans.status != exp.get("status"):
+            detail.append(f"status expected={exp.get('status')} actual={ans.status}")
+        for kw in exp.get("contains", []):
+            if kw not in (ans.text or ""):
+                detail.append(f"缺关键词「{kw}」")
+        for kw in exp.get("not_contains", []):
+            if kw in (ans.text or ""):
+                detail.append(f"串台关键词「{kw}」出现")
+        if exp.get("not_contains_head"):
+            head = (ans.text or "").split("\n")[0]
+            if exp["not_contains_head"] in head:
+                detail.append(f"首条命中越权条文「{exp['not_contains_head']}」")
+        if ans.status == "ok" and ans.report:
+            ok_c, problems = evidence_completeness(ans.report)
+            unknown = validate_citations(ans.report)
+            contract_checked += 1
+            if not ok_c:
+                detail.append(f"证据不完整: {problems}")
+            if unknown:
+                detail.append(f"引用越权: {unknown}")
+        if ans.status == "ok":
+            gate = (ans.explanation or {}).get("gate", "-")
+            gates[gate] = gates.get(gate, 0) + 1
+        if not detail:
+            passed += 1
+        else:
+            failures.append(f"{case['id']} [{case['question']}]: " + "; ".join(detail))
+    total = len(cases)
+    mode = "规则兜底" if use_llm is False else "LLM 主判"
+    print(f"explain benchmark（{mode}）: {passed}/{total} 通过（{passed / total:.1%}）；"
+          f"证据合同断言 {contract_checked} 条；gate 分布 {gates or '{}'}")
+    if failures:
+        print("---- 失败明细（前 20）----")
+        for line in failures[:20]:
+            print(" -", line)
+        return 1
+    print("全部通过：状态/关键词/防串台 OK；Evidence Completeness 100%；引用零越权。")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="CNFO QA benchmark 跑批")
-    ap.add_argument("--stage", choices=["verify", "find", "e2e", "intent", "citation", "intent-real"],
+    ap.add_argument("--stage", choices=["verify", "find", "e2e", "intent",
+                                        "citation", "intent-real", "explain", "explain-real"],
                     default="verify")
     ap.add_argument("--source", type=Path, default=DEFAULT_SOURCE)
     ap.add_argument("--abox", type=Path, default=DEFAULT_ABOX)
@@ -343,6 +407,14 @@ def main(argv: list[str] | None = None) -> int:
         return code
     if args.stage == "citation":
         return run_citation_benchmark(stack, args.cqs or DEFAULT_CQS["citation"])
+    if args.stage == "explain":
+        return run_explain_benchmark(stack, args.cqs or DEFAULT_CQS["explain"],
+                                     use_llm=False)
+    if args.stage == "explain-real":
+        # LLM 档：主判+表达全链路（无 key 时等价规则档）
+        return run_explain_benchmark(stack,
+                                     args.cqs or DEFAULT_CQS["explain-real"],
+                                     use_llm=None)
 
     # ---- M3 冻结点：QueryPlan v1.0 schema 落盘 ----
     from fondontology.qa.query_planner import write_plan_schema

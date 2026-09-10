@@ -1,317 +1,218 @@
-# CNFO 智能问数 RAG 模块设计方案 V2
+# CNFO 智能问数 RAG 模块设计方案 V3.1
 
-> 状态：设计稿 v2.0（2026-09-08，基于与需求方的方向对齐讨论重写，替代 v1）
-> 决策记录：首发场景＝季报（经理观点/运作回顾）；暂不接入真实数据，模拟文档先行；Doc2Graph 本版只留接口。
-> 定位：RAG 是图问数（Graph QA）的补位与增强路径，不是替代。
+> 状态：v3.1（2026-09-09；**R3 已全部落地**：R3a 主判反转 / R3b LLM 表达 / R3c 评测——
+> 基准：explain CI 档 14/14、LLM 档 20/20，回归 73 项全过。RAG 默认开启。
+> 待办：R4 向量召回（已落地）、R5 Doc2Graph（真实数据阶段）。）
+> 决策记录：首发场景＝季报；暂不接入真实数据，模拟文档先行；Doc2Graph 本版只留接口。
+> 定位：RAG 接管**答案存在于文本而非图中**的问题域，与图问数构成双引擎，不是替代。
 
-## 0. 已对齐的核心结论
+## 0. 与 v2 的差异（为什么改版）
 
-1. **结构化数据文本化是伪需求**：把 A-BOX 三元组渲染成句子再检索回来，信息量为零。RAG 的价值密度只在密集文本（季报、招募书、法规原文）里。
-2. **双引擎而非单引擎**：事实查询（枚举/聚合/排名）永远走图；解释理解（定义/观点/差异）走文本；复杂问题双通道并发。
-3. **混合检索采用两级路由**：实体锚点命中时，图决定文本检索范围（锚定过滤）；无锚点的解释类问题才退化为全局文本池检索。理由：基金领域文本检索的第一失败模式是实体串台（基金简称高度相似），而现有引文闸门只校验 claim_id 越权、不校验 chunk 是否属于用户问的实体——串台的证据是合法证据，纯全局双轨方案无法拦截。
-4. **文本入图到"元数据与指针"为止**：文档/章节/条文作为一等实体入图（可图查询、可过滤），chunk 正文存外部存储（可索引）。图是文本的路由器、过滤器、审计层，不是容器。
-5. **CNFO 已有建模骨架但停在目录层**：`FundDocument` 四子类（合同/招募书/备案文件/定期报告）、`Regulation` 属性网络（`governedByRegulation`、`basisForRestriction`、`articleReference`…）都已存在，A-BOX 也有 5 个仿真法规实例和 120 条 Fund→Regulation 边；但 `FundPeriodicReport` 零实例、法规正文从未入图、`articleReference` 只是一个章名字符串。缺口是内容层与可寻址条文，不是类结构。
+v2 定稿后系统发生了两次架构演进，RAG 的坐标因此改变：
 
-## 1. 问题域与路由契约
+1. **操作词表从 {find, verify} 扩展为四操作**：classify（枚举类层级）与 define（T-BOX 定义卡）在 v2 之后落地为一等能力——**它们读 T-BOX，不依赖 RAG 开关**。原 v2 归给"RAG define 卡"的一部分职责（什么是X）已被更轻的 T-BOX 直读承接；
+2. **实测覆盖复盘**（2026-09-09）：五类探测问法中，结构性问题（find/classify/define/verify）全部闭环；剩余 unresolved 的三类（观点/法规限制/代码概念解释）**全部是"答案在文本中"的问题**——RAG 的价值边界由此清晰。
 
-### 1.1 问题形态 → 通道映射
+RAG 的定位校准为一句话：**把图的语义推理扩展到文本的语义证据**。图答"是什么、有哪些、是否"；文本答"怎么看、有什么限制、什么意思"。
 
-| 问题形态 | 通道 | 示例 |
+### 0.1 当前实测覆盖基线（v3 的出发点）
+
+| 探测问法 | 当前行为 | 判定 |
 |---|---|---|
-| 枚举/聚合/排名/计数 | 图（现状不动） | "杨洋管理几只基金""R4以上的基金有哪些" |
-| T-BOX 判链 | verify（现状不动） | "货币基金和债券基金互斥吗" |
-| **带实体锚点的解释类** | **图定范围 + 文本检索**（两级路由·一级） | "云帆中证500的经理怎么看后市""介绍一下华曦新能源" |
-| **带人物/机构锚点的解释类** | **图遍历展开 → 文本检索**（两级路由·一级） | "杨洋怎么看市场"（杨洋→他管的基金集合→其文档） |
-| **无锚点解释类** | **全局文本池 + T-BOX 定义卡**（两级路由·二级） | "什么是R4""货基有什么监管限制" |
-| 混合形态 | 图取事实 + 图定范围取文本，同 report | "介绍杨洋管理的基金" |
+| 货币市场基金有哪些 | find，实例清单 [E#] | ✅ 闭环 |
+| 基金有哪些分类 | classify，12 维度带定义 [R#] | ✅ 闭环（M7 新增） |
+| 什么是ETF | define，定义卡 [R#] | ✅ 闭环（M7 新增，含"指什么/是什么意思/何为"等问法与口语容差） |
+| ETF是不是开放式基金 | verify，ENTAILED 判链 | ✅ 闭环 |
+| 魏辉管理的基金有什么 | find，锚点+推理链 [E#] | ✅ 闭环 |
+| 云帆中证500的经理怎么看后市 | unresolved | ❌ 嵌套锚点问题（"X的经理"需先锚定基金再展开到经理本人），R3a 由 LLM entity_label 判别承接 |
+| 货币基金有什么监管限制 | **误路由**：find 列了 4 只基金 | ❌ RAG 路由缺口 + 误答（比不答更糟） |
+| R4是什么意思 | unresolved | ❌ 代码概念 define 缺口（R3a） |
+| 2025年收益最高的基金 | unresolved | ⏸ IR 表达部件缺口（Phase 2，非 RAG 领地） |
 
-简单问题按意图分类走单通道；复杂问题双通道并发。注意"并发"的正确形态：不是两路全局检索，而是"图取事实 + 图定范围的文本检索"同时执行。延迟大头在生成层，图查询本身是确定性的，范围收窄让生成又快又准。
+## 1. 四操作架构下的 RAG 工作位置
 
-### 1.2 与现有架构的接缝
+### 1.1 问题域 → 通道映射（v3 修订版）
+
+| 问题形态 | 通道 | 依赖 RAG 开关 | 示例 |
+|---|---|---|---|
+| 枚举/聚合/排名/计数 | **find**（图，A-BOX 查询） | 否 | "杨洋管理几只基金" |
+| 类层级枚举（schema 问题） | **classify**（T-BOX 直读） | 否 | "基金有哪些分类" |
+| 类定义 | **define**（T-BOX 定义卡） | 否 | "什么是ETF""开放型基金指什么" |
+| 类关系判定 | **verify**（T-BOX 判链） | 否 | "ETF是不是开放式基金" |
+| **实体档案/观点类** | **explain·describe**（锚定过滤 + chunk 检索） | **是** | "云帆中证500的经理怎么看后市""介绍一下华曦新能源" |
+| **法规限制类** | **explain·regulation**（条文检索） | **是** | "货币基金有什么监管限制" |
+| **代码概念解释** | **explain·code**（图指针 → 条文/代码表） | **是** | "R4是什么意思" |
+| 对比类 | **explain·compare**（两侧定义卡，T-BOX 直读） | **否**（v3.1 起一等能力，见 §1.2.1） | "基金经理和托管人有什么区别" |
+| 时间序列/多跳否定 | Phase 2（IR 扩展，非 RAG） | — | "2025年收益最高的基金" |
+
+**分层原则**：读 T-BOX 的（classify/define）是一等能力，永久可用——T-BOX 是图的固定部分，"系统答不了本体里明摆着的问题"是架构缺陷不是功能取舍；依赖 chunk 池的（describe/regulation/code）受 `RAG_ENABLED` 开关控制——chunk 池是扩展数据面，演示基线期间默认关闭，前端可实时切换。
+
+### 1.2 架构接缝（v3.1 修正：如实反映三段式现状与 R3a 目标态）
+
+**当前代码实态**（v3 曾误写为"LLM 主判已落地"）：
 
 ```
 用户问题
    │
    ▼
-intent.py（扩展 operation ∈ find | verify | explain）
-   │    锚定结果（resolver / 实体提及）就是路由依据 —— 复用，不重写
+① compare 守卫（RAG 关闭时 compare 类直接拒答，见 §1.2.1）
    ▼
-┌─ 图通道（现有）────────────┐   ┌─ 文本通道（新增）────────────────┐
-│ 世界模型 → SPARQL → E#     │   │ 两级检索路由                      │
-│ (确定性，无 LLM)           │   │  一级：锚定实体集合 → scope 过滤  │
-│                            │   │  二级：全局池（BM25+向量）        │
-└────────────┬───────────────┘   └────────────┬─────────────────────┘
-             │                                │
-             ▼                                ▼
-      统一 Evidence Report（E# 与 R# 共存，kind=document 证据带正文与 locator）
-             │
-             ▼
-   引用闸门（claim_id ⊆ evidence）+ 范围核查（chunk 归属 ∈ 图锚定集合）
-             │
-             ▼
-   生成（复用 explainer，句级 claim_id）→ SSE delta 流式 → 证据面板
+② 锚点快路径（确定性规则；实体锚点成链时不付 LLM 成本）
+   ▼
+③ LLM 判别（use_llm 时）
+   │   schema 当前只教 find/verify/classify/define；explain 分支只接 define
+   │   输出过白名单（target/property 必须是图上真实术语）
+   ▼
+④ 确定性规则兜底（LLM 不可用/失败/输出非法时）
+   │   classify → define → explain(describe/compare) → verify → find 规则链
+   ▼
+operation ∈ {find, verify, classify, explain(+explain_type)}
 ```
 
-关键不变量：LLM 永不生成 SPARQL（现有原则）平移为 **LLM 永不决定检索命中，只组织已命中的内容**；终态 UCR=0 保证不破。
-
-## 2. 三层文本模型：文本如何在本体系统中发挥作用
-
-这是本设计的理论核心，回答"映射入图"映射的到底是什么。
-
-| 层 | 入图内容 | 职责 | 存储位置 |
-|---|---|---|---|
-| **L1 语境层** | 文档、章节、法条作为一等实体（类型+元数据+结构关系） | 图可回答关于文档本身的问题；给检索提供结构化过滤维度 | triple store |
-| **L2 指针层** | 图事实 ↔ 文本片段的双向引用 | 每个图事实可溯源到文本原文；每个文本抽取事实可回指 chunk | triple store（边）+ chunk 池（locator） |
-| **L3 内容层** | chunk 正文 | 被检索、被引用、被展示 | 外部存储（JSONL + BM25/向量索引） |
-
-**为什么正文不入图**：BM25/向量索引无法在 triple store 里工作；大 literal 拖垮图查询；塞进去等于双写两处都不好用。图持有文本的**身份、结构、引用关系**，不持有文本本身。
-
-### 2.1 L1：文档与条文实体化
-
-季报入图后的形态（模拟数据阶段即按此生成）：
+**R3a 目标态（意图层主判反转）**：③ 的 schema 扩展为 explain_type 全集
+（define/describe/regulation/code/compare）+ `section_hint`（LLM 按问法语义
+填检索章节提示，替代正则）+ `entity_label`（嵌套锚点：「X的经理怎么看」→
+LLM 判别锚点应为经理本人）。规则层角色重新定义：**新问法不再写规则**——
+规则只保留为无 key/LLM 失败时的安全网与测试基线。
 
 ```
-# 文档实体
-<FundPeriodicReport/qtr-2026q2-F006494>
-    rdf:type            cnfo:FundPeriodicReport ;
-    rdfs:label          "云帆中证500指数型证券投资基金2026年第2季度报告" ;
-    cnfo:reportForFund  <abox/F006494> ;          # T-BOX 需新增
-    cnfo:reportPeriod   "2026Q2" ;                # T-BOX 需新增
-    cnfo:reportType     "quarterly" ;
-    cnfo:disclosedVia   <DisclosureAct/xxx> .     # 可选：挂披露活动
-
-# 章节实体（结构成分）
-<ReportSection/qtr-2026q2-F006494-manager-report>
-    rdf:type           cnfo:ReportSection ;       # T-BOX 需新增
-    rdfs:label         "管理人报告" ;
-    cnfo:sectionOf     <FundPeriodicReport/qtr-2026q2-F006494> ;
-    cnfo:sectionTitle  "4 管理人报告" ;
-    cnfo:sectionOrder  "4" .
+┌─ 图通道 ──────────────────────┐   ┌─ 文本通道（RAG 开关后）────────────┐
+│ find:   SPARQL → E#           │   │ describe:  锚定过滤 → 范围内 BM25  │
+│ classify: 类层级 → R#(定义卡)  │   │ regulation: 条文 chunk 检索        │
+│ define:  定义卡 → R#          │   │ code:      articleCitesCode 指针   │
+│ verify:  判链 → E#            │   │            → 条文正文 / 代码表 label │
+└──────────────┬────────────────┘   └──────────────┬─────────────────────┘
+               ▼                                   ▼
+        统一 Evidence Report（E# 与 R# 共存；kind=document 证据带正文与 locator）
+               ▼
+   引用闸门（claim_id ⊆ evidence）+ 范围核查（chunk 归属 ∈ 锚定集合）
+               ▼
+   生成（R3b 起 LLM 表达；当前确定性模板）→ SSE delta 流式 → 证据面板
 ```
 
-条文实体化（升级现有 `articleReference`）：
+#### 1.2.1 compare 的开关归属（v3.1 勘误）
 
-```
-<RegulationArticle/JL-004/art-15>
-    rdf:type           cnfo:RegulationArticle ;   # T-BOX 需新增
-    cnfo:articleOf     <Regulation/RegJL-004> ;
-    cnfo:articleNumber "第十五条" ;
-    cnfo:articleText   "…" .                       # 条文全文（短，可入图）
-```
+v3 表格把 compare 标为"依赖 RAG 开关"，但 compare 读的是 **T-BOX 定义卡**
+（两侧定义 + 互斥判定），按本项目分层原则（读 T-BOX 的是一等能力）应与
+define 同类。**R3a 决策：compare 脱离 RAG 开关，成为一等能力**；RAG 关闭时
+仅 compare 中的"文本侧补充"不可用，定义卡对比照常可答。同时注意：R3b 把
+`RAG_ENABLED` 默认翻转后，compare 不再有默认拒答形态（原 Phase 2 拒答话术
+彻底退役）。
 
-图因此获得的新能力（可回归测试的图查询）："云帆 2026 年披露了哪几份季报？""哪些投资限制的依据是《信息披露管理办法》第十五条？"——这些不再是 RAG 问题，是 SPARQL 问题。
+关键不变量不变：**LLM 永不生成 SPARQL，也永不决定检索命中**；LLM 判"问的
+是什么"（意图），本体/检索层决定"答案是什么"；终态 UCR=0。
 
-### 2.2 L2：双向指针
+## 2. 三层文本模型（v2 定稿，v3 不变，此处只记状态）
 
-**图→文本**（升级现有属性语义）：
-- `FundInvestmentRestriction --basisForRestriction--> RegulationArticle --正文chunk--> 原文`，让图上每个投资限制可点开法条原文；
-- 证据面板里 `kind=document` 的证据经 locator 回到 chunk，chunk 经元数据回到文档实体。
-
-**文本→图**（Doc2Graph，本版留接口）：
-```python
-# fondontology/qa/rag/doc2graph.py —— 本版仅占位
-def extract_facts(chunk: Chunk) -> list[ExtractedFact]:
-    """chunk → 抽取事实（实体对齐到 CNFO 实体，带 chunk IRI provenance）。
-    本版不实现；接口契约见 §6。"""
-
-def import_extracted(facts: list[ExtractedFact], stack) -> ImportResult:
-    """抽取事实 → enforce.import_records 语义导入（复用现有校验）。本版不实现。"""
-```
-
-正反两方向共用 fund_code / 条文编号主键，接口形状自然对齐。将来实现时，文本抽取的持仓数据与图上的持仓边可交叉校验，不一致即数据质量问题（数据源从模拟换真实时的审计手段）。
-
-### 2.3 L3：chunk 池契约
-
-```jsonl
-{"chunk_id": "qtr-2026q2-F006494#s4-p2",
- "doc_id": "qtr-2026q2-F006494",          # = 图中文档实体 IRI 尾部
- "fund_code": "006494",                    # 锚定过滤主键
- "doc_type": "periodic_report",
- "period": "2026Q2",
- "section": "管理人报告",
- "text": "报告期内基金份额净值增长率为 X%……展望后市，本基金管理人认为……",
- "locator": {"source": "sim-gen", "entity": "FundPeriodicReport/qtr-2026q2-F006494"}}
-```
-
-章节是 chunk 的天然边界（季报章节结构是国标固定的），章节内语义段落二次切分（512~1024 token）。**元数据即过滤维度**："褚宇怎么看市场" = fund_code ∈ {他管的基金} AND section = 管理人报告。
-
-## 3. 两级检索路由
-
-### 3.1 一级：锚定过滤（主模式）
-
-```
-输入: question, anchored_entities（来自 intent 的 resolver/实体提及命中）
-1) 图遍历展开锚点 → fund_code 集合
-   基金锚点: {F006494} → {"006494"}
-   人物锚点: 杨洋 → hasFundManager 反向 → {F006494, F006495} → 两只的文档
-2) scope = 该 fund_code 集合的全部 chunk（索引侧 = 元数据倒排，O(scope)）
-3) 范围内语义排序: BM25 + 向量（若配置）→ top_k=5
-4) 确定性范围核查（闸门新增）: 命中 chunk 的 fund_code ∈ 锚定集合，否则丢弃
-```
-
-消灭实体串台的机制是物理性的：检索范围只含目标实体的文档，简称撞名不可能串。范围核查是审计冗余，供证据面板展示与 CI 断言。
-
-### 3.2 二级：全局池检索（无锚点 fallback）
-
-"什么是R4""货基有什么监管限制"——无实体可锚定：
-- 语料池：T-BOX 定义卡（150 类 + 211 属性，上一版设计保留）＋ 法规条文池（L1 实体化后的条文正文）＋ 全部季报（观点汇总类）；
-- 检索：BM25 + 向量全池 → top_k=5；
-- 法条类优先走图指针：MoneyMarketFund → 图上关联的投资限制 → `basisForRestriction` → 条文 chunk（语义路由由图完成，比向量精确）。
-
-### 3.3 检索层实现
-
-- **BM25**：自实现字符 2-gram + 词元混合（中文无分词依赖，零新增依赖）；
-- **向量（可选）**：Ark 兼容 `/embeddings`（doubao-embedding 系列，与现有 LLM 同供应商），`vectors.npy` + numpy 点积（~千级 chunk，不引入向量数据库）；
-- 融合：RRF（锚定通道 rank 恒为 1）；
-- 降级链：无向量 → BM25；空 query → 仅锚定；全空 → 诚实 UNRESOLVED。
-
-## 4. 模拟语料：同源生成策略
-
-关键纪律：**图与文档同源生成、双向一致**。模拟数据的价值恰恰是答案可预知、CI 无网络、交叉一致性可断言。
-
-### 4.1 `tools/gen_sim_report.py`（新）
-
-一次产出三样东西：
-
-1. **文档正文**：markdown 季报，章节对齐真实季报结构（重要提示/产品概况/主要财务指标和净值表现/**管理人报告（运作回顾+未来展望）**/投资组合前十大重仓/份额变动）；40 只基金 × 2 个季度 = 80 份；
-2. **A-BOX 三元组**：`FundPeriodicReport` 实例 + `ReportSection` 结构 + `reportForFund`/`reportPeriod` 边（并入 cnfo-sim-abox 或独立 sim-reports.ttl，倾向后者——保持报告数据可单独重建）；
-3. **chunk 池**：按 §2.3 契约切分写入 `artifacts/cnfo/rag/chunks.jsonl`。
-
-生成内容与图的一致性约束（同从 gen_sim_abox 的模拟源出）：季报中的基金经理名 = A-BOX `hasFundManager` 边；基金类型 = 类型链；规模数字 = A-BOX 数值属性；观点文本按经理/类型/风格参数化生成（保证同经理的跨季观点有连续性，可测"观点演变"类问题）。
-
-### 4.2 法规正文补全（升级现有 5 个仿真法规）
-
-每部法规生成 5-10 条可寻址条文（`RegulationArticle` 实体 + 条文正文），其中至少覆盖：信息披露义务、投资比例限制、适当性管理——这些条文内容与 `FundInvestmentRestriction`、`governedByRegulation` 现有边对得上。
-
-### 4.3 T-BOX 小幅补充
-
-| 增补 | 类型 | 说明 |
+| 层 | 入图内容 | 状态 |
 |---|---|---|
-| `reportForFund` | ObjectProperty | FundPeriodicReport → Fund |
-| `reportPeriod` / `reportType` | DatatypeProperty | "2026Q2" / quarterly·annual·semi |
-| `ReportSection` | Class | 章节结构成分，sectionOf/sectionTitle/sectionOrder |
-| `RegulationArticle` | Class | 可寻址条文，articleOf/articleNumber/articleText |
-| `articleReference` 语义升级 | — | 从章名字符串 → 指向 RegulationArticle（保留旧值兼容） |
+| **L1 语境层** | 文档/章节/条文一等实体（FundQuarterlyReport 三子类、ReportSection、RegulationArticle，v0.6.0 入 T-BOX） | ✅ 已落地 |
+| **L2 指针层** | 图↔文本双向引用（reportForFund、articleOf、articleCitesCode） | ✅ 已落地（articleCitesCode 的消费方是 R3a 的 code 路径） |
+| **L3 内容层** | chunk 正文外部存储 | ✅ 已落地（406 条：80 季报×5 章节 + 6 条文） |
 
-### 4.4 CI 可断言的交叉一致性
+同源生成纪律不变：季报与 A-BOX 由同一 SimModel 投影，图与文本一致性是生成方式的数学性质，`tests/test_text_assets.py` 8 项 CI 断言双向一致。
 
-- 图中文档实体存在 ↔ chunk 池有该 doc_id 的 chunk ↔ chunk.fund_code 与 reportForFund 边一致；
-- 季报正文中的基金经理名 = A-BOX `hasFundManager`；基金类型 = 类型链最深 3 层；
-- 每条 `basisForRestriction` 指向的条文实体有非空 articleText，且对应 chunk 存在；
-- 范围核查：一级检索结果 chunk 的 fund_code ∈ 锚定集合（断言）。
+## 3. RAG 实现的价值（v3 校准表述）
 
-## 5. 证据合同与生成
+1. **信息补全**：观点、监管依据、操作细则在业务上天然是文本形态。经理的完整论述拆成三元组即失去语境；法规条文的条件语义（"完全按指数构成比例的可不受限"这类 but-clause）三元组无法建模——文本是这些信息唯一无损的载体；
+2. **图无法索引的知识形态**：同源数据面下，图问数答"经理是谁"（E#），RAG 答"经理怎么说"（R#），证据同构互补；
+3. **明确不解决**：精确枚举/聚合（find 领地）、类关系判定（verify）、时间序列与多跳否定（IR 扩展领地，Phase 2）。RAG 的检索是"召回相关文本"，不做精确计数——用 RAG 答"有几只基金"是错误设计。
 
-### 5.1 RAG 证据（复用现有合同，仅加构造助手）
+## 4. R3 里程碑（v3 修订，替代 v2 的 R3/R4 排序）
 
-```python
-{"id": "R1", "kind": "document",
- "source": ["sim-reports.ttl", "FundPeriodicReport/qtr-2026q2-F006494", "section:管理人报告"],
- "note": "云帆中证500 2026Q2 季报·管理人报告",
- "text": "<chunk 原文>",
- "scope": {"fund_codes": ["006494"], "anchored": true},   # 范围核查审计信息
- "premises": [], "derived": []}
-```
+**R3a：意图层主判反转 + 路由补全（✅ 已落地，v3.1 重写，替代 v3 的句式补丁清单）**
 
-`validate_citations` / `evidence_completeness` 零改动（只看 id 集合）；新增 `rag/verify_scope.py` 做 chunk 归属核查。
+交付物是**架构反转**而非四条句式规则——新问法从此不再需要写正则：
 
-### 5.2 生成（完全复用 explainer 闸门）
+1. **LLM schema 扩展为 explain_type 全集**：define/describe/regulation/code/compare
+   判别准则写进 prompt（语义准则而非句式枚举："判断用户想知道什么——定义用 define；
+   某个具体对象的情况/观点用 describe；监管限制用 regulation；代码等级含义用 code；
+   两者差异用 compare"），每类一个 few-shot 示例；
+2. **`section_hint` 字段交给 LLM**：检索章节提示由 LLM 按问法语义填
+   （"怎么看后市"→ 管理人报告），替代确定性正则；
+3. **`entity_label` 嵌套锚点判别**：「X的经理怎么看」由 LLM 判别锚点应为
+   经理本人；「杨洋怎么看后市」LLM 填经理名，检索层经 `fund_codes_for_entity`
+   图遍历展开到他管的基金集合（防串台完全体）；
+4. **regulation/code 生成路径**：regulation 检索范围锁定条文 chunk；
+   code 先沿 `articleCitesCode` 图指针直达条文（"R4"的正确答案=适当性指引第八条），
+   无指针降级代码表 label；
+5. **compare 脱离 RAG 开关**（一等能力，§1.2.1）；compare 守卫与 Phase 2 拒答话术退役；
+6. **规则层降级为安全网**：现有 define/classify/explain 规则保留，服务于
+   无 key 模式与 LLM 失效兜底；确定性回归测试全部走规则路径（CI 无网络），
+   LLM 路径用 mock 锁 schema 契约。
 
-- prompt 的"可用 claims"换成 RAG claims（句级 claim_id 引用 R#，支持数组形态）；规则追加"只可使用 claims 中出现的事实与措辞，不得补充外部知识"；
-- 闸门越权 → 重试 → 模板回退（与现状一致）；
-- **事后短语核查**（防 LLM 措辞级发挥）：答案中的实体名/类名必须出现在所引 chunk 或图锚点中，否则判违规回退模板（确定性）；
-- 模板路径（无 key/回退）：define → 定义卡；describe → 档案事实逐条；compare → 两侧定义 + 图上互斥判定（无声明时明确输出"本体未声明互斥"，禁止推断性对比）；
-- 混合形态：图查询出实体集合（E#），实体档案/季报 chunk 并入（R#），LLM 一次组织。
+验收：§0.1 基线表全部 ✅ 或明确"Phase 2 不支持"，零误路由；新增 LLM schema
+契约测试（mock）+ 规则兜底回归。
 
-### 5.3 Web/UI（最小改动）
+**R3b：LLM 表达接入（复用闸门模式，✅ 已落地）**
 
-- 证据面板 `kind=document` 渲染：正文折叠 + locator 来源行 +「文档」徽标；
-- `api_meta` 增加 `rag: {enabled, embedding_model, corpus_chunks, corpus_hash}`；
-- SSE phase 新增 `retrieve`/`generate` code（文案透传，前端零改）；
-- 推荐问题补 2 条 explain 形态。
+- explain（describe/regulation/code）走 LLM 表达：chunk 内容作为 claims 输入，句级 claim_id 引用 R#（含数组形态），闸门越权重试→模板回退；事后短语核查（答案实体名 ⊆ 所引 chunk ∪ 图锚点）确定性拦截措辞级发挥；
+- 模板路径保留为无 key/回退档（现有输出即回退形态）；
+- 验收后 `RAG_ENABLED` 默认值翻转为开启（当前默认关闭是演示基线保护）。
 
-## 6. 配置与 Doc2Graph 接口占位
+**R3c：评测收尾（✅ 已落地）**
 
-```
-RAG_ENABLED=1                # 总开关（默认开）
-EMBEDDING_MODEL=             # 空=BM25-only；如 doubao-embedding-text-240715
-EMBEDDING_BASE_URL=          # 缺省复用 OPENAI_BASE_URL
-RAG_TOP_K=5
-```
+- `qa_bench --stage explain`：20 条 CQ（describe 8 / regulation 4 / code 4 / compare 4），断言检索命中率与 UCR=0；
+- 更新演示话术与 README。
 
-Doc2Graph 占位（`fondontology/qa/rag/doc2graph.py`，本版不实现）：
+**R4：向量召回 + Rerank 精排（✅ 已落地，2026-09-09/10 更新）**
 
-```python
-@dataclass
-class ExtractedFact:
-    subject_iri: str      # 对齐到 CNFO 实体
-    predicate_iri: str    # CNFO 属性
-    object_value: str     # 实体 IRI 或字面量
-    chunk_id: str         # provenance 回指
-    confidence: float
+- 配置：.env 的 EMBEDDING_MODEL/EMBEDDING_URL/EMBEDDING_KEY（大小写不敏感，
+  Ark coding 端点 doubao-embedding-vision，2048 维，批量上限 10/请求）；
+- 实现：rag/embedder.py（/embeddings 客户端 + vectors.npy 构建/加载，
+  429 指数退避 + 批间限速；chunk 池哈希校验防过期）；retrieve.py 三路
+  加权 RRF（锚定 2.5 强先验 / dense 1.2 / BM25 0.8，section_hint 优先级
+  高于融合）；构建命令 gen_text_assets.py --build-vectors；
+- 实测：语义改写场景（「经理对未来市场怎么看」「重仓持有哪些股票」）
+  BM25 全错 → dense 全对；LLM 档基准 20/20 全 llm_validated
+  （R3c 时 17 validated / 3 fallback，fallback 归零）；
+- 降级：embedding 未配置/网络失败/向量过期 → BM25-only，不阻断问答；
+- rerank 精排（2026-09-10 追加）：qwen3.7-text-rerank @ dashscope 原生
+  text-rerank API；接入位置 RRF 粗排（top_k×2）→ rerank 精排取 top_k；
+  让位规则：section_hint 场景与 ≤5 条小集合不精排（确定性信号优先于
+  模型分数，小集合收益低于网络往返）；失败降级保持 RRF 序；
+- 服务商切换（2026-09-10）：embedding 由 Ark doubao → 阿里 MaaS
+  qwen3.7-text-embedding-flash（1024 维，批量 25），config 回退链
+  EMBEDDING_* → DASHSCORE_* → OPENAI_*；
+- 配置：EMBEDDING_MODEL / RERANK_MODEL / DASHSCORE_URL / DASHSCORE_API_KEY。
 
-def extract_facts(chunk: Chunk) -> list[ExtractedFact]: ...
-def import_extracted(facts, stack) -> "ImportResult": ...   # 内部走 enforce.import_records
-```
+当前 406 条 chunk BM25 召回已足够（实测命中）；真实季报语料（数百份×数十章节）上线后评估 `/embeddings` + RRF 三路融合。
 
-实现里程碑中它排在最后，接口先冻结，避免将来实现时改 chunk 契约。
+**R5：Doc2Graph 实现（接口已冻结，真实数据阶段）**
 
-## 7. 降级矩阵
+## 5. 测试计划（增量）
 
-| 配置 | 检索 | 生成 | 说明 |
-|---|---|---|---|
-| 无 LLM、无 embedding | 锚定+BM25 | 模板卡 | CI 用这档，全确定性 |
-| 有 LLM、无 embedding | 锚定+BM25 | LLM+闸门 | 默认档 |
-| 全配置 | +向量 | LLM+闸门 | 最佳档 |
-| 语料缺失/损坏 | — | — | explain 答"文档索引未构建"；不影响 find/verify |
-| 一级检索 scope 内空命中 | — | — | "该实体暂无相关文档"诚实话术 |
+- `test_rag_explain.py` 扩展：regulation/code 句式命中、人物锚点展开检索、误路由回归（"X有什么限制"不得走 find）；
+- `test_classify.py` 已含 define 意图/容差/LLM 分支（R3a 复用该模式）；
+- R3b：LLM mock 闸门（好引用过/坏 R# 回退/数组形态）+ 短语核查违规回退；
+- 既有 find/verify/classify/define 测试零改动。
 
-## 8. 实施里程碑
-
-**M7-R1：T-BOX 补充 + 模拟季报同源生成（纯数据层，零问数改动）**
-- reportForFund/reportPeriod/ReportSection/RegulationArticle 入 T-BOX；gen_sim_report.py 产出 80 份季报 + A-BOX 报告实体 + 法规条文 + chunks.jsonl；
-- 验收：§4.4 交叉一致性 CI 全绿。
-
-**M7-R2：explain 意图 + 两级检索 + 模板生成（零新依赖）**
-- intent 加 explain 规则与 LLM schema 分支；retrieve.py 一级/二级路由 + BM25 + 范围核查；模板路径 define/describe/compare；
-- 验收："什么是货币市场基金"→定义卡；"X和Y区别"→两侧定义+互斥判定；锚定类 describe 不串台（CI 断言范围核查）。
-
-**M7-R3：LLM 表达接入（复用闸门 + 短语核查）**
-- explain 走 explainer 闸门（R# 引用、数组形态）；SSE delta 流式；证据面板 document 渲染；
-- 验收：citation 基准扩展 explain 用例 UCR=0；短语核查违规回退路径可测。
-
-**M7-R4：向量召回（可选）**
-- /embeddings 客户端 + vectors.npy + RRF 三路融合；
-- 验收：BM25-only 与 +vector 双档回归绿；检索命中率对比（tools/rag_eval.py）。
-
-**M7-R5：Doc2Graph 实现 + 评测收尾**
-- extract_facts/import_extracted 落地（季报重仓表 → 持仓三元组，交叉校验）；
-- qa_bench 新增 `--stage explain`（20 条：define 8 / describe 6 / compare 4 / 混合 2）；README 更新。
-
-## 9. 测试计划
-
-- `test_rag_corpus.py`：chunk 契约字段、章节切分边界、交叉一致性（§4.4 全项）；
-- `test_rag_retrieve.py`：锚定必召回且范围核查零越界、BM25 中文命中、人物锚点图展开、全局池 fallback、RRF 排序、降级链；向量用 mock；
-- `test_rag_answer.py`：模板快照；LLM mock 闸门（好引用过/坏 R# 回退/数组形态）；短语核查；混合 report 结构；
-- `test_qa_intent.py` 扩展：explain 规则命中表、compare 从拒答改可答的回归；
-- 既有 find/verify 测试零改动。
-
-## 10. 风险与对策
+## 6. 风险与对策（v3 增量）
 
 | 风险 | 对策 |
 |---|---|
-| LLM 补充外部基金常识 | 引文闸门拦不住措辞级发挥 → 事后短语核查（§5.2）确定性拦截 |
-| compare 无互斥声明时编造差异 | 模板明确"本体未声明互斥"；禁止 LLM 推断性对比 |
-| 模拟语料与图不一致（生成器漂移） | 同源生成 + §4.4 CI 断言双向一致 |
-| 模拟答案质量"假" | 接受：阶段一验证的是工程链路与评测框架，数据平面可插拔，真实数据进来只换输入 |
-| 条文抽取/挂接错误污染图 | L2 指针全部经白名单校验（复用 validator）；条文实体与 chunk 的映射 CI 断言 |
-| Ark /embeddings 不可用 | 向量层整体可选，R1-R3 不依赖 |
+| 路由规则再次与自然语言变体缠斗（v2→v3 的教训：「指什么」曾误入 classify） | LLM 主判优先（schema 已教四操作判别），确定性规则只兜底；规则命中后仍按 explain_type 分发，不再由单一正则决定 operation |
+| "X有什么限制"与 find"X有什么"句式近邻误路由 | regulation 句式要求显式"限制/监管/规定"语义词，弱词（"有什么"）不触发 |
+| 代码概念检索空命中（条文未覆盖的代码） | 降级链：条文 → 代码表 label → 诚实"无解释文本" |
+| LLM 表达在 describe 长文本上发挥过度 | 短语核查 + 闸门双保险（v2 §5.2 设计保留） |
 
-## 11. 明确不做（本版边界）
+## 7. 明确不做（v3 边界）
 
-- 不接入真实数据源（巨潮/东财的采集与合规留给阶段二）；
+- 不接入真实数据源（阶段二）；
 - 不做通用网页/外部 PDF RAG；
 - 不做多轮对话/指代消解；
-- 不做"为什么"类推理问答（explain_type=reason 预留，拒答）；
-- 不引入向量数据库/重排服务；
-- Doc2Graph 只冻结接口，不实现。
+- 时间序列/多跳否定/SUM/AVG（IR 表达部件扩展，Phase 2，与 RAG 平行推进不混入）；
+- 不引入向量数据库（R4 前不评估）；
+- Doc2Graph 只冻结接口。
+
+## 附：v2 → v3 差异索引
+
+| # | v2 | v3 |
+|---|---|---|
+| 1 | operation ∈ {find, verify, explain}，explain 统一挂 RAG | 四操作；classify/define 一等能力（T-BOX 直读、不受开关控制），describe/regulation/code/compare 挂 RAG 开关 |
+| 2 | define 是 RAG 的一种 explain_type（定义卡） | define 独立规则 + 口语容差，LLM schema 明确"定义问法不用 find/classify" |
+| 3 | RAG 默认关闭（演示保护） | 维持，但 R3b 验收后翻转默认开启 |
+| 4 | R3=LLM 表达 | R3 拆为 R3a 路由补全（新增 regulation/code/嵌套锚点）→ R3b LLM 表达 → R3c 评测；R4 向量、R5 Doc2Graph 顺延 |
+| 5 | 覆盖面靠设计推演 | §0.1 实测基线表锚定（五类探测问法定期回归） |
+| 6 | （v3.1 勘误）§1.2 曾把"LLM 主判"写成已落地 | §1.2 如实拆分"当前实态（三段式）"与"R3a 目标态（主判反转）"；R3a 交付物从四条句式规则改写为架构反转 |
+| 7 | （v3.1 勘误）compare 曾标"依赖 RAG 开关" | §1.2.1：compare 读 T-BOX 定义卡，按分层原则脱离开关成为一等能力；R3b 默认翻转后 compare 永久可答 |

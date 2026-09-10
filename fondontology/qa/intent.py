@@ -71,10 +71,8 @@ def build_intent(question: str, index: OntologyIndex,
     """
     if use_llm is None:
         use_llm = llm_configured()
-    # compare/对比类：RAG explain 开启时可经定义卡作答，关闭时维持 Phase 2 拒答
-    if not rag_enabled() and any(k in question for k in ("区别", "比较", "对比")):
-        return IntentResult(question, _UNRESOLVED, "find",
-                            notes=["compare/对比 类问题属于 Phase 2，本版不支持"])
+    # compare/对比类：v3.1 起为一等能力（T-BOX 定义卡对比），不再拒答；
+    # RAG 关闭时仍可答（compare 不依赖 chunk 池）
     if use_llm:
         # 锚点快路径：实体锚点确定性成链时不付 LLM 调用成本（分钟级）
         fast = _try_anchor_fast_path(question, index)
@@ -111,7 +109,12 @@ def _build_deterministic_intent(question: str, index: OntologyIndex) -> IntentRe
     if define is not None:
         return define
 
-    # explain 其余形态（describe/compare，文本检索路径）：介绍/观点/对比，
+    # compare 语义（T-BOX 定义卡对比，一等能力，v3.1）：不依赖 RAG 开关
+    compare = _try_compare_intent(question, index, resolver, validator)
+    if compare is not None:
+        return compare
+
+    # explain 其余形态（describe，文本检索路径）：介绍/观点，
     # 依赖 RAG 开关（chunk 池属扩展数据面）
     if rag_enabled():
         explain = _try_explain_intent(question, index, resolver, validator)
@@ -336,26 +339,21 @@ def _try_define_intent(question: str, index: OntologyIndex,
 
 
 # ---------------------------------------------------------------------------
-# explain 语义（M7-R2）：定义/介绍/对比 → 文本检索路径（RAG）
+# compare 语义（v3.1 一等能力）：「X和Y的区别」→ 两侧 T-BOX 定义卡对比
 # ---------------------------------------------------------------------------
-def _try_explain_intent(question: str, index: OntologyIndex,
+def _try_compare_intent(question: str, index: OntologyIndex,
                         resolver: VocabularyResolver,
                         validator: WhitelistValidator) -> Optional[IntentResult]:
-    """解释类问法 → operation=explain。
+    """对比问法 → operation=explain + explain_type=compare（T-BOX 定义卡）。
 
-    命中规则：
-    - define：「什么是/何为/X的定义」+ 类锚定；
-    - compare：「X和Y的区别/差异/对比」（原 Phase 2 拒答，现在经定义卡可答）；
-    - describe：「介绍/说说X」+ 实体锚点（季报文本）；「X怎么看后市」。
-    返回 None 表示不是解释类问法（落回 find/verify 链路）。
+    不依赖 RAG 开关（读 T-BOX）；两侧类均须锚定，锚不满则返回 None
+    （不是对比问法或概念不在本体中，落回 find 链路）。
     """
-    q = question
-    is_compare = any(k in q for k in ("区别", "差异", "对比"))
-    # define 已上移为独立一等规则（_try_define_intent，不受 RAG 开关限制），
-    # 此处只承接 compare（定义卡对比，T-BOX 读取）与 describe（文本检索）
-    is_describe = (q.startswith(("介绍", "说说", "讲讲")) or "介绍一下" in q
-                   or any(k in q for k in ("怎么看", "如何评价", "观点")))
-    if not (is_compare or is_describe):
+    q = question.strip()
+    if not any(k in q for k in ("区别", "差异", "对比")):
+        return None
+    parts = _split_compare_terms(q)
+    if len(parts) < 2:
         return None
 
     def _class_for(term: str):
@@ -365,22 +363,46 @@ def _try_explain_intent(question: str, index: OntologyIndex,
         viable = [c for c in resolver.viable(hits) if validator.validate(c, "class")[0]]
         return viable[0] if viable else None
 
-    if is_compare:
-        parts = _split_compare_terms(q)
-        if len(parts) < 2:
+    c1, c2 = _class_for(parts[0]), _class_for(parts[1])
+    if c1 is None or c2 is None:
+        return None
+    intent = {
+        "operation": "explain", "explain_type": "compare",
+        "topic": c1.iri, "compare_topic": c2.iri,
+        "target_concept": q,
+        "target_candidates": [_candidate_json(c1), _candidate_json(c2)],
+        "resolution": {"status": _RESOLVED, "method": "compare_rule"},
+    }
+    return IntentResult(q, _RESOLVED, "explain", intent=intent,
+                        candidates=intent["target_candidates"])
+
+
+# ---------------------------------------------------------------------------
+# explain 语义（M7-R2）：describe（文本检索路径，RAG 开关后）
+# ---------------------------------------------------------------------------
+def _try_explain_intent(question: str, index: OntologyIndex,
+                        resolver: VocabularyResolver,
+                        validator: WhitelistValidator) -> Optional[IntentResult]:
+    """describe 问法 → operation=explain + explain_type=describe（文本检索）。
+
+    define/compare 已上移为一等规则（_try_define_intent / _try_compare_intent，
+    不受 RAG 开关限制），此处只承接 describe：
+    - 「介绍/说说/讲讲X」+ 实体锚点（季报文本）；
+    - 「X怎么看后市/观点」（section_hint 提示检索章节）。
+    返回 None 表示不是 describe 问法（落回 find/verify 链路）。
+    """
+    q = question
+    is_describe = (q.startswith(("介绍", "说说", "讲讲")) or "介绍一下" in q
+                   or any(k in q for k in ("怎么看", "如何评价", "观点")))
+    if not is_describe:
+        return None
+
+    def _class_for(term: str):
+        if not term:
             return None
-        c1, c2 = _class_for(parts[0]), _class_for(parts[1])
-        if c1 is None or c2 is None:
-            return None
-        intent = {
-            "operation": "explain", "explain_type": "compare",
-            "topic": c1.iri, "compare_topic": c2.iri,
-            "target_concept": q,
-            "target_candidates": [_candidate_json(c1), _candidate_json(c2)],
-            "resolution": {"status": _RESOLVED, "method": "explain_compare_rule"},
-        }
-        return IntentResult(q, _RESOLVED, "explain", intent=intent,
-                            candidates=intent["target_candidates"])
+        hits = [c for c in resolver.resolve_concept(term) if c.kind == "class"]
+        viable = [c for c in resolver.viable(hits) if validator.validate(c, "class")[0]]
+        return viable[0] if viable else None
 
     # describe：实体锚点优先（介绍某基金/某经理 → 季报文本），类锚定回落 define
     entity = _find_entity_mention(index, q)
@@ -908,11 +930,19 @@ def _try_anchor_fast_path(question: str, index: OntologyIndex) -> Optional[Inten
     """实体锚点快路径：锚点识别是高精度信号（实体标签/代码精确子串命中），
     确定性成链时跳过 LLM——锚点问题不再承担一次分钟级意图调用。
 
-    保险：verify 标记/聚合触发词命中时不走快路径（交 LLM 或完整确定性流程）。
+    保险：verify 标记/聚合触发词/解释类语义词命中时不走快路径——
+    「杨洋怎么看后市」的语义是观点（describe），不是「杨洋的基金」（find），
+    快路径会让位于 LLM 判别（v3.1 主判反转）。
     """
     if any(m in question for m in ("是不是", "是否", "属于", "互斥", "等价")):
         return None
     if _MULTI_RE.search(question) or _TOP_RE.search(question) or _COUNT_RE.search(question):
+        return None
+    if any(m in question for m in ("怎么看", "如何评价", "观点", "展望", "后市",
+                                    "介绍一下", "说说", "讲讲", "介绍",
+                                    "什么是", "何为", "指什么", "是什么意思",
+                                    "区别", "差异", "对比",
+                                    "限制", "监管", "规定")):
         return None
     anchor = _find_entity_mention(index, question)
     if anchor is None:
@@ -943,13 +973,24 @@ _LLM_SCHEMA = """{
   "order_by": "agg" 或 "<数据属性 local 名>" 或 null,
   "order_direction": "desc" 或 "asc",
   "limit": 数字 或 null,
-  "entity_label": "<问题中的具体人名/公司名/编号原文>" 或 null,
+  "entity_label": "<问题中的具体基金名/经理名/公司名原文>" 或 null,
   "filters": [{"property": "<属性 local 名>", "operator": "eq|contains|>=|<=|>|<", "value": "<值原文>"}],
-  "explain_type": "define" 或 null,
+  "explain_type": "define|describe|regulation|code|compare" 或 null,
+  "explain_code": "<问题中的代码原文，如 R4/C3>" 或 null,
+  "section_hint": "管理人报告" 或 null,
   "verify_subject": "<类 local 名>" 或 null,
   "verify_object": "<类 local 名>" 或 null,
   "verify_relation": "subClassOf|equivalentClass|disjointWith" 或 null
-}"""
+}
+
+explain_type 判别准则（按用户想知道什么判断，不是句式匹配）：
+- define：想知道某个类/概念的定义（什么是X/X指什么/X是什么意思）
+- describe：想知道某个具体对象（基金/经理）的情况、档案或观点
+  （介绍X/X怎么样/X怎么看后市；此时 entity_label 填该对象；
+  问"怎么看/观点/后市"时 section_hint 填"管理人报告"）
+- regulation：想知道监管/合规方面的限制或要求（X有什么限制/监管要求/规定）
+- code：想知道某个代码/等级标记的含义（R4是什么意思/C3是什么；explain_code 填代码原文）
+- compare：想知道两个概念的差异（X和Y的区别/差异/对比；verify_subject/verify_object 填两个类）"""
 
 _LLM_EXAMPLES = """示例1：
 问题：有哪些交易型开放式指数基金
@@ -971,9 +1012,36 @@ _LLM_EXAMPLES = """示例1：
 输出：{"operation": "explain", "target": "ExchangeTradedFund", "explain_type": "define",
   "select": "entities", "related": null, "relation_path": null, "aggregation": null,
   "order_by": null, "order_direction": "desc", "limit": null, "entity_label": null,
-  "filters": [], "verify_subject": null, "verify_object": null, "verify_relation": null}
+  "filters": [], "explain_code": null, "section_hint": null,
+  "verify_subject": null, "verify_object": null, "verify_relation": null}
 
-示例4（聚合约束——"同时管理多个"是 COUNT(基金)>=2，不是普通列举）：
+示例4（观点问法——某基金/经理的展望用 explain+describe，entity_label 填具体对象，
+"怎么看/后市/观点"时 section_hint 填"管理人报告"）：
+问题：云帆中证500的经理怎么看后市？
+输出：{"operation": "explain", "target": "Fund", "explain_type": "describe",
+  "select": "entities", "related": null, "relation_path": null, "aggregation": null,
+  "order_by": null, "order_direction": "desc", "limit": null,
+  "entity_label": "云帆中证500", "filters": [], "explain_code": null,
+  "section_hint": "管理人报告",
+  "verify_subject": null, "verify_object": null, "verify_relation": null}
+
+示例5（监管限制问法——"有什么限制/监管要求"用 explain+regulation）：
+问题：货币基金有什么监管限制？
+输出：{"operation": "explain", "target": "MoneyMarketFund", "explain_type": "regulation",
+  "select": "entities", "related": null, "relation_path": null, "aggregation": null,
+  "order_by": null, "order_direction": "desc", "limit": null, "entity_label": null,
+  "filters": [], "explain_code": null, "section_hint": null,
+  "verify_subject": null, "verify_object": null, "verify_relation": null}
+
+示例6（代码含义问法——R 系/C 系等级代码用 explain+code，explain_code 填代码原文）：
+问题：R4是什么意思？
+输出：{"operation": "explain", "target": null, "explain_type": "code",
+  "select": "entities", "related": null, "relation_path": null, "aggregation": null,
+  "order_by": null, "order_direction": "desc", "limit": null, "entity_label": null,
+  "filters": [], "explain_code": "R4", "section_hint": null,
+  "verify_subject": null, "verify_object": null, "verify_relation": null}
+
+示例7（聚合约束——"同时管理多个"是 COUNT(基金)>=2，不是普通列举）：
 问题：同时管理多个基金的基金经理有什么？
 输出：{"operation": "find", "target": "FundManagerPerson", "select": "entities",
   "related": "Fund", "relation_path": [{"property": "hasFundManager", "inverse": true}],
@@ -1210,10 +1278,82 @@ def _parse_llm_intent(question: str, data: dict, index: OntologyIndex,
                             notes=["LLM 语义解析已过白名单校验"])
 
     if operation == "explain":
-        # LLM 判定为定义问法：target 过白名单；explain_type 目前只支持 define
-        # （describe/compare 由确定性规则/后续版本承接）
-        if str(data.get("explain_type") or "define") != "define":
-            return None
+        # LLM 判别解释类问法：explain_type 全集（v3.1 主判反转）
+        etype = str(data.get("explain_type") or "define")
+        if etype == "code":
+            code_raw = str(data.get("explain_code") or "").strip()
+            if not code_raw:
+                return None
+            intent = {
+                "operation": "explain", "explain_type": "code", "code": code_raw,
+                "target_concept": question, "target_candidates": [],
+                "resolution": {"status": _RESOLVED, "method": "llm_code"},
+            }
+            return IntentResult(question, _RESOLVED, "explain", intent=intent,
+                                candidates=[], used_llm=True,
+                                notes=["LLM 语义解析已过白名单校验"])
+        if etype == "describe":
+            entity_label = str(data.get("entity_label") or "").strip()
+            # 先精确词表解析；简称/变体走模糊提及匹配——输入用 LLM 给的
+            # entity_label（问题原文含"的经理怎么看"等修饰，整体不是标签前缀）
+            entity_anchor = None
+            if entity_label:
+                ents = resolver.viable(resolver.resolve_entity(entity_label))
+                entity_anchor = ents[0] if ents else None
+                if entity_anchor is None:
+                    ents_f = resolver.viable(resolver.resolve_entity(entity_label + "基金"))
+                    entity_anchor = ents_f[0] if ents_f else None
+                if entity_anchor is None:
+                    mention = _find_entity_mention(index, entity_label)
+                    if mention is not None:
+                        entity_anchor = mention
+            if entity_anchor is None:
+                # entity_label 未命中时退回整句模糊提及（人名等短标签场景）
+                mention = _find_entity_mention(index, question)
+                if mention is not None:
+                    entity_anchor = mention
+            if entity_anchor is None:
+                return None   # describe 无实体锚点无法检索，交回兜底链路
+            section_hint = str(data.get("section_hint") or "").strip() or None
+            intent = {
+                "operation": "explain", "explain_type": "describe",
+                "entity_iri": entity_anchor.iri, "entity_label": entity_anchor.label,
+                "target_concept": question,
+                "target_candidates": [_candidate_json(entity_anchor)],
+                "section_hint": section_hint,
+                "resolution": {"status": _RESOLVED, "method": "llm_describe"},
+            }
+            return IntentResult(question, _RESOLVED, "explain", intent=intent,
+                                candidates=intent["target_candidates"], used_llm=True,
+                                notes=["LLM 语义解析已过白名单校验"])
+        if etype == "regulation":
+            target_iri_r = _resolve_class(data.get("target"))
+            if target_iri_r is None:
+                return None
+            intent = {
+                "operation": "explain", "explain_type": "regulation",
+                "topic": target_iri_r,
+                "target_concept": question, "target_candidates": [],
+                "resolution": {"status": _RESOLVED, "method": "llm_regulation"},
+            }
+            return IntentResult(question, _RESOLVED, "explain", intent=intent,
+                                candidates=[], used_llm=True,
+                                notes=["LLM 语义解析已过白名单校验"])
+        if etype == "compare":
+            sub = _resolve_class(data.get("verify_subject"))
+            obj = _resolve_class(data.get("verify_object"))
+            if sub is None or obj is None:
+                return None
+            intent = {
+                "operation": "explain", "explain_type": "compare",
+                "topic": sub, "compare_topic": obj,
+                "target_concept": question, "target_candidates": [],
+                "resolution": {"status": _RESOLVED, "method": "llm_compare"},
+            }
+            return IntentResult(question, _RESOLVED, "explain", intent=intent,
+                                candidates=[], used_llm=True,
+                                notes=["LLM 语义解析已过白名单校验"])
+        # define：target 过白名单
         target_iri_e = _resolve_class(data.get("target"))
         if target_iri_e is None:
             return None
