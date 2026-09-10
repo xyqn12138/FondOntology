@@ -153,6 +153,29 @@ def plan_find(*, target: str, tbox: Graph, abox: Optional[Graph] = None,
                 "to": str(to_uri) if to_uri is not None else None,
             })
 
+    # ---- 锚点无路径时的自动发现 ----
+    # 意图层锚定了实体但未给 relation_path（LLM 留空/被拒）时，SPARQL 会
+    # 丢掉锚点变成 target 全量（"这个基金是哪家公司的"曾因此列出全部公司）。
+    # 从锚点类型到 target 发现全部本体合法路径：
+    # - 单一候选 → 直接采用；
+    # - 多候选（Fund→Party 有托管/管理等多条边）→ 全部候选路径经
+    #   execute_find 逐条试到有结果，避免最短路径语义选错（depositary 边
+    #   对"哪家公司管理"是错边）。逐条试为确定性顺序（跳数升序），非猜测。
+    plan_auto_paths: list[list[dict]] = []
+    if plan_source and not plan_traversals and ctx is not None \
+            and hop_start_local != target_local and not errors:
+        plan_auto_paths = ctx.find_relation_paths(hop_start_local, target_local)
+        if plan_auto_paths:
+            path = ctx.best_path(plan_auto_paths, question=str(source),
+                                 from_local=hop_start_local)
+            if path:
+                for hop in path:
+                    plan_traversals.append({
+                        "property": str(hop["property"]),
+                        "inverse": bool(hop.get("inverse")),
+                        "filter": None, "from": None, "to": None,
+                    })
+
     # ---- 聚合：related + relation_path + aggregation ----
     plan_related = None
     plan_rel_path: list[dict] = []
@@ -237,6 +260,8 @@ def plan_find(*, target: str, tbox: Graph, abox: Optional[Graph] = None,
         "exclusions": plan_exclusions,
         "filters": plan_filters,
         "traversals": plan_traversals,
+        # 锚点自动发现的候选路径（多候选时 execute 侧逐条试到有结果）
+        "auto_traversal_candidates": plan_auto_paths,
         "related": plan_related,
         "relation_path": plan_rel_path,
         "projections": plan_projections,

@@ -83,6 +83,48 @@ def _sse(event: str, data) -> str:
 class AskRequest(BaseModel):
     question: str = Field(default="")
     use_llm: Optional[bool] = None
+    context: Optional[dict] = None   # 对话上文（指代消解）：last_question/last_answer/last_entities
+
+
+def _context_entities(ans) -> list[str]:
+    """从答案中提取本轮话题实体（下轮指代消解的上文候选）。
+
+    提取优先级（可靠性降序）：
+    1. 结果实体（report._inner.entity_labels——find 类查询返回的对象，
+       『这个基金』通常指代它，而非提问锚定的人）；
+    2. 锚定实体（plan.source.entity 的 IRI → entity_labels 反查，
+       describe 类锚定的基金/经理）；
+    3. explain 的意图锚点（entity_anchors）；
+    4. compare_entities 模板的来源标记（「X：…」行首）。
+    历史教训：不按冒号切普通答案文本兜底（曾把半句话当实体污染 coref）。
+    """
+    ents: list[str] = []
+    rep = ans.report or {}
+    labels: dict = (rep.get("_inner") or {}).get("entity_labels") or {}
+    # 1) 结果实体（查询命中的对象）
+    for label in list(labels.values()):
+        if label:
+            ents.append(label)
+    # 2) 锚定实体（IRI 反查 label；结果与锚点相同时去重）
+    src = (rep.get("plan") or {}).get("source") or {}
+    anchor_iri = src.get("entity") if isinstance(src, dict) else None
+    if anchor_iri:
+        label = labels.get(anchor_iri)
+        if label and label not in ents:
+            ents.append(label)
+    # 3) explain 意图锚点
+    for a in (rep.get("entity_anchors") or []):
+        if isinstance(a, dict) and a.get("label") and a["label"] not in ents:
+            ents.append(a["label"])
+    # 4) compare_entities 模板来源标记
+    if not ents:
+        for line in (ans.text or "").split("\n")[:3]:
+            if "：" in line and 3 <= len(line.split("：")[0]) <= 20:
+                head = line.split("：")[0].strip("（")
+                if 3 <= len(head) <= 20 and not any(c in head for c in "？?，。"):
+                    ents.append(head)
+                    break
+    return ents[:2]
 
 
 def create_web_app(*,
@@ -194,18 +236,28 @@ def create_web_app(*,
             raise HTTPException(status_code=400, detail="问题为空")
         use_llm = payload.use_llm if payload.use_llm is not None else default_use_llm
         with qa_lock:
-            ans = answer_question(question, stack, use_llm=use_llm)
-        return {"question": question, "answer": _qa_answer_dict(ans)}
+            ans = answer_question(question, stack, use_llm=use_llm,
+                                  context=payload.context)
+        return {"question": question, "answer": _qa_answer_dict(ans),
+                "context_entities": _context_entities(ans)}
 
     # ------------------------------------------------------------------
     # 问答：SSE 流式（EventSource 兼容；首字节立即到达 → phase 事件）
     # ------------------------------------------------------------------
     @app.get("/api/qa/ask/stream")
-    async def api_ask_stream(q: str, use_llm: Optional[bool] = None):
+    async def api_ask_stream(q: str, use_llm: Optional[bool] = None,
+                             ctx: Optional[str] = None):
         question = (q or "").strip()
         if not question:
             return JSONResponse({"error": "问题为空"}, status_code=400)
         effective_llm = use_llm if use_llm is not None else default_use_llm
+        # 对话上文（指代消解）：ctx 为 JSON 编码字符串（EventSource 仅 GET）
+        context: Optional[dict] = None
+        if ctx:
+            try:
+                context = json.loads(ctx)
+            except Exception:
+                context = None
         queue: asyncio.Queue = asyncio.Queue()
         loop = asyncio.get_running_loop()
 
@@ -217,9 +269,11 @@ def create_web_app(*,
                 with qa_lock:
                     ans = answer_question(
                         question, stack, use_llm=effective_llm,
+                        context=context,
                         on_phase=lambda code, msg: put("phase", {"code": code, "message": msg}),
                         on_text_delta=lambda chunk: put("delta", {"text": chunk}))
-                put("answer", {"answer": _qa_answer_dict(ans)})
+                put("answer", {"answer": _qa_answer_dict(ans),
+                               "context_entities": _context_entities(ans)})
             except Exception as exc:  # 服务端兜底：不击穿连接，错误经 SSE 下发
                 put("error", {"message": f"{type(exc).__name__}: {exc}"})
             finally:

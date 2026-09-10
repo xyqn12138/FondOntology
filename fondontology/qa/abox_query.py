@@ -50,6 +50,29 @@ def execute_find(stack: DataStack, plan: dict,
     sparql = build_select(plan)
     rows = list(graph.query(sparql))
 
+    # 锚点自动路径多候选 fallback：首条（best_path 所选）空结果时逐条试
+    # 其余候选（确定性顺序=跳数升序）。覆盖"Fund→Party 多条边"场景：
+    # 最短边（如托管）语义选错返回空，管理公司角色链（两跳）才有结果。
+    if not rows and not plan.get("aggregations"):
+        for path in plan.get("auto_traversal_candidates") or []:
+            cand_traversals = [{
+                "property": str(hop["property"]),
+                "inverse": bool(hop.get("inverse")),
+                "filter": None, "from": None, "to": None,
+            } for hop in path]
+            if not cand_traversals or cand_traversals == plan.get("traversals"):
+                continue
+            cand_plan = dict(plan)
+            cand_plan["traversals"] = cand_traversals
+            cand_sparql = build_select(cand_plan)
+            cand_rows = list(graph.query(cand_sparql))
+            if cand_rows:
+                rows = cand_rows
+                # 采用的候选路径回写 plan（证据链 SPARQL 与实际执行一致）
+                plan["traversals"] = cand_traversals
+                sparql = cand_sparql
+                break
+
     is_agg = bool(plan.get("aggregations"))
     measures: dict[str, float] = {}
     if is_agg:

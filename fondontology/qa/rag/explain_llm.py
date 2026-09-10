@@ -46,7 +46,11 @@ def _explain_chat(question: str, claims: list[dict], context: str) -> Optional[d
         "3) 引用报告内容时融入自然语句（如『2026年一季度，管理人认为…』），"
         "不要用『（管理人报告）』这类前缀标签；\n"
         "4) 只可使用 claims 中出现的事实与措辞，禁止补充任何外部知识或推断；\n"
-        "5) 中文回答，通常 1-3 句。"
+        "5) 中文回答，通常 1-3 句；\n"
+        "6) 对比类问题（compare_entities）：按维度组织对比（如风险等级/基金类型/经理），"
+        "每个维度的事实必须来自对应对象的 claims；只做事实对比，"
+        "不做『更值得买/推荐』这类投资建议——建议性结论只能表述为可溯源的事实差异"
+        "（如『A 为 R4、B 为 R5，风险等级不同』）。"
     )
     content = _stream_chat_content(prompt, temperature=0.2, max_attempts=1)
     if content is None:

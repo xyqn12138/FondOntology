@@ -338,6 +338,9 @@ def run_explain_benchmark(stack, cqs_path: Path, use_llm: bool = False) -> int:
         for kw in exp.get("contains", []):
             if kw not in (ans.text or ""):
                 detail.append(f"缺关键词「{kw}」")
+        if exp.get("contains_any") and not any(
+                kw in (ans.text or "") for kw in exp["contains_any"]):
+            detail.append(f"关键词组「{exp['contains_any']}」全部缺失")
         for kw in exp.get("not_contains", []):
             if kw in (ans.text or ""):
                 detail.append(f"串台关键词「{kw}」出现")

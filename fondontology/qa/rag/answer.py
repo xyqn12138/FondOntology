@@ -393,6 +393,61 @@ def _code_label(graph: Graph, code_iri: URIRef) -> str:
     return ""
 
 
+def answer_compare_entities(question: str, intent: dict, ctx: OntologyContext,
+                            query_graph: Graph, *,
+                            store: Optional[ChunkStore] = None) -> ExplainAnswer:
+    """compare_entities 语义 → 多实体档案对比（每实体独立锚定检索，合并 report）。
+
+    「云帆中证500和华曦消费升级哪个更推荐买」：
+    - 每个实体独立走一级检索（锚定防串台机制复用，各自 scope 隔离）；
+    - 每实体取其基金产品概况章节（档案事实：经理/类型/风险等级）；
+    - claims 带实体来源标记（「云帆中证500：…」），LLM 表达据此组织对比；
+    - factual-only：对比结论只能基于可溯源事实（风险等级/类型差异），
+      不做投资建议（系统原则：LLM 不是事实来源，建议含不可溯源的未来判断）。
+    """
+    store = store or get_store()
+    anchors = intent.get("entity_anchors") or []
+    if len(anchors) < 2:
+        return _unresolved(question, "compare_entities 需要至少两个对象锚点")
+
+    lines: list[str] = []
+    evidence: list[dict] = []
+    claims: list[dict] = []
+    seq = 1
+    claim_seq = 1
+    for anchor in anchors:
+        r = retrieve(question, store=store, ctx=ctx, query_graph=query_graph,
+                     entity_iri=anchor["iri"])
+        # 档案事实优先取"基金产品概况"章节；无命中退而取首条
+        profile = [c for c in r.chunks if c.section == "基金产品概况"] or r.chunks[:1]
+        if not profile:
+            lines.append(f"（{anchor['label']}）未找到相关文档。")
+            continue
+        chunk = profile[0]
+        eid = f"R{seq}"; seq += 1
+        evidence.append(_document_evidence(int(eid[1:]), chunk))
+        # claim 带实体来源前缀：表达层与证据面板都能对上"谁的事实"
+        sentences = [s for s in chunk.text.split("。") if s.strip()]
+        facts = "；".join(sentences[:3])
+        cid = f"C{claim_seq}"; claim_seq += 1
+        claims.append({"claim_id": cid, "type": "fact",
+                       "claim": f"{anchor['label']}：{facts}。",
+                       "evidence": [eid]})
+        lines.append(f"{anchor['label']}：{facts}。 [{eid}]")
+
+    if not claims:
+        return _unresolved(question, "未找到任何对象的档案文本")
+    lines.append("（以上为两只基金的可溯源档案事实；投资决策需结合自身风险承受能力，"
+                 "本系统不提供投资建议。）")
+    report = {
+        "meta": {"reasoning": {"profile": "multi_entity_compare",
+                               "inference_enabled": False,
+                               "query_graph": "多锚点独立检索（scope 隔离）+ 合并证据"}},
+        "evidence": evidence, "claims": claims, "unresolved": [],
+    }
+    return ExplainAnswer(status="ok", text="\n".join(lines), report=report)
+
+
 def _unresolved(question: str, note: str) -> ExplainAnswer:
     return ExplainAnswer(status="unresolved",
                          text=f"未能回答该解释类问题（{note}）。")

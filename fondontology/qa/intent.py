@@ -62,12 +62,16 @@ def _candidate_json(c: Candidate) -> dict:
 
 
 def build_intent(question: str, index: OntologyIndex,
-                 *, use_llm: Optional[bool] = None) -> IntentResult:
+                 *, use_llm: Optional[bool] = None,
+                 context: Optional[dict] = None) -> IntentResult:
     """入口：模型语义解析为主、确定性规则兜底。
 
     use_llm：None=按 .env 配置；True=强制模型；False=强制规则（单测/确定性回归）。
     LLM 看到本体语义视图（类层级/关系/属性约束），输出 SemanticParse 后过
     白名单 + domain/range 校验；模型未配置/失败/输出非法 → 回落规则路径。
+    context：可选对话上文（{"last_question","last_answer","last_entities"}）。
+    含代词的问句若 coref 改写已失败，主判 prompt 注入上文让它自行消解
+    （双保险：改写器失败不裸奔）。
     """
     if use_llm is None:
         use_llm = llm_configured()
@@ -78,7 +82,7 @@ def build_intent(question: str, index: OntologyIndex,
         fast = _try_anchor_fast_path(question, index)
         if fast is not None:
             return fast
-        result = _build_llm_intent(question, index)
+        result = _build_llm_intent(question, index, context=context)
         if result is not None and result.is_usable:
             return result
     fallback = _build_deterministic_intent(question, index)
@@ -974,8 +978,9 @@ _LLM_SCHEMA = """{
   "order_direction": "desc" 或 "asc",
   "limit": 数字 或 null,
   "entity_label": "<问题中的具体基金名/经理名/公司名原文>" 或 null,
+  "entity_labels": ["<实体1原文>", "<实体2原文>"] 或 null,
   "filters": [{"property": "<属性 local 名>", "operator": "eq|contains|>=|<=|>|<", "value": "<值原文>"}],
-  "explain_type": "define|describe|regulation|code|compare" 或 null,
+  "explain_type": "define|describe|regulation|code|compare|compare_entities" 或 null,
   "explain_code": "<问题中的代码原文，如 R4/C3>" 或 null,
   "section_hint": "管理人报告" 或 null,
   "verify_subject": "<类 local 名>" 或 null,
@@ -990,7 +995,11 @@ explain_type 判别准则（按用户想知道什么判断，不是句式匹配�
   问"怎么看/观点/后市"时 section_hint 填"管理人报告"）
 - regulation：想知道监管/合规方面的限制或要求（X有什么限制/监管要求/规定）
 - code：想知道某个代码/等级标记的含义（R4是什么意思/C3是什么；explain_code 填代码原文）
-- compare：想知道两个概念的差异（X和Y的区别/差异/对比；verify_subject/verify_object 填两个类）"""
+- compare：想知道两个类/概念的差异（X和Y的区别；verify_subject/verify_object 填两个类）
+- compare_entities：问题同时涉及两个及以上具体对象（具体基金/经理），
+  要对比它们的档案、表现或观点，或问"哪个更X/更推荐"——此时
+  entity_labels 填全部对象原文（两个以上），entity_label 留 null。
+  注意：类与类的对比用 compare；具体对象之间的对比才用 compare_entities"""
 
 _LLM_EXAMPLES = """示例1：
 问题：有哪些交易型开放式指数基金
@@ -1039,6 +1048,16 @@ _LLM_EXAMPLES = """示例1：
   "select": "entities", "related": null, "relation_path": null, "aggregation": null,
   "order_by": null, "order_direction": "desc", "limit": null, "entity_label": null,
   "filters": [], "explain_code": "R4", "section_hint": null,
+  "verify_subject": null, "verify_object": null, "verify_relation": null}
+
+示例6b（多实体对比——两个具体基金/对象的对比或"哪个更X/更推荐"用
+explain+compare_entities，entity_labels 填全部对象，entity_label 留 null）：
+问题：云帆中证500和华曦消费升级哪个更推荐买？
+输出：{"operation": "explain", "target": null, "explain_type": "compare_entities",
+  "select": "entities", "related": null, "relation_path": null, "aggregation": null,
+  "order_by": null, "order_direction": "desc", "limit": null, "entity_label": null,
+  "filters": [], "explain_code": null, "section_hint": null,
+  "entity_labels": ["云帆中证500", "华曦消费升级"],
   "verify_subject": null, "verify_object": null, "verify_relation": null}
 
 示例7（聚合约束——"同时管理多个"是 COUNT(基金)>=2，不是普通列举）：
@@ -1097,17 +1116,33 @@ _LLM_EXAMPLES = """示例1：
   "verify_subject": null, "verify_object": null, "verify_relation": null}"""
 
 
-def _build_llm_intent(question: str, index: OntologyIndex) -> Optional[IntentResult]:
+def _build_llm_intent(question: str, index: OntologyIndex,
+                      context: Optional[dict] = None) -> Optional[IntentResult]:
     if not (question or "").strip():
         return None
     ctx = OntologyContext.from_stack(index.stack)
     semantic_view = ctx.render_for_llm()
+
+    # 对话上文（coref 改写失败时的双保险：主判模型自行消解代词/省略）
+    context_block = ""
+    if context and (context.get("last_question") or context.get("last_answer")):
+        last_q = context.get("last_question") or ""
+        last_a = (context.get("last_answer") or "")[:400]
+        ents = "、".join(e for e in (context.get("last_entities") or []) if e)
+        context_block = (
+            "\n【对话上文】（当前问题若含代词（这个/它/他/这家…）或省略主语，"
+            "先据上文消解再解析；解析结果仍须过白名单）\n"
+            f"上文问题：{last_q}\n上文回答（节选）：{last_a}\n"
+            + (f"上文涉及对象：{ents}\n" if ents else "")
+            + "\n"
+        )
 
     prompt = (
         "你是中国基金领域本体（CNFO）驱动的语义解析器。把用户问题解析为结构化 "
         "SemanticParse（JSON），供下游生成图查询。解析时必须利用下面的本体语义视图"
         "（类层级、类间关系、数据属性），不得把领域词当普通字符串处理。\n\n"
         f"{semantic_view}\n\n"
+        f"{context_block}"
         "【解析要点】\n"
         "1. target 是用户想问的对象类型；related 是聚合/排名中涉及的另一类。\n"
         "2. relation_path 是 target→related 的本体关系路径（取自【类间关系】，"
@@ -1215,6 +1250,27 @@ def _call_deconstructor(prompt: str, max_attempts: int = 2) -> Optional[dict]:
         return None
 
 
+def _resolve_entity_label(index: OntologyIndex, resolver: VocabularyResolver,
+                          label: str, question: str):
+    """实体标签 → Candidate；三级容差（精确词表 → +基金后缀 → 模糊提及）。
+
+    label 是 LLM 给的对象原文（简称/变体常见）；question 用于最后一级
+    的整句模糊提及兜底（人名等短标签场景）。
+    """
+    if not label:
+        return None
+    ents = resolver.viable(resolver.resolve_entity(label))
+    if ents:
+        return ents[0]
+    ents_f = resolver.viable(resolver.resolve_entity(label + "基金"))
+    if ents_f:
+        return ents_f[0]
+    mention = _find_entity_mention(index, label)
+    if mention is not None:
+        return mention
+    return _find_entity_mention(index, question)
+
+
 def _parse_llm_intent(question: str, data: dict, index: OntologyIndex,
                       resolver: VocabularyResolver,
                       validator: WhitelistValidator,
@@ -1292,26 +1348,32 @@ def _parse_llm_intent(question: str, data: dict, index: OntologyIndex,
             return IntentResult(question, _RESOLVED, "explain", intent=intent,
                                 candidates=[], used_llm=True,
                                 notes=["LLM 语义解析已过白名单校验"])
+        if etype == "compare_entities":
+            # 多实体对比（R4.5）：两个以上具体对象的档案/表现/观点对比
+            labels = [str(x).strip() for x in (data.get("entity_labels") or [])
+                      if str(x).strip()]
+            if len(labels) < 2:
+                return None
+            anchors: list = []
+            for label in labels:
+                ent = _resolve_entity_label(index, resolver, label, question)
+                if ent is None:
+                    return None   # 任一对象锚不定 → 交回兜底链路
+                anchors.append(ent)
+            intent = {
+                "operation": "explain", "explain_type": "compare_entities",
+                "entity_anchors": [{"iri": a.iri, "label": a.label} for a in anchors],
+                "target_concept": question, "target_candidates":
+                    [_candidate_json(a) for a in anchors],
+                "resolution": {"status": _RESOLVED, "method": "llm_compare_entities"},
+            }
+            return IntentResult(question, _RESOLVED, "explain", intent=intent,
+                                candidates=intent["target_candidates"], used_llm=True,
+                                notes=["LLM 语义解析已过白名单校验"])
         if etype == "describe":
             entity_label = str(data.get("entity_label") or "").strip()
-            # 先精确词表解析；简称/变体走模糊提及匹配——输入用 LLM 给的
-            # entity_label（问题原文含"的经理怎么看"等修饰，整体不是标签前缀）
-            entity_anchor = None
-            if entity_label:
-                ents = resolver.viable(resolver.resolve_entity(entity_label))
-                entity_anchor = ents[0] if ents else None
-                if entity_anchor is None:
-                    ents_f = resolver.viable(resolver.resolve_entity(entity_label + "基金"))
-                    entity_anchor = ents_f[0] if ents_f else None
-                if entity_anchor is None:
-                    mention = _find_entity_mention(index, entity_label)
-                    if mention is not None:
-                        entity_anchor = mention
-            if entity_anchor is None:
-                # entity_label 未命中时退回整句模糊提及（人名等短标签场景）
-                mention = _find_entity_mention(index, question)
-                if mention is not None:
-                    entity_anchor = mention
+            entity_anchor = _resolve_entity_label(index, resolver, entity_label, question) \
+                if entity_label else None
             if entity_anchor is None:
                 return None   # describe 无实体锚点无法检索，交回兜底链路
             section_hint = str(data.get("section_hint") or "").strip() or None

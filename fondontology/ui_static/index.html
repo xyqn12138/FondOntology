@@ -325,7 +325,17 @@ function openConversation(id){
   focusInput();
 }
 function deleteConversation(id){
-  if(streaming) return;
+  if(streaming){
+    // 流式进行中不可删：给可见反馈而非静默吞掉点击
+    const hint = document.querySelector('.composer-hint');
+    if(hint){
+      const orig = hint.textContent;
+      hint.textContent = '回答生成中，请先停止生成或等待完成后再删除对话';
+      hint.style.color = '#d64545';
+      setTimeout(() => { hint.textContent = orig; hint.style.color = ''; }, 1800);
+    }
+    return;
+  }
   conversations = conversations.filter(c => c.id !== id);
   if(activeId === id) activeId = conversations.length ? conversations[0].id : null;
   saveConversations();
@@ -591,6 +601,16 @@ function send(question){
 
   const params = new URLSearchParams({q: question});
   if(uiLlm !== null) params.set('use_llm', String(uiLlm));
+  // 对话上文（指代消解）：带上轮话题实体与问答原文
+  const lastMsgs = (activeConv() || {messages: []}).messages;
+  const prevAssistant = [...lastMsgs].reverse().find(m => m.role === 'assistant' && !m.meta?.streaming);
+  const prevUser = lastMsgs.filter(m => m.role === 'user').slice(-1)[0];
+  if(prevAssistant && prevUser){
+    const ctx = {last_question: prevUser.content,
+                 last_answer: (prevAssistant.content || '').slice(0, 800),
+                 last_entities: prevAssistant.meta?.context_entities || []};
+    params.set('ctx', JSON.stringify(ctx));
+  }
   const es = new EventSource('/api/qa/ask/stream?' + params.toString());
   currentSource = es;
 
@@ -625,6 +645,15 @@ function send(question){
         placeholder.content = ans.text || '';
         placeholder.meta = buildMetaFromAnswer(ans);
         renderThread();
+      }
+      // 本轮话题实体（下轮指代消解的上文）——两条路径都写入
+      if(d.context_entities && d.context_entities.length){
+        const withEnt = m => { (m = m || {}).context_entities = d.context_entities; return m; };
+        if(typer && typer.msg === placeholder){
+          typer.meta = withEnt(typer.meta);
+        } else {
+          placeholder.meta = withEnt(placeholder.meta);
+        }
       }
       gotAnswer = true;
     }catch(err){
@@ -770,10 +799,12 @@ function switchModule(name){
 
 /* ================= 事件绑定 ================= */
 document.addEventListener('click', e => {
-  const convBtn = e.target.closest('[data-convo]');
-  if(convBtn){ openConversation(convBtn.dataset.convo); return; }
+  // 删除按钮在会话条目内部：必须先判 data-del，否则命中外层 data-convo
+  // 直接 return 打开会话，删除分支永远不可达（曾导致删除无反应）
   const delBtn = e.target.closest('[data-del]');
   if(delBtn){ e.stopPropagation(); deleteConversation(delBtn.dataset.del); return; }
+  const convBtn = e.target.closest('[data-convo]');
+  if(convBtn){ openConversation(convBtn.dataset.convo); return; }
   const retryBtn = e.target.closest('[data-retry]');
   if(retryBtn){ retry(Number(retryBtn.dataset.retry)); return; }
   const copyBtn = e.target.closest('[data-copy]');
