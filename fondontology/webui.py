@@ -60,6 +60,58 @@ SUGGESTIONS = [
 ]
 
 
+# 常用系统谓词的中文译名（RDF/RDFS/OWL 命名空间内固定映射）
+_PRED_ZH = {
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "类型是",
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": "子类于",
+    "http://www.w3.org/2000/01/rdf-schema#label": "名称",
+    "http://www.w3.org/2002/07/owl#equivalentClass": "等价于",
+    "http://www.w3.org/2002/07/owl#disjointWith": "互斥于",
+    "http://www.w3.org/2002/07/owl#inverseOf": "互逆于",
+}
+_CNFO_NS = "https://ontology.example.cn/cnfo/ontology/"
+_CNFOA_NS = "https://ontology.example.cn/cnfo/abox/"
+
+
+def _translate_evidence(ans: QaAnswer, stack) -> None:
+    """证据 source 三元组的 IRI 翻译为中文（展示层友好）。
+
+    就地给 report.evidence 每条加 source_zh（与 source 并存：原文保留可审计，
+    展示用翻译）。实体 → A-BOX label；类/属性 → T-BOX label；系统谓词 →
+    固定译名表；无法翻译 → 本地名（去掉命名空间的最后一段）。
+    """
+    rep = ans.report
+    if not rep or not rep.get("evidence"):
+        return
+    from rdflib import RDFS, SKOS, URIRef
+
+    def _zh(iri: str) -> str:
+        if not iri or not iri.startswith("http"):
+            return str(iri)
+        if iri in _PRED_ZH:
+            return _PRED_ZH[iri]
+        # 属性优先（cnfo 命名空间下属性与类同名空间，先查属性 label）
+        u = URIRef(iri)
+        for g in (stack.tbox, stack.abox):
+            for pred in (SKOS.prefLabel, RDFS.label):
+                for o in g.objects(u, pred):
+                    return str(o)
+        # 剩余：本地名兜底
+        return iri.rstrip("/#").rsplit("/", 1)[-1].rsplit("#", 1)[-1]
+
+    for ev in rep["evidence"]:
+        src = ev.get("source")
+        if not isinstance(src, list) or not src:
+            continue
+        # 典型形态：[主语IRI, 谓词IRI, 宾语IRI]（declared/inference）
+        # 或 [kind, targetIRI]（query）；仅对 3 元组形态翻译
+        if len(src) >= 3 and all(isinstance(x, str) for x in src[:3]):
+            ev["source_zh"] = [ _zh(src[0]), _zh(src[1]), _zh(src[2]) ]
+        elif ev.get("kind") == "query" and len(src) >= 2:
+            ev["source_zh"] = ["查询", _zh(src[1])]
+        # 其余形态不翻译（chunk locator 等自有展示逻辑）
+
+
 def _qa_answer_dict(ans: QaAnswer) -> dict:
     """QaAnswer → 可 JSON 序列化的 dict（report/explanation 均为纯 JSON 结构）。"""
     return {
@@ -73,6 +125,7 @@ def _qa_answer_dict(ans: QaAnswer) -> dict:
         "verdict": ans.verdict,
         "explanation": ans.explanation,
         "intent_status": ans.intent_status,
+        "rewritten_question": getattr(ans, "rewritten_question", None),
     }
 
 
@@ -238,6 +291,7 @@ def create_web_app(*,
         with qa_lock:
             ans = answer_question(question, stack, use_llm=use_llm,
                                   context=payload.context)
+            _translate_evidence(ans, stack)
         return {"question": question, "answer": _qa_answer_dict(ans),
                 "context_entities": _context_entities(ans)}
 
@@ -272,6 +326,7 @@ def create_web_app(*,
                         context=context,
                         on_phase=lambda code, msg: put("phase", {"code": code, "message": msg}),
                         on_text_delta=lambda chunk: put("delta", {"text": chunk}))
+                _translate_evidence(ans, stack)
                 put("answer", {"answer": _qa_answer_dict(ans),
                                "context_entities": _context_entities(ans)})
             except Exception as exc:  # 服务端兜底：不击穿连接，错误经 SSE 下发

@@ -46,6 +46,7 @@ def _local(uri: str) -> str:
 
 def plan_find(*, target: str, tbox: Graph, abox: Optional[Graph] = None,
               source: Optional[str] = None,
+              question: Optional[str] = None,           # 原始问句（路径相关性排序用）
               filters: Optional[list[dict]] = None,       # {"property","operator","value"}
               projections: Optional[list[str]] = None,    # 属性 local name / IRI
               exclusions: Optional[list[str]] = None,     # 实体 local name / IRI（ABOX 锚点）
@@ -166,7 +167,10 @@ def plan_find(*, target: str, tbox: Graph, abox: Optional[Graph] = None,
             and hop_start_local != target_local and not errors:
         plan_auto_paths = ctx.find_relation_paths(hop_start_local, target_local)
         if plan_auto_paths:
-            path = ctx.best_path(plan_auto_paths, question=str(source),
+            # 相关性排序必须喂真实问句：喂 IRI 时 score_path 无语义信号，
+            # 退化为跳数排序会选中语义错误的边（"哪家公司"曾选中托管边）
+            path = ctx.best_path(plan_auto_paths,
+                                 question=question or target_local,
                                  from_local=hop_start_local)
             if path:
                 for hop in path:
@@ -262,6 +266,10 @@ def plan_find(*, target: str, tbox: Graph, abox: Optional[Graph] = None,
         "traversals": plan_traversals,
         # 锚点自动发现的候选路径（多候选时 execute 侧逐条试到有结果）
         "auto_traversal_candidates": plan_auto_paths,
+        # 空结果恢复上下文（execute 侧现场发现候选用）：
+        # question 供相关性排序；anchor_hop_start 是锚点实体最具体类型
+        "question": question or "",
+        "anchor_hop_start": hop_start_local if plan_source else None,
         "related": plan_related,
         "relation_path": plan_rel_path,
         "projections": plan_projections,

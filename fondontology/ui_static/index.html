@@ -132,6 +132,28 @@
   .type-caret{display:inline-block;width:2px;height:1.05em;vertical-align:-2px;margin-left:2px;
     background:var(--accent);animation:caret-blink .9s steps(1) infinite}
   @keyframes caret-blink{50%{opacity:0}}
+
+  /* 确认弹窗（应用内模态，替代原生 confirm） */
+  .modal-mask{position:fixed;inset:0;background:rgba(15,23,42,.42);backdrop-filter:blur(2px);
+    display:grid;place-items:center;z-index:2000;animation:modal-fade .16s ease}
+  @keyframes modal-fade{from{opacity:0}}
+  .modal{width:360px;max-width:calc(100vw - 48px);background:var(--bg);border-radius:14px;
+    box-shadow:0 18px 50px rgba(15,23,42,.28);padding:22px 22px 18px;
+    animation:modal-pop .18s cubic-bezier(.2,.9,.3,1.2)}
+  @keyframes modal-pop{from{opacity:0;transform:scale(.92) translateY(8px)}}
+  .modal-icon{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;
+    font-size:18px;background:#fdf0f0;color:var(--danger);margin-bottom:12px}
+  .modal-title{font-size:15.5px;font-weight:700;margin:0 0 6px}
+  .modal-body{font-size:13px;color:var(--muted);line-height:1.65;margin:0 0 18px;word-break:break-all}
+  .modal-actions{display:flex;justify-content:flex-end;gap:10px}
+  .modal-btn{padding:8px 18px;border-radius:9px;font-size:13px;font-weight:600;
+    border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;
+    transition:all .14s}
+  .modal-btn:hover{border-color:var(--muted)}
+  .modal-btn.danger{background:var(--danger);border-color:var(--danger);color:#fff}
+  .modal-btn.danger:hover{background:#c03d3d;border-color:#c03d3d}
+  .modal-btn:focus-visible,.modal-btn.default-focus{outline:2px solid var(--accent);
+    outline-offset:2px}
   .msg-actions{display:flex;gap:6px;margin-top:10px;opacity:0;transition:opacity .15s}
   .msg:hover .msg-actions{opacity:1}
   .msg-action{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);
@@ -173,6 +195,20 @@
     font-size:11px;overflow:auto;white-space:pre-wrap;word-break:break-all;font-family:Consolas,monospace}
   .ev-item .src{display:block;margin-top:5px;font-size:11px;color:var(--muted);word-break:break-all;
     font-family:Consolas,monospace}
+  /* 改写后问题（指代消解展示） */
+  .rq-line{font-size:13px;line-height:1.6;color:var(--ink);background:var(--accent-soft);
+    border:1px solid #cfe9e5;border-radius:8px;padding:9px 12px;display:flex;
+    align-items:center;gap:8px;flex-wrap:wrap}
+  .rq-tag{font-size:10.5px;font-weight:700;color:var(--accent-dark);background:#fff;
+    border:1px solid #cfe9e5;border-radius:5px;padding:1px 7px;flex:0 0 auto}
+  /* 证据中文翻译 */
+  .src-zh{margin-top:6px;font-size:12.5px;color:var(--ink);line-height:1.6;
+    background:var(--bg-soft);border-radius:6px;padding:6px 10px}
+  .src-raw{margin-top:4px;font-size:11px;color:var(--muted)}
+  .src-raw summary{cursor:pointer;user-select:none;list-style:none;color:var(--muted)}
+  .src-raw summary::before{content:"▸ ";transition:transform .15s}
+  .src-raw[open] summary::before{transform:rotate(90deg)}
+  .src-raw .src{display:block;margin-top:4px}
 
   /* ---------- 输入区 ---------- */
   .composer-wrap{padding:8px 22px 18px;background:linear-gradient(180deg,rgba(255,255,255,0),var(--bg) 30%)}
@@ -324,6 +360,42 @@ function openConversation(id){
   renderAll();
   focusInput();
 }
+/* ================= 通用确认弹窗（应用内模态，替代原生 confirm） ================= */
+function appConfirm({title, body, confirmText = '删除', danger = true}){
+  return new Promise(resolve => {
+    const mask = document.createElement('div');
+    mask.className = 'modal-mask';
+    mask.innerHTML =
+      '<div class="modal" role="dialog" aria-modal="true">' +
+        '<div class="modal-icon">🗑️</div>' +
+        '<h3 class="modal-title">' + esc(title) + '</h3>' +
+        '<p class="modal-body">' + esc(body) + '</p>' +
+        '<div class="modal-actions">' +
+          '<button class="modal-btn" data-modal-cancel>取消</button>' +
+          '<button class="modal-btn ' + (danger ? 'danger' : '') + '" data-modal-ok>' +
+            esc(confirmText) + '</button>' +
+        '</div>' +
+      '</div>';
+    const done = val => { mask.remove(); document.removeEventListener('keydown', onKey); resolve(val); };
+    const onKey = e => {
+      if(e.key === 'Escape') done(false);
+      if(e.key === 'Enter') done(true);
+    };
+    mask.addEventListener('click', e => {
+      if(e.target === mask) done(false);                       // 点遮罩取消
+      if(e.target.closest('[data-modal-cancel]')) done(false);
+      if(e.target.closest('[data-modal-ok]')) done(true);
+    });
+    document.addEventListener('keydown', onKey);
+    document.body.appendChild(mask);
+    // 焦点给确认键；危险操作也可 Tab 到取消（键盘可达）
+    const okBtn = mask.querySelector('[data-modal-ok]');
+    const cancelBtn = mask.querySelector('[data-modal-cancel]');
+    (danger ? cancelBtn : okBtn).classList.add('default-focus');
+    okBtn.focus();
+  });
+}
+
 function deleteConversation(id){
   if(streaming){
     // 流式进行中不可删：给可见反馈而非静默吞掉点击
@@ -338,11 +410,14 @@ function deleteConversation(id){
   }
   const conv = conversations.find(c => c.id === id);
   const title = conv ? conv.title : '该对话';
-  if(!confirm('删除对话「' + title + '」？\n删除后不可恢复。')) return;
-  conversations = conversations.filter(c => c.id !== id);
-  if(activeId === id) activeId = conversations.length ? conversations[0].id : null;
-  saveConversations();
-  renderAll();
+  appConfirm({title: '删除对话「' + title + '」？', body: '删除后对话记录不可恢复。'})
+    .then(ok => {
+      if(!ok) return;
+      conversations = conversations.filter(c => c.id !== id);
+      if(activeId === id) activeId = conversations.length ? conversations[0].id : null;
+      saveConversations();
+      renderAll();
+    });
 }
 function pushMessage(conv, msg){
   conv.messages.push(msg);
@@ -444,12 +519,14 @@ function buildMetaFromAnswer(ans){
   return {
     kind: ans.kind, status: ans.status, verdict: ans.verdict,
     intent_status: ans.intent_status,
+    rewritten_question: ans.rewritten_question || null,
     explanation: ans.explanation || null,
     verify: report.verify || null,
     claims: (report.claims || []).map(c => ({claim_id:c.claim_id, type:c.type, claim:c.claim, evidence:c.evidence})),
     evidence: (report.evidence || []).map(e => ({
       id:e.id, kind:e.kind, rule:e.rule || null, sparql:e.sparql || null,
-      row_count:e.row_count || null, note:e.note || null, source:e.source || null
+      row_count:e.row_count || null, note:e.note || null,
+      source:e.source || null, source_zh:e.source_zh || null
     }))
   };
 }
@@ -467,6 +544,13 @@ function evidencePanel(meta){
   const exp = meta.explanation || {};
   let html = '<details class="evidence"><summary>证据与溯源<span class="counts">' +
     claims.length + ' claims · ' + evs.length + ' evidence</span></summary><div class="inner">';
+
+  // 指代消解后的实际查询（多轮场景展示改写链路）
+  if(meta.rewritten_question){
+    html += '<div class="ev-sec"><h5>改写后的问题</h5><div class="rq-line">✎ ' +
+      esc(meta.rewritten_question) +
+      ' <span class="rq-tag">指代消解</span></div></div>';
+  }
 
   // 表达与判定
   html += '<div class="ev-sec"><h5>表达与判定</h5><div class="exp-line">' + gatePill(exp) +
@@ -492,7 +576,17 @@ function evidencePanel(meta){
         (e.note ? ' <span>' + esc(e.note) + '</span>' : '') +
         (e.row_count != null ? ' <span>rows=' + esc(e.row_count) + '</span>' : '');
       if(e.sparql) body += '<pre>' + esc(e.sparql) + '</pre>';
-      if(e.source && e.source.length) body += '<span class="src">' + esc(e.source.join(' · ')) + '</span>';
+      // source_zh 优先（后端翻译的中文三元组/查询描述）；原文 IRI 收进
+      // 可展开详情（hover title 提示 + 点击展开），保持可审计
+      if(e.source_zh && e.source_zh.length){
+        body += '<div class="src-zh">' + esc(e.source_zh.join(' · ')) + '</div>';
+        if(e.source && e.source.length){
+          body += '<details class="src-raw"><summary>IRI 原文</summary><span class="src">' +
+            esc(e.source.join(' · ')) + '</span></details>';
+        }
+      } else if(e.source && e.source.length){
+        body += '<span class="src">' + esc(e.source.join(' · ')) + '</span>';
+      }
       return '<div class="ev-item">' + body + '</div>';
     }).join('');
     html += '</div>';

@@ -45,7 +45,7 @@ def _get_ctx(stack: DataStack):
 
 @dataclass
 class QaAnswer:
-    kind: str                       # find | verify | intent
+    kind: str                       # find | verify | intent | classify | explain
     status: str                     # ok | invalid | unresolved | ambiguous
     text: str
     claims: list = field(default_factory=list)
@@ -55,6 +55,7 @@ class QaAnswer:
     verdict: Optional[str] = None   # verify 四状态
     explanation: Optional[dict] = None   # M5：{gate, used_llm, ucr, claims_used}
     intent_status: Optional[str] = None
+    rewritten_question: Optional[str] = None   # 指代消解后实际执行的问句（展示用）
 
 
 def _cand_label(c) -> str:
@@ -126,6 +127,10 @@ def answer_question(question: str, stack: DataStack, *,
                                 max_subgraph_entities=max_subgraph_entities,
                                 use_llm=use_llm, on_phase=on_phase,
                                 qa_context=context)
+    if context:
+        # 展示层：记录改写后实际执行的问句（前端证据面板展示）；
+        # 与原问相同时置空（无需展示）
+        ans.rewritten_question = question if question != (context.get("last_question") or question) else None
     _emit_text_deltas(ans.text, on_text_delta)
     return ans
 
@@ -276,6 +281,7 @@ def _answer_question_impl(question: str, stack: DataStack, *,
     plan = plan_find(
         target=intent["target_class"], tbox=stack.tbox, abox=stack.abox,
         source=intent.get("source"),
+        question=question,
         traversals=intent.get("traversals"),
         filters=filters,
         exclusions=intent.get("exclusions"),

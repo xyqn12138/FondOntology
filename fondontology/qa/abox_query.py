@@ -50,18 +50,45 @@ def execute_find(stack: DataStack, plan: dict,
     sparql = build_select(plan)
     rows = list(graph.query(sparql))
 
-    # 锚点自动路径多候选 fallback：首条（best_path 所选）空结果时逐条试
-    # 其余候选（确定性顺序=跳数升序）。覆盖"Fund→Party 多条边"场景：
-    # 最短边（如托管）语义选错返回空，管理公司角色链（两跳）才有结果。
-    if not rows and not plan.get("aggregations"):
-        for path in plan.get("auto_traversal_candidates") or []:
+    # 锚点空结果恢复：查询空结果且存在锚点时，穷尽锚点类型→target 的
+    # 全部合法替代路径逐条试到有结果（查询层不变量：锚定查询不因单边
+    # 选错而宣告空）。候选来源两路：
+    # ① plan 预生成（planner 安全网，LLM 未填路径时）；
+    # ② 现场发现（LLM 填了语义错误的边——"哪家公司"曾选中托管边返回 0，
+    #    预生成条件 not plan_traversals 不满足导致无候选可试）。
+    if not rows and not plan.get("aggregations") and plan.get("source"):
+        candidates = list(plan.get("auto_traversal_candidates") or [])
+        anchor_start = plan.get("anchor_hop_start")
+        target_concept = (plan.get("target") or {}).get("concept")
+        if anchor_start and target_concept and not candidates:
+            try:
+                from .semantics import OntologyContext
+                from .graph import DataStack
+                if isinstance(stack, DataStack):
+                    ctx = OntologyContext.from_stack(stack)
+                    from rdflib.namespace import RDF as _RDF
+                    from rdflib import URIRef as _URIRef
+                    CNFO_NS = "https://ontology.example.cn/cnfo/ontology/"
+                    types = [_local_name(str(t)) for t in
+                             stack.abox.objects(_URIRef(plan["source"]["entity"]), _RDF.type)
+                             if str(t).startswith(CNFO_NS)]
+                    types = [t for t in types if t in ctx.classes]
+                    if types:
+                        start = max(types, key=lambda t: len(ctx.ancestors_of(t)))
+                        candidates = ctx.find_relation_paths(start, _local_name(target_concept))
+            except Exception:
+                candidates = []
+        tried = {tuple((t.get("property"), t.get("inverse")) for t in plan.get("traversals") or [])}
+        for path in candidates:
             cand_traversals = [{
                 "property": str(hop["property"]),
                 "inverse": bool(hop.get("inverse")),
                 "filter": None, "from": None, "to": None,
             } for hop in path]
-            if not cand_traversals or cand_traversals == plan.get("traversals"):
+            key = tuple((t["property"], t["inverse"]) for t in cand_traversals)
+            if not cand_traversals or key in tried:
                 continue
+            tried.add(key)
             cand_plan = dict(plan)
             cand_plan["traversals"] = cand_traversals
             cand_sparql = build_select(cand_plan)
