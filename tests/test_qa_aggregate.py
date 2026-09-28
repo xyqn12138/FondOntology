@@ -358,15 +358,17 @@ class RelatedFilterTest(unittest.TestCase):
         self.assertIn("MoneyMarketFund", r.intent["target_class"])
         self.assertIn("FundPerformanceRecord", r.intent["related_class"])
 
-    def test_compare_rejected_before_llm(self) -> None:
-        # Phase 2 边界两路径一致：对比类问题不进入 LLM 解析
+    def test_compare_resolved_before_llm(self) -> None:
+        # T-BOX 对比是确定性能力：已解决且不进入 LLM 解析
         from unittest import mock
         from fondontology.qa import intent as intent_mod
         with mock.patch.object(intent_mod, "_call_deconstructor") as m:
             r = intent_mod.build_intent("公募基金和私募基金有什么区别",
                                         self.index, use_llm=True)
-        self.assertEqual(r.status, "UNRESOLVED")
+        self.assertEqual(r.status, "RESOLVED")
         self.assertFalse(r.used_llm)
+        self.assertEqual(r.intent["operation"], "explain")
+        self.assertEqual(r.intent["explain_type"], "compare")
         m.assert_not_called()
 
 

@@ -2,7 +2,7 @@
 
 版本：0.5（重构后回填：意图层改为语义视图注入的 LLM 语义解构、新增 OntologyContext、聚合/排名查询落地、enforce 批量导入生产路径、唯一性约束两层补齐、LLM 调用全流式化；v0.4 冻结稿的架构定论与证据合同不变，本版记录"代码逼设计暴露问题"后的实际形态）
 日期：2026-09-07（v0.4：2026-09-03）
-关联本体：CNFO v0.5.3（`ontology/modules/cnfo-domain.ttl` 入口；发布件 `artifacts/cnfo/cnfo-fund-tbox.ttl`）
+关联本体：CNFO v0.6.0（`ontology/modules/cnfo-domain.ttl` 入口；发布件 `artifacts/cnfo/cnfo-fund-tbox.ttl`）
 数据：仿真 A-BOX（`artifacts/cnfo/abox/cnfo-sim-abox.ttl`；SQLite 镜像改为 `--sqlite` 可选产出）
 状态：**v0.5 回填冻结**（架构讨论收敛；以下用代码和 benchmark 逼设计暴露问题）
 
@@ -12,9 +12,9 @@
 
 | 阶段 | Ontology 的角色 | 当前实现 | 状态 |
 |---|---|---|---|
-| ① **Semantic Modeling** | 定义"有哪些东西/什么类型/什么属性/哪些关系合法" | CNFO 0.5.3（143 类/204 属性/互斥组/4 属性链/代码表） | ✅ 完备 |
+| ① **Semantic Modeling** | 定义"有哪些东西/什么类型/什么属性/哪些关系合法" | CNFO 0.6.0（143 类/204 属性/互斥组/4 属性链/代码表/文本资产） | ✅ 完备 |
 | ② **Semantic Enforcement** | 数据导入期的 **Schema/Mapping 目标**：类型约束、关系约束（domain/range）、属性约束、继承闭环、**唯一性约束** | `qa/enforce.py`（Raw Data → Entity Resolution → Ontology Mapping → Validation → 静态推理 → Semantic Graph）；**`import_records()` 批量导入生产路径**；fundCode=合并键 / fundName=全库唯一；SHACL 跨节点唯一性约束（SPARQL） | ✅ 落地（`tests/test_qa_enforce.py`；库内同名/批内重复导入被拒实测） |
-| ③ **Semantic Querying** | LLM 的**世界模型**：概念/实体/关系/约束 → QueryPlan → SPARQL → 推理层 → 结果 | **`qa/semantics.py` OntologyContext**（语义视图注入 prompt + 白名单/domain-range 守门 + 关系路径发现）+ intent/query_planner/sparql_builder + 定向物化推理 + LLM 表达闸门 | ✅ 主体具备；**COUNT 聚合/Top-N 排名已落地**；SUM/AVG/时间序列/compare 待扩展 |
+| ③ **Semantic Querying** | LLM 的**世界模型**：概念/实体/关系/约束 → QueryPlan → SPARQL → 推理层 → 结果 | **`qa/semantics.py` OntologyContext**（语义视图注入 prompt + 白名单/domain-range 守门 + 关系路径发现）+ intent/query_planner/sparql_builder + 定向物化推理 + LLM 表达闸门 | ✅ 主体具备；COUNT/Top-N、P2 条件树、SUM/AVG/MAX/MIN、日期范围、每实体最新记录均已落地 |
 
 边界：②的"推理"是**数据侧的静态闭合**（类型继承、逆关系、属性链直连）；③的"推理"是**查询侧的按需利用**（DR 物化产物服务 SPARQL）。Ontology 从不为 LLM"代答"，它提供约束与被检索的语义模型。
 
@@ -247,7 +247,7 @@ v0.2 的布尔 true/false 改为三态——"false" 可能意味着"本体没证
 
 ```json
 {
-  "meta": { "ontology": {"iri": "…", "version": "0.5.3", "hash": "sha256:…"},
+  "meta": { "ontology": {"iri": "…", "version": "0.6.0", "hash": "sha256:…"},
             "abox": {"file": "cnfo-sim-abox.ttl", "hash": "sha256:…"},
             "reasoning": {"profile": "OWL-RL", "inference_enabled": true,
                           "query_graph": "TBOX_INFERRED + ABOX + ABOX_INFERRED"} },
@@ -299,9 +299,9 @@ Phase 1 解析顺序与结果契约：
 ## 10. Semantic Query IR（Query Plan 正式中间表示）——M3 末架构冻结（评审点四、十二）
 
 ```jsonc
-// Query Plan v1.0（示例：找出基金 A 的基金经理管理的其他 ETF）
+// Query Plan v1.1（示例：找出基金 A 的基金经理管理的其他 ETF）
 {
-  "plan_version": "1.0",
+  "plan_version": "1.1",
   "kind": "find",                          // find | verify | aggregate | compare
   "target": {
     "concept": "…/ExchangeTradedFund",     // 语义目标（已过白名单与语义校验）
@@ -322,10 +322,12 @@ Phase 1 解析顺序与结果契约：
      "to": {"type": "…/FundParty"}, "inverse": false}
   ],
   "projections": ["fundCode", "fundName"],
-  "aggregations": [                      // v0.5 已落地：COUNT + GROUP BY/HAVING
+  "aggregations": [                      // COUNT 或数值度量聚合
     {"func": "count", "over": "…/Fund",  // 沿 related_class + relation_path 聚合
      "having": {"operator": ">=", "value": 2}}
   ],
+  "date_ranges": [],                      // P3：target/related 的闭区间日期过滤
+  "latest": null,                         // P3：每个 target 的 related 最新记录
   "ordering": [{"by": "agg", "direction": "desc"}],   // Top-N 排名已落地
   "pagination": {"limit": 50, "offset": 0},
   "inference_policy": {"materialize": false, "path_based": true},
@@ -333,13 +335,17 @@ Phase 1 解析顺序与结果契约：
 }
 ```
 
-- **字段全集**：`target / source / exclusions / type_constraints / filters / traversals / projections / aggregations / ordering / pagination / inference_policy / evidence_policy`；
+- **字段全集**：`target / source / exclusions / type_constraints / filters / traversals / projections / aggregations / date_ranges / latest / where / optional / ordering / pagination / inference_policy / evidence_policy`；
 - **filters 落点（v0.5 新增）**：`filters[].on: "related"` 表示该过滤沿 relation_path 落在终点类上（"属性属于谁，过滤落谁上"），planner 的 domain 校验相应对准路径终点类；`operator: contains` 用于字符串包含匹配；
-- **聚合（v0.5 已落地）**：`aggregations[].func: "count"` 已实现（"同时管理多个基金的基金经理"→ COUNT(基金)>=2；GROUP BY target、HAVING 阈值、按聚合值 ORDER BY + LIMIT 做 Top-N）；SUM/AVG/MAX/MIN 预留未实现（需先定度量属性建模）；
+- **聚合（P3 已落地）**：`count` 支持关系数量聚合；`sum/avg/max/min` 要求
+  `measure_property` 命中本体数值数据属性，并执行 domain/range 校验；
+  日期范围和 `latest` 通过 typed literal 与分组子查询编译；
 - **exclusions / 语义表达式（P1，评审点十七-⑤）**：`exclusions` 显式表达"其他/除外/不包括/除了"（详见上面的 `exclusions` 槽位），禁止这些语义偷偷落到 SPARQL Builder 的隐式 `FILTER (?x != …)`；更复杂的两侧比较（"A 与 B 的差异"）用 `filters[].expression` 两层结构扩展（`operator: neq/gt/lt/between/in` + `left/right ref`）；
 - `traversals` 使"基金A的基金经理管理的其他ETF"这类多段链成为一等公民；
 - **SPARQL Builder 契约**：`QueryPlan(JSON) → SPARQL` 纯函数；每个算子（type closure、filter、traversal、projection、aggregation、ordering、pagination）有独立单测；
-- **冻结点**：M3 结束时冻结 Query Plan v1.0 schema（`artifacts/qa/query_plan.schema.json` + 版本号）。冻结后：LLM 可换、SPARQL 可换、后端可换，`Intent → QueryPlan` 契约不变。
+- **冻结点**：M3 结束时冻结 Query Plan schema，当前版本为 v1.1
+  （`artifacts/qa/query_plan.schema.json` + 版本号）。冻结后：LLM 可换、
+  SPARQL 可换、后端可换，`Intent → QueryPlan` 契约不变。
 
 ## 11. Ontology Slice Policy：保留分级 + 硬上限（评审点十）
 
@@ -371,7 +377,7 @@ LLM context 只取 L2 截断切片 + 证据摘要
 | **M0** | v0.4 冻结 | 上述 6 点修订闭合 |
 | **M1** | `tbox/`（taxonomy/constraints/inference）+ `qa/verify.py`（四状态）+ **verify benchmark**：只做 TBox 语义，不碰 ABox | 30–50 条 CQ（subClassOf/equivalentClass/disjointWith/subPropertyOf/domainOf/rangeOf + 非法请求），语义正确率 100% |
 | **M2** | `graph.py` 分层装载 + `query_planner`（手写 Query Plan，无 LLM）+ `sparql_builder` + `abox_query` | **find benchmark**：手写 Query Plan → SPARQL → 正确结果；explicit/inferred 证据可区分 |
-| **M3** | `evidence.py`（Claim-Evidence Map + provenance chain + citation 校验）+ `context.py`（切片+上限）；**确定性端到端**：手工 Intent → QueryPlan → SPARQL → Evidence → 模板回退，**无 LLM 也能完整工作** | 证据完整度 100%、SPARQL 全通过率 100%；**===== 架构冻结点：Query Plan v1.0 冻结 =====** |
+| **M3** | `evidence.py`（Claim-Evidence Map + provenance chain + citation 校验）+ `context.py`（切片+上限）；**确定性端到端**：手工 Intent → QueryPlan → SPARQL → Evidence → 模板回退，**无 LLM 也能完整工作** | 证据完整度 100%、SPARQL 全通过率 100%；架构冻结点：Query Plan v1.1 |
 | **M4** | `intent.py`（LLM Candidate Selection 协议 + resolution 三态）+ `resolver|validator|lexicon` | **intent benchmark**：Semantic Accuracy 主指标、resolution 分布（RESOLVED/AMBIGUOUS/UNRESOLVED） |
 | **M5** | `explainer.py`（引用受校验的 claims） | **citation benchmark**：Unsupported Claim Rate=0；引用全部 ∈ claims |
 | **M6** | Viewer 侧边 tab UI + `/api/qa/ask` | 端到端走查 + 全套回归 |
@@ -379,7 +385,7 @@ LLM context 只取 L2 截断切片 + 证据摘要
 
 **实验框架（评审点十六）**：本项目有一条清晰可测的学术/工程主线——在"无 LLM"下 M1–M3 是一个**完整的 Ontology Semantic Engine**；M4–M5 把 `Natural Language → Intent` 接上 LLM。最终分别 benchmark：LLM Intent Accuracy / Semantic Accuracy / Query Accuracy / Evidence Completeness / Unsupported Claim Rate。无 key 模式与有 key 模式共享同一套确定性引擎，差异只在 `NL → Intent` 一步。
 
-**落地状态**：M1 ✅（verify 四状态，72 CQ 100%，三方独立交叉验证一致；`tests/test_qa_verify.py` + `tests/test_tbox_inference.py`）｜M2 ✅（分层图 + QueryPlan→SPARQL→ABOX 检索 + explicit/inferred 类型证据 + 局部子图，16 find CQ 100%；`tests/test_qa_find.py`；ABOX 物化闭包按 §3 延后）｜**M3 ✅**：Evidence Builder（Claim-Evidence Map + premises/derived provenance + 引用校验闸门）+ Ontology Slice（预算/截断）+ 确定性端到端引擎（手工 Intent→QueryPlan→SPARQL→证据→模板，12 条 e2e CQ 100%）；**架构冻结点已执行：`artifacts/qa/query_plan.schema.json`（v1.0）落盘**｜**M4 ✅（本版）**：Ontology Index / Vocabulary Resolver（含实体代码与受控归一化+碰撞标记）/ Whitelist Validator / Lexicon Resolver（"R4以上/国内"确定性归一化）/ LLM 意图解构（局部候选 schema + Candidate Selection + `resolution_status` 三态；无 key 确定性路径兜底，有 key 时 LLM 输出须过白名单）——intent benchmark 14 CQ 100%，Semantic Accuracy 10/10=100%，resolution 分布 RESOLVED 10/AMBIGUOUS 1/UNRESOLVED 3；核验：与独立最长标签实现三方比对 0 不一致，空问题→INVALID 修正；`tests/test_qa_intent.py`（14 用例）｜**M5 ✅（本版）**：`qa/explainer.py`（LLM 逐句 claim_id 结构化表达 + citation 闸门：越权→带反馈重试→模板回退，`violations_before_gate` 留指纹、终态 UCR=0）+ `engine.answer_question()`（NL 全链路入口，索引缓存）+ `tools/qa_cli.py`（单问/REPL/--detail 溯源）——citation benchmark 10 CQ 100%，经闸门后最大 UCR=0，引用全部 ∈ claims；gate 分布统计与闸前越权数在 LLM 配置时透明报告；`tests/test_qa_explainer.py`（9 用例，含闸门回退行为 mock 验证）｜**数据缺陷修复（基金经理锚点）**：排查确认仿真 A-BOX 中基金经自然人节点原为孤立节点（仅 type+label，40/40 零业务边）——根因是生成器未建 `playsFundRole` 边；现生成器为每位基金经理补边 `(person, playsFundRole, FundManagerRole)`（与 rolePlayedBy 互逆，不违反 hasFundManagerRole maxCount=1），系统锚点链注册表扩展 `FundManagerPerson → [playsFundRole, roleInFund]`，"魏辉的基金有什么？"现可答（磐石货币货币市场基金）；intent benchmark 16/16（I016 由 UNRESOLVED 改为 RESOLVED）、e2e 13/13（E013 source 锚点）、citation 11/11（C11）
+**落地状态**：M1 ✅（verify 四状态，72 CQ 100%，三方独立交叉验证一致；`tests/test_qa_verify.py` + `tests/test_tbox_inference.py`）｜M2 ✅（分层图 + QueryPlan→SPARQL→ABOX 检索 + explicit/inferred 类型证据 + 局部子图，16 find CQ 100%；`tests/test_qa_find.py`；ABOX 物化闭包按 §3 延后）｜**M3 ✅**：Evidence Builder（Claim-Evidence Map + premises/derived provenance + 引用校验闸门）+ Ontology Slice（预算/截断）+ 确定性端到端引擎（手工 Intent→QueryPlan→SPARQL→证据→模板，12 条 e2e CQ 100%）；**架构冻结点已执行：`artifacts/qa/query_plan.schema.json`（v1.1）落盘**｜**M4 ✅（本版）**：Ontology Index / Vocabulary Resolver（含实体代码与受控归一化+碰撞标记）/ Whitelist Validator / Lexicon Resolver（"R4以上/国内"确定性归一化）/ LLM 意图解构（局部候选 schema + Candidate Selection + `resolution_status` 三态；无 key 确定性路径兜底，有 key 时 LLM 输出须过白名单）——intent benchmark 16 CQ 100%，Semantic Accuracy 13/13=100%；核验：与独立最长标签实现三方比对 0 不一致；｜**M5 ✅（本版）**：`qa/explainer.py`（LLM 逐句 claim_id 结构化表达 + citation 闸门：越权→带反馈重试→模板回退，`violations_before_gate` 留指纹、终态 UCR=0）+ `engine.answer_question()`（NL 全链路入口，索引缓存）——citation benchmark 11 CQ 100%，经闸门后最大 UCR=0，引用全部 ∈ claims；｜**P2/P3 ✅（本版）**：GraphQueryIR + AND/OR/NOT/EXISTS/OPTIONAL + SUM/AVG/MAX/MIN + 日期范围 + 每实体最新记录；Query IR 14/14、QA 全量 111/111、e2e 13/13、find 16/16、citation 11/11、intent 16/16。
 
 **v0.5 重构落地（2026-09-04 ~ 09-07，"框架过度设计、核心没搭起来"专项重构）**：
 - **意图层重写（M4'）**：`qa/semantics.py` OntologyContext 落地（类层级/类间关系图/数据属性 domain-range；`render_for_llm()` 语义视图注入 prompt ≈1.7 万字符；`find_relation_path` 闭包感知 BFS + 问题相关性选路）；intent.py 改为 SemanticParse 协议（§1），LLM 为主、白名单+domain/range 守门、确定性规则兜底（聚合"多个/最多/前N/多少"句型）；compare 守卫前移至 LLM 之前；
@@ -415,7 +421,7 @@ LLM context 只取 L2 截断切片 + 证据摘要
 4. `.env`：`OPENAI_API_KEY / OPENAI_BASE_URL / OPENAI_MODEL`（OpenAI 兼容）；`LLM_THINKING`（默认 false，关闭推理模型深度思考）/`LLM_THINKING_PARAM`（默认 auto=Ark 形态）；`QDRANT_URL/KEY` 预留但默认不读；
 5. 无 key 模式：M1–M3 全可用；M4–M5 退化为模板回退，benchmark 照跑（指标=覆盖率）；
 6. **语义视图规模化路线（v0.5 新增）**：当前 `render_for_llm()` 全量注入 T-BOX（143 类 ≈1.7 万字符），实例数据（A-BOX）永不进 prompt——瓶颈是**本体规模**而非数据规模。演进路径：① 查询范围裁剪（resolver 确定性粗选候选类 → 只渲染 k 跳邻域，失败回退全量重试；不做 LLM 多轮粗选——省 input token 但延迟/推理 token 翻倍、错误复合）；② 静态前缀缓存（视图按本体版本不变，prompt 静态段在前）；③ 本体到 FIBO 量级后评估 ontology-as-tools（function calling 按需查邻域）；
-7. **Phase 2 查询能力**：compare/对比（现关键词守卫直接拒答）；SUM/AVG/MAX/MIN 聚合（需度量属性建模）；规模（AUM）时间序列与基金经理变更建模（R02 类问题当前数据层不可答——本体无规模时点记录、仿真数据无任期变更历史，另立任务）。
+7. **后续查询能力**：稳定的日期/度量问法映射到 P3 QueryPlan 字段；规模（AUM）时间序列与基金经理变更建模（R02 类问题当前数据层不可答——本体无规模时点记录、仿真数据无任期变更历史，另立任务）。
 
 ---
 
@@ -451,7 +457,7 @@ LLM context 只取 L2 截断切片 + 证据摘要
 |---|---|---|
 | 1 | 二（Compiler 确定性） | §1 Candidate Selection 协议：Intent 带 target_concept + 候选集 + resolution；confidence 不参与判定；§10 ⑥ Semantic Validation |
 | 2 | 三（Resolver 重复） | §1 词汇四件套 Index≠Resolver≠Validator≠Compiler，四个独立模块，越权拒绝合并 |
-| 3 | 四（Query Plan IR） | §10 Semantic Query IR v1.0：字段全集 + traversals + aggregations 槽位；M3 末冻结 |
+| 3 | 四（Query Plan IR） | §10 Semantic Query IR v1.1：字段全集 + P2/P3 算子；M3 末冻结 |
 | 4 | 五（propertyChain 二分） | §4 Inference Rule（物化新事实）≠ Query Path（布路查询）；新增 tbox/paths.py |
 | 5 | 六（按需推理风险） | §3 Phase 1 全量启动物化 + inferred=closure−explicit；增量/局部推理延后 |
 | 6 | 七（verify 三态） | §5 ENTAILED/CONTRADICTED/UNKNOWN + basis + note |
@@ -459,5 +465,5 @@ LLM context 只取 L2 截断切片 + 证据摘要
 | 8 | 九（引用不可自造） | §7 Claim-Evidence Map 后端生成 + citation validation 闸门 |
 | 9 | 十（L4 膨胀） | §11 硬上限（类/属性/三元组/token）+ overflow 截断策略 |
 | 10 | 十一（归一化碰撞） | §8 Entity Resolver 结果契约（match_type/score/collision）+ 消歧协议，禁强取第一 |
-| 11 | 十二（冻结点） | §12 M3 末冻结 Query Plan v1.0 |
+| 11 | 十二（冻结点） | §12 M3 末冻结 Query Plan v1.1 |
 | 12 | 十三（Qdrant 延后） | §14 ① BM25→embedding 按 benchmark 证据分步引入 |

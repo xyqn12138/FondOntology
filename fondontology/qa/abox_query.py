@@ -101,8 +101,17 @@ def execute_find(stack: DataStack, plan: dict,
                 break
 
     is_agg = bool(plan.get("aggregations"))
+    is_count = plan.get("select") == "count" and not is_agg
     measures: dict[str, float] = {}
-    if is_agg:
+    if is_count:
+        # COUNT 查询返回一行聚合值，而不是实体变量。
+        try:
+            entities = []
+            count = int(rows[0][0]) if rows else 0
+        except (TypeError, ValueError, IndexError):
+            entities = []
+            count = 0
+    elif is_agg:
         for row in rows:
             entity = str(row[0])
             try:
@@ -124,7 +133,7 @@ def execute_find(stack: DataStack, plan: dict,
         entities = sorted({str(row[0]) for row in rows})
 
     target = plan.get("target", {}).get("concept", "")
-    result = FindResult(plan=plan, sparql=sparql, count=len(entities),
+    result = FindResult(plan=plan, sparql=sparql, count=count if is_count else len(entities),
                         entities=entities, measures=measures)
     for entity in entities:
         result.evidence[entity] = type_evidence(stack, URIRef(entity), URIRef(target))

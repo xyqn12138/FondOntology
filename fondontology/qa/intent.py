@@ -29,6 +29,7 @@ from .config import llm_config, llm_configured, rag_enabled
 from .index import Candidate, OntologyIndex
 from .resolver import VocabularyResolver
 from .semantics import OntologyContext
+from .schema_retriever import SchemaRetriever
 from .validator import WhitelistValidator
 
 _INVALID = "INVALID"
@@ -76,7 +77,13 @@ def build_intent(question: str, index: OntologyIndex,
     if use_llm is None:
         use_llm = llm_configured()
     # compare/对比类：v3.1 起为一等能力（T-BOX 定义卡对比），不再拒答；
-    # RAG 关闭时仍可答（compare 不依赖 chunk 池）
+    # RAG 关闭时仍可答（compare 不依赖 chunk 池）。这是确定性语义，
+    # 必须在 LLM 前处理，避免浪费调用或被模型改写成普通问答。
+    resolver = VocabularyResolver(index)
+    validator = WhitelistValidator(index)
+    compare = _try_compare_intent(question, index, resolver, validator)
+    if compare is not None:
+        return compare
     if use_llm:
         # 锚点快路径：实体锚点确定性成链时不付 LLM 调用成本（分钟级）
         fast = _try_anchor_fast_path(question, index)
@@ -1121,7 +1128,9 @@ def _build_llm_intent(question: str, index: OntologyIndex,
     if not (question or "").strip():
         return None
     ctx = OntologyContext.from_stack(index.stack)
-    semantic_view = ctx.render_for_llm()
+    schema_context = SchemaRetriever(index).retrieve(question, context=context)
+    semantic_view = schema_context.render_text
+    examples = _select_llm_examples(question)
 
     # 对话上文（coref 改写失败时的双保险：主判模型自行消解代词/省略）
     context_block = ""
@@ -1167,7 +1176,7 @@ def _build_llm_intent(question: str, index: OntologyIndex,
         "    [{\"property\": \"hasFundManager\", \"inverse\": false},"
         " {\"property\": \"hasFundManager\", \"inverse\": true}]。\n\n"
         f"【输出 Schema】只输出 JSON：\n{_LLM_SCHEMA}\n\n"
-        f"{_LLM_EXAMPLES}\n\n"
+        f"{examples}\n\n"
         f"问题：{question}"
     )
     data = _call_deconstructor(prompt)
@@ -1176,6 +1185,35 @@ def _build_llm_intent(question: str, index: OntologyIndex,
     resolver = VocabularyResolver(index)
     validator = WhitelistValidator(index)
     return _parse_llm_intent(question, data, index, resolver, validator, ctx)
+
+
+def _select_llm_examples(question: str) -> str:
+    """按问题形态选择少量示例，避免示例抵消本体上下文裁剪收益。"""
+    q = question or ""
+    examples: list[str] = []
+    if any(word in q for word in ("管理", "多个", "最多", "最少", "排名")):
+        examples.append(
+            '示例（聚合）：问题：同时管理多个基金的基金经理有哪些？\n'
+            '输出：{"operation":"find","target":"FundManagerPerson",'
+            '"related":"Fund","relation_path":[{"property":"hasFundManager",'
+            '"inverse":true}],"aggregation":{"func":"count","operator":">=","value":2},'
+            '"order_by":null,"order_direction":"desc","select":"entities"}')
+    if any(word in q for word in ("什么是", "指什么", "是什么意思", "区别", "监管")):
+        examples.append(
+            '示例（定义/说明）：问题：ETF指什么？\n'
+            '输出：{"operation":"explain","target":"ExchangeTradedFund",'
+            '"explain_type":"define","select":"entities"}')
+    if any(word in q for word in ("是否", "是不是", "互斥", "等价")):
+        examples.append(
+            '示例（判断）：问题：开放式基金与封闭式基金是否互斥？\n'
+            '输出：{"operation":"verify","verify_subject":"OpenEndedFund",'
+            '"verify_object":"ClosedEndedFund","verify_relation":"disjointWith"}')
+    if not examples:
+        examples.append(
+            '示例（普通查询）：问题：有哪些交易型开放式指数基金？\n'
+            '输出：{"operation":"find","target":"ExchangeTradedFund",'
+            '"select":"entities","filters":[]}')
+    return "\n\n".join(examples)
 
 
 # 最近一次 LLM 调用失败原因（供回退路径写入 notes，避免静默降级）

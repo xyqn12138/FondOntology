@@ -275,7 +275,7 @@ def run_intent_llm_spot(stack, cqs_path: Path) -> None:
         return
     index = OntologyIndex(stack)
     data = json.loads(cqs_path.read_text(encoding="utf-8"))
-    used = matched = 0
+    used = checked = matched = 0
     for case in data["cases"]:
         result = build_intent(case["question"], index, use_llm=True)
         if not result.used_llm:
@@ -283,11 +283,13 @@ def run_intent_llm_spot(stack, cqs_path: Path) -> None:
         used += 1
         exp_target = case["expected"].get("target")
         if exp_target:
+            checked += 1
             target_local = (result.intent.get("target_class") or "").rsplit("/", 1)[-1]
             if target_local == exp_target:
                 matched += 1
-    print(f"[LLM 路径] 启用 {used} 条；Semantic Accuracy（LLM，对照确定性真值）: "
-          f"{matched}/{used} = {matched / used:.1%}" if used else "[LLM 路径] 未配置，跳过")
+    accuracy = f"{matched}/{checked} = {matched / checked:.1%}" if checked else "无目标类断言"
+    print(f"[LLM 路径] 启用 {used} 条；目标类断言 {checked} 条；"
+          f"Semantic Accuracy（LLM，对照确定性真值）: {accuracy}")
 
 
 def run_intent_llm_spot_real(stack, cqs_path: Path) -> None:
@@ -297,7 +299,7 @@ def run_intent_llm_spot_real(stack, cqs_path: Path) -> None:
         return
     index = OntologyIndex(stack)
     data = json.loads(cqs_path.read_text(encoding="utf-8"))
-    used = matched = 0
+    used = checked = matched = 0
     for case in data["cases"]:
         result = build_intent(case["question"], index, use_llm=True)
         if not result.used_llm:
@@ -305,11 +307,13 @@ def run_intent_llm_spot_real(stack, cqs_path: Path) -> None:
         used += 1
         exp_target = case["expected"].get("target")
         if exp_target:
+            checked += 1
             target_local = (result.intent.get("target_class") or "").rsplit("/", 1)[-1]
             if target_local == exp_target:
                 matched += 1
-    print(f"[LLM 路径·真实问法] 启用 {used} 条；Semantic Accuracy: "
-          f"{matched}/{used} = {matched / used:.1%}" if used else "[LLM 路径] 未配置，跳过")
+    accuracy = f"{matched}/{checked} = {matched / checked:.1%}" if checked else "无目标类断言"
+    print(f"[LLM 路径·真实问法] 启用 {used} 条；目标类断言 {checked} 条；"
+          f"Semantic Accuracy: {accuracy}")
 
 
 def run_explain_benchmark(stack, cqs_path: Path, use_llm: bool = False) -> int:
@@ -419,10 +423,10 @@ def main(argv: list[str] | None = None) -> int:
                                      args.cqs or DEFAULT_CQS["explain-real"],
                                      use_llm=None)
 
-    # ---- M3 冻结点：QueryPlan v1.0 schema 落盘 ----
+    # ---- QueryPlan v1.1 schema 落盘 ----
     from fondontology.qa.query_planner import write_plan_schema
     write_plan_schema(QUERY_PLAN_SCHEMA)
-    print(f"[M3 冻结点] Query Plan schema 已冻结: {QUERY_PLAN_SCHEMA}")
+    print(f"[P3] Query Plan schema 已生成（版本 1.1）: {QUERY_PLAN_SCHEMA}")
     return run_e2e_benchmark(stack, args.cqs or DEFAULT_CQS["e2e"])
 
 

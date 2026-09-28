@@ -47,7 +47,8 @@ class EvidenceContractTest(unittest.TestCase):
             self.assertIn("derived", e)
         # meta 携带本体/数据版本哈希
         meta = report["meta"]
-        self.assertEqual(meta["ontology"]["version"], "0.5.3")
+        self.assertEqual(meta["ontology"]["version"],
+                         self.stack.snapshot.ontology_version)
         self.assertTrue(meta["abox"]["hash"])
 
     def test_inference_evidence_has_rule_and_chain_source(self) -> None:

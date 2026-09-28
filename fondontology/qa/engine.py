@@ -21,7 +21,8 @@ from .verify import verify as tbox_verify
 
 FIND_INTENT_KEYS = ("target", "source", "filters", "exclusions", "traversals",
                     "projections", "ordering", "limit", "offset",
-                    "related_class", "relation_path", "aggregation", "select")
+                    "related_class", "relation_path", "aggregation", "select",
+                    "date_ranges", "latest", "where", "optional")
 
 # 索引缓存：弱引用键（DataStack 被回收即失效）。禁止使用 id() 作键——
 # 同一进程中 id 会被复用，全量测试/长生命周期下会命中陈旧索引。
@@ -288,6 +289,8 @@ def _answer_question_impl(question: str, stack: DataStack, *,
         related_class=intent.get("related_class"),
         relation_path=intent.get("relation_path"),
         aggregation=intent.get("aggregation"),
+        date_ranges=intent.get("date_ranges"),
+        latest=intent.get("latest"),
         select=intent.get("select"),
         ordering=intent.get("ordering"),
         limit=intent.get("limit"),

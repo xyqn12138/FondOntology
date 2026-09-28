@@ -11,6 +11,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
 from typing import Optional
 
 from rdflib import Graph, Namespace, URIRef
@@ -18,10 +19,21 @@ from rdflib import Graph, Namespace, URIRef
 CNFO = Namespace("https://ontology.example.cn/cnfo/ontology/")
 CNFOA = Namespace("https://ontology.example.cn/cnfo/abox/")
 
-PLAN_VERSION = "1.0"
+PLAN_VERSION = "1.1"
 
-_AGG_FUNCS = ("count",)            # v1 实现 COUNT；SUM/AVG/MAX/MIN 需度量属性，预留
+_AGG_FUNCS = ("count", "sum", "avg", "max", "min")
 _CMP_OPS = (">=", "<=", ">", "<", "=")
+_DATE_TYPES = {
+    "date",
+    "dateTime",
+}
+_NUMERIC_TYPES = {
+    "decimal",
+    "integer",
+    "double",
+    "float",
+}
+_ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}(?:T.*)?$")
 
 
 def resolve_iri(graph: Graph, term: str) -> Optional[URIRef]:
@@ -54,6 +66,10 @@ def plan_find(*, target: str, tbox: Graph, abox: Optional[Graph] = None,
               related_class: Optional[str] = None,        # 聚合/排名涉及的另一类
               relation_path: Optional[list[dict]] = None, # target→related [{"property","inverse"}]
               aggregation: Optional[dict] = None,         # {"func","operator","value"}
+              date_ranges: Optional[list[dict]] = None,  # {"property","from","to","on"}
+              latest: Optional[dict] = None,             # {"date_property","on"}
+              where: Optional[dict] = None,              # P2 AND/OR/NOT/EXISTS
+              optional: Optional[list[dict]] = None,     # P2 OPTIONAL paths
               select: Optional[str] = None,               # entities | count
               ordering: Optional[list[dict]] = None,      # {"by": "agg"|属性IRI, "direction"}
               limit: Optional[int] = None, offset: int = 0,
@@ -211,6 +227,34 @@ def plan_find(*, target: str, tbox: Graph, abox: Optional[Graph] = None,
                 errors.append("aggregation 缺少 relation_path 支撑")
             else:
                 agg_entry: dict = {"func": func, "over": "related"}
+                if func != "count":
+                    if not related_end_local:
+                        errors.append(
+                            f"{func.upper()} 聚合必须明确 related_class")
+                    measure_term = (aggregation.get("measure_property")
+                                    or aggregation.get("property"))
+                    measure_uri = resolve_iri(tbox, str(measure_term or ""))
+                    if measure_uri is None:
+                        errors.append(
+                            f"{func.upper()} 聚合缺少可解析的 measure_property")
+                    else:
+                        measure_local = _local(str(measure_uri))
+                        measure_info = ctx.properties.get(measure_local) if ctx else None
+                        if measure_info is not None and measure_info.kind != "datatype":
+                            errors.append(
+                                f"聚合度量属性不是数据属性: {measure_local}")
+                        if ctx is not None:
+                            ok, reason = ctx.check_property_domain(
+                                measure_local, related_end_local or target_local)
+                            if not ok:
+                                errors.append(
+                                    f"聚合度量属性被关系约束拒绝（{reason}）")
+                        if measure_info is not None:
+                            ranges = set(measure_info.ranges)
+                            if ranges and not (ranges & _NUMERIC_TYPES):
+                                errors.append(
+                                    f"聚合度量属性必须是数值类型: {measure_local}")
+                        agg_entry["measure_property"] = str(measure_uri)
                 op, val = aggregation.get("operator"), aggregation.get("value")
                 if op is not None or val is not None:
                     if op in _CMP_OPS and isinstance(val, (int, float)):
@@ -228,6 +272,23 @@ def plan_find(*, target: str, tbox: Graph, abox: Optional[Graph] = None,
         plan_exclusions.append(str(uri))
 
     plan_projections = [str(resolve_iri(tbox, p) or p) for p in (projections or [])]
+
+    # ---- P3 时间范围 / 最新记录 ----
+    plan_date_ranges = _normalize_date_ranges(
+        date_ranges or [], tbox=tbox, ctx=ctx, target_local=target_local,
+        related_local=related_end_local, errors=errors)
+    plan_latest = _normalize_latest(
+        latest, tbox=tbox, ctx=ctx, target_local=target_local,
+        related_local=related_end_local, relation_path=plan_rel_path,
+        errors=errors)
+
+    # ---- P2 条件表达式 / OPTIONAL 路径 ----
+    plan_where = _normalize_where(
+        where, tbox=tbox, ctx=ctx, start_class=target_local,
+        errors=errors) if where else None
+    plan_optional = _normalize_optional(
+        optional or [], tbox=tbox, ctx=ctx, start_class=target_local,
+        errors=errors)
 
     # ---- ordering：by=agg 需聚合支撑；by=属性IRI 需 domain 相容 ----
     plan_ordering: list[dict] = []
@@ -263,6 +324,8 @@ def plan_find(*, target: str, tbox: Graph, abox: Optional[Graph] = None,
         "source": plan_source,
         "exclusions": plan_exclusions,
         "filters": plan_filters,
+        "where": plan_where,
+        "optional": plan_optional,
         "traversals": plan_traversals,
         # 锚点自动发现的候选路径（多候选时 execute 侧逐条试到有结果）
         "auto_traversal_candidates": plan_auto_paths,
@@ -274,6 +337,8 @@ def plan_find(*, target: str, tbox: Graph, abox: Optional[Graph] = None,
         "relation_path": plan_rel_path,
         "projections": plan_projections,
         "aggregations": plan_aggs,
+        "date_ranges": plan_date_ranges,
+        "latest": plan_latest,
         "ordering": plan_ordering,
         "pagination": {"limit": limit, "offset": offset},
         "inference_policy": {"materialize": False, "path_based": True},
@@ -315,19 +380,222 @@ def _validate_hops(ctx, start_class_local: str,
     return errors
 
 
+def _normalize_where(node: dict, *, tbox: Graph, ctx,
+                     start_class: str, errors: list[str]) -> Optional[dict]:
+    """校验并归一化 P2 条件树；属性和路径统一转为完整 IRI。"""
+    if not isinstance(node, dict):
+        errors.append("where 必须是对象")
+        return None
+    op = str(node.get("op") or "").lower()
+    if op in ("and", "or"):
+        args = node.get("args")
+        if not isinstance(args, list) or not args:
+            errors.append(f"where {op} 缺少 args")
+            return None
+        normalized = [
+            _normalize_where(arg, tbox=tbox, ctx=ctx,
+                             start_class=start_class, errors=errors)
+            for arg in args
+        ]
+        return {"op": op, "args": [arg for arg in normalized if arg is not None]}
+    if op == "not":
+        args = node.get("args")
+        if args is None and "arg" in node:
+            args = [node["arg"]]
+        if not isinstance(args, list) or len(args) != 1:
+            errors.append("where not 必须包含一个 args")
+            return None
+        child = _normalize_where(args[0], tbox=tbox, ctx=ctx,
+                                 start_class=start_class, errors=errors)
+        return {"op": "not", "args": [child]} if child else None
+    if op == "filter":
+        prop_uri = resolve_iri(tbox, str(node.get("property") or ""))
+        if prop_uri is None:
+            errors.append(f"where filter 属性无法解析: {node.get('property')!r}")
+            return None
+        operator = node.get("operator", "eq")
+        if operator not in ("eq", "contains", "in", ">=", "<=", ">", "<", "!="):
+            errors.append(f"where filter 操作符不支持: {operator!r}")
+            return None
+        if ctx is not None:
+            ok, reason = ctx.check_property_domain(
+                _local(str(prop_uri)), start_class)
+            if not ok:
+                errors.append(f"where filter 属性被关系约束拒绝（{reason}）")
+                return None
+        return {
+            "op": "filter",
+            "property": str(prop_uri),
+            "operator": operator,
+            "value": node.get("value", ""),
+        }
+    if op in ("exists", "not_exists"):
+        raw_path = node.get("path") or []
+        if not isinstance(raw_path, list) or not raw_path:
+            errors.append(f"where {op} 缺少 path")
+            return None
+        normalized_path: list[dict] = []
+        for hop in raw_path:
+            prop_uri = resolve_iri(tbox, str(hop.get("property") or ""))
+            if prop_uri is None:
+                errors.append(
+                    f"where {op} 属性无法解析: {hop.get('property')!r}")
+                continue
+            normalized_path.append({
+                "property": str(prop_uri),
+                "inverse": bool(hop.get("inverse")),
+            })
+        if ctx is not None and normalized_path:
+            hop_errors = _validate_hops(ctx, start_class, normalized_path)
+            errors.extend(f"where {op}：{error}" for error in hop_errors)
+        target = node.get("target")
+        target_uri = resolve_iri(tbox, str(target)) if target else None
+        if target and target_uri is None:
+            errors.append(f"where {op} 目标类无法解析: {target!r}")
+        return {
+            "op": op,
+            "path": normalized_path,
+            "target": str(target_uri) if target_uri else None,
+        }
+    errors.append(f"where 操作符不支持: {op!r}")
+    return None
+
+
+def _normalize_optional(items: list[dict], *, tbox: Graph, ctx,
+                        start_class: str, errors: list[str]) -> list[dict]:
+    normalized: list[dict] = []
+    for item in items:
+        raw_path = item.get("path") or []
+        if not isinstance(raw_path, list) or not raw_path:
+            errors.append("optional 缺少 path")
+            continue
+        path: list[dict] = []
+        for hop in raw_path:
+            prop_uri = resolve_iri(tbox, str(hop.get("property") or ""))
+            if prop_uri is None:
+                errors.append(
+                    f"optional 属性无法解析: {hop.get('property')!r}")
+                continue
+            path.append({
+                "property": str(prop_uri),
+                "inverse": bool(hop.get("inverse")),
+            })
+        if ctx is not None and path:
+            errors.extend(f"optional：{error}"
+                         for error in _validate_hops(ctx, start_class, path))
+        target = item.get("target")
+        target_uri = resolve_iri(tbox, str(target)) if target else None
+        if target and target_uri is None:
+            errors.append(f"optional 目标类无法解析: {target!r}")
+        normalized.append({
+            "path": path,
+            "target": str(target_uri) if target_uri else None,
+        })
+    return normalized
+
+
+def _normalize_date_ranges(items: list[dict], *, tbox: Graph, ctx,
+                           target_local: str, related_local: Optional[str],
+                           errors: list[str]) -> list[dict]:
+    normalized: list[dict] = []
+    for item in items:
+        if not isinstance(item, dict):
+            errors.append("date_ranges 项必须是对象")
+            continue
+        prop_uri = resolve_iri(tbox, str(item.get("property") or ""))
+        if prop_uri is None:
+            errors.append(f"日期属性无法解析: {item.get('property')!r}")
+            continue
+        prop_local = _local(str(prop_uri))
+        on = "related" if item.get("on") == "related" else "target"
+        subject_class = related_local if on == "related" else target_local
+        info = ctx.properties.get(prop_local) if ctx else None
+        if info is not None:
+            if info.kind != "datatype":
+                errors.append(f"日期范围属性不是数据属性: {prop_local}")
+                continue
+            if set(info.ranges) and not (set(info.ranges) & _DATE_TYPES):
+                errors.append(f"日期范围属性类型不是 date/dateTime: {prop_local}")
+                continue
+        if ctx is not None:
+            ok, reason = ctx.check_property_domain(prop_local, subject_class)
+            if not ok:
+                errors.append(f"日期范围属性被关系约束拒绝（{reason}）")
+                continue
+        start = item.get("from", item.get("start"))
+        end = item.get("to", item.get("end"))
+        if start is None and end is None:
+            errors.append(f"日期范围缺少 from/to: {prop_local}")
+            continue
+        valid_dates = True
+        for label, value in (("from", start), ("to", end)):
+            if value is not None and (
+                    not isinstance(value, str) or not _ISO_DATE.match(value)):
+                errors.append(f"日期范围 {label} 格式非法: {value!r}")
+                valid_dates = False
+        if not valid_dates:
+            continue
+        normalized.append({
+            "property": str(prop_uri),
+            "on": on,
+            "from": start,
+            "to": end,
+        })
+    return normalized
+
+
+def _normalize_latest(latest: Optional[dict], *, tbox: Graph, ctx,
+                      target_local: str, related_local: Optional[str],
+                      relation_path: list[dict], errors: list[str]) -> Optional[dict]:
+    if latest is None:
+        return None
+    if not isinstance(latest, dict):
+        errors.append("latest 必须是对象")
+        return None
+    if not relation_path:
+        errors.append("latest 缺少 relation_path 支撑")
+        return None
+    on = "related" if latest.get("on", "related") == "related" else "target"
+    if on != "related":
+        errors.append("latest 当前仅支持 relation_path 终点（on=related）")
+        return None
+    subject_class = related_local if on == "related" else target_local
+    term = latest.get("date_property") or latest.get("property")
+    prop_uri = resolve_iri(tbox, str(term or ""))
+    if prop_uri is None:
+        errors.append(f"latest 日期属性无法解析: {term!r}")
+        return None
+    prop_local = _local(str(prop_uri))
+    info = ctx.properties.get(prop_local) if ctx else None
+    if info is not None:
+        if info.kind != "datatype":
+            errors.append(f"latest 日期属性不是数据属性: {prop_local}")
+            return None
+        if set(info.ranges) and not (set(info.ranges) & _DATE_TYPES):
+            errors.append(f"latest 日期属性类型不是 date/dateTime: {prop_local}")
+            return None
+    if ctx is not None:
+        ok, reason = ctx.check_property_domain(prop_local, subject_class)
+        if not ok:
+            errors.append(f"latest 日期属性被关系约束拒绝（{reason}）")
+            return None
+    return {"date_property": str(prop_uri), "on": on}
+
+
 def validate_plan(plan: dict) -> list[str]:
     """计划合法性（计划级 INVALID 对应）：target/filter/traversal 白名单已解析。"""
     return list(plan.get("errors") or [])
 
 
 def write_plan_schema(path: Path) -> None:
-    """写出 QueryPlan v1.0 字段骨架（M3 冻结的初稿，供人工评审）。"""
+    """写出 QueryPlan v1.1 字段骨架（P3 时间/度量算子）。"""
     schema = {
-        "plan_version": "1.0",
+        "plan_version": PLAN_VERSION,
         "fields": [
             "target", "source", "exclusions", "type_constraints", "filters",
             "traversals", "related", "relation_path", "projections",
-            "aggregations", "ordering", "pagination",
+            "aggregations", "date_ranges", "latest", "where", "optional",
+            "ordering", "pagination",
             "inference_policy", "evidence_policy",
         ],
         "kind": ["find", "verify", "aggregate", "compare"],

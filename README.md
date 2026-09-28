@@ -98,7 +98,7 @@ Stage 2 Semantic Enforcement   Stage 3 Semantic Querying
 
 正式本体使用独立命名空间：https://ontology.example.cn/cnfo/ontology/
 
-当前本体版本：`0.5.3`。v0.5.0 为语义契约完善版本：① 完善基础抽象（`FundBusinessObject` 基金业务对象、`FundAccount` 基金账户与 6 个代码取值类）；② 全部 143 项属性补齐中文定义（`skos:definition`），形成属性关系契约；③ 代码表语义化——`ontology/modules/cnfo-fund-codes.ttl` 提供 6 套 SKOS 受控代码表（基金运作方式/组织形式/分红方式/风险等级/私募基金类型/收费方式，依据 JR/T 0304.2-2024），新增 6 个代码引用属性，类与代码概念建立 `skos:closeMatch`，`isOpenEnded`/`isPrivate` 等标注为兼容属性；④ 数据质量层独立——`ontology/shacl/cnfo-fund-shapes.ttl`（SHACL）与 `artifacts/cnfo/abox/`（示例 A-BOX，参考 `artifacts/cnfo/cnfo-fund-sample-abox.ttl`）与 T-BOX 分离。v0.5.1 纠正持仓公共属性的 domain：新增 `FundPositionRecord` 基金持仓记录作为 `FundPosition` 与 `PortfolioPosition` 的共同父类，消除示例数据触发的交叉类型推断。v0.5.2 补齐跨境基金与代理基础概念：新增 `CrossBorderFund`、内地/香港互认基金层级、`FundAgent` 基金代理人机构主体、`FundAgentRole` 基金代理人角色及基金关联关系。v0.5.3 根据本体专家审查补齐基金经理人/托管人、基金账户与持仓、基金份额级净值、业绩、费用、监管规则、基准指数和投资者风险评级等语义链接；新增资产轴互斥、关键标识、等价类和业务闭环 SHACL 约束。当前 T-BOX 包含 143 个类、143 个对象属性和 61 个数据属性。v0.4 命名标准化与 V0.5 构建详情见 `E:\LX\LX_fund\基金行业文档\CNFO_命名标准化方案_V0.4.md` 与 `基金本体建模_V0.5_构建报告.md`。
+当前本体版本：`0.6.0`。v0.5.0 为语义契约完善版本：① 完善基础抽象（`FundBusinessObject` 基金业务对象、`FundAccount` 基金账户与 6 个代码取值类）；② 全部 143 项属性补齐中文定义（`skos:definition`），形成属性关系契约；③ 代码表语义化——`ontology/modules/cnfo-fund-codes.ttl` 提供 6 套 SKOS 受控代码表（基金运作方式/组织形式/分红方式/风险等级/私募基金类型/收费方式，依据 JR/T 0304.2-2024），新增 6 个代码引用属性，类与代码概念建立 `skos:closeMatch`，`isOpenEnded`/`isPrivate` 等标注为兼容属性；④ 数据质量层独立——`ontology/shacl/cnfo-fund-shapes.ttl`（SHACL）与 `artifacts/cnfo/abox/`（示例 A-BOX，参考 `artifacts/cnfo/cnfo-fund-sample-abox.ttl`）与 T-BOX 分离。v0.5.1 纠正持仓公共属性的 domain：新增 `FundPositionRecord` 基金持仓记录作为 `FundPosition` 与 `PortfolioPosition` 的共同父类，消除示例数据触发的交叉类型推断。v0.5.2 补齐跨境基金与代理基础概念：新增 `CrossBorderFund`、内地/香港互认基金层级、`FundAgent` 基金代理人机构主体、`FundAgentRole` 基金代理人角色及基金关联关系。v0.5.3 根据本体专家审查补齐基金经理人/托管人、基金账户与持仓、基金份额级净值、业绩、费用、监管规则、基准指数和投资者风险评级等语义链接；新增资产轴互斥、关键标识、等价类和业务闭环 SHACL 约束。v0.6.0 新增基金定期报告、报告章节、法规条文等文本资产实体与期间关联。当前 T-BOX 包含 143 个类、143 个对象属性和 61 个数据属性。v0.4 命名标准化与 V0.5 构建详情见 `E:\LX\LX_fund\基金行业文档\CNFO_命名标准化方案_V0.4.md` 与 `基金本体建模_V0.5_构建报告.md`。
 
 正式部署时应替换为项目长期持有的真实域名。
 
@@ -108,7 +108,7 @@ CNFO 当前覆盖基金、基金产品、基金财产、基金投资组合、基
 
 ## 仿真数据（A-BOX）
 
-`tools/gen_sim_abox.py` 根据当前最新版本体（0.5.3，经 `load_ontology_graph` 运行时加载）生成一批仿真业务数据，写入 Turtle A-BOX，并内置 SHACL 数据质量校验：
+`tools/gen_sim_abox.py` 根据当前最新版本体（0.6.0，经 `load_ontology_graph` 运行时加载）生成一批仿真业务数据，写入 Turtle A-BOX，并内置 SHACL 数据质量校验：
 
     .venv\Scripts\python.exe tools\gen_sim_abox.py
 
@@ -222,4 +222,3 @@ Uvicorn 子进程，否则由 `uv` 管理的虚拟环境可能留下子进程。
 Class Inspector 的中文定义来自类的 `skos:definition`，名称/别名来自 `rdfs:label`、`skos:prefLabel` 和 `skos:altLabel`。本体映射只展示源文件明确声明的 `owl:equivalentClass`、`skos:closeMatch` 和 `skos:relatedMatch`，不展示 OWL 推理生成的反身等价关系。
 
 关系图作为可选视图，支持圆形和树型布局。关系图只使用 CNFO 正式本体数据。
-

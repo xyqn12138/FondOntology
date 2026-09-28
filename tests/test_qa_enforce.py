@@ -128,7 +128,6 @@ class BatchImportTest(unittest.TestCase):
         self.assertEqual(ans.status, "ok", ans.text)
         self.assertIn("共找到 2 个", ans.text)
         self.assertIn("星河成长", ans.text)
-        print(ans.report["evidence"])
 
 
 if __name__ == "__main__":
