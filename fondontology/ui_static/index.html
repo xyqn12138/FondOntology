@@ -870,7 +870,8 @@ let ragOn = null;   // null=未知（后端未响应）
 function applyRagLabel(rag){
   ragOn = !!(rag && rag.enabled);
   $('rag-toggle').textContent = ragOn ? '关闭' : '开启';
-  $('rag-toggle').style.display = (rag && rag.toggleable) ? '' : 'none';
+  if(rag && typeof rag.toggleable === 'boolean')
+    $('rag-toggle').style.display = rag.toggleable ? '' : 'none';
   $('foot-rag').textContent = ragOn ? 'RAG 开启' : 'RAG 关闭';
 }
 

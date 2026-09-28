@@ -11,6 +11,7 @@
 from __future__ import annotations
 
 import json
+import os
 import unittest
 from pathlib import Path
 
@@ -55,6 +56,29 @@ class QaWebTest(unittest.TestCase):
         self.assertGreater(data["data"]["entity_count"], 0)
         self.assertIn("llm", data)
         self.assertIn("configured", data["llm"])
+
+    def test_rag_toggle_can_be_reversed(self) -> None:
+        """切换接口必须保留 toggleable 契约，前端才能再次点击关闭。"""
+        previous = os.environ.get("RAG_ENABLED")
+        try:
+            os.environ["RAG_ENABLED"] = "0"
+            first = self.client.post("/api/rag/toggle")
+            self.assertEqual(first.status_code, 200)
+            self.assertEqual(first.json(),
+                             {"enabled": True, "toggleable": True})
+
+            second = self.client.post("/api/rag/toggle")
+            self.assertEqual(second.status_code, 200)
+            self.assertEqual(second.json(),
+                             {"enabled": False, "toggleable": True})
+
+            status = self.client.get("/api/rag/status")
+            self.assertEqual(status.json(), {"enabled": False})
+        finally:
+            if previous is None:
+                os.environ.pop("RAG_ENABLED", None)
+            else:
+                os.environ["RAG_ENABLED"] = previous
 
     def test_suggestions_endpoint(self) -> None:
         resp = self.client.get("/api/qa/suggestions")

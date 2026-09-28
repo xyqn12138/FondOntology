@@ -273,7 +273,7 @@ def create_web_app(*,
         import os
         with qa_lock:
             os.environ["RAG_ENABLED"] = "0" if rag_enabled() else "1"
-        return {"enabled": rag_enabled()}
+        return {"enabled": rag_enabled(), "toggleable": True}
 
     @app.get("/api/qa/suggestions")
     def api_suggestions():
