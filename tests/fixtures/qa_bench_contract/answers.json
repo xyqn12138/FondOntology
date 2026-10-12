@@ -1,0 +1,24 @@
+{
+  "e2e": {
+    "cases": [
+      {"id": "INTEGRATION-FIND", "intent": {"operation": "find", "target": "Fund"}, "expected": {"status": "ok", "count": 2}},
+      {"id": "INTEGRATION-INVALID", "intent": {"operation": "bogus"}, "expected": {"status": "invalid"}}
+    ]
+  },
+  "citation": {
+    "cases": [
+      {"id": "CITATION-OK", "question": "toy fund evidence", "expected": {"status": "ok"}},
+      {"id": "CITATION-UNRESOLVED", "question": "unanswerable toy", "expected": {"status": "unresolved"}}
+    ]
+  },
+  "explain": {
+    "cases": [
+      {"id": "EXPLAIN-OK", "question": "describe toy fund", "expected": {"status": "ok", "kind": "explain", "contains": ["toy"]}},
+      {"id": "EXPLAIN-UNRESOLVED", "question": "unanswerable toy", "expected": {"status": "unresolved"}}
+    ]
+  },
+  "valid_report": {
+    "claims": [{"claim_id": "C1", "type": "fact", "claim": "toy evidence", "evidence": ["E1"]}],
+    "evidence": [{"id": "E1", "kind": "declared", "source": ["urn:toy:fund:alpha", "urn:toy:property", "toy"]}]
+  }
+}

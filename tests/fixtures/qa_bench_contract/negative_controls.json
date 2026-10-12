@@ -1,0 +1,40 @@
+{
+  "find": [
+    {"id": "wrong-ids-same-count", "count": 2, "entities": ["urn:toy:wrong:a", "urn:toy:wrong:b"], "evidence": "declared"},
+    {"id": "duplicate-ids", "count": 2, "entities": ["urn:toy:fund:alpha", "urn:toy:fund:alpha"], "evidence": "declared"},
+    {"id": "length-mismatch", "count": 2, "entities": ["urn:toy:fund:alpha"], "evidence": "declared"},
+    {"id": "empty-evidence", "count": 2, "entities": ["urn:toy:fund:alpha", "urn:toy:fund:beta"], "evidence": "missing"},
+    {"id": "bad-inference", "count": 2, "entities": ["urn:toy:fund:alpha", "urn:toy:fund:beta"], "evidence": "bad-inference"},
+    {"id": "boolean-count", "count": true, "entities": ["urn:toy:fund:alpha", "urn:toy:fund:beta"], "evidence": "declared"}
+  ],
+  "reports": [
+    {"id": "empty-shell", "report": {"claims": [{"evidence": ["E1"]}], "evidence": [{"id": "E1"}]}},
+    {"id": "missing-report", "report": null},
+    {"id": "empty-report", "report": {}},
+    {"id": "no-claims", "report": {"claims": [], "evidence": [{"id": "E1"}]}},
+    {"id": "no-evidence", "report": {"claims": [{"claim_id": "C1", "evidence": ["E1"]}], "evidence": []}},
+    {"id": "unknown-citation", "report": {"claims": [{"claim_id": "C1", "evidence": ["WRONG"]}], "evidence": [{"id": "E1"}]}},
+    {"id": "duplicate-evidence", "report": {"claims": [{"claim_id": "C1", "evidence": ["E1"]}], "evidence": [{"id": "E1"}, {"id": "E1"}]}}
+  ],
+  "intent_removed_slots": ["date_ranges", "filters"],
+  "invalid_find_cases": [
+    {"id": "unknown-expected", "cases": [{"id": "bad", "target": "Fund", "expected": {"count": 0, "coutn": 0}}]},
+    {"id": "boolean-gold-count", "cases": [{"id": "bad", "target": "Fund", "expected": {"count": false}}]},
+    {"id": "wrong-entities-type", "cases": [{"id": "bad", "target": "Fund", "expected": {"count": 1, "entities": "urn:toy:fund:alpha"}}]},
+    {"id": "duplicate-gold-entities", "cases": [{"id": "bad", "target": "Fund", "expected": {"count": 2, "entities": ["a", "a"]}}]},
+    {"id": "mismatched-gold-count", "cases": [{"id": "bad", "target": "Fund", "expected": {"count": 2, "entities": ["a"]}}]},
+    {"id": "empty-case-set", "cases": []},
+    {"id": "duplicate-case-ids", "cases": [{"id": "same", "target": "Fund", "expected": {"count": 0}}, {"id": "same", "target": "Fund", "expected": {"count": 0}}]},
+    {"id": "non-object-case", "cases": ["bad"]},
+    {"id": "empty-case-id", "cases": [{"id": " ", "target": "Fund", "expected": {"count": 0}}]}
+  ],
+  "invalid_intent_expected": [
+    {"id": "operation-type", "field": "operation", "value": true},
+    {"id": "filters-type", "field": "filters", "value": "growth"},
+    {"id": "filter-members-type", "field": "filters", "value": ["growth"]},
+    {"id": "dates-type", "field": "date_ranges", "value": {}},
+    {"id": "limit-type", "field": "limit", "value": true},
+    {"id": "source-type", "field": "source", "value": 1},
+    {"id": "unknown-slot", "field": "time_window", "value": 2025}
+  ]
+}

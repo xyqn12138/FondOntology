@@ -1,0 +1,10 @@
+{
+  "fixture_scope": "Independent toy evaluator contract, not production fund gold",
+  "cases": [
+    {
+      "id": "FIND-TOY",
+      "target": "Fund",
+      "expected": {"count": 2, "entities": ["urn:toy:fund:alpha", "urn:toy:fund:beta"]}
+    }
+  ]
+}

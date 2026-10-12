@@ -1,0 +1,23 @@
+{
+  "fixture_scope": "Toy intent slot contract manually specified from question; not production R02 gold",
+  "cases": [
+    {
+      "id": "INTENT-CONDITIONS",
+      "question": "2025 growth over 20 percent and manager changed equity funds",
+      "expected": {
+        "status": "RESOLVED",
+        "operation": "find",
+        "target": "EquityFund",
+        "date_ranges": [{"property": "urn:toy:year", "start": "2025-01-01", "end": "2025-12-31"}],
+        "filters": [
+          {"property": "urn:toy:growth", "operator": ">", "value": 0.2},
+          {"property": "urn:toy:managerChanged", "operator": "=", "value": true}
+        ]
+      },
+      "semantic_contract": {
+        "reviewed": true,
+        "required_slots": ["status", "operation", "target", "date_ranges", "filters"]
+      }
+    }
+  ]
+}
