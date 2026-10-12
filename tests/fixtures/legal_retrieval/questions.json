@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0",
+  "cases": [
+    {"id": "synthetic-1", "question": "What is the synthetic ceiling?", "as_of": "2026-01-01", "doc_ids": ["synthetic-law"]},
+    {"id": "synthetic-2", "question": "What is the absent requirement?", "as_of": "2026-01-01", "doc_ids": ["synthetic-law"]}
+  ]
+}

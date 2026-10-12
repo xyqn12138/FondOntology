@@ -1,0 +1,17 @@
+{
+  "fund_iri": "https://ontology.example.cn/cnfo/abox/CorpusToyFund",
+  "fund_label": "语料验证一号",
+  "fund_question": "介绍语料验证一号",
+  "regulation_iri": "urn:corpus-test:regulation",
+  "missing_regulation_iri": "urn:corpus-test:missing-regulation",
+  "regulation_question": "货币市场基金投资限制",
+  "code_question": "R4是什么意思",
+  "missing_code_question": "R5是什么意思",
+  "code_iri": "https://ontology.example.cn/cnfo/code/FundRiskLevelR4",
+  "snapshot_alpha_marker": "SNAPSHOT_ALPHA",
+  "snapshot_beta_marker": "SNAPSHOT_BETA",
+  "issued_date": "2025-01-01",
+  "updated_date": "2026-01-01",
+  "before_date": "2024-12-31",
+  "as_of": "2026-10-10"
+}

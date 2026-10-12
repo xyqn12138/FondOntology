@@ -12,11 +12,9 @@ from __future__ import annotations
 import json
 import math
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
-
-from ..config import llm_config
 
 DEFAULT_CHUNKS = Path("artifacts/cnfo/rag/chunks.jsonl")
 _LATIN_RE = re.compile(r"[A-Za-z0-9]+")
@@ -32,6 +30,15 @@ class RagChunk:
     section: str
     text: str
     locator: dict
+    version_id: Optional[str] = None
+    entity_links: list[dict] = field(default_factory=list)
+    authority: str = ""
+    status: str = ""
+    provenance: dict = field(default_factory=dict)
+    issued_date: Optional[str] = None
+    effective_from: Optional[str] = None
+    withdrawn_date: Optional[str] = None
+    extraction_quality: Optional[str] = None
 
 
 def tokenize(text: str) -> list[str]:
@@ -52,11 +59,13 @@ def tokenize(text: str) -> list[str]:
 
 
 class ChunkStore:
-    """只读 chunk 池 + BM25 索引；进程内单例（经 get_store）。"""
+    """只读 chunk 池 + BM25 索引；每次载入独立数据源。"""
 
-    def __init__(self, chunks: list[RagChunk]):
+    def __init__(self, chunks: list[RagChunk], *, corpus_metadata: Optional[dict] = None):
         self.chunks = chunks
         self.by_id = {c.chunk_id: c for c in chunks}
+        self.corpus_metadata = dict(corpus_metadata or {})
+        self.strict_scope = bool(corpus_metadata)
         # 倒排：词元 → {chunk 序号: 词频}
         self._postings: dict[str, dict[int, int]] = {}
         self._doc_len: list[int] = []
@@ -76,7 +85,8 @@ class ChunkStore:
         self._avg_len = (sum(self._doc_len) / len(self._doc_len)) if self._doc_len else 1.0
 
     def bm25_search(self, query: str, k: int = 20,
-                    scope_fund_codes: Optional[set[str]] = None) -> list[tuple[RagChunk, float]]:
+                    scope_fund_codes: Optional[set[str]] = None,
+                    scope_chunk_ids: Optional[set[str]] = None) -> list[tuple[RagChunk, float]]:
         """BM25 检索。scope_fund_codes 非空时只在范围内检索（一级检索的过滤形态）。
 
         返回 [(chunk, score)] 按 score 降序；分数只用于排序，不作为置信度。
@@ -93,6 +103,12 @@ class ChunkStore:
         if scope_fund_codes is not None:
             candidates = {i for i, c in enumerate(self.chunks)
                           if c.fund_code in scope_fund_codes}
+            if not candidates:
+                return []
+        if scope_chunk_ids is not None:
+            selected = {index for index, chunk in enumerate(self.chunks)
+                        if chunk.chunk_id in scope_chunk_ids}
+            candidates = selected if candidates is None else candidates & selected
             if not candidates:
                 return []
         for t in set(q_tokens):
@@ -118,14 +134,8 @@ class ChunkStore:
         return [c for c in self.chunks if c.doc_type == doc_type]
 
 
-_STORE_SINGLETON: Optional[ChunkStore] = None
-
-
 def get_store(chunks_path: Path | str = DEFAULT_CHUNKS) -> ChunkStore:
-    """进程内单例加载 chunk 池。文件缺失时返回空池（调用方负责降级话术）。"""
-    global _STORE_SINGLETON
-    if _STORE_SINGLETON is not None:
-        return _STORE_SINGLETON
+    """独立加载 JSONL chunk 池；文件缺失返回空池，不跨路径共享缓存。"""
     path = Path(chunks_path)
     chunks: list[RagChunk] = []
     if path.is_file():
@@ -140,5 +150,42 @@ def get_store(chunks_path: Path | str = DEFAULT_CHUNKS) -> ChunkStore:
                 period=d.get("period"), section=d.get("section", ""),
                 text=d.get("text", ""), locator=d.get("locator", {}),
             ))
-    _STORE_SINGLETON = ChunkStore(chunks)
-    return _STORE_SINGLETON
+    return ChunkStore(chunks)
+
+
+def load_corpus_store(db_path: Path | str, snapshot_id: str, *,
+                      as_of: str, allow_nontrusted: bool = False,
+                      include_undated_research: bool = False) -> ChunkStore:
+    from fondontology.corpus import CorpusError, CorpusRepository
+    if not isinstance(as_of, str) or not as_of.strip():
+        raise CorpusError("Corpus RAG requires an explicit as_of date")
+    if type(include_undated_research) is not bool:
+        raise CorpusError("include_undated_research must be boolean")
+    repository = CorpusRepository.open_existing(db_path)
+    metadata = repository.get_snapshot(snapshot_id)
+    if metadata["kind"] != "trusted" and not allow_nontrusted:
+        raise CorpusError("Non-trusted corpus requires explicit allow_nontrusted")
+    if include_undated_research and metadata["kind"] != "research":
+        raise CorpusError("Undated documents may only be included in research snapshots")
+    chunks = [RagChunk(
+        chunk_id=item["chunk_id"], doc_id=item["doc_id"], fund_code=item.get("fund_code"),
+        doc_type=item["doc_type"], period=item.get("period"), section=item["section"],
+        text=item["text"], locator=item["locator"], version_id=item["version_id"],
+        entity_links=item.get("entity_links", []), authority=item["authority"],
+        status=item["status"], provenance=item.get("provenance", {}),
+        issued_date=item.get("issued_date"), effective_from=item.get("effective_from"),
+        withdrawn_date=item.get("withdrawn_date"),
+        extraction_quality=item.get("extraction_quality"),
+    ) for item in repository.get_chunks(
+        snapshot_id, as_of=as_of, include_undated=include_undated_research)]
+    metadata.update({"db_path": str(Path(db_path).resolve()), "as_of": as_of,
+                     "retrieval": "bm25-only",
+                     "include_undated_research": include_undated_research,
+                     "date_policy": "include_unknown_issue_dates_for_research"
+                     if include_undated_research else "known_issue_dates_only"})
+    members = set(metadata["version_ids"])
+    metadata["document_directory"] = [
+        {key: version[key] for key in (
+            "doc_id", "version_id", "title", "issued_date", "effective_from", "withdrawn_date")}
+        for version in repository.list_versions() if version["version_id"] in members]
+    return ChunkStore(chunks, corpus_metadata=metadata)

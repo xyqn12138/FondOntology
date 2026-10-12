@@ -51,8 +51,12 @@ Stage 2 Semantic Enforcement   Stage 3 Semantic Querying
     .venv\Scripts\python.exe tools\qa_bench.py --stage e2e       # 13 条端到端 CQ
     .venv\Scripts\python.exe tools\qa_bench.py --stage verify    # 72 条 verify CQ
     .venv\Scripts\python.exe tools\qa_bench.py --stage intent    # 16 条 intent CQ
-    .venv\Scripts\python.exe tools\qa_bench.py --stage intent-real  # 10 条真实口语问法（LLM 路径 100%）
+    .venv\Scripts\python.exe tools\qa_bench.py --stage intent-real  # 显式在线诊断集；不是独立业务验收
     .venv\Scripts\python.exe tools\qa_bench.py --stage citation  # 11 条 NL 问答（UCR=0）
+
+2026-10-10 重基线实测：`tools/run_tests.py` 全量 386/386 通过（失败/错误/跳过均为
+0）。该数字是代码回归结果，不等于真实法规/披露业务准确率；旧 stage 数量和在线
+`intent-real` 结果仍只作历史或诊断参考。
 
 **数据导入（Stage 2 生产路径）**：`fondontology.qa.enforce.import_records`
 把原始记录批量约束为合法语义三元组并入数据栈，失败记录按条跳过并给出词表级
@@ -76,6 +80,21 @@ Stage 2 Semantic Enforcement   Stage 3 Semantic Querying
     .venv\Scripts\python.exe tools\qa_cli.py --detail "R4以上的基金有哪些"
     .venv\Scripts\python.exe tools\qa_cli.py "钱强的基金有什么？"   # 投资者实体锚点 → 持仓链查询
     .venv\Scripts\python.exe tools\qa_cli.py "魏辉的基金有什么？"   # 基金经理锚点 → playsFundRole→roleInFund 链
+
+**文档证据库（首期 SQLite）**：T-BOX/ABOX 仍以 Turtle 为本体与仿真事实真源；
+官方法规、基金披露和研究资料作为不可变文档版本导入 SQLite，发布为带版本的
+corpus snapshot 后才允许 RAG 消费。导入、发布和校验示例见
+`docs/corpus-sqlite-implementation.md`；使用已发布快照时必须同时提供数据库、快照
+和 `as_of` 日期；真实资料的目录、manifest 字段和发布门槛见
+`docs/corpus-ingestion.md`：
+
+    .venv\Scripts\python.exe tools\corpus_cli.py --db evidence.sqlite list
+    .venv\Scripts\python.exe tools\qa_cli.py --no-llm --corpus-db evidence.sqlite --corpus-snapshot approved-v1 --as-of 2026-10-10 "问题"
+
+回归/研究快照需显式 `--allow-nontrusted`，回答会标注其非权威性质。
+PDF 教材通过 MinerU 转换、双哈希登记和研究快照接入，流程见
+`docs/pdf-corpus-mineru.md`；未知发布日期还须显式 `--include-undated-research`。
+教材不等于现行法规或产品披露原件，代码回归通过率不等于真实业务准确率。
 
 库级调用入口：
 
@@ -187,6 +206,53 @@ Fund）、属性约束（字段必须命中 CNFO/CNFC 词表，未知字段拒�
 打开 http://127.0.0.1:5173，侧边栏底部「模块」区域切换智能问数 / 本体查看器。
 右下脚标可切换表达模式（自动 / 强制 LLM / 模板）。接口回归见
 `tests/test_qa_web.py`（10 例：meta/suggestions/JSON 问答/SSE 事件/查看器复用）。
+
+## 官方法条与可审计检索
+
+已获取四份官方 HTML 原件：基金运作、信息披露、销售机构办法和私募基金条例，
+共 226 条完整法条。来源登记在 `evaluation/corpora/official-laws-v1.sources.json`；
+快照 `official-laws-v1` 的 `trusted` 仅表示来源字节固定及正文结构校验，
+**不表示现行法律效力已经核验**。原件、回执、数据库和运行产物位于被忽略的
+`data/official-laws-v1/`、`artifacts/official-laws-v1/`，不随 Git 自动分发。
+
+问题、条文 oracle、参考答案分开保存，32 题冻结后执行；系统不接收 gold。
+先文档/版本范围解析，再整条检索，最后独立只读审计与评分；未新增数据库服务。
+原 32 题上，BM25 Top-3 检索门禁满足 31/32，仍有一题多条文漏召回；
+该结果衡量证据完整性，不等于 31/32 答案正确。
+
+    .venv\Scripts\python.exe -X utf8 tools\document_rag.py --db artifacts/official-laws-v1/corpus.sqlite --snapshot official-laws-v1 --as-of 2026-10-12 --cases evaluation/cases/official_laws_v1_questions.json --top-k 3 --output artifacts/official-laws-v1/audited.actual.json
+    .venv\Scripts\python.exe -X utf8 tools\evaluate_legal_retrieval.py --actual artifacts/official-laws-v1/audited.actual.json --corpus-db artifacts/official-laws-v1/corpus.sqlite --questions evaluation/cases/official_laws_v1_questions.json --oracle evaluation/cases/official_laws_v1_oracle.json --output artifacts/official-laws-v1/audited.retrieval.json --verify-trace
+
+第二条当前退出 1 是保留漏召回的正常门禁结果。获取、导入、发布、BKN 模块对齐、
+分层量化与下一步路线见 `docs/official-law-corpus-20261012.md`。
+
+后续已完成四策略消融：BM25 / 父子 BM25 / hybrid RRF / BM25 + rerank 的旧集检索门禁
+分别为 31/32、30/32、31/32、32/32。新冻结 18 题上 BM25 和 rerank 均 18/18，
+因此默认仍为离线 BM25，重排仅显式启用，不把小样本满分当作全局升级依据。
+Ragas 使用 `deepseek-v4.1-flash` 并显式关闭 thinking 后，同三题两组均 9/9 有效；
+早期超时报告保留。参考答案仍为 draft，摘录式回答的小样本评分不构成业务验收。
+详情、延迟代价及局限见
+`docs/rag-retrieval-ablation-20261012.md`。`--retrieval-strategy` 与
+`--allow-retrieval-network` 控制实验策略和网络；未增加数据库服务。
+
+## 法条 Markdown 与 Ragas（旧研究入口）
+
+本轮暂停三份教材 PDF，保留已有产物。`data/` 中的 Markdown 先清点、核对来源与
+完整性，再按外置 selection 导入 SQLite；官方链接不等于正文已核验。旧 Markdown 小样本
+仅含两篇 `research/unverified` 材料，不作为现行法律依据。
+
+    .venv\Scripts\python.exe -X utf8 tools\import_legal_markdown.py --root data
+    .venv\Scripts\python.exe -X utf8 tools\document_rag.py --db artifacts/legal-md-pilot/corpus.sqlite --snapshot legal-md-pilot-v1 --as-of 2026-10-12 --cases evaluation/cases/legal_md_pilot_questions.json --top-k 3 --allow-nontrusted --include-undated-research --output artifacts/legal-md-pilot/extractive.actual.json
+
+第二条命令要求先完成显式导入，详见 `docs/legal-md-ragas-20261012.md`。
+默认只返回检索摘录，不调用生成模型，不代表旧 Web/意图路由已接通文档问答。
+外置问题与参考答案分离，实际上下文、来源定位、版本和 hash 留在 trace。
+
+`tools/evaluate_ragas.py` 默认 dry-run；只有 `--execute` 才调用模型裁判。
+可选依赖为 `.[ragas]`，建议独立虚拟环境；使用专门 `RAGAS_JUDGE_*` 配置，
+本轮经用户授权在进程内复用已有配置。Ragas 分数不是来源、效力、引用或业务验收。
+契约及运行方法见 `evaluation/README.md`，小样本局限见
+`evaluation/cases/legal_md_pilot_README.md`。
 
 ## Build
 

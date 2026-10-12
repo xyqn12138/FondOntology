@@ -30,6 +30,7 @@ class RetrievalResult:
     chunks: list[RagChunk] = field(default_factory=list)
     channels: dict[str, list[str]] = field(default_factory=dict)  # channel -> [chunk_id]
     scope_fund_codes: Optional[set] = None    # 一级检索的锚定范围（None = 全局）
+    scope_chunk_ids: Optional[set[str]] = None
     anchored: bool = False
 
 
@@ -94,6 +95,47 @@ def retrieve(question: str, *, store: Optional[ChunkStore] = None,
     """
     store = store or get_store()
     result = RetrievalResult()
+    if store.strict_scope:
+        codes = None
+        linked_chunk_ids: set[str] = set()
+        if entity_iri:
+            def approved_link(chunk: RagChunk) -> bool:
+                return any(
+                    link.get("entity_id") == entity_iri
+                    and link.get("review_status") != "rejected"
+                    for link in chunk.entity_links)
+
+            codes = (fund_codes_for_entity(ctx, query_graph, entity_iri)
+                     if query_graph is not None else set())
+            linked_codes = {chunk.fund_code for chunk in store.chunks
+                            if chunk.fund_code and approved_link(chunk)}
+            linked_chunk_ids = {chunk.chunk_id for chunk in store.chunks
+                                if approved_link(chunk)}
+            codes.update(linked_codes)
+            result.anchored = True
+            result.scope_fund_codes = codes
+            result.scope_chunk_ids = linked_chunk_ids
+            if not codes and not linked_chunk_ids:
+                result.channels = {"bm25": []}
+                return result
+            if linked_chunk_ids:
+                # Direct reviewed links are explicit evidence scope. Keep them
+                # alongside graph-derived fund-code scope, including documents
+                # that intentionally have no fund_code of their own.
+                hits = store.bm25_search(question, k=len(store.chunks))
+                hits = [(chunk, score) for chunk, score in hits
+                        if chunk.fund_code in (codes or set())
+                        or chunk.chunk_id in linked_chunk_ids]
+            else:
+                hits = store.bm25_search(question, k=top_k * 2,
+                                         scope_fund_codes=codes)
+        else:
+            hits = store.bm25_search(question, k=top_k * 2)
+        if section_hint:
+            hits.sort(key=lambda hit: (0 if section_hint in hit[0].section else 1, -hit[1]))
+        result.chunks = [chunk for chunk, score in hits[:top_k]]
+        result.channels = {"bm25": [chunk.chunk_id for chunk in result.chunks]}
+        return result
 
     # 预取 dense 排名（两级共用）
     dense_rank: dict[str, int] = {}

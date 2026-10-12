@@ -68,8 +68,37 @@ def _document_evidence(seq: int, chunk) -> dict:
         "note": f"{chunk.doc_id} · {chunk.section}",
         "text": chunk.text,
         "locator": chunk.locator,
+        "version_id": chunk.version_id,
+        "authority": chunk.authority,
+        "status": chunk.status,
+        "provenance": chunk.provenance,
+        "issued_date": chunk.issued_date,
+        "effective_from": chunk.effective_from,
+        "withdrawn_date": chunk.withdrawn_date,
+        "extraction_quality": chunk.extraction_quality,
         "premises": [], "derived": [],
     }
+
+
+def _corpus_documents(question: str, store: ChunkStore, candidates: list,
+                       profile: str) -> ExplainAnswer:
+    candidate_ids = {chunk.chunk_id for chunk in candidates}
+    hits = [chunk for chunk, score in store.bm25_search(
+        question, k=len(store.chunks)) if chunk.chunk_id in candidate_ids]
+    if not hits:
+        return _unresolved(question, "selected corpus scope has no lexical evidence")
+    evidence = [_document_evidence(sequence, chunk)
+                for sequence, chunk in enumerate(hits[:3], 1)]
+    claims = [{"claim_id": f"C{sequence}", "type": "fact",
+               "claim": chunk.text, "evidence": [f"R{sequence}"]}
+              for sequence, chunk in enumerate(hits[:3], 1)]
+    return ExplainAnswer(
+        status="ok", text="\n".join(
+            f"({chunk.section}) {chunk.text} [R{sequence}]"
+            for sequence, chunk in enumerate(hits[:3], 1)),
+        report={"meta": {"corpus": dict(store.corpus_metadata),
+                         "reasoning": {"profile": profile, "query_graph": "selected SQLite corpus"}},
+                "evidence": evidence, "claims": claims, "unresolved": []})
 
 
 def _class_evidence(seq: int, card: dict) -> dict:
@@ -167,7 +196,10 @@ def answer_explain(question: str, intent: dict, ctx: OntologyContext,
         # 每个 chunk 一条 claim：引用章节名 + 正文首句（正文可全文展开于证据面板）
         first_sentence = chunk.text.split("。")[0] + ("。" if "。" in chunk.text else "")
         emit_claim(f"（{chunk.section}）{first_sentence}", [eid])
-    return _assemble(question, lines, evidence, claims)
+    result = _assemble(question, lines, evidence, claims)
+    if store.strict_scope and result.report is not None:
+        result.report.setdefault("meta", {})["corpus"] = dict(store.corpus_metadata)
+    return result
 
 
 TOP_K_LOCAL = 3
@@ -243,6 +275,15 @@ def answer_regulation(question: str, intent: dict, ctx: OntologyContext,
                 reg_uris.add(str(reg))
         if reg_uris:
             scope_reg_uris = reg_uris
+
+    if store.strict_scope:
+        if topic and scope_reg_uris is None:
+            return _unresolved(question, "selected topic has no explicit regulation scope")
+        candidates = store.chunks_by_doc_type("regulation_article")
+        if scope_reg_uris is not None:
+            candidates = [chunk for chunk in candidates if any(
+                link.get("entity_id") in scope_reg_uris for link in chunk.entity_links)]
+        return _corpus_documents(question, store, candidates, "corpus_regulation")
 
     articles = store.chunks_by_doc_type("regulation_article")
     if not articles:
@@ -320,6 +361,17 @@ def answer_code(question: str, intent: dict, ctx: OntologyContext,
             if (iri, None, None) in ctx._g or (iri, None, None) in query_graph:
                 code_iri = iri
                 break
+    if store is not None and store.strict_scope:
+        if code_iri is None:
+            return _unresolved(question, f"代码概念 {code_local} 不在本体代码表中")
+        code_id = str(code_iri)
+        candidates = [chunk for chunk in store.chunks if any(
+            str(link.get("entity_id", "")) == code_id
+            and link.get("review_status") != "rejected"
+            for link in chunk.entity_links)]
+        if not candidates:
+            return _unresolved(question, "code concept has no selected corpus evidence")
+        return _corpus_documents(question, store, candidates, "corpus_code")
 
     lines: list[str] = []
     evidence: list[dict] = []
@@ -421,6 +473,8 @@ def answer_compare_entities(question: str, intent: dict, ctx: OntologyContext,
         # 档案事实优先取"基金产品概况"章节；无命中退而取首条
         profile = [c for c in r.chunks if c.section == "基金产品概况"] or r.chunks[:1]
         if not profile:
+            if store.strict_scope:
+                return _unresolved(question, f"missing corpus evidence for {anchor['label']}")
             lines.append(f"（{anchor['label']}）未找到相关文档。")
             continue
         chunk = profile[0]

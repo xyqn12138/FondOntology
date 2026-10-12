@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "date_utc": "2026-10-12",
+  "acceptance": false,
+  "decision": "Keep BM25 default; retain bm25_rerank as an explicit experimental option. No additional holdout gain observed.",
+  "plan": "evaluation/experiments/legal_retrieval_v2.json",
+  "selection": "evaluation/experiments/legal_retrieval_v2_selection.json",
+  "report": "docs/rag-retrieval-ablation-20261012.md",
+  "regression": {
+    "denominator": 32,
+    "ordinary_denominator": 28,
+    "negative_controls": 4,
+    "pass_counts": {"bm25": 31, "parent_child": 30, "hybrid_rrf": 31, "bm25_rerank": 32},
+    "ordinary_target_recall": {
+      "bm25": 0.9821428571428571,
+      "parent_child": 0.9642857142857143,
+      "hybrid_rrf": 0.9821428571428571,
+      "bm25_rerank": 1.0
+    },
+    "scope_violations": 0,
+    "execution_errors": 0
+  },
+  "holdout": {
+    "candidate_locked_before_execution": true,
+    "denominator": 18,
+    "ordinary_denominator": 16,
+    "negative_controls": 2,
+    "pass_counts": {"bm25": 18, "bm25_rerank": 18},
+    "ordinary_target_recall": {"bm25": 1.0, "bm25_rerank": 1.0},
+    "scope_violations": 0,
+    "execution_errors": 0,
+    "independent_human_review": false,
+    "future_status": "Exposed after this evaluation, not a reusable unseen holdout"
+  },
+  "ragas": {
+    "judge_model": "deepseek-v4.1-flash",
+    "request_extra_body": {"enable_thinking": false},
+    "sample_ids": ["ops-01", "sales-02", "disclosure-01"],
+    "per_run_valid_metric_results": 9,
+    "per_run_requested_metric_results": 9,
+    "per_run_actual_judge_calls": 18,
+    "baseline": {"context_precision": 0.6666666666, "context_recall": 0.8333333333333334, "faithfulness": 1.0},
+    "candidate": {"context_precision": 0.9999999999, "context_recall": 1.0, "faithfulness": 1.0},
+    "baseline_execution_note": "The scored old baseline rows exactly equal the newly generated baseline rows. Original report/trace hashes remain unchanged; this is not a claim of identical execution provenance.",
+    "failed_default_thinking_run_retained": true,
+    "limitations": ["Selected diagnostic sample", "Draft references", "Single judge realization", "Extractive responses, not synthesized user answers"]
+  },
+  "validation": {
+    "full_tests": 561,
+    "passed": 559,
+    "skipped": 2,
+    "failures": 0,
+    "errors": 0,
+    "isolated_ragas_tests_passed": 21,
+    "both_case_freezes_unchanged": true
+  },
+  "artifact_sha256": {
+    "artifacts/retrieval-v2/final-audited/ablation.json": "b8687c8a4886acde59e0bc98ef48540870cafb384b93a9d3054b820e8c501568",
+    "artifacts/retrieval-v2/holdout/comparison.json": "f1fb46493fbd1a206763d61f76c13a8c2ff3709081b0e313a730e85203e16461",
+    "artifacts/retrieval-v2/deepseek-baseline.ragas.json": "b1c1a020ff0ef2dbe87a57ff6011f90236086c60386996ea52f0aa7600a658d8",
+    "artifacts/retrieval-v2/deepseek-baseline-no-thinking.ragas.json": "3e64240400048f74965f0e55e5a2fefef104ef5c6ebec3d1f8da7e64f07cf43a",
+    "artifacts/retrieval-v2/deepseek-rerank-no-thinking.ragas.json": "f7b722f651eaa7e003ed394c5924c695a8ac322b146892077824f7921c4aba87",
+    "artifacts/retrieval-v2/final-audited/baseline-row-equality.json": "05803ebaa5645a97f8557c04f8dde792e75b9d09f2a37240d5be11f5bf83de82"
+  },
+  "artifact_policy": "Ignored local artifacts need explicit distribution or reproduction; hashes provide local consistency, not signed execution authentication."
+}

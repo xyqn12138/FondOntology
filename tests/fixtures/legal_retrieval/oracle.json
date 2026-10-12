@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "authorship": {
+    "kind": "synthetic",
+    "created_without_actuals": true,
+    "review_status": "draft",
+    "source_description": "S0 synthetic control only, not business or legal evidence."
+  },
+  "rows": [
+    {
+      "id": "synthetic-1",
+      "expected_status": "retrieved",
+      "target_articles": [{"doc_id": "synthetic-law", "article_number": 2}],
+      "required_groups": [[{"doc_id": "synthetic-law", "article_number": 2}]],
+      "allowed_doc_ids": ["synthetic-law"],
+      "category": "system",
+      "split": "test",
+      "scenario": "synthetic exact article control"
+    },
+    {
+      "id": "synthetic-2",
+      "expected_status": "unresolved",
+      "target_articles": [],
+      "required_groups": [],
+      "allowed_doc_ids": [],
+      "category": "system",
+      "split": "challenge"
+    }
+  ]
+}

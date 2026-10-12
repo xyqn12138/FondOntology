@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "frozen_at_utc": "2026-10-12T07:05:04+00:00",
+  "authorship": {
+    "kind": "source_authored",
+    "created_without_actuals": true,
+    "review_status": "draft",
+    "tested_system_invoked": false,
+    "independent_human_review": false
+  },
+  "files": {
+    "retrieval_holdout_v2_questions.json": "2f30ef0d13b39ab914220bd850f70a6c4299a0e6a3cc1d89f1e14c1a48988774",
+    "retrieval_holdout_v2_oracle.json": "d582da9cad029cea9765dfb290966aa932048bebf0bb692a6dcf9c46d2baa28f",
+    "retrieval_holdout_v2_references.json": "e40c88c3e2451db48cc8dadd34e6b1e9ce95b1ebff4eb585721baa02df5ab326",
+    "retrieval_holdout_v2_README.md": "3913bf13ac483a41e25d607955398c8caf44e8d06461a12fc343897ef4b886e0"
+  },
+  "source_raw_sha256": {
+    "csrc-operations-2014": "d53303588ef1d1ed8a0464b6e38b0247d0560a93adea32fc0be06463bd96043f",
+    "csrc-disclosure-2020": "25351982dc9153f9788182201fe68bc15331ae876a58751805a3396d4a382456",
+    "csrc-sales-2020": "f504c8bdb217979cb7f260df84920328af371453ace17a0274924ec6a614d05b",
+    "state-council-private-funds-2023": "b0e6b3dd403f0e90c7082c142b94fc17cc52cb344cca345bfbe86bf056ddcda5"
+  },
+  "validation": {
+    "json_ids_aligned_and_unique": true,
+    "questions_have_no_gold_fields": true,
+    "official_raw_hashes_and_article_counts_match": true,
+    "target_articles_and_official_chapter_headings_exist": true,
+    "target_articles_equal_required_group_union": true,
+    "old_frozen_set_modified": false,
+    "case_count": 18,
+    "test_count": 16,
+    "challenge_count": 2,
+    "ordinary_cases_per_document": 4,
+    "multi_article_and_cases": 9,
+    "distinct_ordinary_target_articles": 25,
+    "overlap_with_old_ordinary_target_articles": 0,
+    "questions_without_article_locator": 17,
+    "test_categories": {"business": 10, "user": 5, "system": 1},
+    "challenge_categories": {"system": 2}
+  },
+  "evaluation_protocol": "Candidate retrieval strategy and dev parameters must be locked before one holdout run. Do not alter this frozen set or tune on holdout outputs. Report test and challenge separately. Any source or human-review correction requires a documented new freeze."
+}

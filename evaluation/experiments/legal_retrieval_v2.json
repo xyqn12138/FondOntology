@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Paired retrieval ablation; not legal-answer acceptance",
+  "snapshot": "official-laws-v1",
+  "snapshot_members_sha256": "0d45f5b7aa81b860fe94a85007a750006047572c818457d5c7f4a2b73d50b10e",
+  "baseline_questions": "evaluation/cases/official_laws_v1_questions.json",
+  "baseline_questions_sha256": "1abfe7f5fa53e6b941e5ab35af1ffca00a99653589a925a4eb62531592e9a14b",
+  "baseline_oracle": "evaluation/cases/official_laws_v1_oracle.json",
+  "strategies": ["bm25", "parent_child", "hybrid_rrf", "bm25_rerank"],
+  "top_k": 3,
+  "candidate_k": 20,
+  "rrf_rank_constant": 60,
+  "rrf_weights": {"bm25": 1, "dense": 1},
+  "child_max_chars": 240,
+  "returned_evidence": "Complete parent articles for every strategy; no child-only citation shortcuts",
+  "selection_policy": "Choose a candidate on the disclosed 32-case regression set before opening new holdout results. Require no scope/status regression, no loss of required evidence, and a quality gain to justify remote latency. Keep default baseline unless promotion has sufficient evidence. Do not tune after holdout failures.",
+  "metrics": ["required_group_coverage", "case_pass_rate", "target_article_recall", "first_target_mrr", "target_only_precision", "scope_violation_rate", "error_rate", "evidence_characters", "retrieval_latency_ms", "external_calls"],
+  "precision_warning": "Target-only precision treats only oracle targets as positive; it is not exhaustive relevance labeling.",
+  "ragas": {
+    "judge_model": "deepseek-v4.1-flash",
+    "max_rows_per_run": 3,
+    "sample_ids": ["ops-01", "sales-02", "disclosure-01"],
+    "selection": "Same disclosed diagnostic sample as prior run, not representative or a blind set",
+    "metrics": ["faithfulness", "context_precision", "context_recall"],
+    "timeout_seconds_per_metric": 90,
+    "max_output_tokens_per_call": 4096,
+    "max_judge_calls_per_run": 18,
+    "comparison": "Rescore baseline and chosen candidate with the same judge, references, and budgets. Never interpret a judge-only change as a retrieval improvement."
+  },
+  "deferred": ["HyDE", "LLM rewrite", "stacking all techniques", "new database services"],
+  "deferred_reason": "Test the least complex independent mechanisms first; add a new mechanism only after evidence of an unmet error class."
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "frozen_at_utc": "2026-10-12T05:11:06+00:00",
+  "source": "Author handoff recorded before the first 32-case pipeline run",
+  "review_status": "draft",
+  "created_without_actuals": true,
+  "independent_human_review": false,
+  "handoff_correction": "The references SHA in the author message had an extra trailing 4 (65 hex characters). The 64-character value here is recomputed from the unchanged source-authored file; question/oracle/README hashes match the handoff.",
+  "files": {
+    "official_laws_v1_questions.json": "1abfe7f5fa53e6b941e5ab35af1ffca00a99653589a925a4eb62531592e9a14b",
+    "official_laws_v1_oracle.json": "cd942782ce9ae04ce369244f99ff81dc4f2b8007e4c37d882ca8c1a982168c0a",
+    "official_laws_v1_references.json": "a142037d5a73c69b0167b08f1348185d1a3fd7a8668f9abd0ecd2d93166483ee",
+    "official_laws_v1_README.md": "4678b7f721319364166f2c9a4861e19c016adc1949947e5eba7f38420c8dcea4"
+  },
+  "after_evaluation_policy": "Targets and references remain unchanged; after inspection the test split is a disclosed regression baseline, not a future untouched blind test."
+}

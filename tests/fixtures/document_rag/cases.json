@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "cases": [
+    {
+      "id": "alpha",
+      "question": "ALPHA_ONLY allocation ceiling",
+      "entity_iri": "urn:fixture:alpha",
+      "reference": "GOLD_MUST_NOT_REACH_RETRIEVAL_OR_GENERATION",
+      "reference_contexts": ["GOLD_MUST_NOT_REACH_RETRIEVAL_OR_GENERATION"],
+      "review_status": "draft"
+    }
+  ]
+}

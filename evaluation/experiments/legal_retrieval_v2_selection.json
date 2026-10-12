@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "decision_date_utc": "2026-10-12",
+  "decision_recorded_at_utc": "2026-10-12T07:25:52+00:00",
+  "decision_stage": "before reading or executing retrieval_holdout_v2",
+  "basis": "artifacts/retrieval-v2/final/ablation.json",
+  "basis_sha256": "32922b5d0c66d8dbcd2aa5ac79b306d6dffc716e4093687ebcfb647aa53ca82b",
+  "candidate": "bm25_rerank",
+  "baseline": "bm25",
+  "candidate_k": 20,
+  "top_k": 3,
+  "measured_regression_pass_counts": {
+    "bm25": 31,
+    "parent_child": 30,
+    "hybrid_rrf": 31,
+    "bm25_rerank": 32
+  },
+  "denominator": 32,
+  "selection_reason": "Only standalone BM25 top-20 reranking recovered all required article groups without scope/status regression; child BM25 regressed and equal-weight RRF did not improve complete-case coverage.",
+  "pending_non_algorithmic_changes": "Provider response-validation receipts and independent comparison fairness checks are being hardened; regenerate runs under a single frozen implementation before final reporting.",
+  "holdout_policy": "Compare only the locked baseline and candidate on the frozen 18-case holdout; do not change gold, thresholds, query transforms, candidate count or ranking after inspecting results.",
+  "default_strategy": "bm25",
+  "promotion": "Candidate selection is not production/default promotion; require holdout evidence and report added network latency and failures."
+}

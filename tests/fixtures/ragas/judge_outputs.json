@@ -1,0 +1,31 @@
+{
+  "StatementGeneratorOutput": {
+    "statements": ["This deliberately unsupported answer is wrong."]
+  },
+  "NLIStatementOutput": {
+    "statements": [
+      {
+        "statement": "This deliberately unsupported answer is wrong.",
+        "reason": "Synthetic negative control: no supporting evidence.",
+        "verdict": 0
+      }
+    ]
+  },
+  "ContextPrecisionOutput": {
+    "reason": "Synthetic negative control: irrelevant retrieved context.",
+    "verdict": 0
+  },
+  "ContextRecallOutput": {
+    "classifications": [
+      {
+        "statement": "Gold answer needs absent evidence.",
+        "reason": "Synthetic negative control: evidence not retrieved.",
+        "attributed": 0
+      }
+    ]
+  },
+  "AnswerRelevanceOutput": {
+    "question": "What?",
+    "noncommittal": 0
+  }
+}
