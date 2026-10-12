@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "suite": "synthetic-contract",
+  "scope": "synthetic_contract",
+  "allowed_modes": ["replay"],
+  "case_files": ["../cases/synthetic_contract.json"],
+  "allow_external_case_files": true,
+  "dataset_snapshot": "synthetic-contract-v1",
+  "corpus": "none: fictional protocol fixture only",
+  "ontology": "none: matcher contract fixture only",
+  "description": "Synthetic scorer/contract checks only. Not independent business acceptance or E2E."
+}

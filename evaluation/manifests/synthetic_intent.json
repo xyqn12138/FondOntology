@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "suite": "synthetic-intent",
+  "scope": "intent_only",
+  "allowed_modes": ["replay", "rules_intent"],
+  "case_files": ["../cases/synthetic_intent.json"],
+  "allow_external_case_files": true,
+  "dataset_snapshot": "synthetic-intent-tbox-v1",
+  "corpus": "none: TBOX-only, no document retrieval",
+  "ontology": "cnfo-domain.ttl: actual graph hash recorded by rules_intent",
+  "description": "Synthetic real offline intent smoke only. Not query, evidence, answer, or business E2E acceptance."
+}

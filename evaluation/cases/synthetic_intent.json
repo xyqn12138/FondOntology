@@ -1,0 +1,41 @@
+[
+  {
+    "schema_version": "1.0",
+    "case_id": "contract.intent.001",
+    "suite": "synthetic-intent",
+    "split": "contract",
+    "task_family": "intent-find",
+    "scenario_group": "synthetic-lexicon-etf",
+    "provenance": {
+      "independence": "synthetic_contract",
+      "source": "Hand-authored class/operation expectation from ontology; no model or system-generated gold.",
+      "annotator": "contract-maintainer",
+      "review_status": "protocol-example-only"
+    },
+    "eligible": true,
+    "kind": "intent",
+    "inputs": {
+      "question": "\u6709\u54ea\u4e9b\u4ea4\u6613\u578b\u5f00\u653e\u5f0f\u6307\u6570\u57fa\u91d1",
+      "dataset_snapshot": "synthetic-intent-tbox-v1",
+      "allowed_capabilities": ["intent"]
+    },
+    "oracle": {
+      "matchers": [
+        {"matcher": "status", "expected": "intent_only"},
+        {"matcher": "intent_status", "expected": "RESOLVED"},
+        {
+          "matcher": "slots",
+          "expected": [
+            {"path": ["operation"], "type": "string", "value": "find"},
+            {
+              "path": ["intent", "target_class"],
+              "type": "string",
+              "value": "https://ontology.example.cn/cnfo/ontology/ExchangeTradedFund"
+            },
+            {"path": ["intent", "filters"], "type": "json", "value": []}
+          ]
+        }
+      ]
+    }
+  }
+]

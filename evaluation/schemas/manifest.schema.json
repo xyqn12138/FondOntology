@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fondontology:evaluation:manifest:1.0",
+  "$comment": "Portable schema is structural-only; CLI/Python validation additionally enforces resolved filesystem containment, manifest/case consistency and eligible cases.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "suite", "case_files", "dataset_snapshot", "corpus", "ontology", "description", "scope", "allowed_modes"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "suite": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"},
+    "scope": {"enum": ["synthetic_contract", "intent_only"]},
+    "allowed_modes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["replay", "rules_intent"]}},
+    "case_files": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "allow_external_case_files": {"type": "boolean", "default": false, "description": "Explicit opt-in to relative case files resolving outside the manifest directory. Absolute and drive-rooted paths remain prohibited."},
+    "dataset_snapshot": {"type": "string", "pattern": "\\S"},
+    "corpus": {"type": "string", "pattern": "\\S"},
+    "ontology": {"type": "string", "pattern": "\\S"},
+    "description": {"type": "string", "pattern": "\\S"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"scope": {"const": "synthetic_contract"}}},
+      "then": {"properties": {"allowed_modes": {"not": {"contains": {"const": "rules_intent"}}}}}
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "schema_version": "1.0",
+    "case_id": "contract.answer.001",
+    "suite": "synthetic-contract",
+    "split": "contract",
+    "task_family": "structured-answer",
+    "scenario_group": "synthetic-document-v1",
+    "provenance": {
+      "independence": "synthetic_contract",
+      "source": "Hand-authored fictional protocol values; not production QA output.",
+      "annotator": "contract-maintainer",
+      "review_status": "protocol-example-only"
+    },
+    "eligible": true,
+    "kind": "answer",
+    "inputs": {
+      "question": "List fictional F-A and F-B ordered by growth as of 2025-12-31.",
+      "dataset_snapshot": "synthetic-contract-v1",
+      "allowed_capabilities": ["structured_answer"]
+    },
+    "oracle": {
+      "matchers": [
+        {"matcher": "status", "expected": "answered"},
+        {"matcher": "entity_set", "expected": ["F-A", "F-B"]},
+        {
+          "matcher": "slots",
+          "expected": [
+            {"path": ["as_of"], "type": "date", "value": "2025-12-31"},
+            {"path": ["threshold"], "type": "number", "value": 20},
+            {"path": ["unit"], "type": "string", "value": "percent"},
+            {"path": ["ordering"], "type": "ordered_ids", "value": ["F-B", "F-A"]},
+            {"path": ["manager_changed"], "type": "boolean", "value": true}
+          ]
+        },
+        {
+          "matcher": "evidence_groups",
+          "expected": [
+            [
+              {"source_version": "fictional-document-v1", "locator": "table:1/row:F-A"},
+              {"source_version": "fictional-document-v1", "locator": "table:1/row:F-B"}
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "case_id": "contract.clarification.001",
+    "suite": "synthetic-contract",
+    "split": "contract",
+    "task_family": "clarification",
+    "scenario_group": "synthetic-ambiguous",
+    "provenance": {
+      "independence": "synthetic_contract",
+      "source": "Hand-authored ambiguity example; no business corpus.",
+      "annotator": "contract-maintainer",
+      "review_status": "protocol-example-only"
+    },
+    "eligible": true,
+    "kind": "answer",
+    "inputs": {
+      "question": "Which fictional period do you mean?",
+      "dataset_snapshot": "synthetic-contract-v1",
+      "allowed_capabilities": ["structured_answer"]
+    },
+    "oracle": {
+      "matchers": [{"matcher": "status", "expected": "clarification"}]
+    }
+  }
+]

@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fondontology:evaluation:case:1.0",
+  "$comment": "Portable schema is structural-only; CLI/Python validation additionally enforces unique matcher/slot identities, strict calendar dates, JSON input rules and suite consistency.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "case_id", "suite", "split", "task_family", "scenario_group", "provenance", "eligible", "kind", "inputs", "oracle"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "case_id": {"$ref": "#/$defs/id"},
+    "suite": {"$ref": "#/$defs/id"},
+    "split": {"$ref": "#/$defs/text"},
+    "task_family": {"$ref": "#/$defs/text"},
+    "scenario_group": {"$ref": "#/$defs/id"},
+    "eligible": {"type": "boolean"},
+    "kind": {"enum": ["answer", "intent"]},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["independence", "source", "annotator", "review_status"],
+      "properties": {
+        "independence": {"enum": ["synthetic_contract", "independently_reviewed"]},
+        "source": {"$ref": "#/$defs/text"},
+        "annotator": {"$ref": "#/$defs/text"},
+        "review_status": {"$ref": "#/$defs/text"}
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question", "dataset_snapshot", "allowed_capabilities"],
+      "properties": {
+        "question": {"$ref": "#/$defs/text"},
+        "dataset_snapshot": {"$ref": "#/$defs/text"},
+        "allowed_capabilities": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/text"}},
+        "as_of": {"type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}
+      }
+    },
+    "oracle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["matchers"],
+      "properties": {"matchers": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/matcher"}}}
+    }
+  },
+  "allOf": [
+    {"properties": {"oracle": {"properties": {"matchers": {"contains": {"properties": {"matcher": {"const": "status"}}, "required": ["matcher"]}}}}}},
+    {
+      "if": {"properties": {"kind": {"const": "intent"}}},
+      "then": {
+        "properties": {"oracle": {"properties": {"matchers": {
+          "allOf": [
+            {"contains": {"properties": {"matcher": {"const": "status"}, "expected": {"const": "intent_only"}}, "required": ["matcher", "expected"]}},
+            {"contains": {"properties": {"matcher": {"const": "intent_status"}}, "required": ["matcher"]}},
+            {"not": {"contains": {"properties": {"matcher": {"enum": ["entity_set", "evidence_groups"]}}, "required": ["matcher"]}}},
+            {
+              "if": {"contains": {"properties": {"matcher": {"const": "intent_status"}, "expected": {"const": "RESOLVED"}}, "required": ["matcher", "expected"]}},
+              "then": {"contains": {"properties": {"matcher": {"const": "slots"}}, "required": ["matcher"]}}
+            }
+          ]
+        }}}}
+      },
+      "else": {
+        "properties": {"oracle": {"properties": {"matchers": {
+          "allOf": [
+            {"not": {"contains": {"properties": {"matcher": {"const": "intent_status"}}, "required": ["matcher"]}}},
+            {"not": {"contains": {"properties": {"matcher": {"const": "status"}, "expected": {"const": "intent_only"}}, "required": ["matcher", "expected"]}}},
+            {
+              "if": {"contains": {"properties": {"matcher": {"const": "status"}, "expected": {"const": "answered"}}, "required": ["matcher", "expected"]}},
+              "then": {"allOf": [
+                {"contains": {"properties": {"matcher": {"const": "evidence_groups"}}, "required": ["matcher"]}},
+                {"contains": {"properties": {"matcher": {"enum": ["entity_set", "slots"]}}, "required": ["matcher"]}}
+              ]}
+            },
+            {
+              "if": {"contains": {"properties": {"matcher": {"const": "status"}, "expected": {"const": "empty"}}, "required": ["matcher", "expected"]}},
+              "then": {"contains": {"properties": {"matcher": {"const": "entity_set"}, "expected": {"const": []}}, "required": ["matcher", "expected"]}}
+            }
+          ]
+        }}}}
+      }
+    }
+  ],
+  "$defs": {
+    "text": {"type": "string", "pattern": "\\S"},
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"},
+    "strings": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/text"}},
+    "reference": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_version", "locator"],
+      "properties": {"source_version": {"$ref": "#/$defs/text"}, "locator": {"$ref": "#/$defs/text"}}
+    },
+    "slot": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "type", "value"],
+      "properties": {
+        "path": {"type": "array", "minItems": 1, "items": {"oneOf": [{"$ref": "#/$defs/text"}, {"type": "integer", "minimum": 0}]}},
+        "type": {"enum": ["string", "number", "boolean", "date", "json", "ordered_ids"]},
+        "value": {}
+      },
+      "allOf": [
+        {"if": {"properties": {"type": {"const": "string"}}}, "then": {"properties": {"value": {"$ref": "#/$defs/text"}}}},
+        {"if": {"properties": {"type": {"const": "number"}}}, "then": {"properties": {"value": {"type": "number"}}}},
+        {"if": {"properties": {"type": {"const": "boolean"}}}, "then": {"properties": {"value": {"type": "boolean"}}}},
+        {"if": {"properties": {"type": {"const": "date"}}}, "then": {"properties": {"value": {"type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}}}},
+        {"if": {"properties": {"type": {"const": "ordered_ids"}}}, "then": {"properties": {"value": {"$ref": "#/$defs/strings"}}}}
+      ]
+    },
+    "matcher": {
+      "oneOf": [
+        {
+          "type": "object", "additionalProperties": false, "required": ["matcher", "expected"],
+          "properties": {"matcher": {"const": "status"}, "expected": {"enum": ["answered", "empty", "clarification", "insufficient", "refused", "invalid", "intent_only"]}}
+        },
+        {
+          "type": "object", "additionalProperties": false, "required": ["matcher", "expected"],
+          "properties": {"matcher": {"const": "intent_status"}, "expected": {"enum": ["RESOLVED", "AMBIGUOUS", "UNRESOLVED", "INVALID"]}}
+        },
+        {
+          "type": "object", "additionalProperties": false, "required": ["matcher", "expected"],
+          "properties": {"matcher": {"const": "entity_set"}, "expected": {"$ref": "#/$defs/strings"}}
+        },
+        {
+          "type": "object", "additionalProperties": false, "required": ["matcher", "expected"],
+          "properties": {"matcher": {"const": "slots"}, "expected": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/slot"}}}
+        },
+        {
+          "type": "object", "additionalProperties": false, "required": ["matcher", "expected"],
+          "properties": {"matcher": {"const": "evidence_groups"}, "expected": {"type": "array", "minItems": 1, "items": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/reference"}}}}
+        }
+      ]
+    }
+  }
+}

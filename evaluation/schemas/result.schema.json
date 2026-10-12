@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fondontology:evaluation:result:1.0",
+  "$comment": "Portable schema is structural-only; CLI/Python validation scores actuals and controls execution. Nonpass results retain invalid raw actuals for diagnosis. A passed actual does not verify recorded used_llm or execution origin.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["case_id", "case_hash", "eligible", "outcome", "elapsed_seconds", "assertions", "actual", "error"],
+  "properties": {
+    "case_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"},
+    "case_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "eligible": {"type": "boolean"},
+    "outcome": {"enum": ["pass", "fail", "error", "timeout", "skip", "not_run"]},
+    "elapsed_seconds": {"type": "number", "minimum": 0},
+    "assertions": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["matcher", "passed", "detail"],
+        "properties": {"matcher": {"type": "string"}, "passed": {"type": "boolean"}, "detail": {"type": "string"}}
+      }
+    },
+    "actual": {
+      "description": "Raw JSON adapter output, including invalid structures needed to diagnose fail/error. The runtime actual validator scores this separately."
+    },
+    "error": {"type": "string"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"outcome": {"const": "pass"}}},
+      "then": {"properties": {
+        "eligible": {"const": true},
+        "assertions": {"minItems": 1, "items": {"properties": {"passed": {"const": true}}}},
+        "actual": {"$ref": "#/$defs/actual"},
+        "error": {"const": ""}
+      }}
+    },
+    {
+      "if": {"properties": {"outcome": {"const": "not_run"}}},
+      "then": {"properties": {"assertions": {"maxItems": 0}, "actual": {"type": "null"}, "elapsed_seconds": {"const": 0}}}
+    }
+  ],
+  "$defs": {
+    "actual": {
+      "type": "object", "additionalProperties": false, "required": ["status"],
+      "properties": {
+        "status": {"enum": ["answered", "empty", "clarification", "insufficient", "refused", "invalid", "intent_only"]},
+        "intent_status": {"enum": ["RESOLVED", "AMBIGUOUS", "UNRESOLVED", "INVALID"]},
+        "entities": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "\\S"}},
+        "slots": {"type": "object"},
+        "used_llm": {"type": "boolean"},
+        "evidence": {
+          "type": "array", "uniqueItems": true,
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["source_version", "locator"],
+            "properties": {"source_version": {"type": "string", "pattern": "\\S"}, "locator": {"type": "string", "pattern": "\\S"}}
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "intent_only"}}},
+          "then": {
+            "required": ["intent_status"],
+            "not": {"anyOf": [{"required": ["entities"]}, {"required": ["evidence"]}]}
+          },
+          "else": {"not": {"required": ["intent_status"]}}
+        },
+        {
+          "if": {"properties": {"status": {"enum": ["clarification", "insufficient", "refused", "invalid", "empty"]}}},
+          "then": {"properties": {"entities": {"maxItems": 0}, "slots": {"maxProperties": 0}, "evidence": {"maxItems": 0}}}
+        },
+        {
+          "if": {"properties": {"status": {"const": "empty"}}},
+          "then": {"required": ["entities"]}
+        }
+      ]
+    }
+  }
+}
