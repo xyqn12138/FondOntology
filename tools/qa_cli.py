@@ -24,8 +24,8 @@ from fondontology.qa.graph import build_stack
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def run(stack, question: str, *, detail: bool, use_llm: bool | None) -> int:
-    ans = answer_question(question, stack, use_llm=use_llm)
+def run(stack, question: str, *, detail: bool, use_llm: bool | None, rag_store=None) -> int:
+    ans = answer_question(question, stack, use_llm=use_llm, rag_store=rag_store)
     print(ans.text)
     if detail:
         print()
@@ -38,6 +38,12 @@ def run(stack, question: str, *, detail: bool, use_llm: bool | None) -> int:
         if ans.report:
             print(f"证据: {len(ans.report.get('evidence', []))} 条 / "
                   f"claims: {len(ans.report.get('claims', []))} 条")
+            corpus = (ans.report.get("meta") or {}).get("corpus")
+            if corpus:
+                print(f"来源: corpus snapshot={corpus.get('snapshot_id')} "
+                      f"as_of={corpus.get('as_of')} kind={corpus.get('kind')}")
+                if corpus.get("include_undated_research"):
+                    print("日期范围含未知发布日期的研究资料，不证明历史可用性或现行法律效力。")
             for c in ans.report.get("claims", []):
                 print(f"  {c['claim_id']}[{c['type']}] {c['claim']} → {c['evidence']}")
     return 0
@@ -51,7 +57,38 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--source", type=Path, default=ROOT / "ontology" / "modules" / "cnfo-domain.ttl")
     ap.add_argument("--abox", type=Path, default=ROOT / "artifacts" / "cnfo" / "abox" / "cnfo-sim-abox.ttl")
     ap.add_argument("--no-llm", action="store_true", help="强制确定性模板表达")
+    ap.add_argument("--corpus-db", type=Path, default=None)
+    ap.add_argument("--corpus-snapshot", default=None)
+    ap.add_argument("--as-of", default=None,
+                    help="Corpus issue/effective date cutoff (YYYY-MM-DD), not latest-version selection")
+    ap.add_argument("--allow-nontrusted", "--allow-nontrusted-corpus",
+                    dest="allow_nontrusted_corpus", action="store_true")
+    ap.add_argument("--include-undated-research", action="store_true",
+                    help="Include unknown issue dates in research snapshots only; not legal validity")
     args = ap.parse_args(argv)
+    corpus_options = (args.corpus_db, args.corpus_snapshot, args.as_of)
+    if any(corpus_options) and not all(corpus_options):
+        ap.error("--corpus-db, --corpus-snapshot and --as-of must be supplied together")
+    if args.allow_nontrusted_corpus and not all(corpus_options):
+        ap.error("--allow-nontrusted-corpus requires corpus options")
+    if args.include_undated_research and not (all(corpus_options) and args.allow_nontrusted_corpus):
+        ap.error("--include-undated-research requires corpus options and --allow-nontrusted")
+    rag_store = None
+    if all(corpus_options):
+        from fondontology.corpus import CorpusError
+        from fondontology.qa.rag.store import load_corpus_store
+        try:
+            rag_store = load_corpus_store(
+                args.corpus_db, args.corpus_snapshot, as_of=args.as_of,
+                allow_nontrusted=args.allow_nontrusted_corpus,
+                include_undated_research=args.include_undated_research)
+        except CorpusError as error:
+            print(f"Corpus unavailable: {error}")
+            return 1
+        print(f"Corpus snapshot={args.corpus_snapshot} kind={rag_store.corpus_metadata['kind']} "
+              f"as_of={args.as_of} retrieval=bm25-only")
+        if args.include_undated_research:
+            print("包含未知发布日期的研究资料；不证明历史可用性或现行法律效力。")
 
     print(f"加载本体数据栈（{args.source.name} + {args.abox.name}）…")
     stack = build_stack(args.source, args.abox)
@@ -59,7 +96,7 @@ def main(argv: list[str] | None = None) -> int:
 
     question = (args.question or "").strip()
     if question:
-        return run(stack, question, detail=args.detail, use_llm=use_llm)
+        return run(stack, question, detail=args.detail, use_llm=use_llm, rag_store=rag_store)
     if args.repl or args.question is None and not args.repl:
         print("交互式问数（输入问题回车；输入 exit/quit 退出）")
         while True:
@@ -71,7 +108,7 @@ def main(argv: list[str] | None = None) -> int:
                 continue
             if q.lower() in ("exit", "quit"):
                 break
-            run(stack, q, detail=args.detail, use_llm=use_llm)
+            run(stack, q, detail=args.detail, use_llm=use_llm, rag_store=rag_store)
             print()
     return 0
 

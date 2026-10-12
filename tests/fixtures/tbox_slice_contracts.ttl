@@ -1,0 +1,35 @@
+@prefix t: <https://example.org/slice-test/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+t:Root a owl:Class ; rdfs:label "测量对象"@zh .
+t:Target a owl:Class ; rdfs:subClassOf t:Root ; rdfs:label "观测目标"@zh .
+t:OptionalChild a owl:Class ; rdfs:subClassOf t:Target .
+t:Other a owl:Class ; rdfs:label "记录节点"@zh .
+t:Third a owl:Class .
+t:aOptional a owl:DatatypeProperty ; rdfs:domain t:Target ; rdfs:range xsd:string .
+t:zMeasure a owl:DatatypeProperty ; rdfs:domain t:Other ; rdfs:range xsd:decimal ;
+  rdfs:label "观测数值"@zh ; skos:altLabel "传感器读数"@zh ;
+  skos:definition "记录节点在采样时得到的温度测量结果。"@zh .
+t:zTime a owl:DatatypeProperty ; rdfs:domain t:Other ; rdfs:range xsd:date .
+t:zLink a owl:ObjectProperty ; rdfs:domain t:Target ; rdfs:range t:Other ;
+  rdfs:label "关联观测记录"@zh ; owl:inverseOf t:backLink .
+t:backLink a owl:ObjectProperty ; rdfs:domain t:Other ; rdfs:range t:Target .
+t:nextLink a owl:ObjectProperty ; rdfs:domain t:Other ; rdfs:range t:Third ;
+  rdfs:subPropertyOf t:genericLink .
+t:genericLink a owl:ObjectProperty ; rdfs:domain t:Root ; rdfs:range t:Third .
+t:chainLink a owl:ObjectProperty ; rdfs:domain t:Target ; rdfs:range t:Third ;
+  owl:propertyChainAxiom ( t:zLink t:nextLink ) .
+t:Target rdfs:subClassOf
+  [ a owl:Restriction ; owl:onProperty t:zLink ; owl:someValuesFrom t:Other ],
+  [ a owl:Restriction ; owl:onProperty t:zLink ; owl:allValuesFrom t:Other ],
+  [ a owl:Restriction ; owl:onProperty t:aOptional ; owl:hasValue "fixed" ],
+  [ a owl:Restriction ; owl:onProperty t:zLink ; owl:minCardinality 1 ],
+  [ a owl:Restriction ; owl:onProperty t:zLink ; owl:maxCardinality 3 ],
+  [ a owl:Restriction ; owl:onProperty t:zLink ; owl:cardinality 2 ],
+  [ a owl:Restriction ; owl:onProperty t:zLink ; owl:minQualifiedCardinality 1 ; owl:onClass t:Other ] .
+t:Other owl:equivalentClass
+  [ a owl:Restriction ; owl:onProperty t:zTime ; owl:someValuesFrom xsd:date ] .
+t:Target owl:disjointWith t:Third .

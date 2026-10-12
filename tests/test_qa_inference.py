@@ -7,7 +7,7 @@ from pathlib import Path
 from rdflib import Namespace, URIRef
 
 from fondontology.qa.engine import answer_question
-from fondontology.qa.graph import build_stack
+from test_support import shared_stack as build_stack
 from fondontology.qa.query_planner import plan_find
 from fondontology.qa.sparql_builder import build_select
 

@@ -8,7 +8,7 @@ from unittest import mock
 from fondontology.qa import explainer
 from fondontology.qa.engine import answer_question
 from fondontology.qa.evidence import EvidenceBuilder
-from fondontology.qa.graph import build_stack
+from test_support import shared_stack as build_stack
 from fondontology.qa.query_planner import plan_find
 
 ROOT = Path(__file__).resolve().parents[1]

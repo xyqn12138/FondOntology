@@ -10,7 +10,7 @@ from fondontology.qa.abox_query import execute_find
 from fondontology.qa.evidence import (
     EvidenceBuilder, evidence_completeness, validate_citations,
 )
-from fondontology.qa.graph import build_stack
+from test_support import shared_stack as build_stack
 from fondontology.qa.query_planner import plan_find
 from fondontology.qa.verify import verify
 

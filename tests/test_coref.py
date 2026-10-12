@@ -12,8 +12,7 @@ from unittest import mock
 
 from fondontology.qa import coref as coref_mod
 from fondontology.qa.coref import _faithful, resolve_coreference
-from fondontology.qa.graph import build_stack
-from fondontology.qa.index import OntologyIndex
+from test_support import shared_stack as build_stack, shared_index as OntologyIndex
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "ontology" / "modules" / "cnfo-domain.ttl"

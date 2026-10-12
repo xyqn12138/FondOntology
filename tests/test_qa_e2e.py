@@ -7,7 +7,7 @@ from pathlib import Path
 from fondontology.qa.context import SliceBudget
 from fondontology.qa.engine import answer
 from fondontology.qa.evidence import evidence_completeness, validate_citations
-from fondontology.qa.graph import build_stack
+from test_support import shared_stack as build_stack
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "ontology" / "modules" / "cnfo-domain.ttl"

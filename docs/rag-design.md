@@ -1,5 +1,11 @@
 # CNFO 智能问数 RAG 模块设计方案 V3.1
 
+> **2026-10-10 重基线说明**：本文保留历史设计决策；“回归 73 项全过”“模拟文档先行”
+> 不是当前真实业务验收结论。当前运行时已支持从 SQLite corpus snapshot 读取文档证据，
+> 但仓库内仍只有合成契约资料，真实法规/披露原件、独立业务 gold 和在线业务验收尚未完成。
+> 真实资料接入与评测边界以 `docs/data-and-qa-rebaseline-20261010.md`、
+> `docs/corpus-sqlite-implementation.md` 和 `evaluation/README.md` 为准。
+
 > 状态：v3.1（2026-09-09；**R3 已全部落地**：R3a 主判反转 / R3b LLM 表达 / R3c 评测——
 > 基准：explain CI 档 14/14、LLM 档 20/20，回归 73 项全过。RAG 默认开启。
 > 待办：R4 向量召回（已落地）、R5 Doc2Graph（真实数据阶段）。）

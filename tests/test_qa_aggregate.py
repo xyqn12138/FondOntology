@@ -13,8 +13,7 @@ from pathlib import Path
 
 from fondontology.qa.abox_query import execute_find
 from fondontology.qa.engine import answer_question
-from fondontology.qa.graph import build_stack
-from fondontology.qa.index import OntologyIndex
+from test_support import shared_stack as build_stack, shared_index as OntologyIndex
 from fondontology.qa.intent import build_intent
 from fondontology.qa.query_planner import plan_find
 from fondontology.qa.semantics import OntologyContext

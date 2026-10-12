@@ -16,8 +16,7 @@ from pathlib import Path
 
 from fondontology.qa.engine import answer_question
 from fondontology.qa.evidence import evidence_completeness, validate_citations
-from fondontology.qa.graph import build_stack
-from fondontology.qa.index import OntologyIndex
+from test_support import shared_stack as build_stack, shared_index as OntologyIndex
 from fondontology.qa.intent import build_intent
 from fondontology.qa.rag import get_store, retrieve
 from fondontology.qa.semantics import OntologyContext

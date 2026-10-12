@@ -13,7 +13,7 @@ from fondontology.qa.query_ir import (
     literal,
 )
 from fondontology.qa.abox_query import execute_find
-from fondontology.qa.graph import build_stack
+from test_support import shared_stack as build_stack
 from fondontology.qa.query_planner import plan_find, validate_plan
 from fondontology.qa.semantics import OntologyContext
 from fondontology.qa.sparql_builder import build_ir, build_select, render_ir

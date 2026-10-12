@@ -18,6 +18,7 @@ from pathlib import Path
 from fastapi.testclient import TestClient
 
 from fondontology.webui import create_web_app
+from test_support import shared_stack
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "ontology" / "modules" / "cnfo-domain.ttl"
@@ -36,9 +37,14 @@ class QaWebTest(unittest.TestCase):
             tbox_source=SOURCE,
             abox_ttl=ABOX,
             viewer_ttl=VIEWER_TTL,
+            stack=shared_stack(SOURCE, ABOX),
             default_use_llm=False,
         )
         cls.client = TestClient(cls.app)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.close()
 
     # ---- 智能问数：入口与元信息 ----
     def test_index_page_serves_chat_shell(self) -> None:

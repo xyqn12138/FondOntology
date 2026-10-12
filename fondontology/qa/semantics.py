@@ -8,13 +8,12 @@
   "target 类 → related 类"的合法属性路径（含反向边与推理物化快捷边）；
 - check_property_domain() 供 planner 做关系/属性的 domain-range 约束校验。
 
-本模块只读 T-BOX，不做实例查询；构建结果按 DataStack 弱引用缓存。
+本模块只读 T-BOX，不做实例查询；构建结果由所属 DataStack 持有并缓存。
 """
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Optional
-from weakref import WeakKeyDictionary
 
 from rdflib import Graph, URIRef
 from rdflib.namespace import OWL, RDF, RDFS, SKOS
@@ -23,9 +22,6 @@ from ..tbox.taxonomy import ancestors, descendants
 from .graph import DataStack
 
 CNFO_NS = "https://ontology.example.cn/cnfo/ontology/"
-
-_CONTEXT_CACHE: "WeakKeyDictionary[DataStack, OntologyContext]" = WeakKeyDictionary()
-
 
 def _local(uri) -> str:
     s = str(uri).rstrip("/#")
@@ -136,6 +132,9 @@ class OntologyContext:
                             property_iri=prop.iri, property_local=prop.local,
                             property_label=prop.label, domain_local=d, range_local=r,
                         ))
+        # Bounded BFS must not depend on the RDF store's iteration order.
+        self.relations.sort(key=lambda edge: (edge.property_iri, edge.domain_local,
+                                              edge.range_local))
 
         # 类 local -> 祖先 local 闭包（含自身），供闭包感知匹配
         self._ancestor_cache: dict[str, set[str]] = {}
@@ -143,10 +142,10 @@ class OntologyContext:
     # ---------------------------------------------------------------- 构造
     @classmethod
     def from_stack(cls, stack: DataStack) -> "OntologyContext":
-        ctx = _CONTEXT_CACHE.get(stack)
+        ctx = stack._ontology_context
         if ctx is None:
             ctx = cls(stack)
-            _CONTEXT_CACHE[stack] = ctx
+            stack._ontology_context = ctx
         return ctx
 
     # ---------------------------------------------------------------- 查询
@@ -196,7 +195,8 @@ class OntologyContext:
         return out
 
     def find_relation_paths(self, from_local: str, to_local: str,
-                            max_hops: int = 3, limit: int = 12) -> list[list[dict]]:
+                            max_hops: int = 3, limit: int = 12,
+                            diagnostics: Optional[dict] = None) -> list[list[dict]]:
         """BFS 求 from 类 → to 类的关系路径（闭包感知，含反向边）。
 
         返回 ≤ max_hops 的全部路径（去重，按跳数升序），每条路径为
@@ -207,7 +207,9 @@ class OntologyContext:
         hasFundDepositary），选路须结合问题文本用 score_path / best_path。
         """
         if self.is_subclass(from_local, to_local) or self.is_subclass(to_local, from_local):
-            return [[]]  # 同类/继承关系：无需遍历（调用方应直接用类型约束）
+            if diagnostics is not None:
+                diagnostics.update(capped=limit < 1, candidates=1, retained=int(limit > 0))
+            return [[]] if limit > 0 else []
         found: list[list[dict]] = []
         seen_paths: set[tuple] = set()
         frontier: list[tuple[str, list[dict]]] = [(from_local, [])]
@@ -235,6 +237,11 @@ class OntologyContext:
                 visited_depth[nxt] = len(new_path)
                 frontier.append((nxt, new_path))
         found.sort(key=lambda p: (len(p), [h["property_local"] for h in p]))
+        if diagnostics is not None:
+            diagnostics.update(capped=len(found) > limit or (
+                                   bool(frontier) and (len(found) >= limit or pops >= 2000)),
+                               candidates=len(found), retained=min(len(found), limit),
+                               popped=pops)
         return found[:limit]
 
     def find_relation_path(self, from_local: str, to_local: str,

@@ -4,8 +4,8 @@ from __future__ import annotations
 import unittest
 from pathlib import Path
 
-from fondontology.qa.graph import build_stack
-from fondontology.qa.index import OntologyIndex, _normalize_name
+from test_support import shared_stack as build_stack, shared_index as OntologyIndex
+from fondontology.qa.index import _normalize_name
 from fondontology.qa.intent import build_intent
 from fondontology.qa.lexicon import apply
 from fondontology.qa.resolver import VocabularyResolver

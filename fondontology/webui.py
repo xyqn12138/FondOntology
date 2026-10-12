@@ -126,6 +126,7 @@ def _qa_answer_dict(ans: QaAnswer) -> dict:
         "explanation": ans.explanation,
         "intent_status": ans.intent_status,
         "rewritten_question": getattr(ans, "rewritten_question", None),
+        "schema_trace": ans.schema_trace,
     }
 
 

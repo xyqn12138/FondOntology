@@ -40,7 +40,7 @@ def _llm_chat(question: str, claims: list[dict], context_summary: str,
     """OpenAI 兼容 chat 调用：返回结构化 JSON（answer_sentences）。"""
     prompt = (
         "你是基金领域问答的表达器。基于给定的 claims（每条 claim 都有 claim_id）回答用户问题。\n"
-        f"本体切片摘要：{context_summary[:1500]}\n"
+        f"本体切片（仅解释 schema，不是实例事实证据）：{context_summary}\n"
         f"可用 claims：{json.dumps(claims, ensure_ascii=False)}\n"
         f"用户问题：{question}\n"
         "输出 JSON：{\"answer_sentences\": [{\"text\": \"…\", \"claim_id\": \"C1\"}]}\n"

@@ -284,9 +284,8 @@ class SemanticEnforcer:
         self.stack._combined = None
         self.stack._combined_inferred = None
         self.stack._inference_registry = None
-        # 索引缓存失效（弱引用键：栈对象仍在，需显式清出）
-        from . import engine as _engine
-        _engine._INDEX_CACHE.pop(self.stack, None)
+        self.stack._ontology_index = None
+        self.stack._inf_counts = None
         # 同步本层实体索引：批量导入时后续记录能解析到本次新建实体（同基金/同公司）
         idx = self.index
         for s in set(r.graph.subjects(RDF.type, None)):

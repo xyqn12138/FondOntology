@@ -4,8 +4,7 @@ from __future__ import annotations
 import unittest
 from pathlib import Path
 
-from fondontology.qa.graph import build_stack
-from fondontology.qa.index import OntologyIndex
+from test_support import shared_stack as build_stack, shared_index as OntologyIndex
 from fondontology.qa.schema_retriever import SchemaRetriever
 
 

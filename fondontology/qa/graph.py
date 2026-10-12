@@ -23,6 +23,7 @@ from rdflib.namespace import OWL, RDF
 
 from fondontology.ontology_loader import load_ontology_graph
 from fondontology.tbox.inference import compute_closure
+from .owl_expression import canonical_graph, graph_hash
 
 CNFO = Namespace("https://ontology.example.cn/cnfo/ontology/")
 CNFC = Namespace("https://ontology.example.cn/cnfo/code/")
@@ -49,13 +50,11 @@ class GraphSnapshot:
     built_at: str
 
 
-@dataclass
+@dataclass(eq=False)
 class DataStack:
     """分层数据栈；查询图 = TBOX(显式) + ABOX(显式)（含绑定前缀）。
 
-    注意：dataclass(eq=True) 会把 __hash__ 置为 None；此处恢复基于对象身份的
-    哈希，供 WeakKeyDictionary 索引缓存使用（DataStack 含 dict 字段，不可
-    按内容哈希）。
+    Caches belong to this stack; releasing the stack releases its derived views.
     """
     tbox: Graph
     abox: Graph
@@ -66,6 +65,8 @@ class DataStack:
     _combined_inferred: Optional[Graph] = field(default=None, repr=False)
     _inference_registry: Optional[dict] = field(default=None, repr=False)
     _inf_counts: Optional[dict] = field(default=None, repr=False)
+    _ontology_index: Optional[object] = field(default=None, init=False, repr=False)
+    _ontology_context: Optional[object] = field(default=None, init=False, repr=False)
 
     def __hash__(self) -> int:
         return object.__hash__(self)
@@ -156,16 +157,12 @@ class DataStack:
     # ---- 查询图 ----
     def query_graph(self, with_abox_inferred: bool = False) -> Graph:
         if with_abox_inferred:
-            # 合并图按栈缓存：TBOX+ABOX+物化层合计 50 万+ 三元组，每次查询
-            # 重建需数秒（实测 ~8s）；数据变更由 merge_into_stack 失效缓存
             if self._combined_inferred is None:
-                g = Graph()
+                # Materialization already includes both explicit layers.
+                g = self.require_abox_inferred()
                 g.bind("cnfo", CNFO)
                 g.bind("cnfc", CNFC)
                 g.bind("cnfo-a", CNFOA)
-                g += self.tbox
-                g += self.abox
-                g += self.require_abox_inferred()
                 self._combined_inferred = g
             return self._combined_inferred
         if self._combined is None:
@@ -210,7 +207,7 @@ def build_stack(tbox_source: Path, abox_ttl: Optional[Path] = None,
     snapshot = GraphSnapshot(
         ontology_iri=str(CNFO.CNFODomain),
         ontology_version=version,
-        ontology_hash=file_sha256(tbox_source),
+        ontology_hash=graph_hash(canonical_graph(tbox)),
         abox_file=abox_file,
         abox_hash=abox_hash,
         reasoner_profile=reasoner_profile,

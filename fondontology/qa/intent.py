@@ -50,6 +50,7 @@ class IntentResult:
     candidates: list = field(default_factory=list)
     notes: list = field(default_factory=list)
     used_llm: bool = False
+    schema_trace: dict = field(default_factory=dict)
 
     @property
     def is_usable(self) -> bool:
@@ -84,6 +85,7 @@ def build_intent(question: str, index: OntologyIndex,
     compare = _try_compare_intent(question, index, resolver, validator)
     if compare is not None:
         return compare
+    result = None
     if use_llm:
         # 锚点快路径：实体锚点确定性成链时不付 LLM 调用成本（分钟级）
         fast = _try_anchor_fast_path(question, index)
@@ -93,6 +95,11 @@ def build_intent(question: str, index: OntologyIndex,
         if result is not None and result.is_usable:
             return result
     fallback = _build_deterministic_intent(question, index)
+    if result is not None:
+        fallback.schema_trace = result.schema_trace
+        fallback.notes[:0] = result.notes
+    if use_llm:
+        fallback.schema_trace["fallback"] = True
     if use_llm and _LAST_LLM_ERROR:
         fallback.notes.insert(0, f"{_LAST_LLM_ERROR}，已回退确定性解析")
     return fallback
@@ -1128,7 +1135,45 @@ def _build_llm_intent(question: str, index: OntologyIndex,
     if not (question or "").strip():
         return None
     ctx = OntologyContext.from_stack(index.stack)
-    schema_context = SchemaRetriever(index).retrieve(question, context=context)
+    retriever = SchemaRetriever(index, max_tokens=6000)
+    schema_context = retriever.retrieve(question, context=context)
+    initial = schema_context
+    expanded = False
+    if schema_context.critical_missing and schema_context.missing_reason == "budget_dropped":
+        expanded = True
+        retriever.max_chars *= 2
+        retriever.max_tokens *= 2
+        schema_context = retriever.retrieve(question, context=context)
+    trace = {
+        "schema_version": schema_context.schema_version,
+        "ontology_version": schema_context.ontology_version,
+        "candidate_count": schema_context.candidate_count,
+        "retained_classes": len(schema_context.classes),
+        "retained_properties": len(schema_context.properties),
+        "dropped_required": schema_context.critical_missing,
+        "degradation": schema_context.degradation,
+        "missing_reason": schema_context.missing_reason,
+        "expansion_attempted": expanded,
+        "initial_budget_dropped": initial.budget_dropped,
+        "budget_dropped": schema_context.budget_dropped,
+        "budget_used": schema_context.budget_used,
+        "retrieval_rejected": schema_context.retrieval_rejected,
+        "path_search_capped": schema_context.path_search_capped,
+        "path_candidates_before_limit": schema_context.path_candidates_before_limit,
+        "path_candidates_retained": schema_context.path_candidates_retained,
+        "path_trace": schema_context.path_trace,
+        "candidates": schema_context.candidates,
+        "requirements": schema_context.requirements,
+        "required_missing": schema_context.required_missing,
+        "candidate_budget_dropped": schema_context.candidate_budget_dropped,
+        "support_dropped": schema_context.support_dropped,
+        "optional_dropped": schema_context.optional_dropped,
+        "selection_rejected": schema_context.selection_rejected,
+        "path_selection_capped": schema_context.path_selection_capped,
+    }
+    if schema_context.critical_missing or schema_context.missing_reason == "ontology_unavailable":
+        return IntentResult(question, _UNRESOLVED, "find", schema_trace=trace,
+                            notes=[f"schema {schema_context.missing_reason}: deterministic fallback"])
     semantic_view = schema_context.render_text
     examples = _select_llm_examples(question)
 
@@ -1181,10 +1226,14 @@ def _build_llm_intent(question: str, index: OntologyIndex,
     )
     data = _call_deconstructor(prompt)
     if data is None:
-        return None
+        return IntentResult(question, _UNRESOLVED, "find", schema_trace=trace)
     resolver = VocabularyResolver(index)
     validator = WhitelistValidator(index)
-    return _parse_llm_intent(question, data, index, resolver, validator, ctx)
+    result = _parse_llm_intent(question, data, index, resolver, validator, ctx)
+    if result is None:
+        result = IntentResult(question, _UNRESOLVED, "find")
+    result.schema_trace = trace
+    return result
 
 
 def _select_llm_examples(question: str) -> str:

@@ -7,13 +7,13 @@
 """
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from typing import Callable, Optional
-from weakref import WeakKeyDictionary
 
 from . import explainer, templates
 from .abox_query import execute_find
-from .context import SliceBudget, assemble_local_context, build_ontology_slice
+from .context import SliceBudget, assemble_local_context, build_ontology_slice, explanation_schema
 from .evidence import EvidenceBuilder
 from .graph import DataStack
 from .query_planner import plan_find
@@ -24,17 +24,12 @@ FIND_INTENT_KEYS = ("target", "source", "filters", "exclusions", "traversals",
                     "related_class", "relation_path", "aggregation", "select",
                     "date_ranges", "latest", "where", "optional")
 
-# 索引缓存：弱引用键（DataStack 被回收即失效）。禁止使用 id() 作键——
-# 同一进程中 id 会被复用，全量测试/长生命周期下会命中陈旧索引。
-_INDEX_CACHE: WeakKeyDictionary = WeakKeyDictionary()
-
-
 def _get_index(stack: DataStack):
-    index = _INDEX_CACHE.get(stack)
+    index = stack._ontology_index
     if index is None:
         from .index import OntologyIndex
         index = OntologyIndex(stack)
-        _INDEX_CACHE[stack] = index
+        stack._ontology_index = index
     return index
 
 
@@ -57,6 +52,7 @@ class QaAnswer:
     explanation: Optional[dict] = None   # M5：{gate, used_llm, ucr, claims_used}
     intent_status: Optional[str] = None
     rewritten_question: Optional[str] = None   # 指代消解后实际执行的问句（展示用）
+    schema_trace: dict = field(default_factory=dict)
 
 
 def _cand_label(c) -> str:
@@ -103,7 +99,8 @@ def answer_question(question: str, stack: DataStack, *,
                     use_llm: Optional[bool] = None,
                     on_phase: Optional[Callable[[str, str], None]] = None,
                     on_text_delta: Optional[Callable[[str], None]] = None,
-                    context: Optional[dict] = None) -> QaAnswer:
+                    context: Optional[dict] = None,
+                    rag_store=None) -> QaAnswer:
     """自然语言 → 答案（M4 意图三态 + M3/M5 链条）。
 
     无 LLM key：intent 走确定性，表达走模板（gate=template_nokey，UCR=0）；
@@ -124,10 +121,24 @@ def answer_question(question: str, stack: DataStack, *,
             # 改写失败/未消解：上文仍传给意图主判（主判 prompt 注入上文，
             # 含代词的问题由主判模型自行消解——coref 失败不裸奔）
             context = {"__pass_through__": True, **context}
+    schema_trace = {}
     ans = _answer_question_impl(question, stack, slice_budget=slice_budget,
                                 max_subgraph_entities=max_subgraph_entities,
                                 use_llm=use_llm, on_phase=on_phase,
-                                qa_context=context)
+                                qa_context=context, schema_trace=schema_trace,
+                                rag_store=rag_store)
+    ans.schema_trace = schema_trace
+    if rag_store is not None and rag_store.corpus_metadata:
+        if ans.report is not None:
+            ans.report.setdefault("meta", {})["corpus"] = dict(rag_store.corpus_metadata)
+        kind = rag_store.corpus_metadata["kind"]
+        if kind != "trusted":
+            ans.text = f"[{kind} corpus; not authoritative business evidence]\n{ans.text}"
+        if rag_store.corpus_metadata.get("include_undated_research"):
+            ans.text = ("[含未知发布日期研究资料，不证明历史可用性或现行法律效力]\n"
+                        + ans.text)
+    if ans.report is not None:
+        ans.report.setdefault("meta", {})["schema_trace"] = schema_trace
     if context:
         # 展示层：记录改写后实际执行的问句（前端证据面板展示）；
         # 与原问相同时置空（无需展示）
@@ -141,7 +152,9 @@ def _answer_question_impl(question: str, stack: DataStack, *,
                           max_subgraph_entities: int = 8,
                           use_llm: Optional[bool] = None,
                           on_phase: Optional[Callable[[str, str], None]] = None,
-                          qa_context: Optional[dict] = None) -> QaAnswer:
+                          qa_context: Optional[dict] = None,
+                          schema_trace: Optional[dict] = None,
+                          rag_store=None) -> QaAnswer:
     """answer_question 的同步实现（不含文本增量下发）。"""
     from .intent import build_intent
 
@@ -149,7 +162,30 @@ def _answer_question_impl(question: str, stack: DataStack, *,
     intent_res = build_intent(question, _get_index(stack),
                               use_llm=(False if use_llm is False else None),
                               context=qa_context)
+    if schema_trace is not None:
+        schema_trace.update(intent_res.schema_trace)
     if intent_res.status != "RESOLVED":
+        if rag_store is not None and rag_store.strict_scope:
+            code_match = re.search(r"(?i)\b([RC]\d+)\b", question)
+            if code_match and any(marker in question for marker in
+                                  ("意思", "含义", "是什么", "怎么理解")):
+                from .rag.answer import answer_code
+                exp = answer_code(
+                    question,
+                    {"operation": "explain", "explain_type": "code",
+                     "code": code_match.group(1).upper()},
+                    _get_ctx(stack), stack.query_graph(), store=rag_store)
+                if exp.status == "ok":
+                    report = exp.report or {}
+                    return QaAnswer(
+                        kind="explain", status="ok", text=exp.text,
+                        claims=report.get("claims", []),
+                        cited_evidence=[e["id"] for e in report.get("evidence", [])],
+                        report=report,
+                        explanation={"gate": "template_rag", "used_llm": False,
+                                     "ucr": 0.0,
+                                     "claims_used": [c["claim_id"]
+                                                     for c in report.get("claims", [])]})
         _emit(on_phase, "intent", "意图未解析")
         cand_text = "、".join(_cand_label(c) for c in intent_res.candidates)
         text_map = {
@@ -198,14 +234,14 @@ def _answer_question_impl(question: str, stack: DataStack, *,
         ctx = _get_ctx(stack)
         explain_type = intent.get("explain_type") or "define"
         if explain_type == "regulation":
-            exp = answer_regulation(question, intent, ctx, stack.query_graph())
+            exp = answer_regulation(question, intent, ctx, stack.query_graph(), store=rag_store)
         elif explain_type == "code":
-            exp = answer_code(question, intent, ctx, stack.query_graph())
+            exp = answer_code(question, intent, ctx, stack.query_graph(), store=rag_store)
         elif explain_type == "compare_entities":
             exp = answer_compare_entities(question, intent, ctx,
-                                          stack.query_graph())
+                                          stack.query_graph(), store=rag_store)
         else:
-            exp = answer_explain(question, intent, ctx, stack.query_graph())
+            exp = answer_explain(question, intent, ctx, stack.query_graph(), store=rag_store)
         if exp.status != "ok":
             return QaAnswer(kind="explain", status="unresolved", text=exp.text,
                             intent_status="UNRESOLVED")
@@ -307,11 +343,12 @@ def _answer_question_impl(question: str, stack: DataStack, *,
     builder = EvidenceBuilder(stack)
     _emit(on_phase, "evidence", "构建证据与溯源")
     report = builder.build_for_find(plan, result, max_subgraph_entities=max_subgraph_entities)
+    report.setdefault("meta", {})["schema_trace"] = intent_res.schema_trace
     slice_ = build_ontology_slice(stack.tbox, plan, slice_budget)
     local_context = assemble_local_context(report, slice_)
     _emit(on_phase, "explain", "生成自然语言表达")
     exp = explainer.explain(question, report,
-                            context_summary=f"{len(slice_['classes'])} 类切片",
+                            context_summary=explanation_schema(slice_),
                             use_llm=use_llm)
     return QaAnswer(
         kind="find", status="ok", text=exp.text,

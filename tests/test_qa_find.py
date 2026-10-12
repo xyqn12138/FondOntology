@@ -7,7 +7,7 @@ from pathlib import Path
 from rdflib import Graph, Namespace, URIRef
 
 from fondontology.qa.abox_query import execute_find, local_subgraph, type_evidence
-from fondontology.qa.graph import build_stack
+from test_support import shared_stack as build_stack
 from fondontology.qa.query_planner import plan_find, validate_plan
 from fondontology.qa.sparql_builder import build_select
 

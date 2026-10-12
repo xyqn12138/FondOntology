@@ -48,15 +48,15 @@ def _zh(graph: Graph, uri, pred) -> str:
 class OntologyIndex:
     def __init__(self, stack: DataStack):
         self.stack = stack
-        g = stack.query_graph()
-        self._g = g
+        # Vocabulary belongs to T-BOX; indexing it needs no full ABOX copy.
+        g = stack.tbox
 
         # ---- 概念（TBOX 词汇）----
         self.classes: dict[str, str] = {}          # iri -> label（zh 优先）
         self.object_properties: dict[str, str] = {}
         self.datatype_properties: dict[str, str] = {}
         self.codes: dict[str, dict] = {}           # iri -> {label, scheme}
-        for s in g.subjects(RDF.type, None):
+        for s in set(g.subjects(RDF.type, None)):
             if not isinstance(s, URIRef):
                 continue
             label = _zh(g, s, SKOS.prefLabel) or _zh(g, s, RDFS.label) or _local(str(s))
@@ -88,7 +88,7 @@ class OntologyIndex:
         self.entities: dict[str, dict] = {}        # iri -> {label, codes[], types[]}
         self._entity_codes: dict[str, list[str]] = {}
         abox = stack.abox
-        for s in abox.subjects(RDF.type, None):
+        for s in set(abox.subjects(RDF.type, None)):
             if not isinstance(s, URIRef) or not str(s).startswith(CNFOA):
                 continue
             label = _zh(abox, s, RDFS.label) or _local(str(s))
@@ -126,7 +126,7 @@ class OntologyIndex:
         return frozenset(self.entities)
 
     def graph(self) -> Graph:
-        return self._g
+        return self.stack.query_graph()
 
 
 def _normalize_name(label: str) -> str:

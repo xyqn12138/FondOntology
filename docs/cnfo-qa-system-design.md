@@ -1,5 +1,10 @@
 # CNFO 基金智能问数系统 — 设计文档（v0.6，锚点本体驱动化回填版）
 
+> **历史文档说明（2026-10-10）**：本文的“100%”和阶段完成状态是当时的合成回归
+> 口径，不是当前真实法规/披露业务验收。当前数据与 QA 重基线、SQLite 文档证据库、
+> 独立 gold 和验收限制以 `docs/data-and-qa-rebaseline-20261010.md` 与
+> `evaluation/README.md` 为准；真实资料仍未随仓库导入。
+
 版本：0.5（重构后回填：意图层改为语义视图注入的 LLM 语义解构、新增 OntologyContext、聚合/排名查询落地、enforce 批量导入生产路径、唯一性约束两层补齐、LLM 调用全流式化；v0.4 冻结稿的架构定论与证据合同不变，本版记录"代码逼设计暴露问题"后的实际形态）
 日期：2026-09-07（v0.4：2026-09-03）
 关联本体：CNFO v0.6.0（`ontology/modules/cnfo-domain.ttl` 入口；发布件 `artifacts/cnfo/cnfo-fund-tbox.ttl`）
