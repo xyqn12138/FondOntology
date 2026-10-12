@@ -20,3 +20,6 @@ artifacts/
 
 # workbuddy
 .workbuddy/
+
+#data
+data/

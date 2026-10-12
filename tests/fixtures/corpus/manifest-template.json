@@ -1,0 +1,37 @@
+{
+  "doc_id": "synthetic:fixture-fund-a:report",
+  "title": "Synthetic Fixture Fund A report",
+  "doc_type": "periodic_report",
+  "publisher": "Synthetic fixture publisher",
+  "fund_code": "SYNTHETIC-A",
+  "period": "2025",
+  "source_uri": "urn:synthetic:fixture-fund-a:report:v1",
+  "path": "synthetic-report-v1.md",
+  "sha256": "REPLACED_WITH_FIXTURE_SHA256_AT_TEST_SETUP",
+  "issued_date": "2025-04-01",
+  "effective_from": "2025-04-01",
+  "withdrawn_date": "2026-04-01",
+  "authority": "synthetic",
+  "status": "verified",
+  "provenance": {
+    "kind": "offline_test_fixture",
+    "synthetic": true,
+    "reviewer": "test-only-not-an-authority-review"
+  },
+  "locator": {
+    "format": "markdown",
+    "fixture": "synthetic-report-v1.md"
+  },
+  "entity_links": [
+    {
+      "entity_id": "urn:synthetic:fixture-fund-a",
+      "method": "fixture_explicit",
+      "confidence": 1.0,
+      "review_status": "synthetic_fixture"
+    }
+  ],
+  "chunker_config": {
+    "max_chars": 80,
+    "overlap": 10
+  }
+}

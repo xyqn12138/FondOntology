@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "sources": [
+    {
+      "doc_id": "csrc-operations-2014",
+      "title": "公开募集证券投资基金运作管理办法",
+      "publisher": "中国证券监督管理委员会",
+      "url": "https://www.csrc.gov.cn/csrc/c106256/c1653978/content.shtml",
+      "raw_sha256": "d53303588ef1d1ed8a0464b6e38b0247d0560a93adea32fc0be06463bd96043f",
+      "extraction": {"kind": "official_html", "selector": {"tag": "div", "attribute": "class", "value": "content-body"}, "encoding": "utf-8"},
+      "expected_articles": 59,
+      "issued_date": "2014-07-07",
+      "effective_from": "2014-08-08",
+      "date_basis": "官方规章正文头部声明：2014年7月7日证监会令第104号公布，自2014年8月8日起施行。只登记该发布版本，不以下载日推断现行效力。",
+      "required_text": ["2014年7月7日证监会令第104号公布", "自2014年8月8日起施行"],
+      "validity_status": "not_checked_current"
+    },
+    {
+      "doc_id": "csrc-disclosure-2020",
+      "title": "公开募集证券投资基金信息披露管理办法",
+      "publisher": "中国证券监督管理委员会",
+      "url": "https://www.csrc.gov.cn/csrc/c106256/c1653985/content.shtml",
+      "raw_sha256": "25351982dc9153f9788182201fe68bc15331ae876a58751805a3396d4a382456",
+      "extraction": {"kind": "official_html", "selector": {"tag": "div", "attribute": "class", "value": "content-body"}, "encoding": "utf-8"},
+      "expected_articles": 42,
+      "issued_date": "2020-03-20",
+      "effective_from": null,
+      "date_basis": "官方合并文本头部声明根据2020年3月20日第166号令修订。末条的2019年9月1日仅是原办法施行日，未独立核验2020修订决定施行条款，因此本版本effective_from留空且不向2020修订前提供。",
+      "required_text": ["2019年7月26日证监会令第158号公布", "2020年3月20日证监会令第166号", "修订"],
+      "validity_status": "not_checked_current"
+    },
+    {
+      "doc_id": "csrc-sales-2020",
+      "title": "公开募集证券投资基金销售机构监督管理办法",
+      "publisher": "中国证券监督管理委员会（国务院公报刊载）",
+      "url": "https://www.gov.cn/gongbao/content/2020/content_5554550.htm",
+      "raw_sha256": "f504c8bdb217979cb7f260df84920328af371453ace17a0274924ec6a614d05b",
+      "extraction": {"kind": "official_html", "selector": {"tag": "div", "attribute": "id", "value": "UCAP-CONTENT"}, "encoding": "utf-8"},
+      "expected_articles": 63,
+      "issued_date": "2020-08-28",
+      "effective_from": "2020-10-01",
+      "date_basis": "国务院公报原文第175号令，签署2020年8月28日，规定2020年10月1日施行。公报上网日期不替代签署发布日期。",
+      "required_text": ["第175号", "2020年8月28日", "自2020年10月1日起施行"],
+      "validity_status": "not_checked_current"
+    },
+    {
+      "doc_id": "state-council-private-funds-2023",
+      "title": "私募投资基金监督管理条例",
+      "publisher": "国务院",
+      "url": "https://www.gov.cn/zhengce/zhengceku/202307/content_6890739.htm",
+      "raw_sha256": "b0e6b3dd403f0e90c7082c142b94fc17cc52cb344cca345bfbe86bf056ddcda5",
+      "extraction": {"kind": "official_html", "selector": {"tag": "div", "attribute": "id", "value": "UCAP-CONTENT"}, "encoding": "utf-8"},
+      "expected_articles": 62,
+      "issued_date": "2023-07-03",
+      "effective_from": "2023-09-01",
+      "date_basis": "国务院令第762号签署日期2023年7月3日，明确2023年9月1日施行；2023年6月16日是审议通过日期，不当作发布日期。",
+      "required_text": ["第762号", "2023年7月3日", "自2023年9月1日起施行"],
+      "validity_status": "not_checked_current"
+    }
+  ]
+}

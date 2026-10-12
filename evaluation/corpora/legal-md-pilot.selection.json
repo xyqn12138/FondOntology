@@ -1,0 +1,36 @@
+{
+  "documents": [
+    {
+      "path": "L1_监管强制规则/公开募集开放式证券投资基金流动性风险管理规定.md",
+      "sha256": "5f8d5cf0839ddf0c4aeb311eeb1b8f2eb2aa88ad286620606038534e1ab93b22",
+      "doc_id": "legal-md-liquidity-2017-research",
+      "source_uri": "https://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117431/files/a920cc804ded4fe2b600196d01080e68.pdf",
+      "authority": "research_note",
+      "status": "unverified",
+      "source_verification": {
+        "status": "not_checked",
+        "basis": "仅对小样本题涉及条文进行源文本对照；未完成整篇逐条核验、发布日期或现行效力核验。"
+      },
+      "issued_date": null,
+      "effective_from": "2017-10-01",
+      "selection_basis": "本地条号连续的候选材料；research诊断用，不因官方来源链接而升级为已核验原文。",
+      "chunker_config": {"max_chars": 800, "overlap": 0}
+    },
+    {
+      "path": "L1_监管强制规则/公开募集证券投资基金运作管理办法.md",
+      "sha256": "4ed52de4ca07f0af281c2cfc3fdc45496918addb14bfd0065cdb488dce475774",
+      "doc_id": "legal-md-operations-2014-research",
+      "source_uri": "https://www.csrc.gov.cn/csrc/c106256/c1653978/1653978/files/104号《公开募集证券投资基金运作管理办法》.pdf",
+      "authority": "research_note",
+      "status": "unverified",
+      "source_verification": {
+        "status": "not_checked",
+        "basis": "本地文本为不完整摘编；仅对小样本题涉及条文进行源文本对照，未核验整篇及现行效力。"
+      },
+      "issued_date": "2014-07-07",
+      "effective_from": "2014-08-08",
+      "selection_basis": "日期为本地元数据声明；research诊断用，保留摘编身份。",
+      "chunker_config": {"max_chars": 800, "overlap": 0}
+    }
+  ]
+}

@@ -14,6 +14,10 @@ dependencies = [
     "semantica[explorer]>=0.6.6",
 ]
 
+[project.optional-dependencies]
+pdf = ["pypdf>=6,<7"]
+ragas = ["ragas==0.4.3", "langchain-community==0.3.31"]
+
 [project.scripts]
 fondontology = "fondontology.cli:main"
 
