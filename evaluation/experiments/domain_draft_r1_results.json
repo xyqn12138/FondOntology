@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "date_utc": "2026-10-12",
+  "acceptance": false,
+  "purpose": "Source-review correction verification on exposed regression sets; not a retrieval improvement or independent business acceptance.",
+  "reviewer": {"model": "gpt-6-astra", "effort": "high"},
+  "implementer": {"model": "gpt-6.1-sol", "effort": "high"},
+  "review_status": "draft",
+  "independent_human_review": false,
+  "exposed_regression": true,
+  "corrected_p1_cases": 4,
+  "changed_row_fields": 11,
+  "unchanged_other_cases": 46,
+  "gold_targets_scopes_dates_and_statuses_unchanged": true,
+  "revision_record": "evaluation/cases/official_laws_revision_r1.json",
+  "revision_record_sha256": "c4df0111f97f22d802471dc55cafbe0124cb1baaf369fb0649c02a9470b559a9",
+  "report": "docs/domain-draft-iteration-20261012.md",
+  "configuration": {
+    "snapshot": "official-laws-v1",
+    "as_of": "2026-10-12",
+    "strategy": "bm25",
+    "top_k": 3,
+    "candidate_k": 20,
+    "answer_mode": "extractive",
+    "network_enabled": false
+  },
+  "regressions": {
+    "official_laws_v1_r1": {
+      "denominator": 32,
+      "pass_count": 31,
+      "ordinary_denominator": 28,
+      "ordinary_pass_count": 27,
+      "ordinary_target_recall_mean": 0.9821428571428571,
+      "all_case_target_recall_mean": 0.859375,
+      "negative_control_denominator": 4,
+      "negative_controls_passed": 4,
+      "nonpass_ids": ["disclosure-01"],
+      "scope_violations": 0,
+      "execution_errors": 0,
+      "artifact_audit_verified": true,
+      "score_exit_code": 1
+    },
+    "retrieval_holdout_v2_r1": {
+      "denominator": 18,
+      "pass_count": 18,
+      "ordinary_denominator": 16,
+      "ordinary_pass_count": 16,
+      "ordinary_target_recall_mean": 1.0,
+      "all_case_target_recall_mean": 0.8888888888888888,
+      "negative_control_denominator": 2,
+      "negative_controls_passed": 2,
+      "nonpass_ids": [],
+      "scope_violations": 0,
+      "execution_errors": 0,
+      "artifact_audit_verified": true,
+      "score_exit_code": 0
+    }
+  },
+  "remaining_failure": {
+    "id": "disclosure-01",
+    "target_articles": [16, 18],
+    "returned_articles": [39, 16, 31],
+    "required_group_coverage": 0.5,
+    "question_and_gold_changed": false
+  },
+  "validation": {
+    "full_tests": 571,
+    "passed": 569,
+    "skipped": 2,
+    "failures": 0,
+    "errors": 0,
+    "suite_seconds": 248.91,
+    "new_integrity_tests_passed": 9,
+    "isolated_ragas_tests_passed": 21,
+    "missing_originals_simulation_passed": 8,
+    "missing_originals_simulation_skipped": 1,
+    "original_freezes_unchanged": true,
+    "reviewer_content_hashes_match_new_freezes": true,
+    "historical_experiment_artifact_hashes_verified": 6
+  },
+  "artifact_sha256": {
+    "artifacts/domain-draft-r1/official.actual.json": "a166d72d5b47fe566d6362f8d6c64f6ebb8522b3391d70f2133bdddc3d061a2f",
+    "artifacts/domain-draft-r1/official.actual.traces.jsonl": "b2a7050f23b7c69669530c1a52266c38ef58b55cbf4aa0acd85d57dee691533c",
+    "artifacts/domain-draft-r1/official.retrieval.json": "bcbf916c6e28e5c4c2cdc2081e5fad4f67319f82d27d5c49f66c6dd3fb24eda5",
+    "artifacts/domain-draft-r1/holdout.actual.json": "ed223a8da6c7cf318780b46e6977c92bedd2751ee45913307e14315f94a35da4",
+    "artifacts/domain-draft-r1/holdout.actual.traces.jsonl": "40ac82c75c82fa67f710cc77c5b2d12929a064d3d06d2499284fe532d92a0f29",
+    "artifacts/domain-draft-r1/holdout.retrieval.json": "c428ef98b1222224e1f314c52e048d95b94cfc7962b4239173b06b0b47d8c228"
+  },
+  "new_remote_judge_calls": 0,
+  "decision": "Keep BM25 default and rerank opt-in. Preserve the known retrieval failure; do not relabel source corrections as ranking gains.",
+  "limitations": [
+    "AI review is not independent human certification",
+    "Existing sets remain exposed, not new blind holdouts",
+    "Fixed official text versions are not a current-law validity audit",
+    "Extractive retrieval gates are not prose answer correctness",
+    "Artifact audit checks local consistency, not signed execution authenticity",
+    "Ignored local artifacts require explicit distribution or reproduction"
+  ]
+}

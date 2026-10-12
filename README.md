@@ -220,11 +220,16 @@ Fund）、属性约束（字段必须命中 CNFO/CNFC 词表，未知字段拒�
 原 32 题上，BM25 Top-3 检索门禁满足 31/32，仍有一题多条文漏召回；
 该结果衡量证据完整性，不等于 31/32 答案正确。
 
-    .venv\Scripts\python.exe -X utf8 tools\document_rag.py --db artifacts/official-laws-v1/corpus.sqlite --snapshot official-laws-v1 --as-of 2026-10-12 --cases evaluation/cases/official_laws_v1_questions.json --top-k 3 --output artifacts/official-laws-v1/audited.actual.json
-    .venv\Scripts\python.exe -X utf8 tools\evaluate_legal_retrieval.py --actual artifacts/official-laws-v1/audited.actual.json --corpus-db artifacts/official-laws-v1/corpus.sqlite --questions evaluation/cases/official_laws_v1_questions.json --oracle evaluation/cases/official_laws_v1_oracle.json --output artifacts/official-laws-v1/audited.retrieval.json --verify-trace
+GPT-6 Astra（high）领域复核发现四处题义/参考表达问题，已建立 `official_laws_v1_r1_*`
+和 `retrieval_holdout_v2_r1_*` 勘误版本；原冻结文件保留，目标条文与证据分组不改。
+两套题都已曝光，仍为 `draft`，AI 复核不等于独立人工认证。当前回归入口为 r1：
+
+    .venv\Scripts\python.exe -X utf8 tools\document_rag.py --db artifacts/official-laws-v1/corpus.sqlite --snapshot official-laws-v1 --as-of 2026-10-12 --cases evaluation/cases/official_laws_v1_r1_questions.json --top-k 3 --candidate-k 20 --retrieval-strategy bm25 --output artifacts/domain-draft-r1/official.actual.json
+    .venv\Scripts\python.exe -X utf8 tools\evaluate_legal_retrieval.py --actual artifacts/domain-draft-r1/official.actual.json --corpus-db artifacts/official-laws-v1/corpus.sqlite --questions evaluation/cases/official_laws_v1_r1_questions.json --oracle evaluation/cases/official_laws_v1_r1_oracle.json --output artifacts/domain-draft-r1/official.retrieval.json --verify-trace
 
 第二条当前退出 1 是保留漏召回的正常门禁结果。获取、导入、发布、BKN 模块对齐、
 分层量化与下一步路线见 `docs/official-law-corpus-20261012.md`。
+领域审核、勘误验证与本地功能提交见 `docs/domain-draft-iteration-20261012.md`。
 
 后续已完成四策略消融：BM25 / 父子 BM25 / hybrid RRF / BM25 + rerank 的旧集检索门禁
 分别为 31/32、30/32、31/32、32/32。新冻结 18 题上 BM25 和 rerank 均 18/18，

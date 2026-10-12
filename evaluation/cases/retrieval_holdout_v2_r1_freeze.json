@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "frozen_at_utc": "2026-10-12T12:27:08+00:00",
+  "revision_id": "retrieval_holdout_v2_r1",
+  "parent_set": "retrieval_holdout_v2",
+  "parent_freeze_sha256": "d8ea6d04696d5a23c060a1d67891481a48c90a8dba32d090c01fe64a84f7a95d",
+  "dataset_snapshot": "official-laws-v1",
+  "review_status": "draft",
+  "ai_reviewed_by": {"model": "gpt-6-astra", "effort": "high"},
+  "independent_human_review": false,
+  "exposed_regression": true,
+  "created_without_actuals": true,
+  "tested_system_invoked": false,
+  "revision_record": "official_laws_revision_r1.json",
+  "revision_record_sha256": "c4df0111f97f22d802471dc55cafbe0124cb1baaf369fb0649c02a9470b559a9",
+  "files": {
+    "retrieval_holdout_v2_r1_questions.json": "88c41cb10e39ad9104107ec5fd1c2a78d4a29b045c339950d45bf4ffa4714665",
+    "retrieval_holdout_v2_r1_oracle.json": "a8d38d3c41bb928ec72c45b10f5d5347b9033ee15cd2a18ebece7809e75adade",
+    "retrieval_holdout_v2_r1_references.json": "32e6f1bb9b2b18ae1384d5f59638467f23328410c07f88c198a8fb353b55df0d",
+    "retrieval_holdout_v2_r1_README.md": "79334aea3966b5d8043ba5fefa4540318232a77bd51f2276552ac5eb63c05fc6"
+  },
+  "source_raw_sha256": {
+    "csrc-operations-2014": "d53303588ef1d1ed8a0464b6e38b0247d0560a93adea32fc0be06463bd96043f",
+    "csrc-disclosure-2020": "25351982dc9153f9788182201fe68bc15331ae876a58751805a3396d4a382456",
+    "csrc-sales-2020": "f504c8bdb217979cb7f260df84920328af371453ace17a0274924ec6a614d05b",
+    "state-council-private-funds-2023": "b0e6b3dd403f0e90c7082c142b94fc17cc52cb344cca345bfbe86bf056ddcda5"
+  },
+  "domain_review": {
+    "report": "../../docs/domain-draft-r1-acceptance-20261012.md",
+    "result": "approved_for_draft_freeze",
+    "scope": "Final exact content bytes approved after the four source-based P1 corrections and removal of unsupported top-level revision metadata. Ledger and freeze receive structural integrity checks, not independent human domain approval.",
+    "approved_content_sha256": {
+      "retrieval_holdout_v2_r1_questions.json": "88c41cb10e39ad9104107ec5fd1c2a78d4a29b045c339950d45bf4ffa4714665",
+      "retrieval_holdout_v2_r1_oracle.json": "a8d38d3c41bb928ec72c45b10f5d5347b9033ee15cd2a18ebece7809e75adade",
+      "retrieval_holdout_v2_r1_references.json": "32e6f1bb9b2b18ae1384d5f59638467f23328410c07f88c198a8fb353b55df0d",
+      "retrieval_holdout_v2_r1_README.md": "79334aea3966b5d8043ba5fefa4540318232a77bd51f2276552ac5eb63c05fc6"
+    }
+  },
+  "validation": {
+    "case_count": 18,
+    "same_ordered_parent_ids": true,
+    "unchanged_gold_scope_dates_and_splits": true,
+    "all_references_draft": true,
+    "parent_frozen_files_unchanged": true,
+    "existing_loaders_and_reference_merge_compatible": true
+  },
+  "post_freeze_policy": "No content or ledger rewriting after this freeze. Any later correction requires a new explicit revision with parent hashes; original scores remain untouched. R1 is exposed regression, not a fresh blind test."
+}

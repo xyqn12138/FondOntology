@@ -247,3 +247,24 @@ the three-row, 90-second-per-metric and 18-call ceilings. Preserve failed runs.
 Results and reproduction: `docs/rag-retrieval-ablation-20261012.md`. Old-set
 coverage gains did not repeat as an additional gain on the new holdout, so rerank
 remains opt-in. The paired three-row Ragas diagnostic is not business acceptance.
+
+## Source-review corrections, R1
+
+Use `cases/official_laws_v1_r1_*` and `cases/retrieval_holdout_v2_r1_*` for the
+corrected public regression inputs, oracle and references. Their original frozen
+parents and historical scores remain unchanged. The external
+`cases/official_laws_revision_r1.json` records four source-based P1 corrections,
+field differences and parent/content hashes; each new freeze binds its revision.
+Case IDs, requested scopes/dates, expected statuses, article targets and required
+groups do not change. Questions still contain no gold.
+
+The reviewer is GPT-6 Astra with high reasoning and the implementing author is
+GPT-6.1-sol with high reasoning. This is AI collaboration, not independent human
+domain certification. Oracle authorship and all references remain `draft`, with
+`independent_human_review=false`; both revised releases are exposed regression
+sets. A corrected wording or a new hash does not restore blind-test status.
+
+Review evidence: `docs/domain-draft-review-20261012.md` and
+`docs/domain-draft-r1-acceptance-20261012.md`. Validation, remaining limits and
+the next evaluation route: `docs/domain-draft-iteration-20261012.md`. Run the R1
+inputs into new artifact paths; preserve original actuals and failed judge runs.
