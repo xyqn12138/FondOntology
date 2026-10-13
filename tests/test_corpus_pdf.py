@@ -450,13 +450,20 @@ class CorpusPDFTests(unittest.TestCase):
             "block_index": 4, "page": 2, "block_type": "table",
             "reason": "missing_table_body_placeholder",
         })
+        empty_labels = {**placeholder, "table_caption": [""], "table_footnote": ["", ""]}
+        parsed_labels = parse_extraction(
+            {**artifact, "content_list": [*self.artifact["content_list"], empty_labels]},
+            source_sha256=self.record["sha256"], page_count=2)
+        self.assertEqual(parsed_labels["unindexed_blocks"][-1],
+                         parsed["unindexed_blocks"][-1])
         with self.assertRaisesRegex(PDFExtractionError, "no usable"):
             parse_extraction({**artifact, "content_list": [placeholder]},
                              source_sha256=self.record["sha256"], page_count=2)
         invalids = [{**placeholder, **mutation} for mutation in (
             {"img_path": "images/table.png"}, {"table_caption": ["Caption"]},
             {"table_footnote": ["Footnote"]}, {"table_body": None},
-            {"table_caption": None}, {"unknown": 1},
+            {"table_caption": None}, {"table_caption": [" "]},
+            {"table_footnote": [None]}, {"unknown": 1},
         )]
         for field in ("img_path", "table_caption", "table_footnote"):
             invalid = dict(placeholder)
@@ -466,6 +473,15 @@ class CorpusPDFTests(unittest.TestCase):
             with self.subTest(invalid=invalid), self.assertRaises(PDFExtractionError):
                 parse_extraction({**artifact, "content_list": [invalid]},
                                  source_sha256=self.record["sha256"], page_count=2)
+
+    def test_page_footnotes_preserve_substantive_explanations(self):
+        footnote = {"type": "page_footnote", "page_idx": 1,
+                    "text": "Settlement quantity must use the net amount."}
+        parsed = parse_extraction(
+            {**self.artifact, "content_list": [*self.artifact["content_list"], footnote]},
+            source_sha256=self.record["sha256"], page_count=2)
+        self.assertIn(footnote["text"], parsed["text"])
+        self.assertEqual(parsed["blocks"][-1]["locator"]["block_type"], "page_footnote")
 
     def test_empty_text_and_equation_report_gaps_empty_headers_only_stay_archived(self):
         artifact = copy.deepcopy(self.artifact)

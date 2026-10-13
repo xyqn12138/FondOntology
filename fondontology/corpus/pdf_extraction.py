@@ -112,6 +112,7 @@ def parse_extraction(artifact: dict, *, source_sha256: str, page_count: int) -> 
         "header": {"text"},
         "footer": {"text"},
         "page_number": {"text"},
+        "page_footnote": {"text"},
     }
     blocks = []
     unindexed_blocks = []
@@ -148,7 +149,8 @@ def parse_extraction(artifact: dict, *, source_sha256: str, page_count: int) -> 
         if "text_level" in block and (
                 type(block["text_level"]) is not int or block["text_level"] < 0):
             raise PDFExtractionError(f"{label} text_level must be a nonnegative integer")
-        if block_type in {"text", "equation", "discarded", "header", "footer", "page_number"}:
+        if block_type in {"text", "equation", "discarded", "header", "footer",
+                          "page_number", "page_footnote"}:
             text = block.get("text")
             if not isinstance(text, str):
                 raise PDFExtractionError(f"{label} text must be a string")
@@ -164,8 +166,10 @@ def parse_extraction(artifact: dict, *, source_sha256: str, page_count: int) -> 
             text = "\n".join(_strings(block.get("list_items"), f"{label} list_items", nonempty=True))
         elif block_type == "table":
             if "table_body" not in block:
-                if (block.get("img_path") == "" and block.get("table_caption") == []
-                        and block.get("table_footnote") == []):
+                if (block.get("img_path") == ""
+                        and all(isinstance(block.get(field), list)
+                                and all(item == "" for item in block[field])
+                                for field in ("table_caption", "table_footnote"))):
                     unindexed_blocks.append({
                         "block_index": index, "page": page_index + 1, "block_type": block_type,
                         "reason": "missing_table_body_placeholder",
