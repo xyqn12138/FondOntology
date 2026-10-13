@@ -355,8 +355,10 @@ class DataMaterializeTests(unittest.TestCase):
         document = result["documents"][0]
         self.assertEqual(document["status"], "converted_unverified")
         self.assertEqual(document["verification"]["page_count"], 2)
-        self.assertEqual(document["verification"]["completeness"], "not_checked")
-        self.assertIn("OCR full-text fidelity", document["failure_reason"])
+        self.assertEqual(document["verification"]["completeness"], "complete")
+        self.assertIn("Acquisition receipt", document["failure_reason"])
+        self.assertEqual(observations["unsupported"], [])
+        self.assertEqual(len(observations["merged_table_acceptance"]["accepted_blocks"]), 1)
         self.write_json("receipt.json", {
             "requested_url": self.source["download_url"], "final_url": self.source["download_url"],
             "raw_sha256": self.sha(raw), "bytes": len(raw), "http_status": 200,
@@ -376,13 +378,23 @@ class DataMaterializeTests(unittest.TestCase):
         self.save_source()
         result = materialize_data(self.data, source_paths=["sources.json"],
                                   state_paths=["_converted/L3/state.json"])
-        self.assertEqual(result["documents"][0]["status"], "converted_unverified")
+        self.assertEqual(result["documents"][0]["status"], "ready")
         self.source["pdf_fidelity_review"]["markdown_sha256"] = "0" * 64
         self.save_source()
         result = materialize_data(self.data, source_paths=["sources.json"],
                                   state_paths=["_converted/L3/state.json"])
         self.assertEqual(result["documents"][0]["status"], "downloaded")
         self.assertIn("PDF fidelity review", result["documents"][0]["failure_reason"])
+        artifact["content_list"].append({
+            "type": "image", "page_idx": 1, "img_path": "",
+            "image_caption": ["Substantive diagram"], "image_footnote": [],
+        })
+        extraction = json.dumps(artifact).encode()
+        (directory / "extraction.json").write_bytes(extraction)
+        entry["sha256_extraction"] = self.sha(extraction)
+        _, observations, _ = _pdf_body(raw, self.raw, (directory, entry))
+        self.assertTrue(any(block.get("kind") == "visual_or_formula_requires_review"
+                            for block in observations["unsupported"]))
         (directory / "full.md").write_text("Tampered PDF conversion", encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "differs"):
             _pdf_body(raw, self.raw, (directory, entry))

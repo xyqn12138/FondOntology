@@ -212,7 +212,7 @@
       "download_url": "https://www.cnstock.com/image/202311/24/20231124175032784.pdf",
       "effective_from": null,
       "expected_articles": null,
-      "failure_reason": "Full text identity markers did not match recovered source identity; Source version issue date not independently established; Conversion contains unsupported or unreviewed visual/formula content; Secondary source cannot be authoritative; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": "Full text identity markers did not match recovered source identity; Source version issue date not independently established; Conversion contains unsupported or unreviewed visual/formula content; Secondary source cannot be authoritative",
       "format": "pdf",
       "id": "sse-security-code-allocation-guide-2023-r6",
       "issued_date": null,
@@ -239,12 +239,84 @@
         "body_start_line": 1,
         "completeness": "not_checked",
         "conversion": {
-          "record_path": "_fulltext/sse-security-code-allocation-guide-2023-r6/d01059224a63/eabfe24155a9/conversions/edc6bf6930e6a1c394720adffda3d140594761aedf34b2612feb274fda95f277.json",
-          "record_sha256": "edc6bf6930e6a1c394720adffda3d140594761aedf34b2612feb274fda95f277"
+          "record_path": "_fulltext/sse-security-code-allocation-guide-2023-r6/d01059224a63/eabfe24155a9/conversions/c24d7bb44229358ec387312105ebc3081bdcacd8ac1da639d14c31cd4be77087.json",
+          "record_sha256": "c24d7bb44229358ec387312105ebc3081bdcacd8ac1da639d14c31cd4be77087"
         },
         "evidence": [
           "旧摘要指定2023年第6次修订及此PDF种子。下载PDF14页封面逐字匹配版本，末页含四、附则；SSE指南入口本次HTTP403，故保留中国证券网转载来源，不冒充SSE直接原发。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "accepted_blocks": [
+              {
+                "block_index": 10,
+                "block_type": "table",
+                "page": 3,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 14,
+                "block_type": "table",
+                "page": 5,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 16,
+                "block_type": "table",
+                "page": 6,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 18,
+                "block_type": "table",
+                "page": 7,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 20,
+                "block_type": "table",
+                "page": 8,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 25,
+                "block_type": "table",
+                "page": 9,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 27,
+                "block_type": "table",
+                "page": 10,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 29,
+                "block_type": "table",
+                "page": 11,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 31,
+                "block_type": "table",
+                "page": 12,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 33,
+                "block_type": "table",
+                "page": 13,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 35,
+                "block_type": "table",
+                "page": 14,
+                "reason": "missing_table_body_placeholder"
+              }
+            ],
+            "basis": "用户授权跨页表格合并占位不阻断ready；空文本占位一并忽略，其他图像、公式及实质空表问题继续阻断。",
+            "policy": "user-authorized-mineru-cross-page-merge-v1"
+          }
         ],
         "identity": "not_checked",
         "page_count": 14
@@ -254,7 +326,7 @@
       "download_url": "https://openstd.samr.gov.cn/bzgk/std/viewGb?hcno=8C47EC0E3A27A1BA9203C1E755783885",
       "effective_from": "2021-07-01",
       "expected_articles": null,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "gb-t-39662-2020",
       "issued_date": "2020-12-14",
@@ -270,7 +342,7 @@
         "https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=8C47EC0E3A27A1BA9203C1E755783885"
       ],
       "source_page_url": "https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=8C47EC0E3A27A1BA9203C1E755783885",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "基金行业数据集中备份接口规范（GB/T 39662-2020）",
       "verification": {
         "acquisition": {
@@ -279,14 +351,626 @@
         },
         "article_count": null,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/gb-t-39662-2020/b4c77bd15f2e/8f2c9790e386/conversions/81e9985da1128492ac7a524119533f6cb4330754ede0fdd28dfc15d67f023d6e.json",
-          "record_sha256": "81e9985da1128492ac7a524119533f6cb4330754ede0fdd28dfc15d67f023d6e"
+          "record_path": "_fulltext/gb-t-39662-2020/b4c77bd15f2e/8f2c9790e386/conversions/ba198c279251afacd760cf550fcfe70b31a568c2e51a4df11abbce5612a5f97e.json",
+          "record_sha256": "ba198c279251afacd760cf550fcfe70b31a568c2e51a4df11abbce5612a5f97e"
         },
         "evidence": [
           "资本市场标准网和全国标准信息公共服务平台均明确GB/T 39662-2020；此国标与中国结算V2.2-20260320操作规范为不同身份，未替代。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "accepted_blocks": [
+              {
+                "block_index": 13,
+                "block_type": "text",
+                "page": 3,
+                "reason": "empty_text"
+              },
+              {
+                "block_index": 15,
+                "block_type": "text",
+                "page": 4,
+                "reason": "empty_text"
+              },
+              {
+                "block_index": 18,
+                "block_type": "text",
+                "page": 5,
+                "reason": "empty_text"
+              },
+              {
+                "block_index": 238,
+                "block_type": "table",
+                "page": 15,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 251,
+                "block_type": "table",
+                "page": 17,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 254,
+                "block_type": "table",
+                "page": 18,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 257,
+                "block_type": "table",
+                "page": 19,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 265,
+                "block_type": "table",
+                "page": 21,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 271,
+                "block_type": "table",
+                "page": 22,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 274,
+                "block_type": "table",
+                "page": 23,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 277,
+                "block_type": "table",
+                "page": 24,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 283,
+                "block_type": "table",
+                "page": 25,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 289,
+                "block_type": "table",
+                "page": 26,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 295,
+                "block_type": "table",
+                "page": 27,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 301,
+                "block_type": "table",
+                "page": 28,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 304,
+                "block_type": "table",
+                "page": 29,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 310,
+                "block_type": "table",
+                "page": 30,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 313,
+                "block_type": "table",
+                "page": 31,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 321,
+                "block_type": "table",
+                "page": 33,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 329,
+                "block_type": "table",
+                "page": 35,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 335,
+                "block_type": "table",
+                "page": 36,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 338,
+                "block_type": "table",
+                "page": 37,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 346,
+                "block_type": "table",
+                "page": 39,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 349,
+                "block_type": "table",
+                "page": 40,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 355,
+                "block_type": "table",
+                "page": 41,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 358,
+                "block_type": "table",
+                "page": 42,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 361,
+                "block_type": "table",
+                "page": 43,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 367,
+                "block_type": "table",
+                "page": 44,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 370,
+                "block_type": "table",
+                "page": 45,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 376,
+                "block_type": "table",
+                "page": 46,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 379,
+                "block_type": "table",
+                "page": 47,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 385,
+                "block_type": "table",
+                "page": 48,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 388,
+                "block_type": "table",
+                "page": 49,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 396,
+                "block_type": "table",
+                "page": 51,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 399,
+                "block_type": "table",
+                "page": 52,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 405,
+                "block_type": "table",
+                "page": 53,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 413,
+                "block_type": "table",
+                "page": 55,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 419,
+                "block_type": "table",
+                "page": 56,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 422,
+                "block_type": "table",
+                "page": 57,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 428,
+                "block_type": "table",
+                "page": 58,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 434,
+                "block_type": "table",
+                "page": 59,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 440,
+                "block_type": "table",
+                "page": 60,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 443,
+                "block_type": "table",
+                "page": 61,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 449,
+                "block_type": "table",
+                "page": 62,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 457,
+                "block_type": "table",
+                "page": 64,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 463,
+                "block_type": "table",
+                "page": 65,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 471,
+                "block_type": "table",
+                "page": 67,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 474,
+                "block_type": "table",
+                "page": 68,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 480,
+                "block_type": "table",
+                "page": 69,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 486,
+                "block_type": "table",
+                "page": 70,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 494,
+                "block_type": "table",
+                "page": 72,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 502,
+                "block_type": "table",
+                "page": 74,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 508,
+                "block_type": "table",
+                "page": 75,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 516,
+                "block_type": "table",
+                "page": 77,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 522,
+                "block_type": "table",
+                "page": 78,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 528,
+                "block_type": "table",
+                "page": 79,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 534,
+                "block_type": "table",
+                "page": 80,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 537,
+                "block_type": "table",
+                "page": 81,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 544,
+                "block_type": "table",
+                "page": 82,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 547,
+                "block_type": "table",
+                "page": 83,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 550,
+                "block_type": "table",
+                "page": 84,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 553,
+                "block_type": "table",
+                "page": 85,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 556,
+                "block_type": "table",
+                "page": 86,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 562,
+                "block_type": "table",
+                "page": 87,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 565,
+                "block_type": "table",
+                "page": 88,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 568,
+                "block_type": "table",
+                "page": 89,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 571,
+                "block_type": "table",
+                "page": 90,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 577,
+                "block_type": "table",
+                "page": 91,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 583,
+                "block_type": "table",
+                "page": 92,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 586,
+                "block_type": "table",
+                "page": 93,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 600,
+                "block_type": "table",
+                "page": 94,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 603,
+                "block_type": "table",
+                "page": 95,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 609,
+                "block_type": "table",
+                "page": 96,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 615,
+                "block_type": "table",
+                "page": 97,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 641,
+                "block_type": "table",
+                "page": 99,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 649,
+                "block_type": "table",
+                "page": 100,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 659,
+                "block_type": "table",
+                "page": 102,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 662,
+                "block_type": "table",
+                "page": 103,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 665,
+                "block_type": "table",
+                "page": 104,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 668,
+                "block_type": "table",
+                "page": 105,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 671,
+                "block_type": "table",
+                "page": 106,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 674,
+                "block_type": "table",
+                "page": 107,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 677,
+                "block_type": "table",
+                "page": 108,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 680,
+                "block_type": "table",
+                "page": 109,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 683,
+                "block_type": "table",
+                "page": 110,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 686,
+                "block_type": "table",
+                "page": 111,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 689,
+                "block_type": "table",
+                "page": 112,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 692,
+                "block_type": "table",
+                "page": 113,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 695,
+                "block_type": "table",
+                "page": 114,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 698,
+                "block_type": "table",
+                "page": 115,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 701,
+                "block_type": "table",
+                "page": 116,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 704,
+                "block_type": "table",
+                "page": 117,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 707,
+                "block_type": "table",
+                "page": 118,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 710,
+                "block_type": "table",
+                "page": 119,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 713,
+                "block_type": "table",
+                "page": 120,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 716,
+                "block_type": "table",
+                "page": 121,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 719,
+                "block_type": "table",
+                "page": 122,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 722,
+                "block_type": "table",
+                "page": 123,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 725,
+                "block_type": "table",
+                "page": 124,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 728,
+                "block_type": "table",
+                "page": 125,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 731,
+                "block_type": "table",
+                "page": 126,
+                "reason": "missing_table_body_placeholder"
+              }
+            ],
+            "basis": "用户授权跨页表格合并占位不阻断ready；空文本占位一并忽略，其他图像、公式及实质空表问题继续阻断。",
+            "policy": "user-authorized-mineru-cross-page-merge-v1"
+          }
         ],
         "identity": "verified",
         "page_count": 128
@@ -1116,7 +1800,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c101954/c7608135/7608135/files/%E9%99%84%E4%BB%B62%EF%BC%9A%E3%80%8A%E8%AF%81%E5%88%B8%E6%9C%9F%E8%B4%A7%E4%B8%9A%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%88%86%E7%B1%BB%E4%B8%8E%E4%BB%A3%E7%A0%81%E3%80%8B.pdf",
       "effective_from": "2026-01-09",
       "expected_articles": null,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content",
       "format": "pdf",
       "id": "l1-d02c79127cb8",
       "issued_date": "2026-01-09",
@@ -1142,12 +1826,240 @@
         "body_start_line": 1,
         "completeness": "not_checked",
         "conversion": {
-          "record_path": "_fulltext/l1-d02c79127cb8/e460c855bea6/7cdb70133c0f/conversions/d1bea5283f32326a1f50cfa796f73b10b86d3a3b6f0eb1ce804c9da4f1b40098.json",
-          "record_sha256": "d1bea5283f32326a1f50cfa796f73b10b86d3a3b6f0eb1ce804c9da4f1b40098"
+          "record_path": "_fulltext/l1-d02c79127cb8/e460c855bea6/7cdb70133c0f/conversions/20f08ed68232f07ea8aa66b54c863226e86f5f0dd70a0c58ef6ed312081de8be.json",
+          "record_sha256": "20f08ed68232f07ea8aa66b54c863226e86f5f0dd70a0c58ef6ed312081de8be"
         },
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF封面JR/T 0348—2026明确2026-01-09发布、2026-01-09实施；技术标准并非连续法条，expected_articles不适用。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "accepted_blocks": [
+              {
+                "block_index": 8,
+                "block_type": "text",
+                "page": 2,
+                "reason": "empty_text"
+              },
+              {
+                "block_index": 28,
+                "block_type": "text",
+                "page": 6,
+                "reason": "empty_text"
+              },
+              {
+                "block_index": 64,
+                "block_type": "table",
+                "page": 9,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 67,
+                "block_type": "table",
+                "page": 10,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 70,
+                "block_type": "table",
+                "page": 11,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 73,
+                "block_type": "table",
+                "page": 12,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 76,
+                "block_type": "table",
+                "page": 13,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 79,
+                "block_type": "table",
+                "page": 14,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 85,
+                "block_type": "table",
+                "page": 15,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 88,
+                "block_type": "table",
+                "page": 16,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 91,
+                "block_type": "table",
+                "page": 17,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 94,
+                "block_type": "table",
+                "page": 18,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 97,
+                "block_type": "table",
+                "page": 19,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 100,
+                "block_type": "table",
+                "page": 20,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 106,
+                "block_type": "table",
+                "page": 21,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 109,
+                "block_type": "table",
+                "page": 22,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 112,
+                "block_type": "table",
+                "page": 23,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 115,
+                "block_type": "table",
+                "page": 24,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 121,
+                "block_type": "table",
+                "page": 25,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 124,
+                "block_type": "table",
+                "page": 26,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 127,
+                "block_type": "table",
+                "page": 27,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 133,
+                "block_type": "table",
+                "page": 28,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 136,
+                "block_type": "table",
+                "page": 29,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 139,
+                "block_type": "table",
+                "page": 30,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 142,
+                "block_type": "table",
+                "page": 31,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 148,
+                "block_type": "table",
+                "page": 32,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 151,
+                "block_type": "table",
+                "page": 33,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 157,
+                "block_type": "table",
+                "page": 34,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 160,
+                "block_type": "table",
+                "page": 35,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 163,
+                "block_type": "table",
+                "page": 36,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 166,
+                "block_type": "table",
+                "page": 37,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 169,
+                "block_type": "table",
+                "page": 38,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 175,
+                "block_type": "table",
+                "page": 39,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 181,
+                "block_type": "table",
+                "page": 40,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 184,
+                "block_type": "table",
+                "page": 41,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 187,
+                "block_type": "table",
+                "page": 42,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 190,
+                "block_type": "table",
+                "page": 43,
+                "reason": "missing_table_body_placeholder"
+              }
+            ],
+            "basis": "用户授权跨页表格合并占位不阻断ready；空文本占位一并忽略，其他图像、公式及实质空表问题继续阻断。",
+            "policy": "user-authorized-mineru-cross-page-merge-v1"
+          }
         ],
         "identity": "verified",
         "page_count": 44
@@ -1389,12 +2301,36 @@
         "body_start_line": 3,
         "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/amac-hkconnect-valuation-2015/84e18cb5e1f0/96e546553387/conversions/83090f0dbc99034fadaa40e07495b5b5a7a301322c962ae0be80bc8be117bb7b.json",
-          "record_sha256": "83090f0dbc99034fadaa40e07495b5b5a7a301322c962ae0be80bc8be117bb7b"
+          "record_path": "_fulltext/amac-hkconnect-valuation-2015/84e18cb5e1f0/96e546553387/conversions/70895706d370361e56a6cd275bf38f41b1efcb3abbeb419a86206bd102f3e183.json",
+          "record_sha256": "70895706d370361e56a6cd275bf38f41b1efcb3abbeb419a86206bd102f3e183"
         },
         "evidence": [
           "原摘要为港股通与同业存单二合一，本记录仅对应港股通。官方发布通知正文载中基协发〔2015〕17号、二〇一五年十一月十一日、自发布之日起实施；网站迁移目录202106不代表法规发布日期。摘要2016年3月29日与官方通知不符，未采用。保留该原始版本，不静默换成新版本。",
           "Bound machine conversion record; not human legal review",
+          {
+            "accepted_blocks": [
+              {
+                "block_index": 35,
+                "block_type": "text",
+                "page": 5,
+                "reason": "empty_text"
+              },
+              {
+                "block_index": 43,
+                "block_type": "table",
+                "page": 6,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 45,
+                "block_type": "table",
+                "page": 7,
+                "reason": "missing_table_body_placeholder"
+              }
+            ],
+            "basis": "用户授权跨页表格合并占位不阻断ready；空文本占位一并忽略，其他图像、公式及实质空表问题继续阻断。",
+            "policy": "user-authorized-mineru-cross-page-merge-v1"
+          },
           {
             "basis": "用户核验确认该全文完整、表格正确，并授权此类跨页合并文档ready。第6、7页空表块属于合并占位，第5页空文本块无实质正文；原始表格截图保留供追溯，不重复索引。",
             "kind": "source_bound_pdf_fidelity_acceptance"
@@ -1449,7 +2385,7 @@
       "download_url": "https://www.amac.org.cn/xwfb/xhyw/202109/P020231126355446479296.pdf",
       "effective_from": null,
       "expected_articles": null,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content",
       "format": "pdf",
       "id": "amac-fund-advisory-interface-2021",
       "issued_date": "2021-08-31",
@@ -1475,12 +2411,156 @@
         "body_start_line": 3,
         "completeness": "not_checked",
         "conversion": {
-          "record_path": "_fulltext/amac-fund-advisory-interface-2021/b81c9ddb189c/fa6db6bddc76/conversions/48bb1caa856005d8b7b96227071cb9f432a1e30a2a4810f646f0befc987a970c.json",
-          "record_sha256": "48bb1caa856005d8b7b96227071cb9f432a1e30a2a4810f646f0befc987a970c"
+          "record_path": "_fulltext/amac-fund-advisory-interface-2021/b81c9ddb189c/fa6db6bddc76/conversions/d1ed9ed0b80366292d99ec93b66df646e1c27fea8a069952993a9ef0979814f8.json",
+          "record_sha256": "d1ed9ed0b80366292d99ec93b66df646e1c27fea8a069952993a9ef0979814f8"
         },
         "evidence": [
           "官方发布通知署名2021年8月31日，网页于2021年9月1日发布，PDF封面2021年9月。issued_date采用通知落款，不把封面月份推断为某个日期。仅下载附件1规范全文，不以附件2起草说明代替。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "accepted_blocks": [
+              {
+                "block_index": 7,
+                "block_type": "text",
+                "page": 3,
+                "reason": "empty_text"
+              },
+              {
+                "block_index": 27,
+                "block_type": "table",
+                "page": 6,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 39,
+                "block_type": "table",
+                "page": 7,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 132,
+                "block_type": "table",
+                "page": 12,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 142,
+                "block_type": "table",
+                "page": 14,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 145,
+                "block_type": "table",
+                "page": 15,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 148,
+                "block_type": "table",
+                "page": 16,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 151,
+                "block_type": "table",
+                "page": 17,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 180,
+                "block_type": "table",
+                "page": 20,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 186,
+                "block_type": "table",
+                "page": 21,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 207,
+                "block_type": "table",
+                "page": 24,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 213,
+                "block_type": "table",
+                "page": 25,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 219,
+                "block_type": "table",
+                "page": 26,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 222,
+                "block_type": "table",
+                "page": 27,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 240,
+                "block_type": "table",
+                "page": 29,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 250,
+                "block_type": "table",
+                "page": 30,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 253,
+                "block_type": "table",
+                "page": 31,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 266,
+                "block_type": "table",
+                "page": 32,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 269,
+                "block_type": "table",
+                "page": 33,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 283,
+                "block_type": "table",
+                "page": 35,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 306,
+                "block_type": "table",
+                "page": 38,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 309,
+                "block_type": "table",
+                "page": 39,
+                "reason": "missing_table_body_placeholder"
+              },
+              {
+                "block_index": 312,
+                "block_type": "table",
+                "page": 40,
+                "reason": "missing_table_body_placeholder"
+              }
+            ],
+            "basis": "用户授权跨页表格合并占位不阻断ready；空文本占位一并忽略，其他图像、公式及实质空表问题继续阻断。",
+            "policy": "user-authorized-mineru-cross-page-merge-v1"
+          }
         ],
         "identity": "verified",
         "page_count": 40

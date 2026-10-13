@@ -1,7 +1,7 @@
 # 来源恢复清单
 
 共 46 个独立版本，已取得 45 份原件，已生成 45 份转换正文。
-状态：ready=9，converted_unverified=36，downloaded=0，unresolved=1。
+状态：ready=10，converted_unverified=35，downloaded=0，unresolved=1。
 
 ready 表示通过本目录入库门槛，不能直接理解为现行有效。converted_unverified 的原件可核查，转换文本尚不能用于权威答复。
 
@@ -12,8 +12,8 @@ ready 表示通过本目录入库门槛，不能直接理解为现行有效。co
 | 私募投资基金监督管理条例 | [html](_sources/L0/private-investment-fund-regulation-2023/original.html) | [全文](_fulltext/private-investment-fund-regulation-2023/1261c2273d32/33ff0a17b894/full.md) | ready |  |
 | 中央数据交换平台开放式基金业务数据交换协议V2.2-20260320 | [doc](_sources/L3/central-data-exchange-protocol-v2.2-20260320/original.doc) | [全文](_fulltext/central-data-exchange-protocol-v2.2-20260320/071b21e80578/4cc60e23bc2d/full.md) | converted_unverified | Full text identity markers did not match recovered source identity; Conversion contains unsupported or unreviewed visual/formula content; Word full-text fidelity has not been independently verified |
 | 基金行业数据集中备份接口规范V2.2-20260320 | [docx](_sources/L3/fund-central-backup-interface-v2.2-20260320/original.docx) | [全文](_fulltext/fund-central-backup-interface-v2.2-20260320/132637b87df2/ceb47d763117/full.md) | converted_unverified | Full text identity markers did not match recovered source identity; Conversion contains unsupported or unreviewed visual/formula content; Word full-text fidelity has not been independently verified |
-| 上海证券交易所证券交易业务指南第4号——证券代码段分配指南（2023年第6次修订） | [pdf](_sources/L3/sse-security-code-allocation-guide-2023-r6/original.pdf) | [全文](_fulltext/sse-security-code-allocation-guide-2023-r6/d01059224a63/eabfe24155a9/full.md) | converted_unverified | Full text identity markers did not match recovered source identity; Source version issue date not independently established; Conversion contains unsupported or unreviewed visual/formula content; Secondary source cannot be authoritative; MinerU OCR full-text fidelity has not been independently verified |
-| 基金行业数据集中备份接口规范（GB/T 39662-2020） | [pdf](_sources/L3/gb-t-39662-2020/original.pdf) | [全文](_fulltext/gb-t-39662-2020/b4c77bd15f2e/8f2c9790e386/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
+| 上海证券交易所证券交易业务指南第4号——证券代码段分配指南（2023年第6次修订） | [pdf](_sources/L3/sse-security-code-allocation-guide-2023-r6/original.pdf) | [全文](_fulltext/sse-security-code-allocation-guide-2023-r6/d01059224a63/eabfe24155a9/full.md) | converted_unverified | Full text identity markers did not match recovered source identity; Source version issue date not independently established; Conversion contains unsupported or unreviewed visual/formula content; Secondary source cannot be authoritative |
+| 基金行业数据集中备份接口规范（GB/T 39662-2020） | [pdf](_sources/L3/gb-t-39662-2020/original.pdf) | [全文](_fulltext/gb-t-39662-2020/b4c77bd15f2e/8f2c9790e386/full.md) | ready |  |
 | 上市公司收购管理办法 | [pdf](_sources/L1/l1-ea5f40b1df62/original.pdf) | [全文](_fulltext/l1-ea5f40b1df62/d20681773b7f/4f84448c1494/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
 | 上海证券交易所沪港通业务实施办法（2024年修订） | [docx](_sources/L1/l1-6918bfa29041/original.docx) | [全文](_fulltext/l1-6918bfa29041/ef88727f1782/d342b68f45ce/full.md) | converted_unverified | Word full-text fidelity has not been independently verified |
 | 公开募集开放式证券投资基金流动性风险管理规定 | [pdf](_sources/L1/l1-288348db871e/original.pdf) | [全文](_fulltext/l1-288348db871e/813558004fa2/71515c2cdeb7/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
@@ -34,7 +34,7 @@ ready 表示通过本目录入库门槛，不能直接理解为现行有效。co
 | 证券投资基金托管业务管理办法 | [html](_sources/L1/l1-48073b4b4805/original.html) | [全文](_fulltext/l1-48073b4b4805/1749a3fe29e2/a34f9a04a55b/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content |
 | 证券投资基金评价业务管理暂行办法 | [pdf](_sources/L1/l1-a96eddc54e73/original.pdf) | [全文](_fulltext/l1-a96eddc54e73/ba917c901fd5/635d2935d834/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
 | 证券投资基金销售结算资金管理暂行规定 | [doc](_sources/L1/l1-6983835b2f9e/original.doc) | [全文](_fulltext/l1-6983835b2f9e/7da2de179315/f10dc5760ed4/full.md) | converted_unverified | Word full-text fidelity has not been independently verified |
-| 证券期货业信息系统分类与代码 | [pdf](_sources/L1/l1-d02c79127cb8/original.pdf) | [全文](_fulltext/l1-d02c79127cb8/e460c855bea6/7cdb70133c0f/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
+| 证券期货业信息系统分类与代码 | [pdf](_sources/L1/l1-d02c79127cb8/original.pdf) | [全文](_fulltext/l1-d02c79127cb8/e460c855bea6/7cdb70133c0f/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content |
 | 证券期货投资者适当性管理办法 | [html](_sources/L1/l1-7e66f1c5846c/original.html) | [全文](_fulltext/l1-7e66f1c5846c/6c7fd3017f0c/779a6c49a75d/full.md) | ready |  |
 | 证券期货经营机构私募资产管理业务管理办法 | [pdf](_sources/L1/l1-83a2cfba02db/original.pdf) | [全文](_fulltext/l1-83a2cfba02db/0f8f499e6c3e/694c9c31fa4b/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
 | 货币市场基金监督管理办法 | [pdf](_sources/L1/l1-62bc082429c5/original.pdf) | [全文](_fulltext/l1-62bc082429c5/db090b826502/193a868e42f6/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
@@ -42,7 +42,7 @@ ready 表示通过本目录入库门槛，不能直接理解为现行有效。co
 | 香港互认基金管理规定 | [pdf](_sources/L1/l1-59db1324b327/original.pdf) | [全文](_fulltext/l1-59db1324b327/fdb25deca3e0/c31c16b78425/full.md) | converted_unverified | MinerU OCR full-text fidelity has not been independently verified |
 | 证券投资基金港股通投资资金清算和会计核算估值业务指引（试行） | [pdf](_sources/L2/amac-hkconnect-valuation-2015/original.pdf) | [全文](_fulltext/amac-hkconnect-valuation-2015/84e18cb5e1f0/96e546553387/full.md) | ready |  |
 | 证券投资基金参与同业存单会计核算和估值业务指引（试行） | [pdf](_sources/L2/amac-negotiable-cd-valuation-2015/original.pdf) | [全文](_fulltext/amac-negotiable-cd-valuation-2015/0c6056ff8de1/1d21b538c8ab/full.md) | converted_unverified | MinerU OCR full-text fidelity has not been independently verified |
-| 公开募集证券投资基金投资顾问业务数据交换技术接口规范（试行） | [pdf](_sources/L2/amac-fund-advisory-interface-2021/original.pdf) | [全文](_fulltext/amac-fund-advisory-interface-2021/b81c9ddb189c/fa6db6bddc76/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
+| 公开募集证券投资基金投资顾问业务数据交换技术接口规范（试行） | [pdf](_sources/L2/amac-fund-advisory-interface-2021/original.pdf) | [全文](_fulltext/amac-fund-advisory-interface-2021/b81c9ddb189c/fa6db6bddc76/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content |
 | 基金募集机构投资者适当性管理实施指引（试行） | [pdf](_sources/L2/amac-investor-suitability-2017/original.pdf) | [全文](_fulltext/amac-investor-suitability-2017/870221ec6244/12d07751b148/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
 | 基金中基金估值业务指引（试行） | [pdf](_sources/L2/amac-fof-valuation-2017/original.pdf) | [全文](_fulltext/amac-fof-valuation-2017/4c5e45591d87/64f7fb8495d4/full.md) | converted_unverified | MinerU OCR full-text fidelity has not been independently verified |
 | 私募基金管理人登记须知（AMBERS系统关联方/实际控制人认定实操标准） | 未确认 | 未转换 | unresolved | 无单份准确对应的官方文档；混合历史规则与分析性叙述，不能以相似标题或现行规则静默替换。 |
@@ -54,6 +54,6 @@ ready 表示通过本目录入库门槛，不能直接理解为现行有效。co
 | 证券投资基金投资信用衍生品估值指引（试行） | [pdf](_sources/L2/amac-credit-derivative-valuation-2019/original.pdf) | [全文](_fulltext/amac-credit-derivative-valuation-2019/7b5a8efe57d1/a6ba6f874e8e/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
 | 内地与香港股票市场交易互联互通机制若干规定（2022年修正） | [pdf](_sources/L1/l1-stock-connect-2022/original.pdf) | [全文](_fulltext/l1-stock-connect-2022/d73c9db4b180/b297cf52cbcd/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
 
-目录 SHA-256：`ea4010a15fe3f990abf55afe0de85f2893893a83c9adbdf18385ffc25065d00f`。
-入库审计通过：9 项可选，37 项排除。
+目录 SHA-256：`1a7cd5b84666a2e36da9e1659bc10bc490568bc7248b427a1761a9b825d4c84d`。
+入库审计通过：10 项可选，36 项排除。
 全部登记原件与正文哈希、可入库项的收据与转换记录绑定由审计重新验证；未通过项不通过旧 manifest 或目录扫描补入。

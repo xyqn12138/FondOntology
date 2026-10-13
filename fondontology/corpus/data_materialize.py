@@ -193,6 +193,14 @@ def _pdf_body(raw: bytes, raw_path: Path, conversion: tuple[Path, dict]) -> tupl
         raise ValueError("MinerU full.md hash differs from completed state")
     coverage = sorted({block["page_idx"] + 1 for block in artifact["content_list"]})
     unsupported = [*parsed["unindexed_blocks"]]
+    merged_placeholders = [
+        block for block in unsupported if block.get("reason") == "missing_table_body_placeholder"]
+    accepted_merge_blocks = []
+    if merged_placeholders:
+        accepted_merge_blocks = [
+            block for block in unsupported
+            if block.get("reason") in {"missing_table_body_placeholder", "empty_text"}]
+        unsupported = [block for block in unsupported if block not in accepted_merge_blocks]
     for ordinal, block in enumerate(artifact["content_list"]):
         if block["type"] in {"equation", "image", "chart"}:
             unsupported.append({"kind": "visual_or_formula_requires_review", "block": ordinal,
@@ -222,6 +230,12 @@ def _pdf_body(raw: bytes, raw_path: Path, conversion: tuple[Path, dict]) -> tupl
         "extraction_path": str(extraction_path), "page_scope": "mineru_reported_pages_unreviewed",
         "raw_pdf_path": str(raw_path), "extractor_model_version": artifact["extractor"]["model_version"],
     }
+    if accepted_merge_blocks:
+        observations["merged_table_acceptance"] = {
+            "policy": "user-authorized-mineru-cross-page-merge-v1",
+            "basis": "用户授权跨页表格合并占位不阻断ready；空文本占位一并忽略，其他图像、公式及实质空表问题继续阻断。",
+            "accepted_blocks": accepted_merge_blocks,
+        }
     return markdown, observations, assets
 
 
@@ -352,7 +366,9 @@ def materialize_data(root: Path | str = "data", *, source_paths: list[str] | Non
                             or not isinstance(review.get("accepted_blocks"), list)):
                         raise ValueError("PDF fidelity review must bind source, Markdown and accepted blocks")
                     accepted = review["accepted_blocks"]
-                    if any(block not in observations["unsupported"] for block in accepted):
+                    available = observations["unsupported"] + observations.get(
+                        "merged_table_acceptance", {}).get("accepted_blocks", [])
+                    if any(block not in available for block in accepted):
                         raise ValueError("PDF fidelity review accepted blocks differ from extraction")
                     observations["unsupported"] = [
                         block for block in observations["unsupported"] if block not in accepted]
@@ -428,6 +444,8 @@ def materialize_data(root: Path | str = "data", *, source_paths: list[str] | Non
                 "conversion": {"record_path": record_relative, "record_sha256": _sha(record_raw)},
             })
             reasons = []
+            if observations.get("merged_table_acceptance"):
+                verification["evidence"].append(observations["merged_table_acceptance"])
             if observations.get("pdf_fidelity_review"):
                 verification["evidence"].append({
                     "kind": "source_bound_pdf_fidelity_acceptance",
@@ -443,7 +461,8 @@ def materialize_data(root: Path | str = "data", *, source_paths: list[str] | Non
                 reasons.append("Conversion contains unsupported or unreviewed visual/formula content")
             if source["origin_kind"] == "secondary":
                 reasons.append("Secondary source cannot be authoritative")
-            if original_format == "pdf" and not observations.get("pdf_fidelity_review"):
+            if (original_format == "pdf" and not observations.get("pdf_fidelity_review")
+                    and not observations.get("merged_table_acceptance")):
                 reasons.append("MinerU OCR full-text fidelity has not been independently verified")
                 verification["completeness"] = "not_checked"
             if original_format in {"doc", "docx"}:
