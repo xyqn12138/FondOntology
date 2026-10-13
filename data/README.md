@@ -1,5 +1,8 @@
 # 法条原件与恢复全文
 
+当前43份ready文档已冻结为`fund-rag-source-v1-20261013`，作为后续RAG源数据。
+固定成员、哈希和基线快照见`rag_source_lock.json`；使用约定见`RAG_SOURCE_FREEZE.md`。
+
 本目录是本项目法条语料的唯一权威来源入口。恢复情况与逐份全文链接见
 `SOURCE_RECOVERY.md`；独立模型审核记录见 `SOURCE_REVIEW.md`。`source_catalog.json` 是显式白名单，
 不通过遍历全部 Markdown、读取旧 SQLite 或引用旧采集清单扩大权威范围。

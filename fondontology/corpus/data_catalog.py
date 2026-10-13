@@ -209,6 +209,24 @@ def _verify_ready_records(root: Path, document: dict, raw_path: Path,
         raise ValueError("Ready PDF conversion requires explicit page count and coverage")
 
 
+def verify_source_freeze(root: Path, catalog_raw: bytes) -> dict | None:
+    lock_path = root / "rag_source_lock.json"
+    if not lock_path.is_file():
+        return None
+    lock = json.loads(lock_path.read_text(encoding="utf-8"), object_pairs_hook=_pairs)
+    if (lock.get("schema_version") != 1 or lock.get("catalog_path") != "source_catalog.json"
+            or lock.get("catalog_sha256") != hashlib.sha256(catalog_raw).hexdigest()):
+        raise ValueError("Frozen RAG source catalog hash mismatch; publish a new source version")
+    documents = json.loads(catalog_raw.decode("utf-8"))["documents"]
+    ready_ids = [document["id"] for document in documents if document["status"] == "ready"]
+    if (lock.get("document_ids") != ready_ids or lock.get("document_count") != len(ready_ids)):
+        raise ValueError("Frozen RAG source membership mismatch")
+    for relative, digest in lock.get("image_sha256", {}).items():
+        if hashlib.sha256(_path(root, relative, "frozen image").read_bytes()).hexdigest() != digest:
+            raise ValueError(f"Frozen RAG source image hash mismatch: {relative}")
+    return lock
+
+
 def build_catalog_records(catalog_path: Path | str, *, data_root: Path | str = "data",
                           document_ids: list[str] | None = None) -> dict:
     """Validate all catalog references; select only explicitly ready full texts."""
@@ -217,6 +235,8 @@ def build_catalog_records(catalog_path: Path | str, *, data_root: Path | str = "
     if not root.is_dir() or not catalog.is_relative_to(root):
         raise ValueError("Catalog must be a file inside the data root")
     raw_catalog = catalog.read_bytes()
+    if catalog == root / "source_catalog.json":
+        verify_source_freeze(root, raw_catalog)
     payload = json.loads(raw_catalog.decode("utf-8"), object_pairs_hook=_pairs,
                          parse_constant=_reject_constant, parse_float=_finite_float)
     if (not isinstance(payload, dict) or set(payload) != {"schema_version", "documents"}

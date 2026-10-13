@@ -1,6 +1,14 @@
 # Data Source Catalog Import
 
 `data/` is the authoritative source directory for the restored official full texts.
+The current 43 ready documents are frozen as `fund-rag-source-v1-20261013`.
+`data/rag_source_lock.json` pins the catalog hash, members, required image hashes,
+and baseline snapshot `data-reviewed-20261013`. Normal catalog import checks the
+lock before selecting documents; materialization refuses to change the frozen
+catalog before writing derivatives. See `data/RAG_SOURCE_FREEZE.md`.
+Retrieval and chunking experiments may create new derived indexes while retaining
+the same source version. Source edits require an explicit new source release.
+
 `data/source_catalog.json` is the sole explicit import whitelist. Directory globbing,
 the previous official-law acquisition registry, and evaluation manifests are not
 fallbacks. SQLite and generated JSONL manifests are derived artifacts, not source

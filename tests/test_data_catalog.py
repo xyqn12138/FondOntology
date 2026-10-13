@@ -92,6 +92,30 @@ class DataCatalogTests(unittest.TestCase):
         verification["conversion"] = {"record_path": conversion.name,
                                       "record_sha256": self.checksum(conversion)}
 
+    def test_frozen_catalog_rejects_changes_even_for_subset_selection(self):
+        lock = {"schema_version": 1, "catalog_path": "source_catalog.json",
+                "catalog_sha256": self.checksum(self.catalog),
+                "document_ids": [self.document["id"]], "document_count": 1}
+        lock_path = self.data / "rag_source_lock.json"
+        lock_path.write_text(json.dumps(lock), encoding="utf-8")
+        self.assertEqual(len(self.build()["records"]), 1)
+        self.catalog.write_bytes(self.catalog.read_bytes() + b"\n")
+        with self.assertRaisesRegex(ValueError, "Frozen RAG source catalog hash mismatch"):
+            self.build([self.document["id"]])
+
+    def test_frozen_source_rejects_image_changes(self):
+        image = self.data / "diagram.png"
+        image.write_bytes(b"original diagram")
+        lock = {"schema_version": 1, "catalog_path": "source_catalog.json",
+                "catalog_sha256": self.checksum(self.catalog),
+                "document_ids": [self.document["id"]], "document_count": 1,
+                "image_sha256": {image.name: self.checksum(image)}}
+        (self.data / "rag_source_lock.json").write_text(json.dumps(lock), encoding="utf-8")
+        self.assertEqual(len(self.build()["records"]), 1)
+        image.write_bytes(b"changed diagram")
+        with self.assertRaisesRegex(ValueError, "Frozen RAG source image hash mismatch"):
+            self.build()
+
     def build(self, document_ids=None):
         return build_catalog_records(self.catalog, data_root=self.data, document_ids=document_ids)
 

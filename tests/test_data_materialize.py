@@ -57,6 +57,23 @@ class DataMaterializeTests(unittest.TestCase):
         path.write_text(json.dumps(value, ensure_ascii=False), encoding="utf-8")
         return path
 
+    def test_frozen_source_blocks_changed_materialization_before_writing(self):
+        materialize_data(self.data, source_paths=["sources.json"], state_paths=[], write=True)
+        catalog = self.data / "source_catalog.json"
+        original_catalog = catalog.read_bytes()
+        self.write_json("rag_source_lock.json", {
+            "schema_version": 1, "catalog_path": "source_catalog.json",
+            "catalog_sha256": self.sha(original_catalog),
+            "document_ids": [self.source["id"]], "document_count": 1,
+        })
+        self.source["title"] = "Different title"
+        self.save_source()
+        before_files = set(self.data.rglob("*"))
+        with self.assertRaisesRegex(ValueError, "Frozen RAG source catalog hash mismatch"):
+            materialize_data(self.data, source_paths=["sources.json"], state_paths=[], write=True)
+        self.assertEqual(catalog.read_bytes(), original_catalog)
+        self.assertEqual(set(self.data.rglob("*")), before_files)
+
     def save_source(self):
         self.write_json("sources.json", {"schema_version": 1, "documents": [self.source]})
 

@@ -9,7 +9,7 @@ import tempfile
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
-from .data_catalog import _FIELDS, _path, _receipt_url, _receipt_value, _url_equivalent, build_catalog_records
+from .data_catalog import _FIELDS, _path, _receipt_url, _receipt_value, _url_equivalent, build_catalog_records, verify_source_freeze
 from .data_text import CHUNKER_VERSION, catalog_body_sections
 from .pdf_extraction import load_extraction_json, parse_extraction, pdf_page_count
 
@@ -578,6 +578,7 @@ def materialize_data(root: Path | str = "data", *, source_paths: list[str] | Non
             document["failure_reason"] = f"Offline materialization unavailable: {error}"
     payload = {"schema_version": 1, "documents": documents}
     if write:
+        verify_source_freeze(root, _json_bytes(payload))
         for path, raw in outputs.items():
             if path.is_file() and path.read_bytes() != raw:
                 raise ValueError(f"Immutable generated full-text artifact changed: {path}")
