@@ -1,0 +1,40 @@
+{
+  "snapshot_id": "search-scope-fixture",
+  "documents": [
+    {
+      "doc_id": "alpha", "title": "基金运作管理办法",
+      "issued_date": "2020-01-01", "effective_from": "2020-02-01", "withdrawn_date": null,
+      "text": "# 基金运作管理办法\n第1条 申请应及时办理。\n第2条 处理结果应通知客户。\n",
+      "chunks": [
+        {"chunk_id": "alpha-metadata", "line": 0, "content_kind": "metadata"},
+        {"chunk_id": "alpha-1", "line": 1, "content_kind": "legal_article", "article_number": 1},
+        {"chunk_id": "alpha-2", "line": 2, "content_kind": "legal_article", "article_number": 2}
+      ]
+    },
+    {
+      "doc_id": "beta", "title": "基金销售管理办法",
+      "issued_date": "2020-03-01", "effective_from": "2020-04-01", "withdrawn_date": "2026-11-01",
+      "text": "# 基金销售管理办法\n第1条 应向客户核实申请。\n",
+      "chunks": [
+        {"chunk_id": "beta-heading", "line": 0, "content_kind": "heading"},
+        {"chunk_id": "beta-1", "line": 1, "content_kind": "legal_article", "article_number": 1}
+      ]
+    },
+    {
+      "doc_id": "future", "title": "未来办法",
+      "issued_date": "2027-01-01", "effective_from": "2027-02-01", "withdrawn_date": null,
+      "text": "第1条 未来应核验申请。\n",
+      "chunks": [
+        {"chunk_id": "future-1", "line": 0, "content_kind": "legal_article", "article_number": 1}
+      ]
+    },
+    {
+      "doc_id": "unknown-date", "title": "未知日期材料",
+      "issued_date": null, "effective_from": null, "withdrawn_date": null,
+      "text": "第1条 未知日期申请材料。\n",
+      "chunks": [
+        {"chunk_id": "unknown-1", "line": 0, "content_kind": "legal_article", "article_number": 1}
+      ]
+    }
+  ]
+}

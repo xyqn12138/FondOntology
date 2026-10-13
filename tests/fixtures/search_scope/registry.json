@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0",
+  "sources": [
+    {"doc_id": "alpha", "title": "基金运作管理办法"},
+    {"doc_id": "beta", "title": "基金销售管理办法"}
+  ]
+}

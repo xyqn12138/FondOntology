@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "cases": [
+    {"id": "natural", "question": "客户在2020年9月30日提交申请，业务应如何办理？", "as_of": "2026-10-13"},
+    {"id": "ordinary-rules", "question": "持有期限有什么规定，赎回规则如何安排？", "as_of": "2026-10-13"},
+    {"id": "company-rules", "question": "公司的规定是否需要告知客户，申请有什么办法？", "as_of": "2026-10-13"},
+    {"id": "book", "question": "依据《基金运作管理办法》，业务应如何办理？", "as_of": "2026-10-13"},
+    {"id": "bare", "question": "基金运作管理办法中业务应如何办理？", "as_of": "2026-10-13"},
+    {"id": "unknown-name", "question": "资产销售监督管理条例规定了什么？", "as_of": "2026-10-13"},
+    {"id": "bare-law", "question": "证券法对业务提出了什么要求？", "as_of": "2026-10-13"},
+    {"id": "article", "question": "第三条业务应如何办理？", "as_of": "2026-10-13"},
+    {"id": "version", "question": "按2020年3月20日修订版本，业务应如何办理？", "as_of": "2026-10-13"},
+    {"id": "iso-version", "question": "按2020-03-20修订版本，业务应如何办理？", "as_of": "2026-10-13"},
+    {"id": "revision", "question": "按修订版，业务应如何办理？", "as_of": "2026-10-13"},
+    {"id": "empty", "question": "业务应如何办理？", "as_of": "2026-10-13", "doc_ids": []},
+    {"id": "entity", "question": "业务应如何办理？", "as_of": "2026-10-13", "entity_iri": "urn:alpha"},
+    {"id": "document", "question": "业务应如何办理？", "as_of": "2026-10-13", "doc_ids": ["alpha"]},
+    {"id": "version-scope", "question": "业务应如何办理？", "as_of": "2026-10-13", "version_ids": ["alpha-version"]},
+    {"id": "metadata-case", "question": "业务应如何办理？", "as_of": "2026-10-13", "scenario": "ordinary business"}
+  ]
+}
