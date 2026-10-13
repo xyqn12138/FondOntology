@@ -28,6 +28,12 @@ PDF 已通过 MinerU 转换；未提取块、公式和图片问题须按原件�
 条号数量、机器页索引或文件哈希不能证明逐字准确。Word 表格保留 HTML 结构，
 修订视图和残余 VML 的限制记录在转换观察中。
 
+跨页表格已合并入正文的空占位块不等于缺表。用户确认全文完整的版本，
+可在恢复清单以 `pdf_fidelity_review` 绑定原件与转换正文哈希，逐块登记
+非阻断占位，再转为 `ready`；表格截图保留供追溯。该验收不放行其他未确认的
+表格、公式、来源或版本问题。港股通估值核算指引（2015年）已按此规则验收；
+`SOURCE_REVIEW.md` 的8份审核及下文快照是此前批次记录。
+
 ```powershell
 .venv/Scripts/python.exe -X utf8 tools/import_data_corpus.py
 .venv/Scripts/python.exe -X utf8 tools/import_data_corpus.py --manifest-out artifacts/data-corpus/import.jsonl --db artifacts/data-corpus/corpus.sqlite --import-ready --snapshot-id data-official-20261013

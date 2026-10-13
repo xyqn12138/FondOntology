@@ -329,6 +329,8 @@ class DataMaterializeTests(unittest.TestCase):
             "markdown": markdown, "content_list": [
                 {"type": "text", "page_idx": 0, "text": "Fixture Law\n第一条 Scope."},
                 {"type": "text", "page_idx": 1, "text": "第二条 Exception."},
+                {"type": "table", "page_idx": 1, "img_path": "",
+                 "table_caption": [], "table_footnote": []},
             ],
         }
         extraction = json.dumps(artifact).encode()
@@ -355,6 +357,32 @@ class DataMaterializeTests(unittest.TestCase):
         self.assertEqual(document["verification"]["page_count"], 2)
         self.assertEqual(document["verification"]["completeness"], "not_checked")
         self.assertIn("OCR full-text fidelity", document["failure_reason"])
+        self.write_json("receipt.json", {
+            "requested_url": self.source["download_url"], "final_url": self.source["download_url"],
+            "raw_sha256": self.sha(raw), "bytes": len(raw), "http_status": 200,
+        })
+        self.source["pdf_fidelity_review"] = {
+            "source_sha256": self.sha(raw), "markdown_sha256": self.sha(markdown.encode()),
+            "basis": "User verified complete text and merged tables.",
+            "accepted_blocks": observations["unsupported"],
+        }
+        self.save_source()
+        result = materialize_data(self.data, source_paths=["sources.json"],
+                                  state_paths=["_converted/L3/state.json"], write=True)
+        self.assertEqual(result["documents"][0]["status"], "ready")
+        self.assertEqual(len(build_catalog_records(self.data / "source_catalog.json",
+                                                  data_root=self.data)["records"]), 1)
+        self.source["pdf_fidelity_review"]["accepted_blocks"] = []
+        self.save_source()
+        result = materialize_data(self.data, source_paths=["sources.json"],
+                                  state_paths=["_converted/L3/state.json"])
+        self.assertEqual(result["documents"][0]["status"], "converted_unverified")
+        self.source["pdf_fidelity_review"]["markdown_sha256"] = "0" * 64
+        self.save_source()
+        result = materialize_data(self.data, source_paths=["sources.json"],
+                                  state_paths=["_converted/L3/state.json"])
+        self.assertEqual(result["documents"][0]["status"], "downloaded")
+        self.assertIn("PDF fidelity review", result["documents"][0]["failure_reason"])
         (directory / "full.md").write_text("Tampered PDF conversion", encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "differs"):
             _pdf_body(raw, self.raw, (directory, entry))

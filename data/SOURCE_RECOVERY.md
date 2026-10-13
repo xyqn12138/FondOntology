@@ -1,7 +1,7 @@
 # 来源恢复清单
 
 共 46 个独立版本，已取得 45 份原件，已生成 45 份转换正文。
-状态：ready=8，converted_unverified=37，downloaded=0，unresolved=1。
+状态：ready=9，converted_unverified=36，downloaded=0，unresolved=1。
 
 ready 表示通过本目录入库门槛，不能直接理解为现行有效。converted_unverified 的原件可核查，转换文本尚不能用于权威答复。
 
@@ -40,7 +40,7 @@ ready 表示通过本目录入库门槛，不能直接理解为现行有效。co
 | 货币市场基金监督管理办法 | [pdf](_sources/L1/l1-62bc082429c5/original.pdf) | [全文](_fulltext/l1-62bc082429c5/db090b826502/193a868e42f6/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
 | 重要货币市场基金监管暂行规定 | [pdf](_sources/L1/l1-3953d7041492/original.pdf) | [全文](_fulltext/l1-3953d7041492/0fc19bb98125/82fddcbbde28/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
 | 香港互认基金管理规定 | [pdf](_sources/L1/l1-59db1324b327/original.pdf) | [全文](_fulltext/l1-59db1324b327/fdb25deca3e0/c31c16b78425/full.md) | converted_unverified | MinerU OCR full-text fidelity has not been independently verified |
-| 证券投资基金港股通投资资金清算和会计核算估值业务指引（试行） | [pdf](_sources/L2/amac-hkconnect-valuation-2015/original.pdf) | [全文](_fulltext/amac-hkconnect-valuation-2015/84e18cb5e1f0/96e546553387/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
+| 证券投资基金港股通投资资金清算和会计核算估值业务指引（试行） | [pdf](_sources/L2/amac-hkconnect-valuation-2015/original.pdf) | [全文](_fulltext/amac-hkconnect-valuation-2015/84e18cb5e1f0/96e546553387/full.md) | ready |  |
 | 证券投资基金参与同业存单会计核算和估值业务指引（试行） | [pdf](_sources/L2/amac-negotiable-cd-valuation-2015/original.pdf) | [全文](_fulltext/amac-negotiable-cd-valuation-2015/0c6056ff8de1/1d21b538c8ab/full.md) | converted_unverified | MinerU OCR full-text fidelity has not been independently verified |
 | 公开募集证券投资基金投资顾问业务数据交换技术接口规范（试行） | [pdf](_sources/L2/amac-fund-advisory-interface-2021/original.pdf) | [全文](_fulltext/amac-fund-advisory-interface-2021/b81c9ddb189c/fa6db6bddc76/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
 | 基金募集机构投资者适当性管理实施指引（试行） | [pdf](_sources/L2/amac-investor-suitability-2017/original.pdf) | [全文](_fulltext/amac-investor-suitability-2017/870221ec6244/12d07751b148/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
@@ -54,6 +54,6 @@ ready 表示通过本目录入库门槛，不能直接理解为现行有效。co
 | 证券投资基金投资信用衍生品估值指引（试行） | [pdf](_sources/L2/amac-credit-derivative-valuation-2019/original.pdf) | [全文](_fulltext/amac-credit-derivative-valuation-2019/7b5a8efe57d1/a6ba6f874e8e/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
 | 内地与香港股票市场交易互联互通机制若干规定（2022年修正） | [pdf](_sources/L1/l1-stock-connect-2022/original.pdf) | [全文](_fulltext/l1-stock-connect-2022/d73c9db4b180/b297cf52cbcd/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
 
-目录 SHA-256：`25c6ae5de2ab9ce5c4ae87f4955969a23e5fa5a1cd994d81eb778e395bfb6902`。
-入库审计通过：8 项可选，38 项排除。
+目录 SHA-256：`ea4010a15fe3f990abf55afe0de85f2893893a83c9adbdf18385ffc25065d00f`。
+入库审计通过：9 项可选，37 项排除。
 全部登记原件与正文哈希、可入库项的收据与转换记录绑定由审计重新验证；未通过项不通过旧 manifest 或目录扫描补入。

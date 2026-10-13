@@ -16,6 +16,16 @@
     "origin_kind": "issuer_original",
     "raw_path": "_sources/L2/amac-hkconnect-valuation-2015/original.pdf",
     "raw_sha256": "84e18cb5e1f01592b9eaad049d2af9542b7b6c76b909b65693610bb4951ca6a7",
+    "pdf_fidelity_review": {
+      "source_sha256": "84e18cb5e1f01592b9eaad049d2af9542b7b6c76b909b65693610bb4951ca6a7",
+      "markdown_sha256": "96e546553387232d681358e305ca12db8e63ab9b22ab563d0a5aefe455c496b6",
+      "basis": "用户核验确认该全文完整、表格正确，并授权此类跨页合并文档ready。第6、7页空表块属于合并占位，第5页空文本块无实质正文；原始表格截图保留供追溯，不重复索引。",
+      "accepted_blocks": [
+        {"block_index": 35, "block_type": "text", "page": 5, "reason": "empty_text"},
+        {"block_index": 43, "block_type": "table", "page": 6, "reason": "missing_table_body_placeholder"},
+        {"block_index": 45, "block_type": "table", "page": 7, "reason": "missing_table_body_placeholder"}
+      ]
+    },
     "body_selector": null,
     "version_basis": "原摘要为港股通与同业存单二合一，本记录仅对应港股通。官方发布通知正文载中基协发〔2015〕17号、二〇一五年十一月十一日、自发布之日起实施；网站迁移目录202106不代表法规发布日期。摘要2016年3月29日与官方通知不符，未采用。保留该原始版本，不静默换成新版本。",
     "source_identity_evidence": {

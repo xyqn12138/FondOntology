@@ -343,6 +343,20 @@ def materialize_data(root: Path | str = "data", *, source_paths: list[str] | Non
                 if raw_path not in index:
                     raise ValueError("No completed MinerU conversion bound to this source")
                 text, observations, assets = _pdf_body(raw, raw_path, index[raw_path])
+                review = source.get("pdf_fidelity_review")
+                if review:
+                    if (not isinstance(review, dict)
+                            or review.get("source_sha256") != source["raw_sha256"]
+                            or review.get("markdown_sha256") != _sha(text.encode("utf-8"))
+                            or not isinstance(review.get("basis"), str) or not review["basis"].strip()
+                            or not isinstance(review.get("accepted_blocks"), list)):
+                        raise ValueError("PDF fidelity review must bind source, Markdown and accepted blocks")
+                    accepted = review["accepted_blocks"]
+                    if any(block not in observations["unsupported"] for block in accepted):
+                        raise ValueError("PDF fidelity review accepted blocks differ from extraction")
+                    observations["unsupported"] = [
+                        block for block in observations["unsupported"] if block not in accepted]
+                    observations["pdf_fidelity_review"] = review
                 method = "mineru-bound-content-list"
             elif original_format in {"doc", "docx"}:
                 word = words.get(document_id)
@@ -370,6 +384,11 @@ def materialize_data(root: Path | str = "data", *, source_paths: list[str] | Non
             observations.setdefault("unsupported", [])
             article_count = None
             body_start = 1
+            lines = text.splitlines()
+            if lines and re.sub(r"^#{1,6}\s+", "", lines[0].strip()) == source.get("title"):
+                body_start = 2
+                while body_start <= len(lines) and not lines[body_start - 1].strip():
+                    body_start += 1
             structural_error = None
             expected = source.get("expected_articles")
             if expected is not None:
@@ -409,6 +428,11 @@ def materialize_data(root: Path | str = "data", *, source_paths: list[str] | Non
                 "conversion": {"record_path": record_relative, "record_sha256": _sha(record_raw)},
             })
             reasons = []
+            if observations.get("pdf_fidelity_review"):
+                verification["evidence"].append({
+                    "kind": "source_bound_pdf_fidelity_acceptance",
+                    "basis": observations["pdf_fidelity_review"]["basis"],
+                })
             if structural_error:
                 reasons.append("Article structure check failed: " + structural_error)
             if verification["identity"] != "verified":
@@ -419,7 +443,7 @@ def materialize_data(root: Path | str = "data", *, source_paths: list[str] | Non
                 reasons.append("Conversion contains unsupported or unreviewed visual/formula content")
             if source["origin_kind"] == "secondary":
                 reasons.append("Secondary source cannot be authoritative")
-            if original_format == "pdf":
+            if original_format == "pdf" and not observations.get("pdf_fidelity_review"):
                 reasons.append("MinerU OCR full-text fidelity has not been independently verified")
                 verification["completeness"] = "not_checked"
             if original_format in {"doc", "docx"}:

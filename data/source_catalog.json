@@ -688,7 +688,7 @@
           "receipt_sha256": "1d8894a157b65f30ab0e589f0f13e76d253b79aa624ff0fb3a740e781f42571e"
         },
         "article_count": null,
-        "body_start_line": 1,
+        "body_start_line": 3,
         "completeness": "not_checked",
         "conversion": {
           "record_path": "_fulltext/l1-bed25b74e40c/c817a4016bb0/5988e62cd375/conversions/7dcfe9825429c89de74514e57e7d8e8f6319182b2a5f5793ad62c49bd02def59.json",
@@ -1363,7 +1363,7 @@
       "download_url": "https://www.amac.org.cn/xwfb/hydt/202106/P020231126371218718148.pdf",
       "effective_from": "2015-11-11",
       "expected_articles": null,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "amac-hkconnect-valuation-2015",
       "issued_date": "2015-11-11",
@@ -1378,7 +1378,7 @@
         "https://www.amac.org.cn/xwfb/hydt/202106/P020231126371218718148.pdf"
       ],
       "source_page_url": "https://www.amac.org.cn/xwfb/hydt/202106/t20210602_19535.html",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "证券投资基金港股通投资资金清算和会计核算估值业务指引（试行）",
       "verification": {
         "acquisition": {
@@ -1386,15 +1386,19 @@
           "receipt_sha256": "6449a0a4d5db8c1bc19a176d901932534f2f3cb014a3e7b3af8668678d1c4de1"
         },
         "article_count": null,
-        "body_start_line": 1,
-        "completeness": "not_checked",
+        "body_start_line": 3,
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/amac-hkconnect-valuation-2015/84e18cb5e1f0/96e546553387/conversions/fd34a368df132b06e9956d83d734ca20357f4def31fe0d89498a129102e9704e.json",
-          "record_sha256": "fd34a368df132b06e9956d83d734ca20357f4def31fe0d89498a129102e9704e"
+          "record_path": "_fulltext/amac-hkconnect-valuation-2015/84e18cb5e1f0/96e546553387/conversions/83090f0dbc99034fadaa40e07495b5b5a7a301322c962ae0be80bc8be117bb7b.json",
+          "record_sha256": "83090f0dbc99034fadaa40e07495b5b5a7a301322c962ae0be80bc8be117bb7b"
         },
         "evidence": [
           "原摘要为港股通与同业存单二合一，本记录仅对应港股通。官方发布通知正文载中基协发〔2015〕17号、二〇一五年十一月十一日、自发布之日起实施；网站迁移目录202106不代表法规发布日期。摘要2016年3月29日与官方通知不符，未采用。保留该原始版本，不静默换成新版本。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "basis": "用户核验确认该全文完整、表格正确，并授权此类跨页合并文档ready。第6、7页空表块属于合并占位，第5页空文本块无实质正文；原始表格截图保留供追溯，不重复索引。",
+            "kind": "source_bound_pdf_fidelity_acceptance"
+          }
         ],
         "identity": "verified",
         "page_count": 14
@@ -1427,7 +1431,7 @@
           "receipt_sha256": "cb9a546e69b0951c4e28c174719660fc8f5a4cd9fce5365235bf9bc1948bc98e"
         },
         "article_count": null,
-        "body_start_line": 1,
+        "body_start_line": 3,
         "completeness": "not_checked",
         "conversion": {
           "record_path": "_fulltext/amac-negotiable-cd-valuation-2015/0c6056ff8de1/1d21b538c8ab/conversions/cc22e1a96391199c44e541dc1947b74997342fa20dc127396e9dacd50e40fef1.json",
@@ -1468,7 +1472,7 @@
           "receipt_sha256": "b1e5d40db18db16b93bf5374b93ff2d9f2c14c19244d380b628d9b6585e2d19c"
         },
         "article_count": null,
-        "body_start_line": 1,
+        "body_start_line": 3,
         "completeness": "not_checked",
         "conversion": {
           "record_path": "_fulltext/amac-fund-advisory-interface-2021/b81c9ddb189c/fa6db6bddc76/conversions/48bb1caa856005d8b7b96227071cb9f432a1e30a2a4810f646f0befc987a970c.json",
@@ -1550,7 +1554,7 @@
           "receipt_sha256": "9bedf9188821d9a45a7eee64ca14bdf6b3cc3e8f4759fab200ee427a9d9ebf26"
         },
         "article_count": null,
-        "body_start_line": 1,
+        "body_start_line": 3,
         "completeness": "not_checked",
         "conversion": {
           "record_path": "_fulltext/amac-fof-valuation-2017/4c5e45591d87/64f7fb8495d4/conversions/67e7d03c4ebfc808f6621cd6fa0d079e0028e299e566952ffaab939d9c89fc4d.json",
@@ -1787,7 +1791,7 @@
           "receipt_sha256": "2ba93fe28e0d1c9609cd2d3b6f595000d91196073e3ab0acc45c207a98c480f0"
         },
         "article_count": null,
-        "body_start_line": 1,
+        "body_start_line": 3,
         "completeness": "not_checked",
         "conversion": {
           "record_path": "_fulltext/amac-restricted-stock-valuation-2017/6fde7af3c4a4/5ab43abeaf41/conversions/f09aef6f39128e4ae8b1a04a49acad94c98bfa58f7882da6b86aadc08b8ec36a.json",
