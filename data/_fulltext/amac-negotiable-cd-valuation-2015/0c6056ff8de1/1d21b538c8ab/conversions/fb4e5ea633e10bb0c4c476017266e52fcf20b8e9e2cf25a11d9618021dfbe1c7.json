@@ -1,0 +1,50 @@
+{
+  "identity_review": {
+    "human_reviewed": false,
+    "scope": "machine_conversion_and_structure_only"
+  },
+  "markdown_path": "_fulltext/amac-negotiable-cd-valuation-2015/0c6056ff8de1/1d21b538c8ab/full.md",
+  "markdown_sha256": "1d21b538c8ab843b7573604f9c2072970f3a2ee168fd73dfc63c5c6a47f5ed13",
+  "method": "mineru-bound-content-list",
+  "observations": {
+    "article_count": null,
+    "excluded_title_headers": [],
+    "extraction_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_converted\\L2\\files\\original-23823320571f5f98fa5b740bc9e18ffdb2023b846559904c296bf4bb31522e98\\extraction.json",
+    "extraction_sha256": "1375b943590b34c9f89daa19a6797b05d5f65866a69feda9af2ce2a82843b4c9",
+    "extractor_model_version": "pipeline",
+    "missing_images": [],
+    "omitted_recognition_images": [
+      {
+        "block_index": 19,
+        "page": 4,
+        "path": "images/d7bcee802f3f78f7476a5097e7f03c639891253a8d8f250d3a1e6ab350565c99.jpg",
+        "reason": "structured_body_available",
+        "type": "table"
+      },
+      {
+        "block_index": 26,
+        "page": 5,
+        "path": "images/e96755e157a3c213a38323bc6dd4ecb3a90b3c7a077588871b516b47caf703d8.jpg",
+        "reason": "structured_body_available",
+        "type": "table"
+      }
+    ],
+    "original_format": "pdf",
+    "page_count": 5,
+    "page_coverage": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "page_scope": "mineru_reported_pages_unreviewed",
+    "raw_pdf_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_sources\\L2\\amac-negotiable-cd-valuation-2015\\original.pdf",
+    "retained_image_paths": [],
+    "unsupported": []
+  },
+  "raw_path": "_sources/L2/amac-negotiable-cd-valuation-2015/original.pdf",
+  "schema_version": 1,
+  "source_sha256": "0c6056ff8de10b4bad003e4975fddfff1d9e902ff7b5feb49aa854a9c5b05919",
+  "version": "data-restoration-v1"
+}

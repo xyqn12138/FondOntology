@@ -54,6 +54,6 @@ ready 表示通过本目录入库门槛，不能直接理解为现行有效。co
 | 证券投资基金投资信用衍生品估值指引（试行） | [pdf](_sources/L2/amac-credit-derivative-valuation-2019/original.pdf) | [全文](_fulltext/amac-credit-derivative-valuation-2019/7b5a8efe57d1/a6ba6f874e8e/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
 | 内地与香港股票市场交易互联互通机制若干规定（2022年修正） | [pdf](_sources/L1/l1-stock-connect-2022/original.pdf) | [全文](_fulltext/l1-stock-connect-2022/d73c9db4b180/b297cf52cbcd/full.md) | converted_unverified | Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified |
 
-目录 SHA-256：`1a7cd5b84666a2e36da9e1659bc10bc490568bc7248b427a1761a9b825d4c84d`。
+目录 SHA-256：`dea821c058bb26a99619b7196261d5b746842cfaba380a2222ff630b03b37107`。
 入库审计通过：10 项可选，36 项排除。
 全部登记原件与正文哈希、可入库项的收据与转换记录绑定由审计重新验证；未通过项不通过旧 manifest 或目录扫描补入。

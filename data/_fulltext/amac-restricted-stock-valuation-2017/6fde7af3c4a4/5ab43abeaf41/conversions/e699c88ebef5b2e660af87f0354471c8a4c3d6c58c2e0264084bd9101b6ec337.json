@@ -1,0 +1,64 @@
+{
+  "identity_review": {
+    "human_reviewed": false,
+    "scope": "machine_conversion_and_structure_only"
+  },
+  "markdown_path": "_fulltext/amac-restricted-stock-valuation-2017/6fde7af3c4a4/5ab43abeaf41/full.md",
+  "markdown_sha256": "5ab43abeaf41554b7d23c38bda52a382318a8207ea3083d21f3df476aa4a20a4",
+  "method": "mineru-bound-content-list",
+  "observations": {
+    "article_count": null,
+    "excluded_title_headers": [],
+    "extraction_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_converted\\L2\\files\\original-843c58218a19731785eae0d2b98966b698c6b0226857488eca2ddac96dfc71bd\\extraction.json",
+    "extraction_sha256": "3c4682168e50933a7f3eebe9ca2c492dcfaed41c878365ef48b7a376113d930a",
+    "extractor_model_version": "pipeline",
+    "missing_images": [],
+    "omitted_recognition_images": [],
+    "original_format": "pdf",
+    "page_count": 5,
+    "page_coverage": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "page_scope": "mineru_reported_pages_unreviewed",
+    "raw_pdf_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_sources\\L2\\amac-restricted-stock-valuation-2017\\original.pdf",
+    "retained_image_paths": [
+      "images/31fdcc5a9a06f57b8885a4dc3dedeca16d10fe29997a8247e808845c2a176e48.jpg",
+      "images/7740492d232c1e70ca5fd8fd4fc7b34c879e6c19debed2959fe6917c6300bbbb.jpg",
+      "images/e715c26850e834f5ae2ae62c053242d20ca9de1c2206692b86d2c0279467c9ea.jpg"
+    ],
+    "unsupported": [
+      {
+        "block_index": 39,
+        "block_type": "text",
+        "page": 5,
+        "reason": "empty_text"
+      },
+      {
+        "block": 15,
+        "kind": "visual_or_formula_requires_review",
+        "page": 3,
+        "type": "equation"
+      },
+      {
+        "block": 24,
+        "kind": "visual_or_formula_requires_review",
+        "page": 3,
+        "type": "equation"
+      },
+      {
+        "block": 25,
+        "kind": "visual_or_formula_requires_review",
+        "page": 3,
+        "type": "equation"
+      }
+    ]
+  },
+  "raw_path": "_sources/L2/amac-restricted-stock-valuation-2017/original.pdf",
+  "schema_version": 1,
+  "source_sha256": "6fde7af3c4a4557f19142a2346712a1490de62a7fc59a54791a521bf0941ac44",
+  "version": "data-restoration-v1"
+}

@@ -207,7 +207,18 @@ def _pdf_body(raw: bytes, raw_path: Path, conversion: tuple[Path, dict]) -> tupl
                                 "type": block["type"], "page": block["page_idx"] + 1})
     references = re.findall(r"!\[[^\]]*\]\(\s*<?([^)\s>]+)", markdown)
     references += re.findall(r"""<img\b[^>]*\bsrc=["']([^"']+)["']""", markdown, flags=re.I)
-    references += [block["img_path"] for block in artifact["content_list"] if block.get("img_path")]
+    review_blocks = {block.get("block_index", block.get("block")) for block in unsupported}
+    omitted_images = []
+    for ordinal, block in enumerate(artifact["content_list"]):
+        reference = block.get("img_path")
+        if not reference:
+            continue
+        if ordinal in review_blocks or reference in references:
+            references.append(reference)
+        else:
+            omitted_images.append({"path": reference, "block_index": ordinal,
+                                   "page": block["page_idx"] + 1, "type": block["type"],
+                                   "reason": "structured_body_available"})
     assets = {}
     missing = []
     for reference in sorted(set(references)):
@@ -229,6 +240,8 @@ def _pdf_body(raw: bytes, raw_path: Path, conversion: tuple[Path, dict]) -> tupl
         "unsupported": unsupported, "extraction_sha256": _sha(raw_extraction),
         "extraction_path": str(extraction_path), "page_scope": "mineru_reported_pages_unreviewed",
         "raw_pdf_path": str(raw_path), "extractor_model_version": artifact["extractor"]["model_version"],
+        "retained_image_paths": sorted(relative.as_posix() for relative in assets),
+        "omitted_recognition_images": omitted_images,
     }
     if accepted_merge_blocks:
         observations["merged_table_acceptance"] = {

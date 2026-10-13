@@ -1,0 +1,43 @@
+{
+  "identity_review": {
+    "human_reviewed": false,
+    "scope": "machine_conversion_and_structure_only"
+  },
+  "markdown_path": "_fulltext/l1-59db1324b327/fdb25deca3e0/c31c16b78425/full.md",
+  "markdown_sha256": "c31c16b78425a6c30262bac741124fdb0e532df2cef1b15e69b125a474b98e64",
+  "method": "mineru-bound-content-list",
+  "observations": {
+    "article_count": 29,
+    "article_heading_separator_insertions": 1,
+    "excluded_title_headers": [
+      "# 香港互认基金管理规定"
+    ],
+    "extraction_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_converted\\L1\\files\\original-9bf428597491ea184bc7d6faf9356b2549de251623fc50d13f727740349d4266\\extraction.json",
+    "extraction_sha256": "bb6d858764f8805e4e7a333c31bf072b6cfc9b7e8f3bf57cfbfe57f718bfe715",
+    "extractor_model_version": "pipeline",
+    "missing_images": [],
+    "omitted_recognition_images": [],
+    "original_format": "pdf",
+    "page_count": 10,
+    "page_coverage": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "page_scope": "mineru_reported_pages_unreviewed",
+    "raw_pdf_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_sources\\L1\\l1-59db1324b327\\original.pdf",
+    "retained_image_paths": [],
+    "unsupported": []
+  },
+  "raw_path": "_sources/L1/l1-59db1324b327/original.pdf",
+  "schema_version": 1,
+  "source_sha256": "fdb25deca3e0e9f97b4a4c4f995292fcff6ac0b3ef3216c3ed0aedce9b6cc87c",
+  "version": "data-restoration-v1"
+}

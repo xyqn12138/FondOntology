@@ -389,10 +389,28 @@ class DataMaterializeTests(unittest.TestCase):
             "type": "image", "page_idx": 1, "img_path": "",
             "image_caption": ["Substantive diagram"], "image_footnote": [],
         })
+        artifact["content_list"].extend([
+            {"type": "table", "page_idx": 1, "img_path": "images/recognized.jpg",
+             "table_body": "<table><tr><td>Recognized text</td></tr></table>"},
+            {"type": "table", "page_idx": 1, "img_path": "images/failed.jpg",
+             "table_body": ""},
+            {"type": "equation", "page_idx": 1, "img_path": "images/formula.jpg",
+             "text": "x = 0"},
+        ])
+        for name in ["recognized.jpg", "failed.jpg", "formula.jpg"]:
+            image = directory / "images" / name
+            image.parent.mkdir(exist_ok=True)
+            image.write_bytes(name.encode())
+            entry["artifacts"]["images/" + name] = self.sha(image.read_bytes())
         extraction = json.dumps(artifact).encode()
         (directory / "extraction.json").write_bytes(extraction)
         entry["sha256_extraction"] = self.sha(extraction)
-        _, observations, _ = _pdf_body(raw, self.raw, (directory, entry))
+        _, observations, assets = _pdf_body(raw, self.raw, (directory, entry))
+        self.assertNotIn(Path("images/recognized.jpg"), assets)
+        self.assertIn(Path("images/failed.jpg"), assets)
+        self.assertIn(Path("images/formula.jpg"), assets)
+        self.assertEqual(observations["omitted_recognition_images"][0]["path"],
+                         "images/recognized.jpg")
         self.assertTrue(any(block.get("kind") == "visual_or_formula_requires_review"
                             for block in observations["unsupported"]))
         (directory / "full.md").write_text("Tampered PDF conversion", encoding="utf-8")
