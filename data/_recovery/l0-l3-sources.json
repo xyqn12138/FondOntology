@@ -1,0 +1,161 @@
+[
+  {
+    "id": "company-law-2023",
+    "legacy_path": "L0_法律/公司法_关联关系认定条款.md",
+    "title": "中华人民共和国公司法（2023年修订全文）",
+    "publisher": "全国人民代表大会常务委员会",
+    "seed_urls": [
+      "https://www.gov.cn/yaowen/liebiao/202312/content_6923395.htm"
+    ],
+    "source_page_url": "https://www.gov.cn/yaowen/liebiao/202312/content_6923395.htm",
+    "download_url": "https://www.gov.cn/yaowen/liebiao/202312/content_6923395.htm",
+    "format": "html",
+    "issued_date": "2023-12-29",
+    "effective_from": "2024-07-01",
+    "expected_articles": 266,
+    "origin_kind": "official_republication",
+    "body_selector": ".pages_content",
+    "version_basis": "旧摘要明确2023-12-29第二次修订、2024-07-01施行；下载全文含第二百六十六条及2023修订沿革。中国政府网标明来源新华社，属于官方再刊，不是人大原发。",
+    "raw_path": "_sources/L0/company-law-2023/original.html",
+    "raw_sha256": "bfa2bbedf14c123b1128f7e472c993bd2980045fa5ad92b5eee900e63a06b359",
+    "status": "downloaded",
+    "failure_reason": null
+  },
+  {
+    "id": "securities-investment-fund-law-2015",
+    "legacy_path": "L0_法律/中华人名共和国证券投资基金法.pdf",
+    "title": "中华人民共和国证券投资基金法（2015年修正全文）",
+    "publisher": "全国人民代表大会常务委员会",
+    "seed_urls": [
+      "https://neris.csrc.gov.cn/falvfagui/rdqsHeader/mainbody?secFutrsLawId=e5cc920d0af7475ca44f1e69c5378244"
+    ],
+    "source_page_url": "https://neris.csrc.gov.cn/falvfagui/rdqsHeader/mainbody?secFutrsLawId=e5cc920d0af7475ca44f1e69c5378244",
+    "download_url": "https://neris.csrc.gov.cn/falvfagui/rdqsHeader/lawlist",
+    "format": "json",
+    "issued_date": "2015-04-24",
+    "effective_from": "2015-04-24",
+    "expected_articles": 154,
+    "origin_kind": "official_republication",
+    "body_selector": null,
+    "version_basis": "现有48页PDF首部明确2015-04-24修正、2012-12-28修订，末条第一百五十四条。证监会法规库页面及其正文API返回secFutrsLawVersion=20150424、主席令第23号、发文与实施2015-04-24；API完整保留条文结构。旧PDF由WPS生成、Author Jacky、2025-09-08创建，未知原下载来源，仅作为额外本地遗留副本留存。",
+    "raw_path": "_sources/L0/securities-investment-fund-law-2015/original.json",
+    "raw_sha256": "88ae50bc7f4984fd60d5628db177db301e561394ac020a3675472c633aeba877",
+    "status": "downloaded",
+    "failure_reason": null
+  },
+  {
+    "id": "private-investment-fund-regulation-2023",
+    "legacy_path": "L0.5_行政法规/私募投资基金监督管理条例.pdf",
+    "title": "私募投资基金监督管理条例",
+    "publisher": "国务院",
+    "seed_urls": [
+      "https://www.gov.cn/zhengce/content/202307/content_6890738.htm",
+      "https://www.gov.cn/gongbao/2023/issue_10586/202307/content_6892998.html"
+    ],
+    "source_page_url": "https://www.gov.cn/zhengce/content/202307/content_6890738.htm",
+    "download_url": "https://www.gov.cn/zhengce/content/202307/content_6890738.htm",
+    "format": "html",
+    "issued_date": "2023-07-03",
+    "effective_from": "2023-09-01",
+    "expected_articles": 62,
+    "origin_kind": "issuer_original",
+    "body_selector": "#UCAP-CONTENT",
+    "version_basis": "国务院令第762号，2023-06-16国务院第8次常务会议通过，2023-07-03公布，2023-09-01施行。旧PDF21页由Microsoft Print To PDF生成且无可提取文字，标题元数据指向中国政府网；下载发布原全文保留旧PDF，未用旧PDF推断其逐条内容。",
+    "raw_path": "_sources/L0/private-investment-fund-regulation-2023/original.html",
+    "raw_sha256": "1261c2273d32bd103709adbe4a20b5969597fd4d2124d3bd3cfdf7b92c0147a3",
+    "status": "downloaded",
+    "failure_reason": null
+  },
+  {
+    "id": "central-data-exchange-protocol-v2.2-20260320",
+    "legacy_path": "L3_市场基础设施技术协议/中央数据交换平台开放式基金业务数据交换协议.md",
+    "title": "中央数据交换平台开放式基金业务数据交换协议V2.2-20260320",
+    "publisher": "中国证券登记结算有限责任公司",
+    "seed_urls": [
+      "http://www.chinaclear.cn/zdjs/sjjpt/plat_olist.shtml",
+      "https://www.chinaclear.cn/zdjs/sjjhjszl/plat_list/code_2.shtml"
+    ],
+    "source_page_url": "https://www.chinaclear.cn/zdjs/sjjhjszl/plat_list/code_2.shtml",
+    "download_url": "https://www.chinaclear.cn/zdjs/sjjhjszl/202603/37804a0a9a524699becf2cfd58553856/files/中央数据交换平台开放式基金业务数据交换协议V2.2-20260320.doc",
+    "format": "doc",
+    "issued_date": "2026-03-20",
+    "effective_from": null,
+    "expected_articles": null,
+    "origin_kind": "issuer_original",
+    "body_selector": null,
+    "version_basis": "旧摘要指定V2.2-20260320，官方技术资料列表对应标题、附件名称和发布日期完全一致。此原件是中国结算技术协议，不将旧摘要所称国家标准身份延用到此文件。",
+    "raw_path": "_sources/L3/central-data-exchange-protocol-v2.2-20260320/original.doc",
+    "raw_sha256": "071b21e8057863e68c4e91d37ddc03f0bc68344d36cb65512b95016cd946b2b5",
+    "status": "downloaded",
+    "failure_reason": null
+  },
+  {
+    "id": "fund-central-backup-interface-v2.2-20260320",
+    "legacy_path": "L3_市场基础设施技术协议/基金行业数据集中备份接口规范.md",
+    "title": "基金行业数据集中备份接口规范V2.2-20260320",
+    "publisher": "中国证券登记结算有限责任公司",
+    "seed_urls": [
+      "https://www.csisc.cn/zbscbzw/c100231/202103/937383fd3d744a119b777fcb39323c44.shtml",
+      "https://www.chinaclear.cn/zdjs/sjjhjszl/plat_list/code_2.shtml"
+    ],
+    "source_page_url": "https://www.chinaclear.cn/zdjs/sjjhjszl/plat_list/code_2.shtml",
+    "download_url": "https://www.chinaclear.cn/zdjs/sjjhjszl/202603/7e3d3b09db114af9b275f679a5a026bf/files/基金行业数据集中备份接口规范V2.2-20260320.docx",
+    "format": "docx",
+    "issued_date": "2026-03-20",
+    "effective_from": null,
+    "expected_articles": null,
+    "origin_kind": "issuer_original",
+    "body_selector": null,
+    "version_basis": "旧摘要混合了GB/T 39662-2020与V2.2-20260320两个身份。本项仅恢复其明确提到的中国结算V2.2-20260320操作规范，官方列表标题、附件名称、发布日期相符；DOCX内封面为Ver2.2，最后修订记录日期2026-01-09，无20260320内文字符串，20260320按官方发布附件标签确认。不是GB/T 39662-2020原件，国标另列未解决记录。",
+    "raw_path": "_sources/L3/fund-central-backup-interface-v2.2-20260320/original.docx",
+    "raw_sha256": "132637b87df2184026129812d96d3ca039c0900db9337b50da4eebca684ee1e6",
+    "status": "downloaded",
+    "failure_reason": null
+  },
+  {
+    "id": "sse-security-code-allocation-guide-2023-r6",
+    "legacy_path": "L3_市场基础设施技术协议/上海证券交易所证券代码段分配指南.md",
+    "title": "上海证券交易所证券交易业务指南第4号——证券代码段分配指南（2023年第6次修订）",
+    "publisher": "上海证券交易所",
+    "seed_urls": [
+      "https://www.cnstock.com/image/202311/24/20231124175032784.pdf",
+      "https://www.sse.com.cn/lawandrules/guide/stock/"
+    ],
+    "source_page_url": "https://www.cnstock.com/image/202311/24/20231124175032784.pdf",
+    "download_url": "https://www.cnstock.com/image/202311/24/20231124175032784.pdf",
+    "format": "pdf",
+    "issued_date": null,
+    "effective_from": null,
+    "expected_articles": null,
+    "origin_kind": "secondary",
+    "body_selector": null,
+    "version_basis": "旧摘要指定2023年第6次修订及此PDF种子。下载PDF14页封面逐字匹配版本，末页含四、附则；SSE指南入口本次HTTP403，故保留中国证券网转载来源，不冒充SSE直接原发。",
+    "raw_path": "_sources/L3/sse-security-code-allocation-guide-2023-r6/original.pdf",
+    "raw_sha256": "d01059224a635c6a2597e9ebdc4db647a09364446260a23de99f35f8301f9e9c",
+    "status": "downloaded",
+    "failure_reason": null
+  },
+  {
+    "id": "gb-t-39662-2020",
+    "legacy_path": "L3_市场基础设施技术协议/基金行业数据集中备份接口规范.md",
+    "title": "基金行业数据集中备份接口规范（GB/T 39662-2020）",
+    "publisher": "国家市场监督管理总局、国家标准化管理委员会",
+    "seed_urls": [
+      "https://www.csisc.cn/zbscbzw/c100231/202103/937383fd3d744a119b777fcb39323c44.shtml",
+      "https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=8C47EC0E3A27A1BA9203C1E755783885"
+    ],
+    "source_page_url": "https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=8C47EC0E3A27A1BA9203C1E755783885",
+    "download_url": "https://openstd.samr.gov.cn/bzgk/std/viewGb?hcno=8C47EC0E3A27A1BA9203C1E755783885",
+    "format": "pdf",
+    "issued_date": "2020-12-14",
+    "effective_from": "2021-07-01",
+    "expected_articles": null,
+    "origin_kind": "issuer_original",
+    "raw_path": "_sources/L3/gb-t-39662-2020/original.pdf",
+    "raw_sha256": "b4c77bd15f2e9dba8c09dc323f87bf917ce14a9c2581587d0bfb56c1a8804a0e",
+    "body_selector": null,
+    "version_basis": "资本市场标准网和全国标准信息公共服务平台均明确GB/T 39662-2020；此国标与中国结算V2.2-20260320操作规范为不同身份，未替代。",
+    "status": "downloaded",
+    "failure_reason": null
+  }
+]

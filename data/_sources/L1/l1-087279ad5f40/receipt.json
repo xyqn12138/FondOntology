@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "l1-087279ad5f40",
+  "requested_url": "https://www.csrc.gov.cn/csrc/c101954/c7606091/7606091/files/附件1：公开募集证券投资基金销售费用管理规定.pdf",
+  "final_url": "https://www.csrc.gov.cn/csrc/c101954/c7606091/7606091/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E5%85%AC%E5%BC%80%E5%8B%9F%E9%9B%86%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E9%94%80%E5%94%AE%E8%B4%B9%E7%94%A8%E7%AE%A1%E7%90%86%E8%A7%84%E5%AE%9A.pdf",
+  "redirects": [],
+  "fetched_at": "2026-10-13T03:44:10.454562+00:00",
+  "status_code": 200,
+  "content_type": "application/pdf",
+  "bytes": 159722,
+  "raw_sha256": "af9893827fc79e7f18e89edb2fc2e855d7fff3bb55e070b90be7b0a78d1ac08c",
+  "tls_policy": "default_certificate_verification",
+  "identity_basis": "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。",
+  "legal_validity": "not_checked_current",
+  "source_page": {
+    "requested_url": "https://www.csrc.gov.cn/csrc/c101954/c7606091/content.shtml",
+    "final_url": "https://www.csrc.gov.cn/csrc/c101954/c7606091/content.shtml",
+    "raw_path": "_sources/L1/l1-087279ad5f40/source-page.html",
+    "sha256": "01087ca757c5ed8971861b9ad315498cff32b7ed1a4bd1b29062bf227fdb13cf",
+    "bytes": 13610
+  }
+}

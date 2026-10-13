@@ -1,0 +1,27 @@
+{
+  "identity_review": {
+    "human_reviewed": false,
+    "scope": "machine_conversion_and_structure_only"
+  },
+  "markdown_path": "_fulltext/l1-779a5b04e045/e3b3b4ea4333/e2ed8f47e338/full.md",
+  "markdown_sha256": "e2ed8f47e338e2efd09a37f4230934508a195e3c3dd6a0174dd57e561551c4e8",
+  "method": "selected-html-body",
+  "observations": {
+    "article_count": 78,
+    "body_selector": ".pages_content",
+    "excluded_title_headers": [
+      "公开募集证券投资基金管理人监督管理办法"
+    ],
+    "image_references": [],
+    "missing_images": [],
+    "original_format": "html",
+    "page_count": null,
+    "page_coverage": [],
+    "table_count": 0,
+    "unsupported": []
+  },
+  "raw_path": "_sources/L1/l1-779a5b04e045/original.html",
+  "schema_version": 1,
+  "source_sha256": "e3b3b4ea4333cf6424004fe4a0bb5abf154924ecf25989fbb24b5178cd4b37dd",
+  "version": "data-restoration-v1"
+}

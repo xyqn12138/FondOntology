@@ -1,0 +1,35 @@
+{
+  "id": "l1-48073b4b4805",
+  "legacy_path": "L1_监管强制规则/证券投资基金托管业务管理办法.md",
+  "title": "证券投资基金托管业务管理办法",
+  "publisher": "中国证券监督管理委员会、中国银行保险监督管理委员会",
+  "legacy_metadata": {
+    "发布机关": "中国证券监督管理委员会、中国银行保险监督管理委员会",
+    "文号": "证监会、银保监会令第172号",
+    "审议通过": "2020年7月7日中国证监会2020年第6次委务会议审议通过",
+    "施行日期": "2020年7月10日公布之日起施行",
+    "来源": "https://www.gov.cn/gongbao/content/2020/content_5535327.htm",
+    "分类标签": "L1部门规章 / A规则说明型（托管人实体资质定义的核心依据，此前长期空缺）",
+    "废止旧规": "2013年公布的《证券投资基金托管业务管理办法》（第92号令）、《非银行金融机构开展证券投资基金托管业务暂行规定》（2013年15号公告）"
+  },
+  "seed_urls": [
+    "https://www.gov.cn/gongbao/content/2020/content_5535327.htm"
+  ],
+  "source_page_url": "https://www.gov.cn/gongbao/content/2020/content_5535327.htm",
+  "download_url": "https://www.gov.cn/gongbao/content/2020/content_5535327.htm",
+  "format": "html",
+  "origin_kind": "official_republication",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": ".pages_content",
+  "version_basis": "国务院公报2020年第23号再刊172号令，正文至第四十三条。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://www.gov.cn/gongbao/content/2020/content_5535327.htm",
+  "page_title": "中国证券监督管理委员会 中国银行保险监督管理委员会令（第172号）　　证券投资基金托管业务管理办法__2020年第23号国务院公报_中国政府网",
+  "attachments": [],
+  "raw_path": "_sources/L1/l1-48073b4b4805/original.html",
+  "raw_sha256": "1749a3fe29e29edada4265295843f25ac404d4f3b3d92fdcbc0fabedf66247d0",
+  "receipt_path": "_sources/L1/l1-48073b4b4805/receipt.json"
+}

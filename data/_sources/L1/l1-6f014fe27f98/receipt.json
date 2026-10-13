@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "id": "l1-6f014fe27f98",
+  "requested_url": "https://www.csrc.gov.cn/csrc/c106256/c1653978/1653978/files/104%E5%8F%B7%E3%80%8A%E5%85%AC%E5%BC%80%E5%8B%9F%E9%9B%86%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E8%BF%90%E4%BD%9C%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+  "final_url": "https://www.csrc.gov.cn/csrc/c106256/c1653978/1653978/files/104%E5%8F%B7%E3%80%8A%E5%85%AC%E5%BC%80%E5%8B%9F%E9%9B%86%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E8%BF%90%E4%BD%9C%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+  "redirects": [],
+  "fetched_at": "2026-10-13T03:44:10.442464+00:00",
+  "status_code": 200,
+  "content_type": "application/pdf",
+  "bytes": 246851,
+  "raw_sha256": "b8d078253e3048aebb2e057e953ee442ec41c864c4461c0008d4042f8a952511",
+  "tls_policy": "default_certificate_verification",
+  "identity_basis": "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。",
+  "legal_validity": "not_checked_current"
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "l1-6983835b2f9e",
+  "requested_url": "https://www.csrc.gov.cn/csrc/c101877/c1029612/1029612/files/附件一：《证券投资基金销售结算资金管理暂行规定》.doc.docx",
+  "final_url": "https://www.csrc.gov.cn/csrc/c101877/c1029612/1029612/files/%E9%99%84%E4%BB%B6%E4%B8%80%EF%BC%9A%E3%80%8A%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E9%94%80%E5%94%AE%E7%BB%93%E7%AE%97%E8%B5%84%E9%87%91%E7%AE%A1%E7%90%86%E6%9A%82%E8%A1%8C%E8%A7%84%E5%AE%9A%E3%80%8B.doc.docx",
+  "redirects": [],
+  "fetched_at": "2026-10-13T03:50:33.869276+00:00",
+  "status_code": 200,
+  "content_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "bytes": 36864,
+  "raw_sha256": "7da2de17931515b4448564d9ec64d5ba437bd68aa4b17439458a292092eb3419",
+  "tls_policy": "default_certificate_verification",
+  "identity_basis": "国务院公报来源明确省略划转流程附件；通过证监会站内搜索找到2011年26号正式发布页附件一，包含正文及流程附件，另附件二为起草说明不混入。",
+  "legal_validity": "not_checked_current",
+  "source_page": {
+    "requested_url": "https://www.csrc.gov.cn/csrc/c101877/c1029612/content.shtml",
+    "final_url": "https://www.csrc.gov.cn/csrc/c101877/c1029612/content.shtml",
+    "raw_path": "_sources/L1/l1-6983835b2f9e/source-page.html",
+    "sha256": "82d1cbb7719f3834655683500f1738cc79a01c2a56619f89c0da5e97725ea4b3",
+    "bytes": 15009
+  }
+}

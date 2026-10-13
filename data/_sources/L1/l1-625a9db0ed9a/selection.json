@@ -1,0 +1,45 @@
+{
+  "id": "l1-625a9db0ed9a",
+  "legacy_path": "L1_监管强制规则/公开募集证券投资基金信息披露管理办法.md",
+  "title": "公开募集证券投资基金信息披露管理办法",
+  "publisher": "中国证券监督管理委员会",
+  "legacy_metadata": {
+    "发布机关": "中国证券监督管理委员会",
+    "文号": "证监会令第158号",
+    "发布日期": "2019年7月26日公布，根据2020年3月20日证监会令第166号修订",
+    "施行日期": "2019年9月1日",
+    "来源": "http://www.csrc.gov.cn/csrc/c106256/c1653985/content.shtml",
+    "分类标签": "L1部门规章 / A规则说明型（\"事件类型\"官方权威枚举，本体设计C类语料范围的直接依据）",
+    "废止旧规": "《证券投资基金信息披露管理办法》（证监会令第19号）",
+    "定期报告时限": "年报——每年结束后**3个月内**；中报——上半年结束后**2个月内**；季报——季度结束后**15个工作日内**。年报财务会计报告须经审计。合同生效不足2个月的可不编制当期报告。"
+  },
+  "seed_urls": [
+    "http://www.csrc.gov.cn/csrc/c106256/c1653985/content.shtml"
+  ],
+  "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653985/content.shtml",
+  "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653985/1653985/files/166-8%E3%80%8A%E5%85%AC%E5%BC%80%E5%8B%9F%E9%9B%86%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E4%BF%A1%E6%81%AF%E6%8A%AB%E9%9C%B2%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+  "format": "pdf",
+  "origin_kind": "issuer_original",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": null,
+  "version_basis": "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://www.csrc.gov.cn/csrc/c106256/c1653985/content.shtml",
+  "page_title": "公开募集证券投资基金信息披露管理办法_中国证券监督管理委员会",
+  "attachments": [
+    {
+      "text": "下载图片版",
+      "url": "https://www.csrc.gov.cn/csrc/c106256/c1653985/1653985/files/166-8《公开募集证券投资基金信息披露管理办法》.pdf"
+    },
+    {
+      "text": "下载文字版",
+      "url": "https://www.csrc.gov.cn/csrc/c106256/c1653985/1653985/files/166-8《公开募集证券投资基金信息披露管理办法》.docx"
+    }
+  ],
+  "raw_path": "_sources/L1/l1-625a9db0ed9a/original.pdf",
+  "raw_sha256": "4d8ac4d0fe23d875f7d867888646bd29eeb8842eb59e7484fa65d854a83d6e05",
+  "receipt_path": "_sources/L1/l1-625a9db0ed9a/receipt.json"
+}

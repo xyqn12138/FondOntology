@@ -1,0 +1,35 @@
+{
+  "id": "l1-779a5b04e045",
+  "legacy_path": "L1_监管强制规则/公开募集证券投资基金管理人监督管理办法.md",
+  "title": "公开募集证券投资基金管理人监督管理办法",
+  "publisher": "中国证券监督管理委员会",
+  "legacy_metadata": {
+    "发布机关": "中国证券监督管理委员会",
+    "文号": "证监会令第198号",
+    "审议通过": "2022年3月24日中国证监会2022年第2次委务会议审议通过",
+    "施行日期": "2022年6月20日",
+    "来源": "https://www.gov.cn/gongbao/content/2022/content_5704810.htm",
+    "分类标签": "L1部门规章 / A+B双标签（含关联方/股东认定量化标准）",
+    "废止旧规": "本办法施行同时废止《证券投资基金管理公司管理办法》（第166号令）、《资产管理机构开展公募证券投资基金管理业务暂行规定》（2013年10号公告）"
+  },
+  "seed_urls": [
+    "https://www.gov.cn/gongbao/content/2022/content_5704810.htm"
+  ],
+  "source_page_url": "https://www.gov.cn/gongbao/content/2022/content_5704810.htm",
+  "download_url": "https://www.gov.cn/gongbao/content/2022/content_5704810.htm",
+  "format": "html",
+  "origin_kind": "official_republication",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": ".pages_content",
+  "version_basis": "国务院公报2022年第22号再刊198号令，正文至第七十八条。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://www.gov.cn/gongbao/content/2022/content_5704810.htm",
+  "page_title": "中国证券监督管理委员会令（第198号）　　公开募集证券投资基金管理人监督管理办法__2022年第22号国务院公报_中国政府网",
+  "attachments": [],
+  "raw_path": "_sources/L1/l1-779a5b04e045/original.html",
+  "raw_sha256": "e3b3b4ea4333cf6424004fe4a0bb5abf154924ecf25989fbb24b5178cd4b37dd",
+  "receipt_path": "_sources/L1/l1-779a5b04e045/receipt.json"
+}

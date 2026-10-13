@@ -1,0 +1,33 @@
+{
+  "id": "l1-de65cbfb0ded",
+  "legacy_path": "L1_监管强制规则/深圳证券交易所深港通业务实施办法.md",
+  "title": "深圳证券交易所深港通业务实施办法（2024年修订）",
+  "publisher": "深圳证券交易所（经中国证监会批准）",
+  "legacy_metadata": {
+    "发布机关": "深圳证券交易所（经中国证监会批准）",
+    "版本": "2024年修订（第八次修订，2016年施行以来历经8次修订）",
+    "施行日期": "2024年6月14日",
+    "来源": "https://docs.static.szse.cn/www/lawrules/rule/inno/W020240614673497419312.pdf",
+    "分类标签": "L1部门规章 / A规则说明型（全文147条，与沪港通实施办法对应互补，本次为逐条全文）",
+    "废止旧规": "《深圳证券交易所深港通业务实施办法（2023年修订）》（深证上〔2023〕153号）",
+    "调整考察日": "股票半年度定期调整考察日为**每年5月31日和11月30日**，月度定期调整考察日为**每月最后一日**（与之前收集的沪股通实施办法对应机制一致）。"
+  },
+  "seed_urls": [
+    "https://docs.static.szse.cn/www/lawrules/rule/inno/W020240614673497419312.pdf"
+  ],
+  "source_page_url": null,
+  "download_url": "https://docs.static.szse.cn/www/lawrules/rule/inno/W020240614673497419312.pdf",
+  "format": "pdf",
+  "origin_kind": "issuer_original",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": null,
+  "version_basis": "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://docs.static.szse.cn/www/lawrules/rule/inno/W020240614673497419312.pdf",
+  "raw_path": "_sources/L1/l1-de65cbfb0ded/original.pdf",
+  "raw_sha256": "64c0a06cae1cd633a37c7b68faf6a331e08a75b54362ec824f21e1a1021b54f5",
+  "receipt_path": "_sources/L1/l1-de65cbfb0ded/receipt.json"
+}

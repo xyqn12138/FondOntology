@@ -1,0 +1,32 @@
+{
+  "id": "l1-3953d7041492",
+  "legacy_path": "L1_监管强制规则/重要货币市场基金监管暂行规定.md",
+  "title": "重要货币市场基金监管暂行规定",
+  "publisher": "中国证券监督管理委员会、中国人民银行",
+  "legacy_metadata": {
+    "发布机关": "中国证券监督管理委员会、中国人民银行",
+    "文号": "证监会、人民银行公告〔2023〕42号",
+    "发布日期": "2023年2月17日",
+    "施行日期": "2023年5月16日",
+    "来源": "http://www.csrc.gov.cn/csrc/c101954/c7123693/7123693/files/附件1：重要货币市场基金监管暂行规定.pdf",
+    "分类标签": "L1.5规范性文件 / A规则说明型（系统重要性货币基金专项规则，解开了运作管理办法第三十七条的悬案引用）"
+  },
+  "seed_urls": [
+    "http://www.csrc.gov.cn/csrc/c101954/c7123693/7123693/files/附件1：重要货币市场基金监管暂行规定.pdf"
+  ],
+  "source_page_url": null,
+  "download_url": "https://www.csrc.gov.cn/csrc/c101954/c7123693/7123693/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E9%87%8D%E8%A6%81%E8%B4%A7%E5%B8%81%E5%B8%82%E5%9C%BA%E5%9F%BA%E9%87%91%E7%9B%91%E7%AE%A1%E6%9A%82%E8%A1%8C%E8%A7%84%E5%AE%9A.pdf",
+  "format": "pdf",
+  "origin_kind": "issuer_original",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": null,
+  "version_basis": "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://www.csrc.gov.cn/csrc/c101954/c7123693/7123693/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E9%87%8D%E8%A6%81%E8%B4%A7%E5%B8%81%E5%B8%82%E5%9C%BA%E5%9F%BA%E9%87%91%E7%9B%91%E7%AE%A1%E6%9A%82%E8%A1%8C%E8%A7%84%E5%AE%9A.pdf",
+  "raw_path": "_sources/L1/l1-3953d7041492/original.pdf",
+  "raw_sha256": "0fc19bb98125f320e85244f0977ec52470e55ddd316678aa2d382a7446a6e2cd",
+  "receipt_path": "_sources/L1/l1-3953d7041492/receipt.json"
+}

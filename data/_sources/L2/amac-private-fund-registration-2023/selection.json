@@ -1,0 +1,33 @@
+{
+  "id": "amac-private-fund-registration-2023",
+  "legacy_path": "L2_行业自律规则/私募投资基金登记备案办法.md",
+  "title": "私募投资基金登记备案办法",
+  "publisher": "中国证券投资基金业协会",
+  "seed_urls": [
+    "https://www.amac.org.cn/xwfb/xhyw/202302/P020231126355265628680.pdf"
+  ],
+  "source_page_url": "https://www.amac.org.cn/xwfb/xhyw/202302/t20230224_15636.html",
+  "download_url": "https://www.amac.org.cn/xwfb/xhyw/202302/P020231126355261616824.pdf",
+  "format": "pdf",
+  "issued_date": "2023-02-24",
+  "effective_from": "2023-05-01",
+  "expected_articles": 83,
+  "origin_kind": "issuer_original",
+  "raw_path": "_sources/L2/amac-private-fund-registration-2023/original.pdf",
+  "raw_sha256": "906ab4e484b7730ed31b6deaea280319bcc85824789e45f0c3fc2fa4e09fe7a6",
+  "body_selector": null,
+  "version_basis": "官方发布页称六章八十三条，PDF第八十三条规定2023年5月1日起施行。摘要82条错误。seed是发布页附件5公告，不是办法正文；选取附件1办法全文，不把发布公告或征求意见稿冒充全文。",
+  "source_identity_evidence": {
+    "release_title": "中国证券投资基金业协会发布修订后的《私募投资基金登记备案办法》及配套指引",
+    "release_excerpt": "修订后的办法共六章八十三条",
+    "attachment_label": "附件1：私募投资基金登记备案办法.pdf",
+    "pdf_preview": "预检42页，首页同名标题及第一条，末页第八十三条明确施行日期及废止旧登记须知等。",
+    "identity_markers": [
+      "私募投资基金登记备案办法",
+      "第八十三条"
+    ]
+  },
+  "status": "downloaded",
+  "failure_reason": null,
+  "discovery_evidence": "web.run无结果；requests读取AMAC官方协会要闻索引找到2023-02-24发布页，其附件列表明确区分附件1办法全文与附件5发布公告。"
+}

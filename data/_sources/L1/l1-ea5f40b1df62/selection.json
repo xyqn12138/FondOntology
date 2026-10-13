@@ -1,0 +1,41 @@
+{
+  "id": "l1-ea5f40b1df62",
+  "legacy_path": "L1_监管强制规则/上市公司收购管理办法_关联方认定条款.md",
+  "title": "上市公司收购管理办法",
+  "publisher": "中国证券监督管理委员会",
+  "legacy_metadata": {
+    "发布机关": "中国证券监督管理委员会",
+    "文号": "证监会令第10号公布，历经五次修订（最新为2020年3月20日第166号令第五次修订）",
+    "来源": "https://www.csrc.gov.cn/csrc/c106256/c1653983/content.shtml",
+    "分类标签": "L1部门规章 / B字段标准型（关联方/一致行动人认定标准第三份权威来源）"
+  },
+  "seed_urls": [
+    "https://www.csrc.gov.cn/csrc/c106256/c1653983/content.shtml"
+  ],
+  "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653983/content.shtml",
+  "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653983/1653983/files/166-7%E3%80%8A%E4%B8%8A%E5%B8%82%E5%85%AC%E5%8F%B8%E6%94%B6%E8%B4%AD%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+  "format": "pdf",
+  "origin_kind": "issuer_original",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": null,
+  "version_basis": "原来源规章库标题与166-7附件；恢复2020修订全文，不再仅摘录关联条款。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://www.csrc.gov.cn/csrc/c106256/c1653983/content.shtml",
+  "page_title": "上市公司收购管理办法_中国证券监督管理委员会",
+  "attachments": [
+    {
+      "text": "下载图片版",
+      "url": "https://www.csrc.gov.cn/csrc/c106256/c1653983/1653983/files/166-7《上市公司收购管理办法》.pdf"
+    },
+    {
+      "text": "下载文字版",
+      "url": "https://www.csrc.gov.cn/csrc/c106256/c1653983/1653983/files/166-7《上市公司收购管理办法》.docx"
+    }
+  ],
+  "raw_path": "_sources/L1/l1-ea5f40b1df62/original.pdf",
+  "raw_sha256": "d20681773b7f15590381d24c2c4ba38f79015977a67bc8c5fbee23eef5cd5503",
+  "receipt_path": "_sources/L1/l1-ea5f40b1df62/receipt.json"
+}

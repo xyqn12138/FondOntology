@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "l1-ea5f40b1df62",
+  "requested_url": "https://www.csrc.gov.cn/csrc/c106256/c1653983/1653983/files/166-7《上市公司收购管理办法》.pdf",
+  "final_url": "https://www.csrc.gov.cn/csrc/c106256/c1653983/1653983/files/166-7%E3%80%8A%E4%B8%8A%E5%B8%82%E5%85%AC%E5%8F%B8%E6%94%B6%E8%B4%AD%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+  "redirects": [],
+  "fetched_at": "2026-10-13T03:44:10.165859+00:00",
+  "status_code": 200,
+  "content_type": "application/pdf",
+  "bytes": 324205,
+  "raw_sha256": "d20681773b7f15590381d24c2c4ba38f79015977a67bc8c5fbee23eef5cd5503",
+  "tls_policy": "default_certificate_verification",
+  "identity_basis": "原来源规章库标题与166-7附件；恢复2020修订全文，不再仅摘录关联条款。",
+  "legal_validity": "not_checked_current",
+  "source_page": {
+    "requested_url": "https://www.csrc.gov.cn/csrc/c106256/c1653983/content.shtml",
+    "final_url": "https://www.csrc.gov.cn/csrc/c106256/c1653983/content.shtml",
+    "raw_path": "_sources/L1/l1-ea5f40b1df62/source-page.html",
+    "sha256": "a7d0b2493276776e0ec0a4b0c365c232a0871e5d5fa1b9984b9503e80bab1f4f",
+    "bytes": 162808
+  }
+}

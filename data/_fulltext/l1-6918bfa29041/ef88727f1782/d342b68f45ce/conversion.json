@@ -1,0 +1,72 @@
+{
+  "identity_review": {
+    "human_reviewed": false,
+    "scope": "machine_conversion_and_structure_only"
+  },
+  "markdown_path": "_fulltext/l1-6918bfa29041/ef88727f1782/d342b68f45ce/full.md",
+  "markdown_sha256": "d342b68f45ce84c284aee1fda2c5eb005399ffc5b40daaaae70e5fda4af58c29",
+  "method": "OOXML body-order extraction with HTML rowspan and colspan tables",
+  "observations": {
+    "article_count": 146,
+    "automatic_number_formats": {},
+    "automatic_numbered_paragraph_count": 0,
+    "body_paragraph_count": 351,
+    "body_table_count": 0,
+    "excluded_title_headers": [
+      "上海证券交易所沪港通业务实施办法"
+    ],
+    "field_count": 0,
+    "first_nonempty_paragraphs": [
+      "附件1",
+      "上海证券交易所沪港通业务实施办法",
+      "（2014年9月26日实施  2016年7月18日第一次修订",
+      "2016年9月30日第二次修订  2018年8月6日第三次修订",
+      "2018年9月7日第四次修订  2019年10月28日第五次修订",
+      "2020年1月13日第六次修订  2020年3月13日第七次修订",
+      "2021年2月1日第八次修订   2022年6月24日第九次修订",
+      "2023年3月3日第十次修订  2024年6月14日第十一次修订）",
+      "第一章 总 则",
+      "第一条 为了规范沪港通业务开展，防范风险，保护投资者合法权益，根据中国证监会《内地与香港股票市场交易互联互通机制若干规定》（以下简称《若干规定》）、《上海证券交易所交易规则》（以下简称《交易规则》）、《上海证券交易所会员管理规则》（以下简称《会员管理规则》）及上海证券交易所（以下简称本所）其他相关业务规则，制定本办法。",
+      "第二条 投资者、本所会员、香港联合交易所有限公司（以下简称联交所）在上海设立的证券交易服务公司（以下简称联交所证券交易服务公司）、本所设立的证券交易服务公司（以下简称本所证券交易服务公司）及其他市场主体参与沪港通交易及相关活动，应当遵守本办法。",
+      "沪股通交易事项（投资者证券买卖委托事项除外）和港股通交易的委托、本所会员客户管理等事项，本办法未规定的，适用《交易规则》《会员管理规则》和本所其他相关业务规则。"
+    ],
+    "header_footer_cached_text": {
+      "word/footer1.xml": "－1－",
+      "word/footer2.xml": "－2－"
+    },
+    "image_assets": {},
+    "last_nonempty_paragraphs": [
+      "第一百四十条 本所会员为港股通交易提供融资融券服务的相关事宜，由本所另行规定。",
+      "第一百四十一条 有关监管机构对沪港通交收货币另有规定的，从其规定。",
+      "第一百四十二条 根据本办法只能通过沪港通卖出而不能买入的证券，其交易、持股比例限制、股东权益行使、信息披露等事项参照适用本办法关于沪股通标的证券、港股通标的证券的规定。",
+      "第一百四十三条 本办法所称“超过”“大于”“低于”“少于”“不足”不含本数，“达到”“以下”“以上”含本数。",
+      "本办法所称“考察日前”，包含考察日当日。",
+      "第一百四十四条 本办法经本所理事会通过，报中国证监会批准，修改时亦同。",
+      "第一百四十五条 本办法由本所负责解释。",
+      "第一百四十六条 本办法自2024年6月14日起施行。"
+    ],
+    "limitations": [
+      "No independent rendered page review; page count and coverage remain unasserted.",
+      "Headers and footers are recorded separately; cached pagination and TOC page references do not prove coverage."
+    ],
+    "markdown_sha256": "da426cfa03155b9439d303096f9cd55bbade96c02f386081ae58ffdbd42c8983",
+    "merge_counts": {},
+    "missing_images": [],
+    "original_format": "docx",
+    "page_count": null,
+    "page_coverage": [],
+    "recovered_text_character_count": 18783,
+    "source_and_recovered_character_multiset_equal": true,
+    "source_and_recovered_text_order_equal": true,
+    "source_body_text_sha256": "cb97ecfc64d2a5ef2e60f0902aff7cb5b9eaa0e246dd852bcd9905d06ecc012d",
+    "source_visible_text_character_count": 18783,
+    "tracked_change_policy": "Current text includes insertions and excludes deleted revision text; original OOXML retains all revisions.",
+    "unsupported": [],
+    "validation_status": "unverified",
+    "word_converter_version": "recovered-word-converter-1"
+  },
+  "raw_path": "_sources/L1/l1-6918bfa29041/original.docx",
+  "schema_version": 1,
+  "source_sha256": "ef88727f17828c6697995b1478f964e0c77dea0591e1056dbb8467fead14dcf2",
+  "version": "data-restoration-v1"
+}

@@ -1,0 +1,32 @@
+{
+  "id": "amac-credit-derivative-valuation-2019",
+  "legacy_path": "L2_行业自律规则/证券投资基金投资信用衍生品估值指引.md",
+  "title": "证券投资基金投资信用衍生品估值指引（试行）",
+  "publisher": "中国证券投资基金业协会",
+  "seed_urls": [
+    "https://picpolicy.mofcom.gov.cn/file/20190327/62151553657754035.pdf"
+  ],
+  "source_page_url": "https://www.amac.org.cn/xwfb/xhyw/201912/t20191231_15884.html",
+  "download_url": "https://www.amac.org.cn/xwfb/xhyw/201912/P020231126355583305018.pdf",
+  "format": "pdf",
+  "issued_date": "2019-01-18",
+  "effective_from": "2019-01-18",
+  "expected_articles": null,
+  "origin_kind": "issuer_original",
+  "raw_path": "_sources/L2/amac-credit-derivative-valuation-2019/original.pdf",
+  "raw_sha256": "7b5a8efe57d198998dfef857f23136cfd3f1ba2891ef2941a7325afd03087216",
+  "body_selector": null,
+  "version_basis": "官方通知中基协发〔2019〕1号、二○一九年一月十八日，自发布之日起施行。201912为迁移目录，不能作为发布日。原件包含正文三部分及附件信用衍生品估值参考方法，不只正文摘要。",
+  "source_identity_evidence": {
+    "release_title": "关于发布《证券投资基金投资信用衍生品估值指引（试行）》的通知",
+    "release_excerpt": "中基协发〔2019〕1号；中国证券投资基金业协会；二○一九年一月十八日",
+    "attachment_label": "《证券投资基金投资信用衍生品估值指引（试行）》.pdf",
+    "pdf_preview": "预检12页，第一页同名指引标题，目录总则、信用衍生品估值处理、会计处理及估值参考方法附件。",
+    "identity_markers": [
+      "证券投资基金投资信用衍生品估值指引"
+    ]
+  },
+  "status": "downloaded",
+  "failure_reason": null,
+  "discovery_evidence": "web.run无结果；requests读取AMAC协会要闻索引及发布通知定位发布机关原件，优先于商务部官方再刊seed。"
+}

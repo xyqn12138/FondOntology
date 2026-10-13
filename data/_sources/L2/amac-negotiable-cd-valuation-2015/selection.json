@@ -1,0 +1,32 @@
+{
+  "id": "amac-negotiable-cd-valuation-2015",
+  "legacy_path": "L2_行业自律规则/港股通及同业存单估值核算指引.md",
+  "title": "证券投资基金参与同业存单会计核算和估值业务指引（试行）",
+  "publisher": "中国证券投资基金业协会",
+  "seed_urls": [
+    "https://www.scxsls.com/knowledge/detail?id=154815"
+  ],
+  "source_page_url": "https://www.amac.org.cn/xwfb/hydt/202106/t20210602_19533.html",
+  "download_url": "https://www.amac.org.cn/xwfb/hydt/202106/P020231126371216099536.pdf",
+  "format": "pdf",
+  "issued_date": "2015-08-28",
+  "effective_from": "2015-08-28",
+  "expected_articles": null,
+  "origin_kind": "issuer_original",
+  "raw_path": "_sources/L2/amac-negotiable-cd-valuation-2015/original.pdf",
+  "raw_sha256": "0c6056ff8de10b4bad003e4975fddfff1d9e902ff7b5feb49aa854a9c5b05919",
+  "body_selector": null,
+  "version_basis": "原摘要为二合一，本记录仅对应同业存单。官方通知中基协发〔2015〕12号、二〇一五年八月二十八日、自发布之日起实施；摘要〔2015〕1号错误。官方API标题搜索同业存单返回该发布页及服务大厅原件页，不采用第三方法律网站。",
+  "source_identity_evidence": {
+    "release_title": "关于发布《证券投资基金参与同业存单会计核算和估值业务指引（试行）》的通知",
+    "release_excerpt": "中基协发〔2015〕12号；中国证券投资基金业协会；二〇一五年八月二十八日",
+    "attachment_label": "证券投资基金参与同业存单会计核算和估值业务指引（试行）.pdf",
+    "pdf_preview": "第一页同业存单指引标题，含会计核算原则、估值原则、科目设置、定期报告列示；预检5页。",
+    "identity_markers": [
+      "证券投资基金参与同业存单会计核算和估值业务指"
+    ]
+  },
+  "status": "downloaded",
+  "failure_reason": null,
+  "discovery_evidence": "web.run无结果；AMAC公开搜索API /portal/ESSearch/doc/findDocsByKeyword 精确返回docId19533、docRelTime2015-08-28；读取官方发布页核对通知全文及附件。"
+}

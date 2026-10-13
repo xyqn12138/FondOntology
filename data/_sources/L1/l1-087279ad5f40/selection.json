@@ -1,0 +1,44 @@
+{
+  "id": "l1-087279ad5f40",
+  "legacy_path": "L1_监管强制规则/公开募集证券投资基金销售费用管理规定.md",
+  "title": "公开募集证券投资基金销售费用管理规定",
+  "publisher": "中国证券监督管理委员会",
+  "legacy_metadata": {
+    "发布机关": "中国证券监督管理委员会",
+    "文号": "中国证券监督管理委员会公告〔2025〕22号",
+    "发布日期": "2025年12月31日",
+    "施行日期": "2026年1月1日（**最新生效文件，属于本轮资料收集中生效时间最新的一份**）",
+    "来源": "https://www.csrc.gov.cn/csrc/c101954/c7606091/content.shtml （官方公告页，PDF附件因中文字符URL过长未能直接抓取全文）",
+    "分类标签": "L1.5规范性文件 / B字段标准型（费率标准的最新权威来源）",
+    "修订背景": "落实《推动公募基金高质量发展行动方案》，将原《开放式证券投资基金销售费用管理规定》修订并更名，全文**六章29条**"
+  },
+  "seed_urls": [
+    "https://www.csrc.gov.cn/csrc/c101954/c7606091/content.shtml"
+  ],
+  "source_page_url": "https://www.csrc.gov.cn/csrc/c101954/c7606091/content.shtml",
+  "download_url": "https://www.csrc.gov.cn/csrc/c101954/c7606091/7606091/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E5%85%AC%E5%BC%80%E5%8B%9F%E9%9B%86%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E9%94%80%E5%94%AE%E8%B4%B9%E7%94%A8%E7%AE%A1%E7%90%86%E8%A7%84%E5%AE%9A.pdf",
+  "format": "pdf",
+  "origin_kind": "issuer_original",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": null,
+  "version_basis": "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://www.csrc.gov.cn/csrc/c101954/c7606091/content.shtml",
+  "page_title": "【第22号公告】《公开募集证券投资基金销售费用管理规定》_中国证券监督管理委员会",
+  "attachments": [
+    {
+      "text": "附件1：公开募集证券投资基金销售费用管理规定.pdf",
+      "url": "https://www.csrc.gov.cn/csrc/c101954/c7606091/7606091/files/附件1：公开募集证券投资基金销售费用管理规定.pdf"
+    },
+    {
+      "text": "附件2：《公开募集证券投资基金销售费用管理规定》修订说明.pdf",
+      "url": "https://www.csrc.gov.cn/csrc/c101954/c7606091/7606091/files/附件2：《公开募集证券投资基金销售费用管理规定》修订说明.pdf"
+    }
+  ],
+  "raw_path": "_sources/L1/l1-087279ad5f40/original.pdf",
+  "raw_sha256": "af9893827fc79e7f18e89edb2fc2e855d7fff3bb55e070b90be7b0a78d1ac08c",
+  "receipt_path": "_sources/L1/l1-087279ad5f40/receipt.json"
+}

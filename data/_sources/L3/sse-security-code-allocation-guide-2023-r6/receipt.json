@@ -1,0 +1,17 @@
+{
+  "id": "sse-security-code-allocation-guide-2023-r6",
+  "retrieved_at": "2026-10-13T03:56:28.875989+00:00",
+  "actual_url": "https://www.cnstock.com/image/202311/24/20231124175032784.pdf",
+  "final_url": "https://www.cnstock.com/image/202311/24/20231124175032784.pdf",
+  "identity_basis": "旧摘要指定2023年第6次修订及此PDF种子。下载PDF14页封面逐字匹配版本，末页含四、附则；SSE指南入口本次HTTP403，故保留中国证券网转载来源，不冒充SSE直接原发。",
+  "origin_kind": "secondary",
+  "acquisition_method": "http_get",
+  "http_status": 200,
+  "content_type": "application/pdf",
+  "pdf_pages": 14,
+  "pdf_metadata": "{'/Author': '高欣(拟稿)', '/Comments': '', '/Company': '', '/CreationDate': \"D:20231124174927+09'49'\", '/Creator': 'WPS 文字', '/Keywords': '', '/ModDate': \"D:20231124174927+09'49'\", '/Producer': '', '/SourceModified': \"D:20231124174927+09'49'\", '/Subject': '', '/Title': '', '/Trapped': '/False'}",
+  "sha256": "d01059224a635c6a2597e9ebdc4db647a09364446260a23de99f35f8301f9e9c",
+  "bytes": 197940,
+  "raw_path": "_sources/L3/sse-security-code-allocation-guide-2023-r6/original.pdf",
+  "status": "downloaded"
+}

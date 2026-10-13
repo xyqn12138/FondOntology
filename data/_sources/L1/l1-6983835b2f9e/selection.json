@@ -1,0 +1,34 @@
+{
+  "id": "l1-6983835b2f9e",
+  "legacy_path": "L1_监管强制规则/证券投资基金销售结算资金管理暂行规定.md",
+  "title": "证券投资基金销售结算资金管理暂行规定",
+  "publisher": "中国证券监督管理委员会",
+  "legacy_metadata": {
+    "发布机关": "中国证券监督管理委员会",
+    "文号": "证监会公告〔2011〕26号",
+    "发布/施行日期": "2011年9月23日发布，2011年10月1日起施行",
+    "来源": "https://www.gov.cn/gongbao/content/2012/content_2112774.htm",
+    "分类标签": "L1.5规范性文件 / B字段标准型（六章30条，本次为核心条款整理，非逐条全文）",
+    "当前状态": "现行有效"
+  },
+  "seed_urls": [
+    "https://www.gov.cn/gongbao/content/2012/content_2112774.htm"
+  ],
+  "source_page_url": "https://www.csrc.gov.cn/csrc/c101877/c1029612/content.shtml",
+  "download_url": "https://www.csrc.gov.cn/csrc/c101877/c1029612/1029612/files/%E9%99%84%E4%BB%B6%E4%B8%80%EF%BC%9A%E3%80%8A%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E9%94%80%E5%94%AE%E7%BB%93%E7%AE%97%E8%B5%84%E9%87%91%E7%AE%A1%E7%90%86%E6%9A%82%E8%A1%8C%E8%A7%84%E5%AE%9A%E3%80%8B.doc.docx",
+  "format": "doc",
+  "origin_kind": "issuer_original",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": ".pages_content",
+  "version_basis": "国务院公报来源明确省略划转流程附件；通过证监会站内搜索找到2011年26号正式发布页附件一，包含正文及流程附件，另附件二为起草说明不混入。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://www.gov.cn/gongbao/content/2012/content_2112774.htm",
+  "page_title": "中国证券监督管理委员会公告（〔2011〕26号）　　证券投资基金销售结算资金管理暂行规定__2012年第11号国务院公报_中国政府网",
+  "attachments": [],
+  "raw_path": "_sources/L1/l1-6983835b2f9e/original.doc",
+  "raw_sha256": "7da2de17931515b4448564d9ec64d5ba437bd68aa4b17439458a292092eb3419",
+  "receipt_path": "_sources/L1/l1-6983835b2f9e/receipt.json"
+}

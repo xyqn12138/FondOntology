@@ -1,0 +1,32 @@
+{
+  "id": "amac-unlisted-equity-valuation-2018",
+  "legacy_path": "L2_行业自律规则/私募投资基金非上市股权投资估值指引.md",
+  "title": "私募投资基金非上市股权投资估值指引（试行）",
+  "publisher": "中国证券投资基金业协会",
+  "seed_urls": [
+    "https://www.amac.org.cn/fwdt/wyb/jgdjhcpbeian/smjjglrdjhcpba/xgzc/202001/P020231126372109021141.pdf"
+  ],
+  "source_page_url": "https://www.amac.org.cn/xwfb/hydt/202105/t20210531_19542.html",
+  "download_url": "https://www.amac.org.cn/xwfb/hydt/202105/P020231126371228453083.pdf",
+  "format": "pdf",
+  "issued_date": "2018-03-30",
+  "effective_from": "2018-07-01",
+  "expected_articles": null,
+  "origin_kind": "issuer_original",
+  "raw_path": "_sources/L2/amac-unlisted-equity-valuation-2018/original.pdf",
+  "raw_sha256": "7aac3a0e38a1754cb5dde47391d389ef73df56c1f83a856df636b8fda336a4ce",
+  "body_selector": null,
+  "version_basis": "官方通知中基协发〔2018〕1号，2018年3月5日第二届理事会表决通过，二零一八年三月三十日发布，2018年7月1日起施行；202105为迁移目录。选择指引全文附件而非起草说明；维持摘要对应2018试行版。",
+  "source_identity_evidence": {
+    "release_title": "关于发布《私募投资基金非上市股权投资估值指引(试行)》的通知",
+    "release_excerpt": "中基协发〔2018〕1号；中国证券投资基金业协会；二零一八年三月三十日；自2018年7月1日起施行",
+    "attachment_label": "私募投资基金非上市股权投资估值指引（试行）.pdf",
+    "pdf_preview": "预检13页，首页同名标题，目录总则、估值原则、估值方法；含公允价值计量及市场法、收益法等。",
+    "identity_markers": [
+      "私募投资基金非上市股权投资估值指引"
+    ]
+  },
+  "status": "downloaded",
+  "failure_reason": null,
+  "discovery_evidence": "web.run无结果；requests读取AMAC官方行业动态索引及通知正文，确认原发布机关和两个不同附件。"
+}

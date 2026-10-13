@@ -1,0 +1,18 @@
+{
+  "id": "company-law-2023",
+  "retrieved_at": "2026-10-13T03:55:57.788844+00:00",
+  "actual_url": "https://www.gov.cn/yaowen/liebiao/202312/content_6923395.htm",
+  "final_url": "https://www.gov.cn/yaowen/liebiao/202312/content_6923395.htm",
+  "identity_basis": "旧摘要明确2023-12-29第二次修订、2024-07-01施行；下载全文含第二百六十六条及2023修订沿革。中国政府网标明来源新华社，属于官方再刊，不是人大原发。",
+  "origin_kind": "official_republication",
+  "acquisition_method": "http_get",
+  "http_status": 200,
+  "content_type": "text/html",
+  "body_text_characters": 32536,
+  "body_selector": ".pages_content",
+  "article_headings": 266,
+  "sha256": "bfa2bbedf14c123b1128f7e472c993bd2980045fa5ad92b5eee900e63a06b359",
+  "bytes": 140580,
+  "raw_path": "_sources/L0/company-law-2023/original.html",
+  "status": "downloaded"
+}

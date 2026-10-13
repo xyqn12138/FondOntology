@@ -1,0 +1,33 @@
+{
+  "id": "amac-investor-suitability-2017",
+  "legacy_path": "L2_行业自律规则/基金募集机构投资者适当性管理实施指引.md",
+  "title": "基金募集机构投资者适当性管理实施指引（试行）",
+  "publisher": "中国证券投资基金业协会",
+  "seed_urls": [
+    "https://www.ehuataifund.com/upload/pdf/1502781753016-25,20170628jijinmujijigoutouzizheshidangxingguanlishishizhiyin(shixing).pdf"
+  ],
+  "source_page_url": "https://www.amac.org.cn/xwfb/tzgg/201706/t20170628_18210.html",
+  "download_url": "https://www.amac.org.cn/xwfb/tzgg/201706/P020231126367038833207.pdf",
+  "format": "pdf",
+  "issued_date": "2017-06-28",
+  "effective_from": "2017-07-01",
+  "expected_articles": 55,
+  "origin_kind": "issuer_original",
+  "raw_path": "_sources/L2/amac-investor-suitability-2017/original.pdf",
+  "raw_sha256": "870221ec62449bffbe2164e9d87e95773b20acc67969e3bdfb4c8dc2db806351",
+  "body_selector": null,
+  "version_basis": "按摘要所指2017试行版本恢复。官方通知中基协发〔2017〕4号、二〇一七年六月二十八日，正文第五十四条2017年7月1日起实施，第五十五条结束。不得以2026年公募投资者适当性管理细则静默替代此历史版本。附件参考模板为独立附件，本原件是指引本身完整55条。",
+  "source_identity_evidence": {
+    "release_title": "关于发布《基金募集机构投资者适当性 管理实施指引（试行）》的通知",
+    "release_excerpt": "中基协发〔2017〕4号；中国证券投资基金业协会；二〇一七年六月二十八日",
+    "attachment_label": "附件1：基金募集机构投资者适当性管理实施指引（试行）.pdf",
+    "pdf_preview": "预检18页；第一页同名标题，第一条至第五十五条，倒数条明确2017年7月1日起实施。",
+    "identity_markers": [
+      "基金募集机构投资者适当性管理实施指引",
+      "第五十五条"
+    ]
+  },
+  "status": "downloaded",
+  "failure_reason": null,
+  "discovery_evidence": "web.run无结果；AMAC官方搜索API准确返回docId18210发布通知、docId19886官方HTML全文。选择发布通知附件1PDF而非协会动态解读页或基金公司再刊。"
+}

@@ -1,0 +1,317 @@
+{
+  "id": "l1-b5ac01bafe1c",
+  "legacy_path": "L1_监管强制规则/合格境内机构投资者境外证券投资外汇管理规定.md",
+  "title": "合格境内机构投资者境外证券投资外汇管理规定（QDII外汇管理配套细则）",
+  "publisher": "国家外汇管理局",
+  "legacy_metadata": {
+    "发布机关": "国家外汇管理局",
+    "发布日期": "现行有效，早期版本发布于2017年，历经修订",
+    "来源": "https://www.amac.org.cn/fwdt/wyb/jgdjhcpbeian/zcglcpba/xgzc/202003/t20200311_19865.html",
+    "分类标签": "L1部门规章 / A规则说明型（QDII试行办法46号令的外汇管理配套细则，两份文件构成\"业务资质+资金外汇\"的完整制度）"
+  },
+  "seed_urls": [
+    "https://www.amac.org.cn/fwdt/wyb/jgdjhcpbeian/zcglcpba/xgzc/202003/t20200311_19865.html"
+  ],
+  "source_page_url": "https://www.amac.org.cn/fwdt/wyb/jgdjhcpbeian/zcglcpba/xgzc/202003/t20200311_19865.html",
+  "download_url": "https://www.amac.org.cn/fwdt/wyb/jgdjhcpbeian/zcglcpba/xgzc/202003/t20200311_19865.html",
+  "format": "html",
+  "origin_kind": "official_republication",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": ".TRS_Editor",
+  "version_basis": "基金业协会正文载外汇管理局公告2013年第1号、2013年8月21日；旧摘要所称2017年版本错误。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://www.amac.org.cn/fwdt/wyb/jgdjhcpbeian/zcglcpba/xgzc/202003/t20200311_19865.html",
+  "page_title": "合格境内机构投资者境外证券投资外汇管理规定",
+  "attachments": [
+    {
+      "text": "基金业协会联合北京证券业协会举办“树立和践行正确政绩观学习教育专题培训” 07-09",
+      "url": "https://www.amac.org.cn/hydj/djdt/202607/P020260709621199649228.pdf"
+    },
+    {
+      "text": "基金业协会联合上海市基金同业公会举办“开展树立和践行正确政绩观学习教育专题培训” 04-30",
+      "url": "https://www.amac.org.cn/hydj/djdt/202607/P020260709623406625572.pdf"
+    },
+    {
+      "text": "中邮基金：党建领航风帆劲 业融共进谱新篇 01-13",
+      "url": "https://www.amac.org.cn/hydj/djdt/202601/P020260113410272412570.pdf"
+    },
+    {
+      "text": "富国基金：党建引领促发展 融合赋能谱新篇 01-13",
+      "url": "https://www.amac.org.cn/hydj/djdt/202601/P020260113409981947900.pdf"
+    },
+    {
+      "text": "中欧基金：党建引领固根基 融合聚力谱新篇 01-13",
+      "url": "https://www.amac.org.cn/hydj/djdt/202601/P020260113409733684010.pdf"
+    },
+    {
+      "text": "国投瑞银基金：党建融脉强根基 红色引擎促发展 01-13",
+      "url": "https://www.amac.org.cn/hydj/djdt/202601/P020260113409502461477.pdf"
+    },
+    {
+      "text": "中信保诚基金：深化“党建5+”为“十五五”高质量发展聚势赋能 01-13",
+      "url": "https://www.amac.org.cn/hydj/djdt/202601/P020260113409288260925.pdf"
+    },
+    {
+      "text": "AI筑牢邮件安全防线 永赢基金以大模型 守护金融数字资产 07-01",
+      "url": "https://www.amac.org.cn/xwfb/hydt/202607/P020260701319545695145.pdf"
+    },
+    {
+      "text": "AI驱动的安全告警智能处置与 自动化运营实践 06-30",
+      "url": "https://www.amac.org.cn/xwfb/hydt/202607/P020260701318641709294.pdf"
+    },
+    {
+      "text": "诺安基金体系化推进网络安全宣教 筑牢金融安全与投资者保护防线 06-29",
+      "url": "https://www.amac.org.cn/xwfb/hydt/202606/P020260629617655550331.pdf"
+    },
+    {
+      "text": "筑牢数据安全防线，赋能合规稳健运营-- 建信基金数据分类分级安全管控工作实践 06-25",
+      "url": "https://www.amac.org.cn/xwfb/hydt/202606/P020260625601384896216.pdf"
+    },
+    {
+      "text": "基金公司寄语 06-02",
+      "url": "https://www.amac.org.cn/xwfb/hydt/202606/P020260602610726363311.pdf"
+    },
+    {
+      "text": "投资者回报导向引领行业转型公募基金高质量发展纵深推进 06-02",
+      "url": "https://www.amac.org.cn/xwfb/hydt/202606/P020260602610261939859.pdf"
+    },
+    {
+      "text": "纪律处分决定书〔珠海通沛股权投资管理合伙企业（有限合伙）〕 07-17",
+      "url": "https://www.amac.org.cn/zlgl/jlcf/scfjg/202607/P020260717614041355626.pdf"
+    },
+    {
+      "text": "纪律处分决定书（北京大胜资产管理有限公司） 07-17",
+      "url": "https://www.amac.org.cn/zlgl/jlcf/scfjg/202607/P020260717612726705457.pdf"
+    },
+    {
+      "text": "纪律处分决定书（上海银极资产管理有限公司） 07-10",
+      "url": "https://www.amac.org.cn/zlgl/jlcf/scfjg/202607/P020260710638322506868.pdf"
+    },
+    {
+      "text": "纪律处分决定书（上海古曲私募基金管理有限公司） 07-10",
+      "url": "https://www.amac.org.cn/zlgl/jlcf/scfjg/202607/P020260710637011133922.pdf"
+    },
+    {
+      "text": "纪律处分决定书（张雅薇） 07-17",
+      "url": "https://www.amac.org.cn/zlgl/jlcf/scfry/202607/P020260717615027206959.pdf"
+    },
+    {
+      "text": "纪律处分决定书（贲金锋） 07-17",
+      "url": "https://www.amac.org.cn/zlgl/jlcf/scfry/202607/P020260717614586442883.pdf"
+    },
+    {
+      "text": "纪律处分决定书（熊长明） 07-17",
+      "url": "https://www.amac.org.cn/zlgl/jlcf/scfry/202607/P020260717613515841544.pdf"
+    },
+    {
+      "text": "“2020中国责任投资论坛”行业实践圆桌讨论观点集锦 12-16",
+      "url": "https://www.amac.org.cn/hdjl/gnjl/202012/P020231126398033945783.pdf"
+    },
+    {
+      "text": "【AMAC DATA】Quarterly Asset Management Product Statistics  (Q1 2026) 06-22",
+      "url": "https://www.amac.org.cn/hdjl/gjjl/202606/P020260622389052428411.pdf"
+    },
+    {
+      "text": "协会领导会见德国联邦投资与资管协会总裁 04-10",
+      "url": "https://www.amac.org.cn/hdjl/gjjl/202604/P020260410644059358708.pdf"
+    },
+    {
+      "text": "【AMAC DATA】Quarterly Asset Management Statistics  (Q4 2025) 03-24",
+      "url": "https://www.amac.org.cn/hdjl/gjjl/202603/P020260324589758981512.pdf"
+    },
+    {
+      "text": "Asset Management Product Statistics  (2025 Q3) 02-04",
+      "url": "https://www.amac.org.cn/hdjl/gjjl/202602/U020260204545739466426.pdf"
+    },
+    {
+      "text": "青年群体个人养老金投资行为调查报告(2024) 02-10",
+      "url": "https://www.amac.org.cn/hyyj/hjtj/202502/P020250220556896948541.pdf"
+    },
+    {
+      "text": "构筑ESG实践的伦理基础 11-05",
+      "url": "https://www.amac.org.cn/hyyj/hjtj/202411/P020241105586913613823.pdf"
+    },
+    {
+      "text": "证券投资基金会计核算操作实务手册 05-30",
+      "url": "https://www.amac.org.cn/hyyj/hjtj/202405/P020240530424712416888.pdf"
+    },
+    {
+      "text": "中国农村养老金融调查研究报告2022 04-14",
+      "url": "https://www.amac.org.cn/hyyj/hjtj/202304/P020231126399735957274.pdf"
+    },
+    {
+      "text": "2022年私募基金登记备案综述 01-03",
+      "url": "https://www.amac.org.cn/hyyj/hjtj/202301/P020231126399560412728.pdf"
+    },
+    {
+      "text": "2022中国中青年养老成熟度调查报告 12-15",
+      "url": "https://www.amac.org.cn/hyyj/hjtj/202212/P020231126399733808904.pdf"
+    },
+    {
+      "text": "《声音》2026年第6期《服务中长期资金视角下的公募基金产品创新发展研究》 06-24",
+      "url": "https://www.amac.org.cn/hyyj/sy/202606/P020260624346416651612.pdf"
+    },
+    {
+      "text": "《声音》2026年第5期《我国并购基金积极股东作用案例分析》 06-23",
+      "url": "https://www.amac.org.cn/hyyj/sy/202606/P020260623366005430836.pdf"
+    },
+    {
+      "text": "《声音》2026年第4期《境外并购基金积极股东作用案例分析》 06-10",
+      "url": "https://www.amac.org.cn/hyyj/sy/202606/P020260610612874169891.pdf"
+    },
+    {
+      "text": "《声音》2026年第3期《国际私募信贷市场流动性错配风险及启示》 06-01",
+      "url": "https://www.amac.org.cn/hyyj/sy/202606/P020260603573582952365.pdf"
+    },
+    {
+      "text": "《声音》2026年第2期《基金行业生成式人工智能可解释性治理探讨》 04-08",
+      "url": "https://www.amac.org.cn/hyyj/sy/202604/P020260408624258724685.pdf"
+    },
+    {
+      "text": "《声音》2026年第1期《政府及国资基金尽职合规免责机制研究》 01-21",
+      "url": "https://www.amac.org.cn/hyyj/sy/202601/P020260121622512910521.pdf"
+    },
+    {
+      "text": "《声音》2025年第6期《基于指数化配置的基金持有体验优化研究》 12-02",
+      "url": "https://www.amac.org.cn/hyyj/sy/202512/P020251209542151751285.pdf"
+    },
+    {
+      "text": "基金管理人绿色投资自评估报告（2024） 12-19",
+      "url": "https://www.amac.org.cn/hyyj/esgtz/esgyj/202412/P020241219611533021140.pdf"
+    },
+    {
+      "text": "构筑ESG实践的伦理基础 11-05",
+      "url": "https://www.amac.org.cn/hyyj/esgtz/esgyj/202411/P020241105586913613823.pdf"
+    },
+    {
+      "text": "协会绿色与可持续投资委员会研究成果汇编（2023）实践篇之四：富达基金《可持续投资理论与实证》 06-12",
+      "url": "https://www.amac.org.cn/hyyj/esgtz/esgyj/202406/P020240612491111689616.pdf"
+    },
+    {
+      "text": "协会绿色与可持续投资委员会研究成果汇编（2023）实践篇之三：汇添富基金《ESG基金信息披露研究》 06-11",
+      "url": "https://www.amac.org.cn/hyyj/esgtz/esgyj/202406/P020240611375817936440.pdf"
+    },
+    {
+      "text": "协会绿色与可持续投资委员会研究成果汇编（2023）实践篇之二：华宝基金《可持续尽责管理实践案例》 06-07",
+      "url": "https://www.amac.org.cn/hyyj/esgtz/esgyj/202406/P020240607547690359142.pdf"
+    },
+    {
+      "text": "协会绿色与可持续投资委员会研究成果汇编（2023）实践篇之一：易方达基金《海外ESG固定收益投资实践与启示》 06-06",
+      "url": "https://www.amac.org.cn/hyyj/esgtz/esgyj/202406/P020240606363139713943.pdf"
+    },
+    {
+      "text": "协会绿色与可持续投资委员会研究成果汇编（2023）方法论之四：博时基金《绿色资产识别与估值》 06-05",
+      "url": "https://www.amac.org.cn/hyyj/esgtz/esgyj/202406/P020240605589770865359.pdf"
+    },
+    {
+      "text": "公募基金市场数据（2026年5月） 06-17",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/gmjj/202606/P020260617606470583907.pdf"
+    },
+    {
+      "text": "公募基金市场数据（2026年4月） 05-27",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/gmjj/202605/P020260527642499680112.pdf"
+    },
+    {
+      "text": "公募基金市场数据（2026年3月） 04-22",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/gmjj/202604/P020260422599009744026.pdf"
+    },
+    {
+      "text": "公募基金市场数据（2026年2月） 03-25",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/gmjj/202603/P020260326626512708384.pdf"
+    },
+    {
+      "text": "公募基金市场数据（2026年1月） 02-27",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/gmjj/202602/P020260326626510228095.pdf"
+    },
+    {
+      "text": "公募基金市场数据（2025年12月） 01-28",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/gmjj/202601/P020260130653247595798.pdf"
+    },
+    {
+      "text": "私募基金管理人登记及私募基金产品备案月报（2026年第6期） 07-21",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/smjj/202607/P020260721319701475110.pdf"
+    },
+    {
+      "text": "私募基金管理人登记及私募基金产品备案月报（2026年第5期） 06-17",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/smjj/202606/P020260618598407690722.pdf"
+    },
+    {
+      "text": "私募基金管理人登记及私募基金产品备案月报（2026年第4期） 05-27",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/smjj/202605/P020260527317241162055.pdf"
+    },
+    {
+      "text": "私募基金管理人登记及私募基金产品备案月报（2026年第3期） 04-20",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/smjj/202604/P020260420620663051140.pdf"
+    },
+    {
+      "text": "私募基金管理人登记及私募基金产品备案月报（2026年第2期） 03-24",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/smjj/202603/P020260324641099188022.pdf"
+    },
+    {
+      "text": "私募基金管理人登记及私募基金产品备案月报（2026年第1期） 03-13",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/smjj/202603/P020260313572143214908.pdf"
+    },
+    {
+      "text": "证券期货经营机构私募资管产品备案月报（2026年5月） 07-03",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/smzg/202607/P020260703616440754632.pdf"
+    },
+    {
+      "text": "证券期货经营机构私募资管产品备案月报（2026年4月） 05-29",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/smzg/202605/P020260603551684000844.pdf"
+    },
+    {
+      "text": "证券期货经营机构私募资管产品备案月报（2026年3月） 04-30",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/smzg/202604/P020260430631493697582.pdf"
+    },
+    {
+      "text": "证券期货经营机构私募资管产品备案月报 （2026年2月） 03-31",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/smzg/202603/P020260331622560364416.pdf"
+    },
+    {
+      "text": "证券期货经营机构私募资管产品备案月报 （2026年1月） 03-20",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/smzg/202603/P020260320610984475621.pdf"
+    },
+    {
+      "text": "证券期货经营机构私募资管产品备案月报 （2025年12月） 01-30",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/smzg/202601/P020260130666389078323.pdf"
+    },
+    {
+      "text": "资产支持专项计划备案运行情况简报（2026年5月） 07-01",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/zczqh/202607/P020260701313317212002.pdf"
+    },
+    {
+      "text": "资产支持专项计划备案运行情况简报（2026年4月） 06-04",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/zczqh/202606/P020260604603681053634.pdf"
+    },
+    {
+      "text": "资产支持专项计划备案运行情况简报（2026年3月） 04-28",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/zczqh/202604/P020260626639368267463.pdf"
+    },
+    {
+      "text": "资产支持专项计划备案运行情况简报 （2026年2月） 03-31",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/zczqh/202603/P020260331622803365645.pdf"
+    },
+    {
+      "text": "资产支持专项计划备案运行情况简报（2026年1月） 03-02",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/zczqh/202603/P020260302637067191102.pdf"
+    },
+    {
+      "text": "资产支持专项计划备案运行情况简报（2025年12月） 01-30",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/zczqh/202601/P020260130670176598048.pdf"
+    },
+    {
+      "text": "中国证券投资基金业年报（2025） 02-09",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/nb/202602/P020260209414253017331.pdf"
+    },
+    {
+      "text": "中国证券投资基金业年报（2024） 12-20",
+      "url": "https://www.amac.org.cn/sjtj/tjbg/nb/202412/P020241220404659661116.pdf"
+    }
+  ],
+  "raw_path": "_sources/L1/l1-b5ac01bafe1c/original.html",
+  "raw_sha256": "6bdcc61c6ebe7ae6f9cd277f14fec363157ef5993c01512c844cb24b96b7da6f",
+  "receipt_path": "_sources/L1/l1-b5ac01bafe1c/receipt.json"
+}

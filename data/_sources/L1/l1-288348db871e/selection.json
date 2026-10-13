@@ -1,0 +1,31 @@
+{
+  "id": "l1-288348db871e",
+  "legacy_path": "L1_监管强制规则/公开募集开放式证券投资基金流动性风险管理规定.md",
+  "title": "公开募集开放式证券投资基金流动性风险管理规定",
+  "publisher": "中国证券监督管理委员会",
+  "legacy_metadata": {
+    "发布机关": "中国证券监督管理委员会",
+    "文号": "中国证监会公告〔2017〕12号",
+    "施行日期": "2017年10月1日",
+    "来源": "https://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117431/files/a920cc804ded4fe2b600196d01080e68.pdf",
+    "分类标签": "L1监管强制规则 / A规则说明型"
+  },
+  "seed_urls": [
+    "https://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117431/files/a920cc804ded4fe2b600196d01080e68.pdf"
+  ],
+  "source_page_url": null,
+  "download_url": "https://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117431/files/a920cc804ded4fe2b600196d01080e68.pdf",
+  "format": "pdf",
+  "origin_kind": "official_republication",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": null,
+  "version_basis": "上交所法律规则栏目再刊证监会2017年12号公告原PDF。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117431/files/a920cc804ded4fe2b600196d01080e68.pdf",
+  "raw_path": "_sources/L1/l1-288348db871e/original.pdf",
+  "raw_sha256": "813558004fa2d8d6c87050ef634b49d47a8e913d99c76590f281d711554ecf93",
+  "receipt_path": "_sources/L1/l1-288348db871e/receipt.json"
+}

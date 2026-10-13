@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "id": "l1-1e4a66f9b18c",
+  "requested_url": "https://www.gov.cn/gongbao/content/2020/content_5554550.htm",
+  "final_url": "https://www.gov.cn/gongbao/content/2020/content_5554550.htm",
+  "redirects": [],
+  "fetched_at": "2026-10-13T03:44:10.462020+00:00",
+  "status_code": 200,
+  "content_type": "text/html",
+  "bytes": 91893,
+  "raw_sha256": "f504c8bdb217979cb7f260df84920328af371453ace17a0274924ec6a614d05b",
+  "tls_policy": "default_certificate_verification",
+  "identity_basis": "国务院公报2020年第30号再刊175号令，正文至第六十三条。",
+  "legal_validity": "not_checked_current"
+}

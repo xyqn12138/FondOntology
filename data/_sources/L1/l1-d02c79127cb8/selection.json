@@ -1,0 +1,35 @@
+{
+  "id": "l1-d02c79127cb8",
+  "legacy_path": "L1_监管强制规则/证券期货业信息系统分类与代码.md",
+  "title": "证券期货业信息系统分类与代码",
+  "publisher": "中国证券监督管理委员会",
+  "legacy_metadata": {
+    "标准号": "JR/T 0348—2026（中华人民共和国金融行业标准）",
+    "发布/施行日期": "2026年1月9日发布并实施（**本轮资料收集中生效时间最新的技术标准**）",
+    "发布机关": "中国证券监督管理委员会",
+    "归口": "全国金融标准化技术委员会（SAC/TC 180），证券分技术委员会（SAC/TC 180/SC4）提出",
+    "起草单位": "招商证券、证监会科技监管司、上交所、深交所、大商所、中信证券、国联基金管理、证通股份、银河期货、中证信息技术服务有限责任公司",
+    "来源": "http://www.csrc.gov.cn/csrc/c101954/c7608135/7608135/files/附件2：《证券期货业信息系统分类与代码》.pdf",
+    "分类标签": "L1.5规范性文件（行业标准）/ B字段标准型（**直接对应本项目三十节\"内部系统全景\"讨论的官方权威分类依据**）",
+    "三层划分": "机构类别 → 业务分类 → 系统技术功能域",
+    "编码规则": "5位代码，第1位机构类别字母 + 2位业务分类数字 + 2位系统技术功能域数字（如B0101=证券经营机构-经纪业务-交易账户管理）"
+  },
+  "seed_urls": [
+    "http://www.csrc.gov.cn/csrc/c101954/c7608135/7608135/files/附件2：《证券期货业信息系统分类与代码》.pdf"
+  ],
+  "source_page_url": null,
+  "download_url": "https://www.csrc.gov.cn/csrc/c101954/c7608135/7608135/files/%E9%99%84%E4%BB%B62%EF%BC%9A%E3%80%8A%E8%AF%81%E5%88%B8%E6%9C%9F%E8%B4%A7%E4%B8%9A%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%88%86%E7%B1%BB%E4%B8%8E%E4%BB%A3%E7%A0%81%E3%80%8B.pdf",
+  "format": "pdf",
+  "origin_kind": "issuer_original",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": null,
+  "version_basis": "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://www.csrc.gov.cn/csrc/c101954/c7608135/7608135/files/%E9%99%84%E4%BB%B62%EF%BC%9A%E3%80%8A%E8%AF%81%E5%88%B8%E6%9C%9F%E8%B4%A7%E4%B8%9A%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%88%86%E7%B1%BB%E4%B8%8E%E4%BB%A3%E7%A0%81%E3%80%8B.pdf",
+  "raw_path": "_sources/L1/l1-d02c79127cb8/original.pdf",
+  "raw_sha256": "e460c855bea69e9a5e664042fbd06d4a66cc35cc81a211d134d9caff274c1b9d",
+  "receipt_path": "_sources/L1/l1-d02c79127cb8/receipt.json"
+}

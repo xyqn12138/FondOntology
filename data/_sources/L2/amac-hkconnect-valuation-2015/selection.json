@@ -1,0 +1,32 @@
+{
+  "id": "amac-hkconnect-valuation-2015",
+  "legacy_path": "L2_行业自律规则/港股通及同业存单估值核算指引.md",
+  "title": "证券投资基金港股通投资资金清算和会计核算估值业务指引（试行）",
+  "publisher": "中国证券投资基金业协会",
+  "seed_urls": [
+    "https://www.amac.org.cn/xwfb/hydt/202106/P020231126371218718148.pdf"
+  ],
+  "source_page_url": "https://www.amac.org.cn/xwfb/hydt/202106/t20210602_19535.html",
+  "download_url": "https://www.amac.org.cn/xwfb/hydt/202106/P020231126371218718148.pdf",
+  "format": "pdf",
+  "issued_date": "2015-11-11",
+  "effective_from": "2015-11-11",
+  "expected_articles": null,
+  "origin_kind": "issuer_original",
+  "raw_path": "_sources/L2/amac-hkconnect-valuation-2015/original.pdf",
+  "raw_sha256": "84e18cb5e1f01592b9eaad049d2af9542b7b6c76b909b65693610bb4951ca6a7",
+  "body_selector": null,
+  "version_basis": "原摘要为港股通与同业存单二合一，本记录仅对应港股通。官方发布通知正文载中基协发〔2015〕17号、二〇一五年十一月十一日、自发布之日起实施；网站迁移目录202106不代表法规发布日期。摘要2016年3月29日与官方通知不符，未采用。保留该原始版本，不静默换成新版本。",
+  "source_identity_evidence": {
+    "release_title": "关于发布《证券投资基金港股通投资资金清算和会计核算估值业务指引（试行）》的通知",
+    "release_excerpt": "中基协发〔2015〕17号；中国证券投资基金业协会；二〇一五年十一月十一日",
+    "attachment_label": "证券投资基金港股通投资资金清算和会计核算估值业务指引（试行）.pdf",
+    "pdf_preview": "第一页标题为证券投资基金港股通投资资金清算和会计核算估值业务指引（试行），含总则、资金清算原则、会计科目设置、主要账务处理；预检14页。",
+    "identity_markers": [
+      "证券投资基金港股通投资资金清算和会计核算估值业务指引"
+    ]
+  },
+  "status": "downloaded",
+  "failure_reason": null,
+  "discovery_evidence": "web.run官方搜索及open多次均返回空结果；改用requests读取AMAC官方分页索引及发布页，发布页明确链接本附件。"
+}

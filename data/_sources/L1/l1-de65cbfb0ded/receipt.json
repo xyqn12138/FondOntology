@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "id": "l1-de65cbfb0ded",
+  "requested_url": "https://docs.static.szse.cn/www/lawrules/rule/inno/W020240614673497419312.pdf",
+  "final_url": "https://docs.static.szse.cn/www/lawrules/rule/inno/W020240614673497419312.pdf",
+  "redirects": [],
+  "fetched_at": "2026-10-13T03:44:10.984942+00:00",
+  "status_code": 200,
+  "content_type": "application/pdf",
+  "bytes": 330046,
+  "raw_sha256": "64c0a06cae1cd633a37c7b68faf6a331e08a75b54362ec824f21e1a1021b54f5",
+  "tls_policy": "default_certificate_verification",
+  "identity_basis": "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。",
+  "legal_validity": "not_checked_current"
+}

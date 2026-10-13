@@ -1,0 +1,48 @@
+{
+  "id": "l1-6918bfa29041",
+  "legacy_path": "L1_监管强制规则/上海证券交易所沪港通业务实施办法.md",
+  "title": "上海证券交易所沪港通业务实施办法（2024年修订）",
+  "publisher": "上海证券交易所（经中国证监会批准）",
+  "legacy_metadata": {
+    "发布机关": "上海证券交易所（经中国证监会批准）",
+    "文号": "上证发〔2024〕76号",
+    "发布/施行日期": "2024年6月14日发布并施行",
+    "来源": "https://www.sse.com.cn/lawandrules/sselawsrules2025/global/hkexsc/c/c_20251017_10795123.shtml （官方公告页，完整原文为word文档附件）",
+    "分类标签": "L1部门规章 / A规则说明型",
+    "废止旧规": "《上海证券交易所沪港通业务实施办法（2023年修订）》（上证发〔2023〕53号）",
+    "说明": "本文件核心制度内容基于上交所官方公告、答记者问及配套通知整理，完整逐条原文为word格式附件（非PDF，暂未能直接提取全文），如需逐条法条原文建议直接访问官方公告页下载附件。"
+  },
+  "seed_urls": [
+    "https://www.sse.com.cn/lawandrules/sselawsrules2025/global/hkexsc/c/c_20251017_10795123.shtml"
+  ],
+  "source_page_url": "https://www.sse.com.cn/lawandrules/sselawsrules2025/global/hkexsc/c/c_20251017_10795123.shtml",
+  "download_url": "https://www.sse.com.cn/lawandrules/sselawsrules2025/global/hkexsc/c/10795123/files/e8c08d2dfcd74f27b88728d986bb9cda.docx",
+  "format": "docx",
+  "origin_kind": "issuer_original",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": null,
+  "version_basis": "上交所原来源页明确2024年修订；附件1为正文，附件2、3为起草说明/衔接安排，不混入正文。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://www.sse.com.cn/lawandrules/sselawsrules2025/global/hkexsc/c/c_20251017_10795123.shtml",
+  "page_title": "上海证券交易所沪港通业务实施办法（2024年修订）\r\n        | 上海证券交易所",
+  "attachments": [
+    {
+      "text": "1.上海证券交易所沪港通业务实施办法（2024年修订）.docx",
+      "url": "https://www.sse.com.cn/lawandrules/sselawsrules2025/global/hkexsc/c/10795123/files/e8c08d2dfcd74f27b88728d986bb9cda.docx"
+    },
+    {
+      "text": "《上海证券交易所沪港通业务实施办法（2024年修订）》起草说明.docx",
+      "url": "https://www.sse.com.cn/lawandrules/sselawsrules2025/global/hkexsc/c/10795123/files/1e60095243c44bc2a06f1d0b417b88f4.docx"
+    },
+    {
+      "text": "《上海证券交易所沪港通业务实施办法（2024年修订）》施行衔接安排.docx",
+      "url": "https://www.sse.com.cn/lawandrules/sselawsrules2025/global/hkexsc/c/10795123/files/92b31f4920bc4579820a72c6c4b2843e.docx"
+    }
+  ],
+  "raw_path": "_sources/L1/l1-6918bfa29041/original.docx",
+  "raw_sha256": "ef88727f17828c6697995b1478f964e0c77dea0591e1056dbb8467fead14dcf2",
+  "receipt_path": "_sources/L1/l1-6918bfa29041/receipt.json"
+}

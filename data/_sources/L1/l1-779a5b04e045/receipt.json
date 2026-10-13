@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "id": "l1-779a5b04e045",
+  "requested_url": "https://www.gov.cn/gongbao/content/2022/content_5704810.htm",
+  "final_url": "https://www.gov.cn/gongbao/content/2022/content_5704810.htm",
+  "redirects": [],
+  "fetched_at": "2026-10-13T03:44:10.369510+00:00",
+  "status_code": 200,
+  "content_type": "text/html",
+  "bytes": 114631,
+  "raw_sha256": "e3b3b4ea4333cf6424004fe4a0bb5abf154924ecf25989fbb24b5178cd4b37dd",
+  "tls_policy": "default_certificate_verification",
+  "identity_basis": "国务院公报2022年第22号再刊198号令，正文至第七十八条。",
+  "legal_validity": "not_checked_current"
+}

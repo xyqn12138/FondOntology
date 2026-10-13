@@ -1,0 +1,35 @@
+{
+  "id": "amac-manager-registration-notice-2018",
+  "legacy_path": "L2_行业自律规则/私募基金管理人登记须知AMBERS系统关联方认定.md",
+  "title": "私募基金管理人登记须知（2018年12月更新）",
+  "publisher": "中国证券投资基金业协会",
+  "seed_urls": [],
+  "source_page_url": "https://www.amac.org.cn/xwfb/tzgg/201812/t20181207_17420.html",
+  "download_url": "https://www.amac.org.cn/xwfb/tzgg/201812/P020231126363581054521.pdf",
+  "format": "pdf",
+  "issued_date": "2018-12-07",
+  "effective_from": "2018-12-07",
+  "expected_articles": null,
+  "origin_kind": "issuer_original",
+  "raw_path": "_sources/L2/amac-manager-registration-notice-2018/original.pdf",
+  "raw_sha256": "b3d4add747892c44dfd881407e9d4b57b71f7c03aa969e7605adc6d046883c17",
+  "body_selector": null,
+  "version_basis": "独立恢复准确的2018年12月更新版历史原件，仅支持AMBERS混合摘要中部分关联方/实际控制人内容，不替代整份摘要。官方更新发布页日期2018-12-07并称自公布之日起施行；2023登记备案办法第八十三条明示2023-05-01起废止登记须知。",
+  "source_identity_evidence": {
+    "release_title": "中国证券投资基金业协会发布《私募基金管理人登记须知》更新版",
+    "release_excerpt": "更新了登记须知，已经理事会全票表决通过，自公布之日起施行；丰富细化为十二项",
+    "attachment_label": "附件：私募基金管理人登记须知.pdf",
+    "pdf_preview": "预检16页，首页私募基金管理人登记须知（2018年12月更新）；十二项结束。第五项实控定义、第六项关联方要求。",
+    "identity_markers": [
+      "私募基金管理人登记须知",
+      "2018",
+      "关联方定义"
+    ]
+  },
+  "status": "downloaded",
+  "failure_reason": null,
+  "discovery_evidence": "web.run无结果；AMAC官方分页索引与公开搜索API均指向2018更新版公告及服务大厅同名原件页，原件标题和2018年12月版本一致。",
+  "related_unresolved_id": "amac-ambers-summary-unresolved",
+  "coverage": "partial_support_only",
+  "effective_to": "2023-05-01"
+}

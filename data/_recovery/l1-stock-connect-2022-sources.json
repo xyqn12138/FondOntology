@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "documents": [
+    {
+      "id": "l1-stock-connect-2022",
+      "legacy_path": "L1_监管强制规则/内地与香港股票市场交易互联互通机制若干规定.md",
+      "title": "内地与香港股票市场交易互联互通机制若干规定（2022年修正）",
+      "publisher": "中国证券监督管理委员会",
+      "seed_urls": [
+        "https://www.csrc.gov.cn/csrc/c106256/c1654020/1654020/files/6dc3bca009924c9ba18e72b62f1869ed.pdf"
+      ],
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101953/c3874209/content.shtml",
+      "download_url": "https://www.csrc.gov.cn/csrc/c101953/c3874209/3874209/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E5%85%B3%E4%BA%8E%E4%BF%AE%E6%94%B9%E3%80%8A%E5%86%85%E5%9C%B0%E4%B8%8E%E9%A6%99%E6%B8%AF%E8%82%A1%E7%A5%A8%E5%B8%82%E5%9C%BA%E4%BA%A4%E6%98%93%E4%BA%92%E8%81%94%E4%BA%92%E9%80%9A%E6%9C%BA%E5%88%B6%E8%8B%A5%E5%B9%B2%E8%A7%84%E5%AE%9A%E3%80%8B%E7%9A%84%E5%86%B3%E5%AE%9A.pdf",
+      "format": "pdf",
+      "origin_kind": "issuer_original",
+      "issued_date": "2022-06-10",
+      "effective_from": "2022-07-25",
+      "expected_articles": 19,
+      "body_selector": null,
+      "version_basis": "证监会第200号令发布页落款2022年6月10日，网页发布时间2022年6月24日，2022年7月25日起施行。附件1共9页，第1页为修改决定和过渡安排，第2至9页为根据本决定修正后重新公布的19条全文；第十三条第一款新增沪股通和深股通投资者不包括内地投资者。旧摘要seed实际返回2016原版，原件保存在l1-66dd2b604e86，不能将旧PDF配上2022日期冒充修正版。",
+      "source_identity_evidence": {
+        "release_title": "【第200号令】《关于修改〈内地与香港股票市场交易互联互通机制若干规定〉的决定》",
+        "release_excerpt": "中国证券监督管理委员会令第200号；2022年6月10日；自2022年7月25日起施行",
+        "attachment_label": "附件1：关于修改《内地与香港股票市场交易互联互通机制若干规定》的决定.pdf",
+        "pdf_pages": 9,
+        "full_text_pages": [
+          2,
+          9
+        ],
+        "additional_content": "第1页修改决定及2023年7月23日、7月24日过渡安排必须保留，不应在全文恢复时被丢弃。",
+        "identity_markers": [
+          "根据2022年6月10日",
+          "沪股通和深股通投资者不包括内地投资者",
+          "第十九条"
+        ]
+      },
+      "related_historical_id": "l1-66dd2b604e86",
+      "status": "downloaded",
+      "failure_reason": null,
+      "raw_path": "_sources/L1/l1-stock-connect-2022/original.pdf",
+      "raw_sha256": "d73c9db4b180d97482e1063f106ff9bf04f25d53b315b307e0e0909c24c7b104",
+      "receipt_path": "_sources/L1/l1-stock-connect-2022/receipt.json"
+    }
+  ]
+}

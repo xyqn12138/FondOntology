@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "l1-62bc082429c5",
+  "requested_url": "https://www.csrc.gov.cn/csrc/c106256/c1654015/1654015/files/120号《货币市场基金监督管理办法》.pdf",
+  "final_url": "https://www.csrc.gov.cn/csrc/c106256/c1654015/1654015/files/120%E5%8F%B7%E3%80%8A%E8%B4%A7%E5%B8%81%E5%B8%82%E5%9C%BA%E5%9F%BA%E9%87%91%E7%9B%91%E7%9D%A3%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+  "redirects": [],
+  "fetched_at": "2026-10-13T03:44:11.366736+00:00",
+  "status_code": 200,
+  "content_type": "application/pdf",
+  "bytes": 240129,
+  "raw_sha256": "db090b82650230262fcf1ac16937794b2136a57c6d9424ee671ae528cb84a8b1",
+  "tls_policy": "default_certificate_verification",
+  "identity_basis": "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。",
+  "legal_validity": "not_checked_current",
+  "source_page": {
+    "requested_url": "https://www.csrc.gov.cn/csrc/c106256/c1654015/content.shtml",
+    "final_url": "https://www.csrc.gov.cn/csrc/c106256/c1654015/content.shtml",
+    "raw_path": "_sources/L1/l1-62bc082429c5/source-page.html",
+    "sha256": "877d66fdbff60f16b5ea9034ce47ba3e2f77dea3533114a70d4ecf99d5795618",
+    "bytes": 60934
+  }
+}

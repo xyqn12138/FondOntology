@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "l1-3ff1f1ad400f",
+  "requested_url": "https://www.csrc.gov.cn/csrc/c106256/c1653919/1653919/files/46号《合格境内机构投资者境外证券投资管理试行办法》.pdf",
+  "final_url": "https://www.csrc.gov.cn/csrc/c106256/c1653919/1653919/files/46%E5%8F%B7%E3%80%8A%E5%90%88%E6%A0%BC%E5%A2%83%E5%86%85%E6%9C%BA%E6%9E%84%E6%8A%95%E8%B5%84%E8%80%85%E5%A2%83%E5%A4%96%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E7%AE%A1%E7%90%86%E8%AF%95%E8%A1%8C%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+  "redirects": [],
+  "fetched_at": "2026-10-13T03:44:10.708446+00:00",
+  "status_code": 200,
+  "content_type": "application/pdf",
+  "bytes": 198133,
+  "raw_sha256": "0a635738c376799d06111727fef88353dfd5c09c3d42eb9f052d981ba9eeb685",
+  "tls_policy": "default_certificate_verification",
+  "identity_basis": "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。",
+  "legal_validity": "not_checked_current",
+  "source_page": {
+    "requested_url": "https://www.csrc.gov.cn/csrc/c106256/c1653919/content.shtml",
+    "final_url": "https://www.csrc.gov.cn/csrc/c106256/c1653919/content.shtml",
+    "raw_path": "_sources/L1/l1-3ff1f1ad400f/source-page.html",
+    "sha256": "b9c25bc763401d582f21d3a1993a79a507e19d5e13e488e393dacd7b6c693663",
+    "bytes": 60779
+  }
+}

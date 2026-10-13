@@ -1,0 +1,35 @@
+{
+  "id": "l1-1e4a66f9b18c",
+  "legacy_path": "L1_监管强制规则/公开募集证券投资基金销售机构监督管理办法.md",
+  "title": "公开募集证券投资基金销售机构监督管理办法",
+  "publisher": "中国证券监督管理委员会",
+  "legacy_metadata": {
+    "发布机关": "中国证券监督管理委员会",
+    "文号": "证监会令第175号",
+    "审议通过": "2020年8月28日证监会2020年第7次委务会审议通过",
+    "施行日期": "2020年10月1日",
+    "来源": "https://www.gov.cn/gongbao/content/2020/content_5554550.htm",
+    "分类标签": "L1部门规章 / A规则说明型",
+    "废止旧规": "《证券投资基金销售管理办法》（第91号令）"
+  },
+  "seed_urls": [
+    "https://www.gov.cn/gongbao/content/2020/content_5554550.htm"
+  ],
+  "source_page_url": "https://www.gov.cn/gongbao/content/2020/content_5554550.htm",
+  "download_url": "https://www.gov.cn/gongbao/content/2020/content_5554550.htm",
+  "format": "html",
+  "origin_kind": "official_republication",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": ".pages_content",
+  "version_basis": "国务院公报2020年第30号再刊175号令，正文至第六十三条。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://www.gov.cn/gongbao/content/2020/content_5554550.htm",
+  "page_title": "中国证券监督管理委员会令（第175号）　　公开募集证券投资基金销售机构监督管理办法__2020年第30号国务院公报_中国政府网",
+  "attachments": [],
+  "raw_path": "_sources/L1/l1-1e4a66f9b18c/original.html",
+  "raw_sha256": "f504c8bdb217979cb7f260df84920328af371453ace17a0274924ec6a614d05b",
+  "receipt_path": "_sources/L1/l1-1e4a66f9b18c/receipt.json"
+}

@@ -1,0 +1,32 @@
+{
+  "id": "l1-66dd2b604e86",
+  "legacy_path": "L1_监管强制规则/内地与香港股票市场交易互联互通机制若干规定.md",
+  "title": "内地与香港股票市场交易互联互通机制若干规定",
+  "publisher": "中国证券监督管理委员会",
+  "legacy_metadata": {
+    "发布机关": "中国证券监督管理委员会",
+    "文号": "证监会令第128号（2016年公布），根据2022年第200号令修订",
+    "发布日期": "2016年9月30日公布并施行，2022年7月25日修订施行",
+    "来源": "http://www.csrc.gov.cn/csrc/c106256/c1654020/1654020/files/6dc3bca009924c9ba18e72b62f1869ed.pdf",
+    "分类标签": "L1部门规章 / A规则说明型（沪港通/深港通的顶层制度设计，与之前收集的沪港通/深港通交易所实施办法构成上下位关系）",
+    "废止旧规": "《沪港股票市场交易互联互通机制试点若干规定》（证监会令第101号）"
+  },
+  "seed_urls": [
+    "http://www.csrc.gov.cn/csrc/c106256/c1654020/1654020/files/6dc3bca009924c9ba18e72b62f1869ed.pdf"
+  ],
+  "source_page_url": null,
+  "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1654020/1654020/files/6dc3bca009924c9ba18e72b62f1869ed.pdf",
+  "format": "pdf",
+  "origin_kind": "issuer_original",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": null,
+  "version_basis": "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://www.csrc.gov.cn/csrc/c106256/c1654020/1654020/files/6dc3bca009924c9ba18e72b62f1869ed.pdf",
+  "raw_path": "_sources/L1/l1-66dd2b604e86/original.pdf",
+  "raw_sha256": "b9be17f3d826b166b1309da8f34e3c8a3372d1e1e4cf11c1b15c599c89163fa6",
+  "receipt_path": "_sources/L1/l1-66dd2b604e86/receipt.json"
+}

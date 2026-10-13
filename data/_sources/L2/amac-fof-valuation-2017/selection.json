@@ -1,0 +1,32 @@
+{
+  "id": "amac-fof-valuation-2017",
+  "legacy_path": "L2_行业自律规则/基金中基金估值业务指引.md",
+  "title": "基金中基金估值业务指引（试行）",
+  "publisher": "中国证券投资基金业协会",
+  "seed_urls": [
+    "https://fg.amac.org.cn/governmentrules_3854/zcgz_zlgz/zlgz_gmjj/zlgz_gmjj_kjss/201912/t20191222_24293.html"
+  ],
+  "source_page_url": "https://www.amac.org.cn/xwfb/tzgg/201705/t20170504_18201.html",
+  "download_url": "https://www.amac.org.cn/xwfb/tzgg/201705/P020231126367021178106.pdf",
+  "format": "pdf",
+  "issued_date": "2017-05-04",
+  "effective_from": "2017-05-04",
+  "expected_articles": null,
+  "origin_kind": "issuer_original",
+  "raw_path": "_sources/L2/amac-fof-valuation-2017/original.pdf",
+  "raw_sha256": "4c5e45591d87e50f5f264ec78f9dbc822e4521eb890bc019488198354e7b3874",
+  "body_selector": null,
+  "version_basis": "官方发布通知落款二〇一七年五月四日，指引自发布之日起实施。附件文件名简写为基金中基金估值指引，但PDF正文标题完整为基金中基金估值业务指引（试行），核对了80%以上定义和ETF/LOF估值规则。",
+  "source_identity_evidence": {
+    "release_title": "关于发布《基金中基金估值业务指引（试行）》的通知",
+    "release_excerpt": "中国证券投资基金业协会；二〇一七年五月四日；本指引自发布之日起实施",
+    "attachment_label": "《基金中基金估值指引（试行）》.pdf",
+    "pdf_preview": "预检5页；第一页基金中基金估值业务指引（试行），含80%以上的基金资产定义。",
+    "identity_markers": [
+      "基金中基金估值业务指引"
+    ]
+  },
+  "status": "downloaded",
+  "failure_reason": null,
+  "discovery_evidence": "web.run无结果；fg.amac.org.cn HTTPS请求被远程重置，HTTP返回502；www.amac.org.cn官方通知页200且链接PDF，故选择同机关原件而非旧域不可达页面。"
+}

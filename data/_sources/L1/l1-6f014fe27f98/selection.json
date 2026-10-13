@@ -1,0 +1,32 @@
+{
+  "id": "l1-6f014fe27f98",
+  "legacy_path": "L1_监管强制规则/公开募集证券投资基金运作管理办法.md",
+  "title": "公开募集证券投资基金运作管理办法",
+  "publisher": "中国证券监督管理委员会",
+  "legacy_metadata": {
+    "发布机关": "中国证券监督管理委员会",
+    "文号": "证监会令第104号",
+    "发布日期": "2014年7月7日",
+    "施行日期": "2014年8月8日",
+    "来源": "http://www.csrc.gov.cn/csrc/c106256/c1653978/1653978/files/104号《公开募集证券投资基金运作管理办法》.pdf",
+    "分类标签": "L1监管强制规则 / A规则说明型"
+  },
+  "seed_urls": [
+    "http://www.csrc.gov.cn/csrc/c106256/c1653978/1653978/files/104号《公开募集证券投资基金运作管理办法》.pdf"
+  ],
+  "source_page_url": null,
+  "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653978/1653978/files/104%E5%8F%B7%E3%80%8A%E5%85%AC%E5%BC%80%E5%8B%9F%E9%9B%86%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E8%BF%90%E4%BD%9C%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+  "format": "pdf",
+  "origin_kind": "issuer_original",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": null,
+  "version_basis": "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://www.csrc.gov.cn/csrc/c106256/c1653978/1653978/files/104%E5%8F%B7%E3%80%8A%E5%85%AC%E5%BC%80%E5%8B%9F%E9%9B%86%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E8%BF%90%E4%BD%9C%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+  "raw_path": "_sources/L1/l1-6f014fe27f98/original.pdf",
+  "raw_sha256": "b8d078253e3048aebb2e057e953ee442ec41c864c4461c0008d4042f8a952511",
+  "receipt_path": "_sources/L1/l1-6f014fe27f98/receipt.json"
+}

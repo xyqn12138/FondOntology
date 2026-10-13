@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "l1-83a2cfba02db",
+  "requested_url": "https://www.csrc.gov.cn/csrc/c101953/c6987995/6987995/files/附件1：《证券期货经营机构私募资产管理业务管理办法》.pdf",
+  "final_url": "https://www.csrc.gov.cn/csrc/c101953/c6987995/6987995/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E3%80%8A%E8%AF%81%E5%88%B8%E6%9C%9F%E8%B4%A7%E7%BB%8F%E8%90%A5%E6%9C%BA%E6%9E%84%E7%A7%81%E5%8B%9F%E8%B5%84%E4%BA%A7%E7%AE%A1%E7%90%86%E4%B8%9A%E5%8A%A1%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+  "redirects": [],
+  "fetched_at": "2026-10-13T03:44:11.350003+00:00",
+  "status_code": 200,
+  "content_type": "application/pdf",
+  "bytes": 322937,
+  "raw_sha256": "0f8f499e6c3e05fbd33c814b2fcbe2c0b771ca222d62aca2a5b8a83d1cd40c24",
+  "tls_policy": "default_certificate_verification",
+  "identity_basis": "原转载提供证监会203号令链接；回到发布者核验2023年1月12日发布、3月1日施行，附件1为办法而非配套运作规定。",
+  "legal_validity": "not_checked_current",
+  "source_page": {
+    "requested_url": "https://www.csrc.gov.cn/csrc/c101953/c6987995/content.shtml",
+    "final_url": "https://www.csrc.gov.cn/csrc/c101953/c6987995/content.shtml",
+    "raw_path": "_sources/L1/l1-83a2cfba02db/source-page.html",
+    "sha256": "5af4cf962cbe579dd3d9ec9be75f8e09413b58c763d796f38a8e0f82f6f3f8fa",
+    "bytes": 16111
+  }
+}

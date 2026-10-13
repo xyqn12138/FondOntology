@@ -1,0 +1,32 @@
+{
+  "id": "l1-bed25b74e40c",
+  "legacy_path": "L1_监管强制规则/关于实施销售机构监督管理办法的规定.md",
+  "title": "关于实施《公开募集证券投资基金销售机构监督管理办法》的规定",
+  "publisher": "中国证券监督管理委员会",
+  "legacy_metadata": {
+    "发布机关": "中国证券监督管理委员会",
+    "文号": "中国证券监督管理委员会公告〔2020〕58号",
+    "发布/施行日期": "2020年8月28日发布，2020年10月1日起施行",
+    "来源": "http://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117189/files/ca9769b2bd4f4cf9a546040941357ea5.pdf",
+    "分类标签": "L1.5规范性文件 / A规则说明型（175号令的配套实施细则）",
+    "说明": "核心内容基于监管征求意见稿及多方引用交叉核实整理，正式发布稿条款序号及具体表述可能有细微调整，建议关键条款以官方PDF原文为准"
+  },
+  "seed_urls": [
+    "http://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117189/files/ca9769b2bd4f4cf9a546040941357ea5.pdf"
+  ],
+  "source_page_url": null,
+  "download_url": "https://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117189/files/ca9769b2bd4f4cf9a546040941357ea5.pdf",
+  "format": "pdf",
+  "origin_kind": "official_republication",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": null,
+  "version_basis": "上交所栏目再刊证监会2020年58号公告正式附件，不保留征求意见稿摘要。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117189/files/ca9769b2bd4f4cf9a546040941357ea5.pdf",
+  "raw_path": "_sources/L1/l1-bed25b74e40c/original.pdf",
+  "raw_sha256": "c817a4016bb047fbc9c9e4256e4de9973be120aad2894a4ed1e0ffec789e69eb",
+  "receipt_path": "_sources/L1/l1-bed25b74e40c/receipt.json"
+}

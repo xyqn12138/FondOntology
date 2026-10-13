@@ -1,0 +1,38 @@
+{
+  "id": "securities-investment-fund-law-2015",
+  "retrieved_at": "2026-10-13T03:55:58.181087+00:00",
+  "actual_url": "https://neris.csrc.gov.cn/falvfagui/rdqsHeader/lawlist",
+  "final_url": "https://neris.csrc.gov.cn/falvfagui/rdqsHeader/lawlist",
+  "identity_basis": "现有48页PDF首部明确2015-04-24修正、2012-12-28修订，末条第一百五十四条。证监会法规库页面及其正文API返回secFutrsLawVersion=20150424、主席令第23号、发文与实施2015-04-24；API完整保留条文结构。旧PDF由WPS生成、Author Jacky、2025-09-08创建，未知原下载来源，仅作为额外本地遗留副本留存。",
+  "origin_kind": "official_republication",
+  "request_method": "POST",
+  "request_form": {
+    "body": "",
+    "secFutrsLawId": "e5cc920d0af7475ca44f1e69c5378244",
+    "secFutrsLawEntryId": "",
+    "navbarId": "",
+    "lawEntryClsfCde": "",
+    "pageNo": "0",
+    "relativeType": "law",
+    "seleItemP": "",
+    "cntnt": ""
+  },
+  "acquisition_method": "issuer_site_body_api",
+  "legacy_pdf": {
+    "local_source": "L0_法律/中华人名共和国证券投资基金法.pdf",
+    "retained_path": "_sources/L0/securities-investment-fund-law-2015/original-local.pdf",
+    "sha256": "8588879fb97a6c0fba147455054ee6d38dcc45c3f9384c2d4edd0a4530f580e3",
+    "bytes": 223677,
+    "pages": 48,
+    "metadata": "{'/Author': 'Jacky', '/Comments': '', '/Company': '', '/CreationDate': \"D:20250908163315+08'00'\", '/Creator': 'WPS 文字', '/Keywords': '', '/ModDate': \"D:20250908163315+08'00'\", '/Producer': '', '/SourceModified': \"D:20250908163315+08'00'\", '/Subject': '', '/Title': '', '/Trapped': '/False'}",
+    "provenance_limit": "Unknown publishing URL; not attributed to official API."
+  },
+  "http_status": 200,
+  "content_type": "application/json;charset=UTF-8",
+  "active_article_count": 154,
+  "body_json_path": "$.lawlist.lawEntryVOs",
+  "sha256": "88ae50bc7f4984fd60d5628db177db301e561394ac020a3675472c633aeba877",
+  "bytes": 306725,
+  "raw_path": "_sources/L0/securities-investment-fund-law-2015/original.json",
+  "status": "downloaded"
+}

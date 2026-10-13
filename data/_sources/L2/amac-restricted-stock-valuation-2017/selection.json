@@ -1,0 +1,32 @@
+{
+  "id": "amac-restricted-stock-valuation-2017",
+  "legacy_path": "L2_行业自律规则/证券投资基金投资流通受限股票估值指引.md",
+  "title": "证券投资基金投资流通受限股票估值指引（试行）",
+  "publisher": "中国证券投资基金业协会",
+  "seed_urls": [
+    "http://www.amahb.org.cn/portal/article/index/id/93/cid/1.html"
+  ],
+  "source_page_url": "https://www.amac.org.cn/xwfb/tzgg/201709/t20170906_18230.html",
+  "download_url": "https://www.amac.org.cn/xwfb/tzgg/201709/P020231126367070343127.pdf",
+  "format": "pdf",
+  "issued_date": "2017-09-04",
+  "effective_from": null,
+  "expected_articles": null,
+  "origin_kind": "issuer_original",
+  "raw_path": "_sources/L2/amac-restricted-stock-valuation-2017/original.pdf",
+  "raw_sha256": "6fde7af3c4a4557f19142a2346712a1490de62a7fc59a54791a521bf0941ac44",
+  "body_selector": null,
+  "version_basis": "通知中基协发〔2017〕6号、落款二〇一七年九月四日；官方网页发布时间2017-09-06。issued_date采用通知落款，2017-12-31是完成实施工作的期限，不擅自作为施行日期。附件文件名多业务二字，PDF正文标题与摘要完整对应。",
+  "source_identity_evidence": {
+    "release_title": "关于发布《证券投资基金投资流通受限股票估值指引（试行）》的通知",
+    "release_excerpt": "中基协发〔2017〕6号；中国证券投资基金业协会；二〇一七年九月四日；应当在2017年12月31日前完成实施工作",
+    "attachment_label": "附件：《证券投资基金投资流通受限股票估值业务指引(试行）》.pdf",
+    "pdf_preview": "预检5页；第一页证券投资基金投资流通受限股票估值指引（试行），目录总则、流通受限股票的估值处理、释义。",
+    "identity_markers": [
+      "证券投资基金投资流通受限股票估值指引"
+    ]
+  },
+  "status": "downloaded",
+  "failure_reason": null,
+  "discovery_evidence": "web.run无结果；requests读取AMAC官方通知公告分页索引、发布通知和全文附件。"
+}

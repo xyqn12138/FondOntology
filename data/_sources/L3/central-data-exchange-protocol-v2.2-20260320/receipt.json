@@ -1,0 +1,21 @@
+{
+  "id": "central-data-exchange-protocol-v2.2-20260320",
+  "retrieved_at": "2026-10-13T03:56:27.588508+00:00",
+  "actual_url": "https://www.chinaclear.cn/zdjs/sjjhjszl/202603/37804a0a9a524699becf2cfd58553856/files/%E4%B8%AD%E5%A4%AE%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2%E5%B9%B3%E5%8F%B0%E5%BC%80%E6%94%BE%E5%BC%8F%E5%9F%BA%E9%87%91%E4%B8%9A%E5%8A%A1%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2%E5%8D%8F%E8%AE%AEV2.2-20260320.doc",
+  "final_url": "https://www.chinaclear.cn/zdjs/sjjhjszl/202603/37804a0a9a524699becf2cfd58553856/files/%E4%B8%AD%E5%A4%AE%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2%E5%B9%B3%E5%8F%B0%E5%BC%80%E6%94%BE%E5%BC%8F%E5%9F%BA%E9%87%91%E4%B8%9A%E5%8A%A1%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2%E5%8D%8F%E8%AE%AEV2.2-20260320.doc",
+  "identity_basis": "旧摘要指定V2.2-20260320，官方技术资料列表对应标题、附件名称和发布日期完全一致。此原件是中国结算技术协议，不将旧摘要所称国家标准身份延用到此文件。",
+  "origin_kind": "issuer_original",
+  "acquisition_method": "http_get",
+  "http_status": 200,
+  "content_type": "application/msword",
+  "identity_limit": "Legacy DOC content awaits Word conversion; OLE header and issuer list/filename verified.",
+  "sha256": "071b21e8057863e68c4e91d37ddc03f0bc68344d36cb65512b95016cd946b2b5",
+  "bytes": 5401600,
+  "raw_path": "_sources/L3/central-data-exchange-protocol-v2.2-20260320/original.doc",
+  "status": "downloaded",
+  "source_page_evidence": {
+    "url": "https://www.chinaclear.cn/zdjs/sjjhjszl/plat_list/code_2.shtml",
+    "bytes": 4393,
+    "sha256": "baaf9c02aad948c1518c65fb1fce07bb1a7b489d2133e7b56cd0713901e0fcb1"
+  }
+}

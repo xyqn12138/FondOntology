@@ -1,2 +1,3 @@
 evaluation/** -text
 tests/fixtures/** -text
+data/** -text -whitespace

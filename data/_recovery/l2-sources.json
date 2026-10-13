@@ -1,0 +1,389 @@
+[
+  {
+    "id": "amac-hkconnect-valuation-2015",
+    "legacy_path": "L2_行业自律规则/港股通及同业存单估值核算指引.md",
+    "title": "证券投资基金港股通投资资金清算和会计核算估值业务指引（试行）",
+    "publisher": "中国证券投资基金业协会",
+    "seed_urls": [
+      "https://www.amac.org.cn/xwfb/hydt/202106/P020231126371218718148.pdf"
+    ],
+    "source_page_url": "https://www.amac.org.cn/xwfb/hydt/202106/t20210602_19535.html",
+    "download_url": "https://www.amac.org.cn/xwfb/hydt/202106/P020231126371218718148.pdf",
+    "format": "pdf",
+    "issued_date": "2015-11-11",
+    "effective_from": "2015-11-11",
+    "expected_articles": null,
+    "origin_kind": "issuer_original",
+    "raw_path": "_sources/L2/amac-hkconnect-valuation-2015/original.pdf",
+    "raw_sha256": "84e18cb5e1f01592b9eaad049d2af9542b7b6c76b909b65693610bb4951ca6a7",
+    "body_selector": null,
+    "version_basis": "原摘要为港股通与同业存单二合一，本记录仅对应港股通。官方发布通知正文载中基协发〔2015〕17号、二〇一五年十一月十一日、自发布之日起实施；网站迁移目录202106不代表法规发布日期。摘要2016年3月29日与官方通知不符，未采用。保留该原始版本，不静默换成新版本。",
+    "source_identity_evidence": {
+      "release_title": "关于发布《证券投资基金港股通投资资金清算和会计核算估值业务指引（试行）》的通知",
+      "release_excerpt": "中基协发〔2015〕17号；中国证券投资基金业协会；二〇一五年十一月十一日",
+      "attachment_label": "证券投资基金港股通投资资金清算和会计核算估值业务指引（试行）.pdf",
+      "pdf_preview": "第一页标题为证券投资基金港股通投资资金清算和会计核算估值业务指引（试行），含总则、资金清算原则、会计科目设置、主要账务处理；预检14页。",
+      "identity_markers": [
+        "证券投资基金港股通投资资金清算和会计核算估值业务指引"
+      ]
+    },
+    "status": "downloaded",
+    "failure_reason": null,
+    "discovery_evidence": "web.run官方搜索及open多次均返回空结果；改用requests读取AMAC官方分页索引及发布页，发布页明确链接本附件。"
+  },
+  {
+    "id": "amac-negotiable-cd-valuation-2015",
+    "legacy_path": "L2_行业自律规则/港股通及同业存单估值核算指引.md",
+    "title": "证券投资基金参与同业存单会计核算和估值业务指引（试行）",
+    "publisher": "中国证券投资基金业协会",
+    "seed_urls": [
+      "https://www.scxsls.com/knowledge/detail?id=154815"
+    ],
+    "source_page_url": "https://www.amac.org.cn/xwfb/hydt/202106/t20210602_19533.html",
+    "download_url": "https://www.amac.org.cn/xwfb/hydt/202106/P020231126371216099536.pdf",
+    "format": "pdf",
+    "issued_date": "2015-08-28",
+    "effective_from": "2015-08-28",
+    "expected_articles": null,
+    "origin_kind": "issuer_original",
+    "raw_path": "_sources/L2/amac-negotiable-cd-valuation-2015/original.pdf",
+    "raw_sha256": "0c6056ff8de10b4bad003e4975fddfff1d9e902ff7b5feb49aa854a9c5b05919",
+    "body_selector": null,
+    "version_basis": "原摘要为二合一，本记录仅对应同业存单。官方通知中基协发〔2015〕12号、二〇一五年八月二十八日、自发布之日起实施；摘要〔2015〕1号错误。官方API标题搜索同业存单返回该发布页及服务大厅原件页，不采用第三方法律网站。",
+    "source_identity_evidence": {
+      "release_title": "关于发布《证券投资基金参与同业存单会计核算和估值业务指引（试行）》的通知",
+      "release_excerpt": "中基协发〔2015〕12号；中国证券投资基金业协会；二〇一五年八月二十八日",
+      "attachment_label": "证券投资基金参与同业存单会计核算和估值业务指引（试行）.pdf",
+      "pdf_preview": "第一页同业存单指引标题，含会计核算原则、估值原则、科目设置、定期报告列示；预检5页。",
+      "identity_markers": [
+        "证券投资基金参与同业存单会计核算和估值业务指"
+      ]
+    },
+    "status": "downloaded",
+    "failure_reason": null,
+    "discovery_evidence": "web.run无结果；AMAC公开搜索API /portal/ESSearch/doc/findDocsByKeyword 精确返回docId19533、docRelTime2015-08-28；读取官方发布页核对通知全文及附件。"
+  },
+  {
+    "id": "amac-fund-advisory-interface-2021",
+    "legacy_path": "L2_行业自律规则/公开募集证券投资基金投资顾问业务数据交换技术接口规范.md",
+    "title": "公开募集证券投资基金投资顾问业务数据交换技术接口规范（试行）",
+    "publisher": "中国证券投资基金业协会",
+    "seed_urls": [
+      "https://www.amac.org.cn/xwfb/xhyw/202109/P020231126355446479296.pdf"
+    ],
+    "source_page_url": "https://www.amac.org.cn/xwfb/xhyw/202109/t20210901_15782.html",
+    "download_url": "https://www.amac.org.cn/xwfb/xhyw/202109/P020231126355446479296.pdf",
+    "format": "pdf",
+    "issued_date": "2021-08-31",
+    "effective_from": null,
+    "expected_articles": null,
+    "origin_kind": "issuer_original",
+    "raw_path": "_sources/L2/amac-fund-advisory-interface-2021/original.pdf",
+    "raw_sha256": "b81c9ddb189cf28a678a4546f942b9028fa228da5a2b27a59f00815db323663b",
+    "body_selector": null,
+    "version_basis": "官方发布通知署名2021年8月31日，网页于2021年9月1日发布，PDF封面2021年9月。issued_date采用通知落款，不把封面月份推断为某个日期。仅下载附件1规范全文，不以附件2起草说明代替。",
+    "source_identity_evidence": {
+      "release_title": "关于发布《公开募集证券投资基金投资顾问业务数据交换技术接口规范（试行）》的通知",
+      "release_excerpt": "协会组织起草规范，现予发布；中国证券投资基金业协会；2021年8月31日",
+      "attachment_label": "附件1-公开募集证券投资基金投资顾问业务数据交换技术接口规范（试行）.pdf",
+      "pdf_preview": "封面同名标题及2021年9月，页码共40页，含完整接口及附录字典。",
+      "identity_markers": [
+        "公开募集证券投资基金投资顾问业务数据交换技术接口规范"
+      ]
+    },
+    "status": "downloaded",
+    "failure_reason": null,
+    "discovery_evidence": "web.run无结果；requests读取AMAC协会要闻分页索引后确认发布页及附件1。"
+  },
+  {
+    "id": "amac-investor-suitability-2017",
+    "legacy_path": "L2_行业自律规则/基金募集机构投资者适当性管理实施指引.md",
+    "title": "基金募集机构投资者适当性管理实施指引（试行）",
+    "publisher": "中国证券投资基金业协会",
+    "seed_urls": [
+      "https://www.ehuataifund.com/upload/pdf/1502781753016-25,20170628jijinmujijigoutouzizheshidangxingguanlishishizhiyin(shixing).pdf"
+    ],
+    "source_page_url": "https://www.amac.org.cn/xwfb/tzgg/201706/t20170628_18210.html",
+    "download_url": "https://www.amac.org.cn/xwfb/tzgg/201706/P020231126367038833207.pdf",
+    "format": "pdf",
+    "issued_date": "2017-06-28",
+    "effective_from": "2017-07-01",
+    "expected_articles": 55,
+    "origin_kind": "issuer_original",
+    "raw_path": "_sources/L2/amac-investor-suitability-2017/original.pdf",
+    "raw_sha256": "870221ec62449bffbe2164e9d87e95773b20acc67969e3bdfb4c8dc2db806351",
+    "body_selector": null,
+    "version_basis": "按摘要所指2017试行版本恢复。官方通知中基协发〔2017〕4号、二〇一七年六月二十八日，正文第五十四条2017年7月1日起实施，第五十五条结束。不得以2026年公募投资者适当性管理细则静默替代此历史版本。附件参考模板为独立附件，本原件是指引本身完整55条。",
+    "source_identity_evidence": {
+      "release_title": "关于发布《基金募集机构投资者适当性 管理实施指引（试行）》的通知",
+      "release_excerpt": "中基协发〔2017〕4号；中国证券投资基金业协会；二〇一七年六月二十八日",
+      "attachment_label": "附件1：基金募集机构投资者适当性管理实施指引（试行）.pdf",
+      "pdf_preview": "预检18页；第一页同名标题，第一条至第五十五条，倒数条明确2017年7月1日起实施。",
+      "identity_markers": [
+        "基金募集机构投资者适当性管理实施指引",
+        "第五十五条"
+      ]
+    },
+    "status": "downloaded",
+    "failure_reason": null,
+    "discovery_evidence": "web.run无结果；AMAC官方搜索API准确返回docId18210发布通知、docId19886官方HTML全文。选择发布通知附件1PDF而非协会动态解读页或基金公司再刊。"
+  },
+  {
+    "id": "amac-fof-valuation-2017",
+    "legacy_path": "L2_行业自律规则/基金中基金估值业务指引.md",
+    "title": "基金中基金估值业务指引（试行）",
+    "publisher": "中国证券投资基金业协会",
+    "seed_urls": [
+      "https://fg.amac.org.cn/governmentrules_3854/zcgz_zlgz/zlgz_gmjj/zlgz_gmjj_kjss/201912/t20191222_24293.html"
+    ],
+    "source_page_url": "https://www.amac.org.cn/xwfb/tzgg/201705/t20170504_18201.html",
+    "download_url": "https://www.amac.org.cn/xwfb/tzgg/201705/P020231126367021178106.pdf",
+    "format": "pdf",
+    "issued_date": "2017-05-04",
+    "effective_from": "2017-05-04",
+    "expected_articles": null,
+    "origin_kind": "issuer_original",
+    "raw_path": "_sources/L2/amac-fof-valuation-2017/original.pdf",
+    "raw_sha256": "4c5e45591d87e50f5f264ec78f9dbc822e4521eb890bc019488198354e7b3874",
+    "body_selector": null,
+    "version_basis": "官方发布通知落款二〇一七年五月四日，指引自发布之日起实施。附件文件名简写为基金中基金估值指引，但PDF正文标题完整为基金中基金估值业务指引（试行），核对了80%以上定义和ETF/LOF估值规则。",
+    "source_identity_evidence": {
+      "release_title": "关于发布《基金中基金估值业务指引（试行）》的通知",
+      "release_excerpt": "中国证券投资基金业协会；二〇一七年五月四日；本指引自发布之日起实施",
+      "attachment_label": "《基金中基金估值指引（试行）》.pdf",
+      "pdf_preview": "预检5页；第一页基金中基金估值业务指引（试行），含80%以上的基金资产定义。",
+      "identity_markers": [
+        "基金中基金估值业务指引"
+      ]
+    },
+    "status": "downloaded",
+    "failure_reason": null,
+    "discovery_evidence": "web.run无结果；fg.amac.org.cn HTTPS请求被远程重置，HTTP返回502；www.amac.org.cn官方通知页200且链接PDF，故选择同机关原件而非旧域不可达页面。"
+  },
+  {
+    "id": "amac-ambers-summary-unresolved",
+    "legacy_path": "L2_行业自律规则/私募基金管理人登记须知AMBERS系统关联方认定.md",
+    "title": "私募基金管理人登记须知（AMBERS系统关联方/实际控制人认定实操标准）",
+    "publisher": "中国证券投资基金业协会",
+    "seed_urls": [],
+    "source_page_url": null,
+    "download_url": null,
+    "format": null,
+    "issued_date": null,
+    "effective_from": null,
+    "expected_articles": null,
+    "origin_kind": null,
+    "raw_path": null,
+    "raw_sha256": null,
+    "body_selector": null,
+    "version_basis": "无法认定为单份法规或系统操作规则。摘要无来源URL，混合登记信息填报、不同历史主体资格口径、重大变更实操和2023年登记备案办法第四十八条。准确识别的2018年12月登记须知另以独立历史文档记录，不冒充完整AMBERS摘要，更不视为2023办法仍有效的配套须知。",
+    "source_identity_evidence": {
+      "legacy_evidence": "原摘要同时使用无明确法律依据、协会操作惯例等分析性判断，并引用2023年登记备案办法第四十八条；这些文字不是已识别官方原件的完整条文。",
+      "partial_official_source": "amac-manager-registration-notice-2018",
+      "partial_match": "2018年12月登记须知第五项（四）实控定义、第六项关联方要求、第二项（四）资金往来可支持部分摘要。",
+      "unmatched_or_mixed": "25%主要出资人及5年经验、变更10/30工作日、持续3000万和2023第四十八条并未被核验为同一份2018须知；摘要所称AMBERS无明确法律依据不能冒充法条。"
+    },
+    "status": "unresolved",
+    "failure_reason": "无单份准确对应的官方文档；混合历史规则与分析性叙述，不能以相似标题或现行规则静默替换。",
+    "discovery_evidence": "web.run官方搜索无结果；requests读取AMAC官方2018更新公告、16页附件及官方搜索API。登记备案办法原件第八十三条明示自2023年5月1日起登记须知废止。"
+  },
+  {
+    "id": "amac-manager-registration-notice-2018",
+    "legacy_path": "L2_行业自律规则/私募基金管理人登记须知AMBERS系统关联方认定.md",
+    "title": "私募基金管理人登记须知（2018年12月更新）",
+    "publisher": "中国证券投资基金业协会",
+    "seed_urls": [],
+    "source_page_url": "https://www.amac.org.cn/xwfb/tzgg/201812/t20181207_17420.html",
+    "download_url": "https://www.amac.org.cn/xwfb/tzgg/201812/P020231126363581054521.pdf",
+    "format": "pdf",
+    "issued_date": "2018-12-07",
+    "effective_from": "2018-12-07",
+    "expected_articles": null,
+    "origin_kind": "issuer_original",
+    "raw_path": "_sources/L2/amac-manager-registration-notice-2018/original.pdf",
+    "raw_sha256": "b3d4add747892c44dfd881407e9d4b57b71f7c03aa969e7605adc6d046883c17",
+    "body_selector": null,
+    "version_basis": "独立恢复准确的2018年12月更新版历史原件，仅支持AMBERS混合摘要中部分关联方/实际控制人内容，不替代整份摘要。官方更新发布页日期2018-12-07并称自公布之日起施行；2023登记备案办法第八十三条明示2023-05-01起废止登记须知。",
+    "source_identity_evidence": {
+      "release_title": "中国证券投资基金业协会发布《私募基金管理人登记须知》更新版",
+      "release_excerpt": "更新了登记须知，已经理事会全票表决通过，自公布之日起施行；丰富细化为十二项",
+      "attachment_label": "附件：私募基金管理人登记须知.pdf",
+      "pdf_preview": "预检16页，首页私募基金管理人登记须知（2018年12月更新）；十二项结束。第五项实控定义、第六项关联方要求。",
+      "identity_markers": [
+        "私募基金管理人登记须知",
+        "2018",
+        "关联方定义"
+      ]
+    },
+    "status": "downloaded",
+    "failure_reason": null,
+    "discovery_evidence": "web.run无结果；AMAC官方分页索引与公开搜索API均指向2018更新版公告及服务大厅同名原件页，原件标题和2018年12月版本一致。",
+    "related_unresolved_id": "amac-ambers-summary-unresolved",
+    "coverage": "partial_support_only",
+    "effective_to": "2023-05-01"
+  },
+  {
+    "id": "amac-private-fund-registration-2023",
+    "legacy_path": "L2_行业自律规则/私募投资基金登记备案办法.md",
+    "title": "私募投资基金登记备案办法",
+    "publisher": "中国证券投资基金业协会",
+    "seed_urls": [
+      "https://www.amac.org.cn/xwfb/xhyw/202302/P020231126355265628680.pdf"
+    ],
+    "source_page_url": "https://www.amac.org.cn/xwfb/xhyw/202302/t20230224_15636.html",
+    "download_url": "https://www.amac.org.cn/xwfb/xhyw/202302/P020231126355261616824.pdf",
+    "format": "pdf",
+    "issued_date": "2023-02-24",
+    "effective_from": "2023-05-01",
+    "expected_articles": 83,
+    "origin_kind": "issuer_original",
+    "raw_path": "_sources/L2/amac-private-fund-registration-2023/original.pdf",
+    "raw_sha256": "906ab4e484b7730ed31b6deaea280319bcc85824789e45f0c3fc2fa4e09fe7a6",
+    "body_selector": null,
+    "version_basis": "官方发布页称六章八十三条，PDF第八十三条规定2023年5月1日起施行。摘要82条错误。seed是发布页附件5公告，不是办法正文；选取附件1办法全文，不把发布公告或征求意见稿冒充全文。",
+    "source_identity_evidence": {
+      "release_title": "中国证券投资基金业协会发布修订后的《私募投资基金登记备案办法》及配套指引",
+      "release_excerpt": "修订后的办法共六章八十三条",
+      "attachment_label": "附件1：私募投资基金登记备案办法.pdf",
+      "pdf_preview": "预检42页，首页同名标题及第一条，末页第八十三条明确施行日期及废止旧登记须知等。",
+      "identity_markers": [
+        "私募投资基金登记备案办法",
+        "第八十三条"
+      ]
+    },
+    "status": "downloaded",
+    "failure_reason": null,
+    "discovery_evidence": "web.run无结果；requests读取AMAC官方协会要闻索引找到2023-02-24发布页，其附件列表明确区分附件1办法全文与附件5发布公告。"
+  },
+  {
+    "id": "amac-unlisted-equity-valuation-2018",
+    "legacy_path": "L2_行业自律规则/私募投资基金非上市股权投资估值指引.md",
+    "title": "私募投资基金非上市股权投资估值指引（试行）",
+    "publisher": "中国证券投资基金业协会",
+    "seed_urls": [
+      "https://www.amac.org.cn/fwdt/wyb/jgdjhcpbeian/smjjglrdjhcpba/xgzc/202001/P020231126372109021141.pdf"
+    ],
+    "source_page_url": "https://www.amac.org.cn/xwfb/hydt/202105/t20210531_19542.html",
+    "download_url": "https://www.amac.org.cn/xwfb/hydt/202105/P020231126371228453083.pdf",
+    "format": "pdf",
+    "issued_date": "2018-03-30",
+    "effective_from": "2018-07-01",
+    "expected_articles": null,
+    "origin_kind": "issuer_original",
+    "raw_path": "_sources/L2/amac-unlisted-equity-valuation-2018/original.pdf",
+    "raw_sha256": "7aac3a0e38a1754cb5dde47391d389ef73df56c1f83a856df636b8fda336a4ce",
+    "body_selector": null,
+    "version_basis": "官方通知中基协发〔2018〕1号，2018年3月5日第二届理事会表决通过，二零一八年三月三十日发布，2018年7月1日起施行；202105为迁移目录。选择指引全文附件而非起草说明；维持摘要对应2018试行版。",
+    "source_identity_evidence": {
+      "release_title": "关于发布《私募投资基金非上市股权投资估值指引(试行)》的通知",
+      "release_excerpt": "中基协发〔2018〕1号；中国证券投资基金业协会；二零一八年三月三十日；自2018年7月1日起施行",
+      "attachment_label": "私募投资基金非上市股权投资估值指引（试行）.pdf",
+      "pdf_preview": "预检13页，首页同名标题，目录总则、估值原则、估值方法；含公允价值计量及市场法、收益法等。",
+      "identity_markers": [
+        "私募投资基金非上市股权投资估值指引"
+      ]
+    },
+    "status": "downloaded",
+    "failure_reason": null,
+    "discovery_evidence": "web.run无结果；requests读取AMAC官方行业动态索引及通知正文，确认原发布机关和两个不同附件。"
+  },
+  {
+    "id": "sac-financial-instruments-valuation-2025",
+    "legacy_path": "L2_行业自律规则/证券公司金融工具估值指引.md",
+    "title": "证券公司金融工具估值指引（2025年修订）",
+    "publisher": "中国证券业协会",
+    "seed_urls": [
+      "https://idea-cp.cnfin.com/ice/2025/04/25/bbc72b4bbf634a8f95bb25567b72ed61.pdf"
+    ],
+    "source_page_url": "https://www.sac.net.cn/flfg/zlgz/202505/t20250506_67743.html",
+    "download_url": "https://www.sac.net.cn/flfg/zlgz/202505/t20250506_67743.html",
+    "format": "html",
+    "issued_date": "2025-04-25",
+    "effective_from": "2025-06-01",
+    "expected_articles": 32,
+    "origin_kind": "issuer_original",
+    "raw_path": "_sources/L2/sac-financial-instruments-valuation-2025/original.html",
+    "raw_sha256": "4a4980189d9cc7839344300ce474fe6ece8f3f5b77c9b2d1a0f42ea6c8e4eb9d",
+    "body_selector": "#zoom",
+    "title_selector": ".article h2",
+    "version_basis": "中国证券业协会自律规则官方索引及正文标题均2025年修订，正文首页载七届理事会第三十二次会议审议通过、2025年4月25日发布、2025年6月1日起施行、中证协发〔2025〕86号。全文HTML第一至第三十二条完整，附件下载区域为空，不以旧2018版本或第三方PDF替代。",
+    "source_identity_evidence": {
+      "release_title": "证券公司金融工具估值指引（2025年修订）",
+      "release_excerpt": "经协会第七届理事会第三十二次会议审议通过，2025年4月25日发布，自2025年6月1日起施行；中证协发〔2025〕86号",
+      "official_index_url": "https://www.sac.net.cn/flfg/zlgz/",
+      "html_preview": "官方HTML #zoom含第一条宗旨和依据、第二条适用范围至第三十二条自2025年6月1日起施行。",
+      "identity_markers": [
+        "证券公司金融工具估值指引",
+        "2025",
+        "第三十二条"
+      ]
+    },
+    "status": "downloaded",
+    "failure_reason": null,
+    "discovery_evidence": "web.run官方搜索/open均无结果；requests访问证券业协会自律规则官方索引200，准确定位该发布页及正文#zoom。"
+  },
+  {
+    "id": "amac-restricted-stock-valuation-2017",
+    "legacy_path": "L2_行业自律规则/证券投资基金投资流通受限股票估值指引.md",
+    "title": "证券投资基金投资流通受限股票估值指引（试行）",
+    "publisher": "中国证券投资基金业协会",
+    "seed_urls": [
+      "http://www.amahb.org.cn/portal/article/index/id/93/cid/1.html"
+    ],
+    "source_page_url": "https://www.amac.org.cn/xwfb/tzgg/201709/t20170906_18230.html",
+    "download_url": "https://www.amac.org.cn/xwfb/tzgg/201709/P020231126367070343127.pdf",
+    "format": "pdf",
+    "issued_date": "2017-09-04",
+    "effective_from": null,
+    "expected_articles": null,
+    "origin_kind": "issuer_original",
+    "raw_path": "_sources/L2/amac-restricted-stock-valuation-2017/original.pdf",
+    "raw_sha256": "6fde7af3c4a4557f19142a2346712a1490de62a7fc59a54791a521bf0941ac44",
+    "body_selector": null,
+    "version_basis": "通知中基协发〔2017〕6号、落款二〇一七年九月四日；官方网页发布时间2017-09-06。issued_date采用通知落款，2017-12-31是完成实施工作的期限，不擅自作为施行日期。附件文件名多业务二字，PDF正文标题与摘要完整对应。",
+    "source_identity_evidence": {
+      "release_title": "关于发布《证券投资基金投资流通受限股票估值指引（试行）》的通知",
+      "release_excerpt": "中基协发〔2017〕6号；中国证券投资基金业协会；二〇一七年九月四日；应当在2017年12月31日前完成实施工作",
+      "attachment_label": "附件：《证券投资基金投资流通受限股票估值业务指引(试行）》.pdf",
+      "pdf_preview": "预检5页；第一页证券投资基金投资流通受限股票估值指引（试行），目录总则、流通受限股票的估值处理、释义。",
+      "identity_markers": [
+        "证券投资基金投资流通受限股票估值指引"
+      ]
+    },
+    "status": "downloaded",
+    "failure_reason": null,
+    "discovery_evidence": "web.run无结果；requests读取AMAC官方通知公告分页索引、发布通知和全文附件。"
+  },
+  {
+    "id": "amac-credit-derivative-valuation-2019",
+    "legacy_path": "L2_行业自律规则/证券投资基金投资信用衍生品估值指引.md",
+    "title": "证券投资基金投资信用衍生品估值指引（试行）",
+    "publisher": "中国证券投资基金业协会",
+    "seed_urls": [
+      "https://picpolicy.mofcom.gov.cn/file/20190327/62151553657754035.pdf"
+    ],
+    "source_page_url": "https://www.amac.org.cn/xwfb/xhyw/201912/t20191231_15884.html",
+    "download_url": "https://www.amac.org.cn/xwfb/xhyw/201912/P020231126355583305018.pdf",
+    "format": "pdf",
+    "issued_date": "2019-01-18",
+    "effective_from": "2019-01-18",
+    "expected_articles": null,
+    "origin_kind": "issuer_original",
+    "raw_path": "_sources/L2/amac-credit-derivative-valuation-2019/original.pdf",
+    "raw_sha256": "7b5a8efe57d198998dfef857f23136cfd3f1ba2891ef2941a7325afd03087216",
+    "body_selector": null,
+    "version_basis": "官方通知中基协发〔2019〕1号、二○一九年一月十八日，自发布之日起施行。201912为迁移目录，不能作为发布日。原件包含正文三部分及附件信用衍生品估值参考方法，不只正文摘要。",
+    "source_identity_evidence": {
+      "release_title": "关于发布《证券投资基金投资信用衍生品估值指引（试行）》的通知",
+      "release_excerpt": "中基协发〔2019〕1号；中国证券投资基金业协会；二○一九年一月十八日",
+      "attachment_label": "《证券投资基金投资信用衍生品估值指引（试行）》.pdf",
+      "pdf_preview": "预检12页，第一页同名指引标题，目录总则、信用衍生品估值处理、会计处理及估值参考方法附件。",
+      "identity_markers": [
+        "证券投资基金投资信用衍生品估值指引"
+      ]
+    },
+    "status": "downloaded",
+    "failure_reason": null,
+    "discovery_evidence": "web.run无结果；requests读取AMAC协会要闻索引及发布通知定位发布机关原件，优先于商务部官方再刊seed。"
+  }
+]

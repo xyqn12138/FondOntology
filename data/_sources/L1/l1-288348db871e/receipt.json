@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "id": "l1-288348db871e",
+  "requested_url": "https://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117431/files/a920cc804ded4fe2b600196d01080e68.pdf",
+  "final_url": "https://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117431/files/a920cc804ded4fe2b600196d01080e68.pdf",
+  "redirects": [],
+  "fetched_at": "2026-10-13T03:44:10.280815+00:00",
+  "status_code": 200,
+  "content_type": "application/pdf",
+  "bytes": 171625,
+  "raw_sha256": "813558004fa2d8d6c87050ef634b49d47a8e913d99c76590f281d711554ecf93",
+  "tls_policy": "default_certificate_verification",
+  "identity_basis": "上交所法律规则栏目再刊证监会2017年12号公告原PDF。",
+  "legal_validity": "not_checked_current"
+}

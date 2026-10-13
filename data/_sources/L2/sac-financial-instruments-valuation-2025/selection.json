@@ -1,0 +1,34 @@
+{
+  "id": "sac-financial-instruments-valuation-2025",
+  "legacy_path": "L2_行业自律规则/证券公司金融工具估值指引.md",
+  "title": "证券公司金融工具估值指引（2025年修订）",
+  "publisher": "中国证券业协会",
+  "seed_urls": [
+    "https://idea-cp.cnfin.com/ice/2025/04/25/bbc72b4bbf634a8f95bb25567b72ed61.pdf"
+  ],
+  "source_page_url": "https://www.sac.net.cn/flfg/zlgz/202505/t20250506_67743.html",
+  "download_url": "https://www.sac.net.cn/flfg/zlgz/202505/t20250506_67743.html",
+  "format": "html",
+  "issued_date": "2025-04-25",
+  "effective_from": "2025-06-01",
+  "expected_articles": 32,
+  "origin_kind": "issuer_original",
+  "raw_path": "_sources/L2/sac-financial-instruments-valuation-2025/original.html",
+  "raw_sha256": "4a4980189d9cc7839344300ce474fe6ece8f3f5b77c9b2d1a0f42ea6c8e4eb9d",
+  "body_selector": "#zoom",
+  "version_basis": "中国证券业协会自律规则官方索引及正文标题均2025年修订，正文首页载七届理事会第三十二次会议审议通过、2025年4月25日发布、2025年6月1日起施行、中证协发〔2025〕86号。全文HTML第一至第三十二条完整，附件下载区域为空，不以旧2018版本或第三方PDF替代。",
+  "source_identity_evidence": {
+    "release_title": "证券公司金融工具估值指引（2025年修订）",
+    "release_excerpt": "经协会第七届理事会第三十二次会议审议通过，2025年4月25日发布，自2025年6月1日起施行；中证协发〔2025〕86号",
+    "official_index_url": "https://www.sac.net.cn/flfg/zlgz/",
+    "html_preview": "官方HTML #zoom含第一条宗旨和依据、第二条适用范围至第三十二条自2025年6月1日起施行。",
+    "identity_markers": [
+      "证券公司金融工具估值指引",
+      "2025",
+      "第三十二条"
+    ]
+  },
+  "status": "downloaded",
+  "failure_reason": null,
+  "discovery_evidence": "web.run官方搜索/open均无结果；requests访问证券业协会自律规则官方索引200，准确定位该发布页及正文#zoom。"
+}

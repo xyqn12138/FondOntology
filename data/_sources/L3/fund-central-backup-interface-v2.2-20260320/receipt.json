@@ -1,0 +1,23 @@
+{
+  "id": "fund-central-backup-interface-v2.2-20260320",
+  "retrieved_at": "2026-10-13T03:56:28.447444+00:00",
+  "actual_url": "https://www.chinaclear.cn/zdjs/sjjhjszl/202603/7e3d3b09db114af9b275f679a5a026bf/files/%E5%9F%BA%E9%87%91%E8%A1%8C%E4%B8%9A%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%AD%E5%A4%87%E4%BB%BD%E6%8E%A5%E5%8F%A3%E8%A7%84%E8%8C%83V2.2-20260320.docx",
+  "final_url": "https://www.chinaclear.cn/zdjs/sjjhjszl/202603/7e3d3b09db114af9b275f679a5a026bf/files/%E5%9F%BA%E9%87%91%E8%A1%8C%E4%B8%9A%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%AD%E5%A4%87%E4%BB%BD%E6%8E%A5%E5%8F%A3%E8%A7%84%E8%8C%83V2.2-20260320.docx",
+  "identity_basis": "旧摘要混合了GB/T 39662-2020与V2.2-20260320两个身份。本项仅恢复其明确提到的中国结算V2.2-20260320操作规范，官方列表标题、附件名称、发布日期相符；DOCX内封面为Ver2.2，最后修订记录日期2026-01-09，无20260320内文字符串，20260320按官方发布附件标签确认。不是GB/T 39662-2020原件，国标另列未解决记录。",
+  "origin_kind": "issuer_original",
+  "acquisition_method": "http_get",
+  "http_status": 200,
+  "content_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "word_text_characters": 105980,
+  "word_internal_version": "Ver2.2; final revision entry 2026-01-09",
+  "external_release_label": "V2.2-20260320 as published by ChinaClear on 2026-03-20",
+  "sha256": "132637b87df2184026129812d96d3ca039c0900db9337b50da4eebca684ee1e6",
+  "bytes": 543761,
+  "raw_path": "_sources/L3/fund-central-backup-interface-v2.2-20260320/original.docx",
+  "status": "downloaded",
+  "source_page_evidence": {
+    "url": "https://www.chinaclear.cn/zdjs/sjjhjszl/plat_list/code_2.shtml",
+    "bytes": 4393,
+    "sha256": "baaf9c02aad948c1518c65fb1fce07bb1a7b489d2133e7b56cd0713901e0fcb1"
+  }
+}

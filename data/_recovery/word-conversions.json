@@ -1,0 +1,266 @@
+{
+  "schema_version": 1,
+  "documents": [
+    {
+      "id": "l1-6983835b2f9e",
+      "markdown_path": "_converted/word/l1-6983835b2f9e/full.md",
+      "source_sha256": "7da2de17931515b4448564d9ec64d5ba437bd68aa4b17439458a292092eb3419",
+      "method": "Microsoft Word readonly HTML export plus lxml semantic extraction",
+      "version": "recovered-word-converter-1",
+      "observations": {
+        "html_encoding": "gb2312",
+        "body_paragraph_count": 139,
+        "body_table_count": 0,
+        "top_level_table_count": 0,
+        "html_rowspan_cells": 0,
+        "html_colspan_cells": 0,
+        "source_text_character_count": 5972,
+        "recovered_text_character_count": 5972,
+        "source_and_recovered_character_multiset_equal": true,
+        "unsupported": [],
+        "export_metadata_pages": [
+          "14"
+        ],
+        "html_image_sources": [],
+        "non_data_cover_layout_tables": 0,
+        "word_html_layout_note": "The DOC export contains cover-layout tables in addition to Word's data-table count; all are retained.",
+        "original_format": "doc",
+        "page_count": null,
+        "page_coverage": [],
+        "article_count": 30,
+        "missing_images": [],
+        "image_assets": {},
+        "first_nonempty_paragraphs": [
+          "证券投资基金销售结算资金管理暂行规定",
+          "第一章  总  则",
+          "第一条  为了保护证券投资基金（以下简称基金）投资人的合法权益，保障基金销售结算资金的安全，根据《证券投资基金法》、《证券法》、《证券投资基金销售管理办法》、《人民币银行结算账户管理办法》等有关法律、部门规章，制定本规定。",
+          "第二条  基金销售机构、基金销售支付结算机构、基金注册登记机构、基金销售结算资金监督机构（以下简称监督机构）和基金托管银行应当依照有关法律法规和本规定的要求，存放、管理、监督基金销售结算资金，不得损害基金投资人的合法权益。",
+          "第三条  中国证监会及其派出机构依法对基金销售机构、基金销售支付结算机构、基金注册登记机构、监督机构和基金托管银行与基金销售结算资金相关的经营活动实施监督管理。",
+          "第二章  账户开立人与销售账户",
+          "第四条  基金销售机构、基金销售支付结算机构、基金注册登记机构（以下统称账户开立人）可以在具备基金销售业务资格的商业银行或者从事客户交易结算资金存管的指定商业银行，或者作为监督机构的中国证券登记结算有限责任公司（以下简称中国结算）开立基金销售结算专用账户（以下简称销售账户）。",
+          "第五条  账户开立人应当按照人民币银行结算账户监管部门和中国证监会的有关规定，开立、变更或者撤销销售账户。",
+          "销售账户应当由账户开立人总部统一开立、变更和撤销。",
+          "第六条  基金销售机构开立的销售账户可分为总部基金销售结算资金归集账户（以下简称销售归集总账户）和分支机构基金销售结算资金归集账户（以下简称销售归集分账户）。",
+          "销售归集总账户是指基金销售机构以总部名义使用的，用于归集基金销售结算资金，并可与基金注册登记机构进行资金交收的销售账户。",
+          "销售归集分账户是指基金销售机构以分支机构名义使用的，用于向销售归集总账户划转基金销售结算资金的销售账户。"
+        ],
+        "last_nonempty_paragraphs": [
+          "（一）基金销售机构可以在基金成立后接受基金投资人的基金转换申请。",
+          "（二）D+3日12:00前，基金托管银行应当将确认成功的转换资金从转出基金的基金财产托管账户划往注册登记账户。",
+          "（三）D+3日15:00前，基金注册登记机构应当将转换资金在扣除相关手续费后从注册登记账户划往转入基金的基金财产托管账户。",
+          "八、基金投资人通过基金销售支付结算机构完成资金支付的，基金销售支付结算机构、基金销售机构应当按照下列规定划转资金：",
+          "（一）基金销售支付结算机构同时使用支付归集总账户和支付归集分账户的，对于基金投资人的申购（认购）申请，基金销售支付结算机构应当于D+1日10:00前将资金从支付归集分账户划往支付归集总账户，并于12:00前将资金从支付归集总账户划往基金销售机构的销售归集总账户；对于划至基金销售支付结算机构的应当支付给基金投资人的赎回、分红、申购（认购）确认失败的资金，基金销售支付结算机构应当于下一个工作日10:00前将资金划往基金投资人结算账户。",
+          "（二）基金销售支付结算机构仅使用支付归集总账户的，对于基金投资人的申购（认购）申请，基金销售支付结算机构应当于D+1日12:00前将资金从支付归集总账户划往基金销售机构的销售归集总账户；对于划至基金销售支付结算机构的应当支付给基金投资人的赎回、分红、申购（认购）确认失败的资金，基金销售支付结算机构应当于下一个工作日10:00前将资金划往基金投资人结算账户。",
+          "（三）基金销售支付结算机构不使用任何销售账户的，对于基金投资人的申购（认购）申请，基金销售支付结算机构应当于D+1日12:00前将资金划往基金销售机构的销售归集总账户；对于发至基金销售支付结算机构的基金投资人的赎回、分红、申购（认购）确认失败的清算信息，基金销售支付结算机构应当于下一个工作日10:00前将资金划往基金投资人结算账户。",
+          "九、基金管理人可以根据实际情况对中国证监会规定的特殊情况或者特殊基金品种的资金划转流程作相应的调整。"
+        ],
+        "markdown_sha256": "ac565d1c4da76c8e0f7aa2fa9a0017e9443bee0aaf299fa345f5239f16fa84d2",
+        "validation_status": "unverified",
+        "limitations": [
+          "No independent rendered page review; page count and coverage remain unasserted.",
+          "Headers and footers are recorded separately; cached pagination and TOC page references do not prove coverage."
+        ]
+      }
+    },
+    {
+      "id": "l1-6918bfa29041",
+      "markdown_path": "_converted/word/l1-6918bfa29041/full.md",
+      "source_sha256": "ef88727f17828c6697995b1478f964e0c77dea0591e1056dbb8467fead14dcf2",
+      "method": "OOXML body-order extraction with HTML rowspan and colspan tables",
+      "version": "recovered-word-converter-1",
+      "observations": {
+        "body_paragraph_count": 351,
+        "body_table_count": 0,
+        "merge_counts": {},
+        "automatic_numbered_paragraph_count": 0,
+        "automatic_number_formats": {},
+        "header_footer_cached_text": {
+          "word/footer1.xml": "－1－",
+          "word/footer2.xml": "－2－"
+        },
+        "field_count": 0,
+        "unsupported": [],
+        "tracked_change_policy": "Current text includes insertions and excludes deleted revision text; original OOXML retains all revisions.",
+        "source_visible_text_character_count": 18783,
+        "recovered_text_character_count": 18783,
+        "source_and_recovered_character_multiset_equal": true,
+        "source_and_recovered_text_order_equal": true,
+        "source_body_text_sha256": "cb97ecfc64d2a5ef2e60f0902aff7cb5b9eaa0e246dd852bcd9905d06ecc012d",
+        "original_format": "docx",
+        "page_count": null,
+        "page_coverage": [],
+        "article_count": 146,
+        "missing_images": [],
+        "image_assets": {},
+        "first_nonempty_paragraphs": [
+          "附件1",
+          "上海证券交易所沪港通业务实施办法",
+          "（2014年9月26日实施  2016年7月18日第一次修订",
+          "2016年9月30日第二次修订  2018年8月6日第三次修订",
+          "2018年9月7日第四次修订  2019年10月28日第五次修订",
+          "2020年1月13日第六次修订  2020年3月13日第七次修订",
+          "2021年2月1日第八次修订   2022年6月24日第九次修订",
+          "2023年3月3日第十次修订  2024年6月14日第十一次修订）",
+          "第一章 总 则",
+          "第一条 为了规范沪港通业务开展，防范风险，保护投资者合法权益，根据中国证监会《内地与香港股票市场交易互联互通机制若干规定》（以下简称《若干规定》）、《上海证券交易所交易规则》（以下简称《交易规则》）、《上海证券交易所会员管理规则》（以下简称《会员管理规则》）及上海证券交易所（以下简称本所）其他相关业务规则，制定本办法。",
+          "第二条 投资者、本所会员、香港联合交易所有限公司（以下简称联交所）在上海设立的证券交易服务公司（以下简称联交所证券交易服务公司）、本所设立的证券交易服务公司（以下简称本所证券交易服务公司）及其他市场主体参与沪港通交易及相关活动，应当遵守本办法。",
+          "沪股通交易事项（投资者证券买卖委托事项除外）和港股通交易的委托、本所会员客户管理等事项，本办法未规定的，适用《交易规则》《会员管理规则》和本所其他相关业务规则。"
+        ],
+        "last_nonempty_paragraphs": [
+          "第一百四十条 本所会员为港股通交易提供融资融券服务的相关事宜，由本所另行规定。",
+          "第一百四十一条 有关监管机构对沪港通交收货币另有规定的，从其规定。",
+          "第一百四十二条 根据本办法只能通过沪港通卖出而不能买入的证券，其交易、持股比例限制、股东权益行使、信息披露等事项参照适用本办法关于沪股通标的证券、港股通标的证券的规定。",
+          "第一百四十三条 本办法所称“超过”“大于”“低于”“少于”“不足”不含本数，“达到”“以下”“以上”含本数。",
+          "本办法所称“考察日前”，包含考察日当日。",
+          "第一百四十四条 本办法经本所理事会通过，报中国证监会批准，修改时亦同。",
+          "第一百四十五条 本办法由本所负责解释。",
+          "第一百四十六条 本办法自2024年6月14日起施行。"
+        ],
+        "markdown_sha256": "da426cfa03155b9439d303096f9cd55bbade96c02f386081ae58ffdbd42c8983",
+        "validation_status": "unverified",
+        "limitations": [
+          "No independent rendered page review; page count and coverage remain unasserted.",
+          "Headers and footers are recorded separately; cached pagination and TOC page references do not prove coverage."
+        ]
+      }
+    },
+    {
+      "id": "central-data-exchange-protocol-v2.2-20260320",
+      "markdown_path": "_converted/word/central-data-exchange-protocol-v2.2-20260320/full.md",
+      "source_sha256": "071b21e8057863e68c4e91d37ddc03f0bc68344d36cb65512b95016cd946b2b5",
+      "method": "Microsoft Word readonly HTML export plus lxml semantic extraction",
+      "version": "recovered-word-converter-1",
+      "observations": {
+        "html_encoding": "x-cp20936",
+        "body_paragraph_count": 27151,
+        "body_table_count": 110,
+        "top_level_table_count": 107,
+        "html_rowspan_cells": 7,
+        "html_colspan_cells": 445,
+        "source_text_character_count": 160772,
+        "recovered_text_character_count": 160772,
+        "source_and_recovered_character_multiset_equal": true,
+        "unsupported": [
+          "conditional_vml_shape_requires_visual_review"
+        ],
+        "export_metadata_pages": [
+          "1"
+        ],
+        "html_image_sources": [
+          "full.files/image001.png",
+          "full.files/image002.png"
+        ],
+        "non_data_cover_layout_tables": 4,
+        "word_html_layout_note": "The DOC export contains cover-layout tables in addition to Word's data-table count; all are retained.",
+        "original_format": "doc",
+        "page_count": null,
+        "page_coverage": [],
+        "article_count": null,
+        "missing_images": [],
+        "image_assets": {
+          "full.files/image001.png": "8dbedfe646b27e183c44ace4d696230d4f5fab07b40fef680b8a6ffdb8989bb8",
+          "full.files/image002.png": "a9c465bb9b20a91c54e044c3472cf4cd39d30931a1c5dc9b51e3eadb6293bf4f"
+        },
+        "first_nonempty_paragraphs": [
+          "目    次",
+          "目    次.......................................................................... I",
+          "前    言............................................................................ IV",
+          "修订说明............................................................................. 1",
+          "开放式基金业务数据交换协议........................................................... 3",
+          "1 范围............................................................................... 3",
+          "2 规范性引用文件..................................................................... 3",
+          "3 术语和定义......................................................................... 3",
+          "4 要求............................................................................... 5",
+          "4.1 数据类型定义..................................................................... 5",
+          "4.2 数据处理......................................................................... 5",
+          "4.3 加密............................................................................. 6"
+        ],
+        "last_nonempty_paragraphs": [
+          "其中“??”为TA代码，“XXX”为销售代理人代码。yyyymmdd为文件发送日期。",
+          "TA发送代理人文件：",
+          "A.1.4　文件类型与业务类型对应关系表",
+          "表A.3 文件类型与业务类型对照表",
+          "A.2　文件加密与数字签名技术",
+          "由数据文件交换各方协商决定文件加密和数字签名所采用的技术方案。",
+          "附录B （规范性附录）交易处理返回代码的取值及含义",
+          "注意：如果找不到合适的返回代码，统一填写“9999”，即“其它错误”。"
+        ],
+        "markdown_sha256": "3e0ee6998a0d0acf4affd5b1816a78e10bdbed8c0575e55b9a2d0d17e456a3ae",
+        "validation_status": "unverified",
+        "limitations": [
+          "No independent rendered page review; page count and coverage remain unasserted.",
+          "Headers and footers are recorded separately; cached pagination and TOC page references do not prove coverage."
+        ]
+      }
+    },
+    {
+      "id": "fund-central-backup-interface-v2.2-20260320",
+      "markdown_path": "_converted/word/fund-central-backup-interface-v2.2-20260320/full.md",
+      "source_sha256": "132637b87df2184026129812d96d3ca039c0900db9337b50da4eebca684ee1e6",
+      "method": "OOXML body-order extraction with HTML rowspan and colspan tables",
+      "version": "recovered-word-converter-1",
+      "observations": {
+        "body_paragraph_count": 15599,
+        "body_table_count": 51,
+        "merge_counts": {
+          "horizontal_merged_cells": 5,
+          "vertical_continuation_cells": 36
+        },
+        "automatic_numbered_paragraph_count": 105,
+        "automatic_number_formats": {
+          "decimal": 212,
+          "upperLetter": 4
+        },
+        "header_footer_cached_text": {
+          "word/footer1.xml": "126"
+        },
+        "field_count": 113,
+        "unsupported": [
+          "tracked_changes_visible_insertions_only:282"
+        ],
+        "tracked_change_policy": "Current text includes insertions and excludes deleted revision text; original OOXML retains all revisions.",
+        "source_visible_text_character_count": 88707,
+        "recovered_text_character_count": 88707,
+        "source_and_recovered_character_multiset_equal": true,
+        "source_and_recovered_text_order_equal": true,
+        "source_body_text_sha256": "20b8319ddc2bca80561d0cc22356a3e7fb9048a463631d85c2937aff5f71f15b",
+        "original_format": "docx",
+        "page_count": null,
+        "page_coverage": [],
+        "article_count": null,
+        "missing_images": [],
+        "image_assets": {},
+        "first_nonempty_paragraphs": [
+          "基金行业数据",
+          "集中备份接口规范",
+          "（Ver2.2）",
+          "目录",
+          "目录\t2",
+          "修订说明\t4",
+          "1. 总则\t6",
+          "2. 术语定义\t6",
+          "3. 基本要求\t9",
+          "4. 数据接口\t10",
+          "4.1. 信息格式\t10",
+          "4.2. 数据报送机制\t11"
+        ],
+        "last_nonempty_paragraphs": [
+          "01-权益类 02-固收类 03-商品及金融衍生品类 04-混合类  99-其它",
+          "2418",
+          "Detail",
+          "C",
+          "200",
+          "详细信息",
+          "8.",
+          "9."
+        ],
+        "markdown_sha256": "ceb47d76311788dd6a8654ca2cc3d028d05ab0972901e2227536308928d40066",
+        "validation_status": "unverified",
+        "limitations": [
+          "No independent rendered page review; page count and coverage remain unasserted.",
+          "Headers and footers are recorded separately; cached pagination and TOC page references do not prove coverage."
+        ]
+      }
+    }
+  ]
+}

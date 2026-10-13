@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "l1-6918bfa29041",
+  "requested_url": "https://www.sse.com.cn/lawandrules/sselawsrules2025/global/hkexsc/c/10795123/files/e8c08d2dfcd74f27b88728d986bb9cda.docx",
+  "final_url": "https://www.sse.com.cn/lawandrules/sselawsrules2025/global/hkexsc/c/10795123/files/e8c08d2dfcd74f27b88728d986bb9cda.docx",
+  "redirects": [],
+  "fetched_at": "2026-10-13T03:44:10.263687+00:00",
+  "status_code": 200,
+  "content_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "bytes": 65360,
+  "raw_sha256": "ef88727f17828c6697995b1478f964e0c77dea0591e1056dbb8467fead14dcf2",
+  "tls_policy": "default_certificate_verification",
+  "identity_basis": "上交所原来源页明确2024年修订；附件1为正文，附件2、3为起草说明/衔接安排，不混入正文。",
+  "legal_validity": "not_checked_current",
+  "source_page": {
+    "requested_url": "https://www.sse.com.cn/lawandrules/sselawsrules2025/global/hkexsc/c/c_20251017_10795123.shtml",
+    "final_url": "https://www.sse.com.cn/lawandrules/sselawsrules2025/global/hkexsc/c/c_20251017_10795123.shtml",
+    "raw_path": "_sources/L1/l1-6918bfa29041/source-page.html",
+    "sha256": "e5e87f909853e798da20303f766aedb2cf0d52d185cdb828a755451279b15c4d",
+    "bytes": 36669
+  }
+}

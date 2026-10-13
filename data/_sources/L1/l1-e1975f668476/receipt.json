@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "l1-e1975f668476",
+  "requested_url": "https://www.csrc.gov.cn/csrc/c106256/c1942800/1942800/files/【195号】证券基金经营机构董事、监事、高级管理人员及从业人员监督管理办法.pdf",
+  "final_url": "https://www.csrc.gov.cn/csrc/c106256/c1942800/1942800/files/%E3%80%90195%E5%8F%B7%E3%80%91%E8%AF%81%E5%88%B8%E5%9F%BA%E9%87%91%E7%BB%8F%E8%90%A5%E6%9C%BA%E6%9E%84%E8%91%A3%E4%BA%8B%E3%80%81%E7%9B%91%E4%BA%8B%E3%80%81%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E4%BA%BA%E5%91%98%E5%8F%8A%E4%BB%8E%E4%B8%9A%E4%BA%BA%E5%91%98%E7%9B%91%E7%9D%A3%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95.pdf",
+  "redirects": [],
+  "fetched_at": "2026-10-13T03:44:11.061059+00:00",
+  "status_code": 200,
+  "content_type": "application/pdf",
+  "bytes": 320058,
+  "raw_sha256": "937da5640e62208ce39db9462c81218f57a38ac243d0bbf1700a01bb76c6d115",
+  "tls_policy": "default_certificate_verification",
+  "identity_basis": "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。",
+  "legal_validity": "not_checked_current",
+  "source_page": {
+    "requested_url": "https://www.csrc.gov.cn/csrc/c106256/c1942800/content.shtml",
+    "final_url": "https://www.csrc.gov.cn/csrc/c106256/c1942800/content.shtml",
+    "raw_path": "_sources/L1/l1-e1975f668476/source-page.html",
+    "sha256": "be788906b98605602027cf834ba9271c793035b2fe01894268bf6c55d63f9ecc",
+    "bytes": 126070
+  }
+}

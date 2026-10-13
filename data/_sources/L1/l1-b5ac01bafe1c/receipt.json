@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "id": "l1-b5ac01bafe1c",
+  "requested_url": "https://www.amac.org.cn/fwdt/wyb/jgdjhcpbeian/zcglcpba/xgzc/202003/t20200311_19865.html",
+  "final_url": "https://www.amac.org.cn/fwdt/wyb/jgdjhcpbeian/zcglcpba/xgzc/202003/t20200311_19865.html",
+  "redirects": [],
+  "fetched_at": "2026-10-13T03:50:33.737488+00:00",
+  "status_code": 200,
+  "content_type": "text/html",
+  "bytes": 326278,
+  "raw_sha256": "6bdcc61c6ebe7ae6f9cd277f14fec363157ef5993c01512c844cb24b96b7da6f",
+  "tls_policy": "default_certificate_verification",
+  "identity_basis": "基金业协会正文载外汇管理局公告2013年第1号、2013年8月21日；旧摘要所称2017年版本错误。",
+  "legal_validity": "not_checked_current"
+}

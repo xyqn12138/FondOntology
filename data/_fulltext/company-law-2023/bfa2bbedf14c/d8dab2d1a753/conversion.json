@@ -1,0 +1,27 @@
+{
+  "identity_review": {
+    "human_reviewed": false,
+    "scope": "machine_conversion_and_structure_only"
+  },
+  "markdown_path": "_fulltext/company-law-2023/bfa2bbedf14c/d8dab2d1a753/full.md",
+  "markdown_sha256": "d8dab2d1a753f22c54ad907bb9997533918a647ddc947eb0d56ed35f8f8467fc",
+  "method": "selected-html-body",
+  "observations": {
+    "article_count": 266,
+    "body_selector": ".pages_content",
+    "excluded_title_headers": [
+      "中华人民共和国公司法"
+    ],
+    "image_references": [],
+    "missing_images": [],
+    "original_format": "html",
+    "page_count": null,
+    "page_coverage": [],
+    "table_count": 0,
+    "unsupported": []
+  },
+  "raw_path": "_sources/L0/company-law-2023/original.html",
+  "schema_version": 1,
+  "source_sha256": "bfa2bbedf14c123b1128f7e472c993bd2980045fa5ad92b5eee900e63a06b359",
+  "version": "data-restoration-v1"
+}

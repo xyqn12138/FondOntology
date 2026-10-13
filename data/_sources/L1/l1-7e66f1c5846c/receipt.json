@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "id": "l1-7e66f1c5846c",
+  "requested_url": "https://www.csrc.gov.cn/csrc/c106256/c1653849/content.shtml",
+  "final_url": "https://www.csrc.gov.cn/csrc/c106256/c1653849/content.shtml",
+  "redirects": [],
+  "fetched_at": "2026-10-13T03:44:11.183475+00:00",
+  "status_code": 200,
+  "content_type": "text/html",
+  "bytes": 74719,
+  "raw_sha256": "6c7fd3017f0c7e0f6f3baa4e6a887d66d0e723f666207c7c96c613a45337a79d",
+  "tls_policy": "default_certificate_verification",
+  "identity_basis": "证监会规章库正文明确130号令及2020年177号令修订。",
+  "legal_validity": "not_checked_current"
+}

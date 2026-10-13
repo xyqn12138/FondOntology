@@ -1,0 +1,1888 @@
+{
+  "documents": [
+    {
+      "download_url": "https://www.gov.cn/yaowen/liebiao/202312/content_6923395.htm",
+      "effective_from": "2024-07-01",
+      "expected_articles": 266,
+      "failure_reason": null,
+      "format": "html",
+      "id": "company-law-2023",
+      "issued_date": "2023-12-29",
+      "legacy_path": "L0_法律/公司法_关联关系认定条款.md",
+      "markdown_path": "_fulltext/company-law-2023/bfa2bbedf14c/d8dab2d1a753/full.md",
+      "markdown_sha256": "d8dab2d1a753f22c54ad907bb9997533918a647ddc947eb0d56ed35f8f8467fc",
+      "origin_kind": "official_republication",
+      "publisher": "全国人民代表大会常务委员会",
+      "raw_path": "_sources/L0/company-law-2023/original.html",
+      "raw_sha256": "bfa2bbedf14c123b1128f7e472c993bd2980045fa5ad92b5eee900e63a06b359",
+      "seed_urls": [
+        "https://www.gov.cn/yaowen/liebiao/202312/content_6923395.htm"
+      ],
+      "source_page_url": "https://www.gov.cn/yaowen/liebiao/202312/content_6923395.htm",
+      "status": "ready",
+      "title": "中华人民共和国公司法（2023年修订全文）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L0/company-law-2023/receipt.json",
+          "receipt_sha256": "4eb1d9c74c079214db955d11d9f9f36fbd5c317ef9a166203ac5c460e917ef33"
+        },
+        "article_count": 266,
+        "body_start_line": 1,
+        "completeness": "complete",
+        "conversion": {
+          "record_path": "_fulltext/company-law-2023/bfa2bbedf14c/d8dab2d1a753/conversions/4c427242014c0133012e200e0d382a78669fd1db780d03455ef9255496eafbb1.json",
+          "record_sha256": "4c427242014c0133012e200e0d382a78669fd1db780d03455ef9255496eafbb1"
+        },
+        "evidence": [
+          "旧摘要明确2023-12-29第二次修订、2024-07-01施行；下载全文含第二百六十六条及2023修订沿革。中国政府网标明来源新华社，属于官方再刊，不是人大原发。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": null
+      }
+    },
+    {
+      "download_url": "https://neris.csrc.gov.cn/falvfagui/rdqsHeader/lawlist",
+      "effective_from": "2015-04-24",
+      "expected_articles": 154,
+      "failure_reason": null,
+      "format": "json",
+      "id": "securities-investment-fund-law-2015",
+      "issued_date": "2015-04-24",
+      "legacy_path": "L0_法律/中华人名共和国证券投资基金法.pdf",
+      "markdown_path": "_fulltext/securities-investment-fund-law-2015/88ae50bc7f49/2d79c7f29513/full.md",
+      "markdown_sha256": "2d79c7f295131d3e45624b0334e46003ea16e8f23d3e80471ef406d45f4145ce",
+      "origin_kind": "official_republication",
+      "publisher": "全国人民代表大会常务委员会",
+      "raw_path": "_sources/L0/securities-investment-fund-law-2015/original.json",
+      "raw_sha256": "88ae50bc7f4984fd60d5628db177db301e561394ac020a3675472c633aeba877",
+      "seed_urls": [
+        "https://neris.csrc.gov.cn/falvfagui/rdqsHeader/mainbody?secFutrsLawId=e5cc920d0af7475ca44f1e69c5378244"
+      ],
+      "source_page_url": "https://neris.csrc.gov.cn/falvfagui/rdqsHeader/mainbody?secFutrsLawId=e5cc920d0af7475ca44f1e69c5378244",
+      "status": "ready",
+      "title": "中华人民共和国证券投资基金法（2015年修正全文）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L0/securities-investment-fund-law-2015/receipt.json",
+          "receipt_sha256": "4994989d65407ac9409247256ad7c8df9fbd427e55851155d1f1564bb473a5c8"
+        },
+        "article_count": 154,
+        "body_start_line": 1,
+        "completeness": "complete",
+        "conversion": {
+          "record_path": "_fulltext/securities-investment-fund-law-2015/88ae50bc7f49/2d79c7f29513/conversions/ab7a1c9627e5eed2410c63175729cd95f717dc69dc8f2094c32f68b850877d30.json",
+          "record_sha256": "ab7a1c9627e5eed2410c63175729cd95f717dc69dc8f2094c32f68b850877d30"
+        },
+        "evidence": [
+          "现有48页PDF首部明确2015-04-24修正、2012-12-28修订，末条第一百五十四条。证监会法规库页面及其正文API返回secFutrsLawVersion=20150424、主席令第23号、发文与实施2015-04-24；API完整保留条文结构。旧PDF由WPS生成、Author Jacky、2025-09-08创建，未知原下载来源，仅作为额外本地遗留副本留存。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": null
+      }
+    },
+    {
+      "download_url": "https://www.gov.cn/zhengce/content/202307/content_6890738.htm",
+      "effective_from": "2023-09-01",
+      "expected_articles": 62,
+      "failure_reason": null,
+      "format": "html",
+      "id": "private-investment-fund-regulation-2023",
+      "issued_date": "2023-07-03",
+      "legacy_path": "L0.5_行政法规/私募投资基金监督管理条例.pdf",
+      "markdown_path": "_fulltext/private-investment-fund-regulation-2023/1261c2273d32/33ff0a17b894/full.md",
+      "markdown_sha256": "33ff0a17b8942431ed6a23a0031e31023e04761ea0a0382b4a6e1f4dc94e451b",
+      "origin_kind": "issuer_original",
+      "publisher": "国务院",
+      "raw_path": "_sources/L0/private-investment-fund-regulation-2023/original.html",
+      "raw_sha256": "1261c2273d32bd103709adbe4a20b5969597fd4d2124d3bd3cfdf7b92c0147a3",
+      "seed_urls": [
+        "https://www.gov.cn/zhengce/content/202307/content_6890738.htm",
+        "https://www.gov.cn/gongbao/2023/issue_10586/202307/content_6892998.html"
+      ],
+      "source_page_url": "https://www.gov.cn/zhengce/content/202307/content_6890738.htm",
+      "status": "ready",
+      "title": "私募投资基金监督管理条例",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L0/private-investment-fund-regulation-2023/receipt.json",
+          "receipt_sha256": "835dedd8c0a483c9e64f0cbc5eb54688ff6ab2acf6a523ccaa4ec803b60e027c"
+        },
+        "article_count": 62,
+        "body_start_line": 1,
+        "completeness": "complete",
+        "conversion": {
+          "record_path": "_fulltext/private-investment-fund-regulation-2023/1261c2273d32/33ff0a17b894/conversions/7b5175b1a5909aa59dc72dcc7cae6c00bbcb4bd7cad76128ea4b447b56302e9d.json",
+          "record_sha256": "7b5175b1a5909aa59dc72dcc7cae6c00bbcb4bd7cad76128ea4b447b56302e9d"
+        },
+        "evidence": [
+          "国务院令第762号，2023-06-16国务院第8次常务会议通过，2023-07-03公布，2023-09-01施行。旧PDF21页由Microsoft Print To PDF生成且无可提取文字，标题元数据指向中国政府网；下载发布原全文保留旧PDF，未用旧PDF推断其逐条内容。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": null
+      }
+    },
+    {
+      "download_url": "https://www.chinaclear.cn/zdjs/sjjhjszl/202603/37804a0a9a524699becf2cfd58553856/files/中央数据交换平台开放式基金业务数据交换协议V2.2-20260320.doc",
+      "effective_from": null,
+      "expected_articles": null,
+      "failure_reason": "Full text identity markers did not match recovered source identity; Conversion contains unsupported or unreviewed visual/formula content; Word full-text fidelity has not been independently verified",
+      "format": "doc",
+      "id": "central-data-exchange-protocol-v2.2-20260320",
+      "issued_date": "2026-03-20",
+      "legacy_path": "L3_市场基础设施技术协议/中央数据交换平台开放式基金业务数据交换协议.md",
+      "markdown_path": "_fulltext/central-data-exchange-protocol-v2.2-20260320/071b21e80578/4cc60e23bc2d/full.md",
+      "markdown_sha256": "4cc60e23bc2d3d3c7e32866c0082654300cbcee9248f823b508f6b25afed5f92",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券登记结算有限责任公司",
+      "raw_path": "_sources/L3/central-data-exchange-protocol-v2.2-20260320/original.doc",
+      "raw_sha256": "071b21e8057863e68c4e91d37ddc03f0bc68344d36cb65512b95016cd946b2b5",
+      "seed_urls": [
+        "http://www.chinaclear.cn/zdjs/sjjpt/plat_olist.shtml",
+        "https://www.chinaclear.cn/zdjs/sjjhjszl/plat_list/code_2.shtml"
+      ],
+      "source_page_url": "https://www.chinaclear.cn/zdjs/sjjhjszl/plat_list/code_2.shtml",
+      "status": "converted_unverified",
+      "title": "中央数据交换平台开放式基金业务数据交换协议V2.2-20260320",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L3/central-data-exchange-protocol-v2.2-20260320/receipt.json",
+          "receipt_sha256": "5e0b368326b105ccdefb8fb772f8f9245b60eb7917a15cfcc0ff1f4a852b88c3"
+        },
+        "article_count": null,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/central-data-exchange-protocol-v2.2-20260320/071b21e80578/4cc60e23bc2d/conversions/df06049aef734426c05b85c186c585eddd813325aff705872cb2ce274e1689af.json",
+          "record_sha256": "df06049aef734426c05b85c186c585eddd813325aff705872cb2ce274e1689af"
+        },
+        "evidence": [
+          "旧摘要指定V2.2-20260320，官方技术资料列表对应标题、附件名称和发布日期完全一致。此原件是中国结算技术协议，不将旧摘要所称国家标准身份延用到此文件。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "not_checked",
+        "page_count": null
+      }
+    },
+    {
+      "download_url": "https://www.chinaclear.cn/zdjs/sjjhjszl/202603/7e3d3b09db114af9b275f679a5a026bf/files/基金行业数据集中备份接口规范V2.2-20260320.docx",
+      "effective_from": null,
+      "expected_articles": null,
+      "failure_reason": "Full text identity markers did not match recovered source identity; Conversion contains unsupported or unreviewed visual/formula content; Word full-text fidelity has not been independently verified",
+      "format": "docx",
+      "id": "fund-central-backup-interface-v2.2-20260320",
+      "issued_date": "2026-03-20",
+      "legacy_path": "L3_市场基础设施技术协议/基金行业数据集中备份接口规范.md",
+      "markdown_path": "_fulltext/fund-central-backup-interface-v2.2-20260320/132637b87df2/ceb47d763117/full.md",
+      "markdown_sha256": "ceb47d76311788dd6a8654ca2cc3d028d05ab0972901e2227536308928d40066",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券登记结算有限责任公司",
+      "raw_path": "_sources/L3/fund-central-backup-interface-v2.2-20260320/original.docx",
+      "raw_sha256": "132637b87df2184026129812d96d3ca039c0900db9337b50da4eebca684ee1e6",
+      "seed_urls": [
+        "https://www.csisc.cn/zbscbzw/c100231/202103/937383fd3d744a119b777fcb39323c44.shtml",
+        "https://www.chinaclear.cn/zdjs/sjjhjszl/plat_list/code_2.shtml"
+      ],
+      "source_page_url": "https://www.chinaclear.cn/zdjs/sjjhjszl/plat_list/code_2.shtml",
+      "status": "converted_unverified",
+      "title": "基金行业数据集中备份接口规范V2.2-20260320",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L3/fund-central-backup-interface-v2.2-20260320/receipt.json",
+          "receipt_sha256": "4085858c7cb03be4f5a6640f5e3224ec27ed4929728e07342ae6c908d495ed61"
+        },
+        "article_count": null,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/fund-central-backup-interface-v2.2-20260320/132637b87df2/ceb47d763117/conversions/6ab2b904636c6785af7d86958ecd0f450232f25ce0361909c1b70c6b3cc73337.json",
+          "record_sha256": "6ab2b904636c6785af7d86958ecd0f450232f25ce0361909c1b70c6b3cc73337"
+        },
+        "evidence": [
+          "旧摘要混合了GB/T 39662-2020与V2.2-20260320两个身份。本项仅恢复其明确提到的中国结算V2.2-20260320操作规范，官方列表标题、附件名称、发布日期相符；DOCX内封面为Ver2.2，最后修订记录日期2026-01-09，无20260320内文字符串，20260320按官方发布附件标签确认。不是GB/T 39662-2020原件，国标另列未解决记录。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "not_checked",
+        "page_count": null
+      }
+    },
+    {
+      "download_url": "https://www.cnstock.com/image/202311/24/20231124175032784.pdf",
+      "effective_from": null,
+      "expected_articles": null,
+      "failure_reason": "Full text identity markers did not match recovered source identity; Source version issue date not independently established; Conversion contains unsupported or unreviewed visual/formula content; Secondary source cannot be authoritative; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "sse-security-code-allocation-guide-2023-r6",
+      "issued_date": null,
+      "legacy_path": "L3_市场基础设施技术协议/上海证券交易所证券代码段分配指南.md",
+      "markdown_path": "_fulltext/sse-security-code-allocation-guide-2023-r6/d01059224a63/eabfe24155a9/full.md",
+      "markdown_sha256": "eabfe24155a9905e0856ae37ca20f3225a69eff1699dd87e2cb820af2f48552b",
+      "origin_kind": "secondary",
+      "publisher": "上海证券交易所",
+      "raw_path": "_sources/L3/sse-security-code-allocation-guide-2023-r6/original.pdf",
+      "raw_sha256": "d01059224a635c6a2597e9ebdc4db647a09364446260a23de99f35f8301f9e9c",
+      "seed_urls": [
+        "https://www.cnstock.com/image/202311/24/20231124175032784.pdf",
+        "https://www.sse.com.cn/lawandrules/guide/stock/"
+      ],
+      "source_page_url": "https://www.cnstock.com/image/202311/24/20231124175032784.pdf",
+      "status": "converted_unverified",
+      "title": "上海证券交易所证券交易业务指南第4号——证券代码段分配指南（2023年第6次修订）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L3/sse-security-code-allocation-guide-2023-r6/receipt.json",
+          "receipt_sha256": "ff24825e364c078a5a073c2554a53b793e139e94fa597a8a6780229986c07404"
+        },
+        "article_count": null,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/sse-security-code-allocation-guide-2023-r6/d01059224a63/eabfe24155a9/conversions/edc6bf6930e6a1c394720adffda3d140594761aedf34b2612feb274fda95f277.json",
+          "record_sha256": "edc6bf6930e6a1c394720adffda3d140594761aedf34b2612feb274fda95f277"
+        },
+        "evidence": [
+          "旧摘要指定2023年第6次修订及此PDF种子。下载PDF14页封面逐字匹配版本，末页含四、附则；SSE指南入口本次HTTP403，故保留中国证券网转载来源，不冒充SSE直接原发。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "not_checked",
+        "page_count": 14
+      }
+    },
+    {
+      "download_url": "https://openstd.samr.gov.cn/bzgk/std/viewGb?hcno=8C47EC0E3A27A1BA9203C1E755783885",
+      "effective_from": "2021-07-01",
+      "expected_articles": null,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "gb-t-39662-2020",
+      "issued_date": "2020-12-14",
+      "legacy_path": "L3_市场基础设施技术协议/基金行业数据集中备份接口规范.md",
+      "markdown_path": "_fulltext/gb-t-39662-2020/b4c77bd15f2e/8f2c9790e386/full.md",
+      "markdown_sha256": "8f2c9790e386ad80048f2822034bea67b6e62ca3ef93979749652810741fe092",
+      "origin_kind": "issuer_original",
+      "publisher": "国家市场监督管理总局、国家标准化管理委员会",
+      "raw_path": "_sources/L3/gb-t-39662-2020/original.pdf",
+      "raw_sha256": "b4c77bd15f2e9dba8c09dc323f87bf917ce14a9c2581587d0bfb56c1a8804a0e",
+      "seed_urls": [
+        "https://www.csisc.cn/zbscbzw/c100231/202103/937383fd3d744a119b777fcb39323c44.shtml",
+        "https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=8C47EC0E3A27A1BA9203C1E755783885"
+      ],
+      "source_page_url": "https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=8C47EC0E3A27A1BA9203C1E755783885",
+      "status": "converted_unverified",
+      "title": "基金行业数据集中备份接口规范（GB/T 39662-2020）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L3/gb-t-39662-2020/receipt.json",
+          "receipt_sha256": "a0a934e884802d1f3d14c3b54dccb08a55b64255d8b6a68f9ccf8b365deacf3f"
+        },
+        "article_count": null,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/gb-t-39662-2020/b4c77bd15f2e/8f2c9790e386/conversions/81e9985da1128492ac7a524119533f6cb4330754ede0fdd28dfc15d67f023d6e.json",
+          "record_sha256": "81e9985da1128492ac7a524119533f6cb4330754ede0fdd28dfc15d67f023d6e"
+        },
+        "evidence": [
+          "资本市场标准网和全国标准信息公共服务平台均明确GB/T 39662-2020；此国标与中国结算V2.2-20260320操作规范为不同身份，未替代。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 128
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653983/1653983/files/166-7%E3%80%8A%E4%B8%8A%E5%B8%82%E5%85%AC%E5%8F%B8%E6%94%B6%E8%B4%AD%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+      "effective_from": "2020-03-20",
+      "expected_articles": 90,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-ea5f40b1df62",
+      "issued_date": "2020-03-20",
+      "legacy_path": "L1_监管强制规则/上市公司收购管理办法_关联方认定条款.md",
+      "markdown_path": "_fulltext/l1-ea5f40b1df62/d20681773b7f/4f84448c1494/full.md",
+      "markdown_sha256": "4f84448c1494ac35768cc99d1720702a4ecb1b413e68b233ca3be6bfa99adfd0",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-ea5f40b1df62/original.pdf",
+      "raw_sha256": "d20681773b7f15590381d24c2c4ba38f79015977a67bc8c5fbee23eef5cd5503",
+      "seed_urls": [
+        "https://www.csrc.gov.cn/csrc/c106256/c1653983/content.shtml"
+      ],
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653983/content.shtml",
+      "status": "converted_unverified",
+      "title": "上市公司收购管理办法",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-ea5f40b1df62/receipt.json",
+          "receipt_sha256": "8bce71a29bb1e679a80582cd6db76b9ec64b74e5a2cf12b23eae00663c5032f1"
+        },
+        "article_count": 90,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-ea5f40b1df62/d20681773b7f/4f84448c1494/conversions/850ad7a7d94a95d62cb2160f62a5beae35c14ded6b54a2d8de3611017ebcde54.json",
+          "record_sha256": "850ad7a7d94a95d62cb2160f62a5beae35c14ded6b54a2d8de3611017ebcde54"
+        },
+        "evidence": [
+          "原来源规章库标题与166-7附件；恢复2020修订全文，不再仅摘录关联条款。 原文核验：PDF首页修订沿革明确2020年3月20日第166号令。另核验第166号令发布页 https://www.csrc.gov.cn/csrc/c101950/c1048008/content.shtml 落款2020年3月20日、自公布之日起施行。第九十条2006年9月1日是原版本施行日，不用于本修订版本。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 49
+      }
+    },
+    {
+      "download_url": "https://www.sse.com.cn/lawandrules/sselawsrules2025/global/hkexsc/c/10795123/files/e8c08d2dfcd74f27b88728d986bb9cda.docx",
+      "effective_from": "2024-06-14",
+      "expected_articles": 146,
+      "failure_reason": "Word full-text fidelity has not been independently verified",
+      "format": "docx",
+      "id": "l1-6918bfa29041",
+      "issued_date": "2024-06-14",
+      "legacy_path": "L1_监管强制规则/上海证券交易所沪港通业务实施办法.md",
+      "markdown_path": "_fulltext/l1-6918bfa29041/ef88727f1782/d342b68f45ce/full.md",
+      "markdown_sha256": "d342b68f45ce84c284aee1fda2c5eb005399ffc5b40daaaae70e5fda4af58c29",
+      "origin_kind": "issuer_original",
+      "publisher": "上海证券交易所（经中国证监会批准）",
+      "raw_path": "_sources/L1/l1-6918bfa29041/original.docx",
+      "raw_sha256": "ef88727f17828c6697995b1478f964e0c77dea0591e1056dbb8467fead14dcf2",
+      "seed_urls": [
+        "https://www.sse.com.cn/lawandrules/sselawsrules2025/global/hkexsc/c/c_20251017_10795123.shtml"
+      ],
+      "source_page_url": "https://www.sse.com.cn/lawandrules/sselawsrules2025/global/hkexsc/c/c_20251017_10795123.shtml",
+      "status": "converted_unverified",
+      "title": "上海证券交易所沪港通业务实施办法（2024年修订）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-6918bfa29041/receipt.json",
+          "receipt_sha256": "23e98aa2a969b26a3abcf6c111debf397b86379f3299d52fcc75b280561fd993"
+        },
+        "article_count": 146,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-6918bfa29041/ef88727f1782/d342b68f45ce/conversions/e045ad7f53224f1ff4e955b129ca7ea453ee33177beedb610418de96e00828e0.json",
+          "record_sha256": "e045ad7f53224f1ff4e955b129ca7ea453ee33177beedb610418de96e00828e0"
+        },
+        "evidence": [
+          "上交所原来源页明确2024年修订；附件1为正文，附件2、3为起草说明/衔接安排，不混入正文。 原文核验：DOCX首页沿革明确2024年6月14日第十一次修订，第一百四十六条明确同日起施行；发布页上证发〔2024〕76号一致。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": null
+      }
+    },
+    {
+      "download_url": "https://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117431/files/a920cc804ded4fe2b600196d01080e68.pdf",
+      "effective_from": "2017-10-01",
+      "expected_articles": 41,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-288348db871e",
+      "issued_date": "2017-08-31",
+      "legacy_path": "L1_监管强制规则/公开募集开放式证券投资基金流动性风险管理规定.md",
+      "markdown_path": "_fulltext/l1-288348db871e/813558004fa2/71515c2cdeb7/full.md",
+      "markdown_sha256": "71515c2cdeb795332443d495449205bedbd8695a6374aa89de8082829f8d8321",
+      "origin_kind": "official_republication",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-288348db871e/original.pdf",
+      "raw_sha256": "813558004fa2d8d6c87050ef634b49d47a8e913d99c76590f281d711554ecf93",
+      "seed_urls": [
+        "https://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117431/files/a920cc804ded4fe2b600196d01080e68.pdf"
+      ],
+      "source_page_url": null,
+      "status": "converted_unverified",
+      "title": "公开募集开放式证券投资基金流动性风险管理规定",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-288348db871e/receipt.json",
+          "receipt_sha256": "1d3f3ec37440f4fe28b74ec05ec3b1c011e14811154dece09babe48258ebee0e"
+        },
+        "article_count": 41,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-288348db871e/813558004fa2/71515c2cdeb7/conversions/24bee9913a3f6d6b7579f14d4682ba0450c016a5d81c338083ffc48e3b9e11ef.json",
+          "record_sha256": "24bee9913a3f6d6b7579f14d4682ba0450c016a5d81c338083ffc48e3b9e11ef"
+        },
+        "evidence": [
+          "上交所法律规则栏目再刊证监会2017年12号公告原PDF。 原文核验：PDF第四十一条明确2017年10月1日施行；另核验官方第12号公告 https://www.csrc.gov.cn/csrc/c101877/c1029552/content.shtml 落款2017年8月31日。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 17
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653985/1653985/files/166-8%E3%80%8A%E5%85%AC%E5%BC%80%E5%8B%9F%E9%9B%86%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E4%BF%A1%E6%81%AF%E6%8A%AB%E9%9C%B2%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+      "effective_from": "2020-03-20",
+      "expected_articles": 42,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-625a9db0ed9a",
+      "issued_date": "2020-03-20",
+      "legacy_path": "L1_监管强制规则/公开募集证券投资基金信息披露管理办法.md",
+      "markdown_path": "_fulltext/l1-625a9db0ed9a/4d8ac4d0fe23/40c5976ebfc5/full.md",
+      "markdown_sha256": "40c5976ebfc56cb3e4c0c04767334d9df61d624ba36807314568b7f36252777f",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-625a9db0ed9a/original.pdf",
+      "raw_sha256": "4d8ac4d0fe23d875f7d867888646bd29eeb8842eb59e7484fa65d854a83d6e05",
+      "seed_urls": [
+        "http://www.csrc.gov.cn/csrc/c106256/c1653985/content.shtml"
+      ],
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653985/content.shtml",
+      "status": "converted_unverified",
+      "title": "公开募集证券投资基金信息披露管理办法",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-625a9db0ed9a/receipt.json",
+          "receipt_sha256": "95b1fd18c6a3519189d447f61258c5cfc0b689663cb168276b24d22b21d6b06a"
+        },
+        "article_count": 42,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-625a9db0ed9a/4d8ac4d0fe23/40c5976ebfc5/conversions/4344f296009a83d26de1c82bab0df6f5bc1d33735799b3d8faced6fcdff599a9.json",
+          "record_sha256": "4344f296009a83d26de1c82bab0df6f5bc1d33735799b3d8faced6fcdff599a9"
+        },
+        "evidence": [
+          "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页明确2020年3月20日第166号令修订，至第四十二条；另核验第166号令 https://www.csrc.gov.cn/csrc/c101950/c1048008/content.shtml 明确2020年3月20日公布并施行。2019年9月1日仅为原版本施行日。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 18
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c101899/c1039188/1039188/files/%E3%80%8A%E5%85%AC%E5%BC%80%E5%8B%9F%E9%9B%86%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E5%AE%A3%E4%BC%A0%E6%8E%A8%E4%BB%8B%E6%9D%90%E6%96%99%E7%AE%A1%E7%90%86%E6%9A%82%E8%A1%8C%E8%A7%84%E5%AE%9A%E3%80%8B.pdf",
+      "effective_from": "2020-10-01",
+      "expected_articles": 20,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-c72866243a01",
+      "issued_date": "2020-08-28",
+      "legacy_path": "L1_监管强制规则/公开募集证券投资基金宣传推介材料管理暂行规定.md",
+      "markdown_path": "_fulltext/l1-c72866243a01/878895a01474/4a1c6ac6927f/full.md",
+      "markdown_sha256": "4a1c6ac6927fd16b02962ca95470395c1a5fa6b592e870e03ba5eedd166729ed",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-c72866243a01/original.pdf",
+      "raw_sha256": "878895a01474cf7e04a383f0bbb83b6e8bfc73fa201f60f177927411c21e7942",
+      "seed_urls": [
+        "http://www.csrc.gov.cn/csrc/c101899/c1039188/content.shtml"
+      ],
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101899/c1039188/content.shtml",
+      "status": "converted_unverified",
+      "title": "公开募集证券投资基金宣传推介材料管理暂行规定",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-c72866243a01/receipt.json",
+          "receipt_sha256": "4519310061464e0149146fd9ed4d02c2e5ff21483e18dbe17050a3508ba4b7df"
+        },
+        "article_count": 20,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-c72866243a01/878895a01474/4a1c6ac6927f/conversions/d507a2f968eb297d2afbfca399238cf8e08e4eb47f4ed407c690ef2aa4add1c6.json",
+          "record_sha256": "d507a2f968eb297d2afbfca399238cf8e08e4eb47f4ed407c690ef2aa4add1c6"
+        },
+        "evidence": [
+          "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：已保存source-page.html第59号公告落款2020年8月28日，2020年10月1日施行；PDF至第二十条。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 5
+      }
+    },
+    {
+      "download_url": "https://www.gov.cn/gongbao/content/2022/content_5704810.htm",
+      "effective_from": "2022-06-20",
+      "expected_articles": 78,
+      "failure_reason": null,
+      "format": "html",
+      "id": "l1-779a5b04e045",
+      "issued_date": "2022-05-20",
+      "legacy_path": "L1_监管强制规则/公开募集证券投资基金管理人监督管理办法.md",
+      "markdown_path": "_fulltext/l1-779a5b04e045/e3b3b4ea4333/e2ed8f47e338/full.md",
+      "markdown_sha256": "e2ed8f47e338e2efd09a37f4230934508a195e3c3dd6a0174dd57e561551c4e8",
+      "origin_kind": "official_republication",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-779a5b04e045/original.html",
+      "raw_sha256": "e3b3b4ea4333cf6424004fe4a0bb5abf154924ecf25989fbb24b5178cd4b37dd",
+      "seed_urls": [
+        "https://www.gov.cn/gongbao/content/2022/content_5704810.htm"
+      ],
+      "source_page_url": "https://www.gov.cn/gongbao/content/2022/content_5704810.htm",
+      "status": "ready",
+      "title": "公开募集证券投资基金管理人监督管理办法",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-779a5b04e045/receipt.json",
+          "receipt_sha256": "f11108460f0c5220c5eb4673886608f6785fe1eaf90b18cea11206c522ad40bb"
+        },
+        "article_count": 78,
+        "body_start_line": 1,
+        "completeness": "complete",
+        "conversion": {
+          "record_path": "_fulltext/l1-779a5b04e045/e3b3b4ea4333/e2ed8f47e338/conversions/46ffca74efdd4a5d59dbba488f889c31c646df09fa79e19372bcbb556cc1b20c.json",
+          "record_sha256": "46ffca74efdd4a5d59dbba488f889c31c646df09fa79e19372bcbb556cc1b20c"
+        },
+        "evidence": [
+          "国务院公报2022年第22号再刊198号令，正文至第七十八条。 原文核验：原HTML第198号令落款2022年5月20日，令文及第七十八条明确2022年6月20日施行；.pages_content唯一匹配完整令文及78条。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": null
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653978/1653978/files/104%E5%8F%B7%E3%80%8A%E5%85%AC%E5%BC%80%E5%8B%9F%E9%9B%86%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E8%BF%90%E4%BD%9C%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+      "effective_from": "2014-08-08",
+      "expected_articles": 59,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-6f014fe27f98",
+      "issued_date": "2014-07-07",
+      "legacy_path": "L1_监管强制规则/公开募集证券投资基金运作管理办法.md",
+      "markdown_path": "_fulltext/l1-6f014fe27f98/b8d078253e30/fcae37369faf/full.md",
+      "markdown_sha256": "fcae37369fafa913fe1fe0610dd291c92c142d0fb595d2f47bd2d70387ef7b4f",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-6f014fe27f98/original.pdf",
+      "raw_sha256": "b8d078253e3048aebb2e057e953ee442ec41c864c4461c0008d4042f8a952511",
+      "seed_urls": [
+        "http://www.csrc.gov.cn/csrc/c106256/c1653978/1653978/files/104号《公开募集证券投资基金运作管理办法》.pdf"
+      ],
+      "source_page_url": null,
+      "status": "converted_unverified",
+      "title": "公开募集证券投资基金运作管理办法",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-6f014fe27f98/receipt.json",
+          "receipt_sha256": "6cbb5f642c43d18bdc40f1eb18105f585025a53dd60f16764bb7c5bd1b45d934"
+        },
+        "article_count": 59,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-6f014fe27f98/b8d078253e30/fcae37369faf/conversions/cc266ae4cdb11198b14d90f555110e1150e2e614dde4a781da437f06745c35d9.json",
+          "record_sha256": "cc266ae4cdb11198b14d90f555110e1150e2e614dde4a781da437f06745c35d9"
+        },
+        "evidence": [
+          "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页第104号令明确2014年7月7日公布、2014年8月8日施行，第五十九条确认。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 24
+      }
+    },
+    {
+      "download_url": "https://www.gov.cn/gongbao/content/2020/content_5554550.htm",
+      "effective_from": "2020-10-01",
+      "expected_articles": 63,
+      "failure_reason": null,
+      "format": "html",
+      "id": "l1-1e4a66f9b18c",
+      "issued_date": "2020-08-28",
+      "legacy_path": "L1_监管强制规则/公开募集证券投资基金销售机构监督管理办法.md",
+      "markdown_path": "_fulltext/l1-1e4a66f9b18c/f504c8bdb217/7af9d995cdd4/full.md",
+      "markdown_sha256": "7af9d995cdd44922899e061379f665a8d93c40c4ddd5172947f39d5bf19171e4",
+      "origin_kind": "official_republication",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-1e4a66f9b18c/original.html",
+      "raw_sha256": "f504c8bdb217979cb7f260df84920328af371453ace17a0274924ec6a614d05b",
+      "seed_urls": [
+        "https://www.gov.cn/gongbao/content/2020/content_5554550.htm"
+      ],
+      "source_page_url": "https://www.gov.cn/gongbao/content/2020/content_5554550.htm",
+      "status": "ready",
+      "title": "公开募集证券投资基金销售机构监督管理办法",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-1e4a66f9b18c/receipt.json",
+          "receipt_sha256": "c518c964c3657a3bcad754f700c5f32fab1245e051f6bc28b837572f435821a5"
+        },
+        "article_count": 63,
+        "body_start_line": 1,
+        "completeness": "complete",
+        "conversion": {
+          "record_path": "_fulltext/l1-1e4a66f9b18c/f504c8bdb217/7af9d995cdd4/conversions/7ecd5f3b68c0f5f701b91171205686da248495bfa8d7b3d3f0ee0c6c4e2005d7.json",
+          "record_sha256": "7ecd5f3b68c0f5f701b91171205686da248495bfa8d7b3d3f0ee0c6c4e2005d7"
+        },
+        "evidence": [
+          "国务院公报2020年第30号再刊175号令，正文至第六十三条。 原文核验：原HTML第175号令落款2020年8月28日，令文及第六十三条明确2020年10月1日施行；.pages_content唯一匹配完整令文及63条。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": null
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c101954/c7606091/7606091/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E5%85%AC%E5%BC%80%E5%8B%9F%E9%9B%86%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E9%94%80%E5%94%AE%E8%B4%B9%E7%94%A8%E7%AE%A1%E7%90%86%E8%A7%84%E5%AE%9A.pdf",
+      "effective_from": "2026-01-01",
+      "expected_articles": 29,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-087279ad5f40",
+      "issued_date": "2025-12-31",
+      "legacy_path": "L1_监管强制规则/公开募集证券投资基金销售费用管理规定.md",
+      "markdown_path": "_fulltext/l1-087279ad5f40/af9893827fc7/c4fceac732b4/full.md",
+      "markdown_sha256": "c4fceac732b44a60142ae95ed14678ae9b9eb1aa6e0ce0aa823a20dc9363cc60",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-087279ad5f40/original.pdf",
+      "raw_sha256": "af9893827fc79e7f18e89edb2fc2e855d7fff3bb55e070b90be7b0a78d1ac08c",
+      "seed_urls": [
+        "https://www.csrc.gov.cn/csrc/c101954/c7606091/content.shtml"
+      ],
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101954/c7606091/content.shtml",
+      "status": "converted_unverified",
+      "title": "公开募集证券投资基金销售费用管理规定",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-087279ad5f40/receipt.json",
+          "receipt_sha256": "e6372e0061ea55da439877779fb300ccf8613ebb13172e9bb65113f72ad9b353"
+        },
+        "article_count": 29,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-087279ad5f40/af9893827fc7/c4fceac732b4/conversions/8af48bff25d69af429ff3f2b01b49a6e2b9b3c931fb888b116ec0f70644ea9ca.json",
+          "record_sha256": "8af48bff25d69af429ff3f2b01b49a6e2b9b3c931fb888b116ec0f70644ea9ca"
+        },
+        "evidence": [
+          "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：已保存source-page.html第2025年22号公告落款2025年12月31日，明确2026年1月1日施行，与PDF第二十九条相符。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 10
+      }
+    },
+    {
+      "download_url": "https://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117189/files/ca9769b2bd4f4cf9a546040941357ea5.pdf",
+      "effective_from": "2020-10-01",
+      "expected_articles": null,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-bed25b74e40c",
+      "issued_date": "2020-08-28",
+      "legacy_path": "L1_监管强制规则/关于实施销售机构监督管理办法的规定.md",
+      "markdown_path": "_fulltext/l1-bed25b74e40c/c817a4016bb0/5988e62cd375/full.md",
+      "markdown_sha256": "5988e62cd375fe3e891d82d2c5e09d7342964e1bb190b020a6e43f1a3291d9d2",
+      "origin_kind": "official_republication",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-bed25b74e40c/original.pdf",
+      "raw_sha256": "c817a4016bb047fbc9c9e4256e4de9973be120aad2894a4ed1e0ffec789e69eb",
+      "seed_urls": [
+        "http://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117189/files/ca9769b2bd4f4cf9a546040941357ea5.pdf"
+      ],
+      "source_page_url": null,
+      "status": "converted_unverified",
+      "title": "关于实施《公开募集证券投资基金销售机构监督管理办法》的规定",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-bed25b74e40c/receipt.json",
+          "receipt_sha256": "1d8894a157b65f30ab0e589f0f13e76d253b79aa624ff0fb3a740e781f42571e"
+        },
+        "article_count": null,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-bed25b74e40c/c817a4016bb0/5988e62cd375/conversions/7dcfe9825429c89de74514e57e7d8e8f6319182b2a5f5793ad62c49bd02def59.json",
+          "record_sha256": "7dcfe9825429c89de74514e57e7d8e8f6319182b2a5f5793ad62c49bd02def59"
+        },
+        "evidence": [
+          "上交所栏目再刊证监会2020年58号公告正式附件，不保留征求意见稿摘要。 原文核验：另核验官方第58号公告 https://www.csrc.gov.cn/csrc/c101877/c1039189/content.shtml 落款2020年8月28日，2020年10月1日施行。PDF按一、至二十九、编号，非第一条格式，expected_articles不适用。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 11
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1654020/1654020/files/6dc3bca009924c9ba18e72b62f1869ed.pdf",
+      "effective_from": "2016-09-30",
+      "expected_articles": 19,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-66dd2b604e86",
+      "issued_date": "2016-09-30",
+      "legacy_path": "L1_监管强制规则/内地与香港股票市场交易互联互通机制若干规定.md",
+      "markdown_path": "_fulltext/l1-66dd2b604e86/b9be17f3d826/f122edb58cb2/full.md",
+      "markdown_sha256": "f122edb58cb2fef64173a5a5d1991271df2b3babc731eea600b9128c4fe03bbd",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-66dd2b604e86/original.pdf",
+      "raw_sha256": "b9be17f3d826b166b1309da8f34e3c8a3372d1e1e4cf11c1b15c599c89163fa6",
+      "seed_urls": [
+        "http://www.csrc.gov.cn/csrc/c106256/c1654020/1654020/files/6dc3bca009924c9ba18e72b62f1869ed.pdf"
+      ],
+      "source_page_url": null,
+      "status": "converted_unverified",
+      "title": "内地与香港股票市场交易互联互通机制若干规定",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-66dd2b604e86/receipt.json",
+          "receipt_sha256": "e7e01fa98c5f20526b264c277bb3145c84017fa0fb73903b1b68887f3fe42e19"
+        },
+        "article_count": 19,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-66dd2b604e86/b9be17f3d826/f122edb58cb2/conversions/4e56a1ddfabe5c45c40463d6886af696ae5a374d4730f504706ef7bcc560b076.json",
+          "record_sha256": "4e56a1ddfabe5c45c40463d6886af696ae5a374d4730f504706ef7bcc560b076"
+        },
+        "evidence": [
+          "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页明确2016年9月30日第128号令公布并施行，至第十九条；这是2016历史原版，不是旧摘要所称2022修正版。2022修正全文另存l1-stock-connect-2022。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 9
+      }
+    },
+    {
+      "download_url": "https://www.amac.org.cn/fwdt/wyb/jgdjhcpbeian/zcglcpba/xgzc/202003/t20200311_19865.html",
+      "effective_from": "2013-08-21",
+      "expected_articles": 19,
+      "failure_reason": null,
+      "format": "html",
+      "id": "l1-b5ac01bafe1c",
+      "issued_date": "2013-08-21",
+      "legacy_path": "L1_监管强制规则/合格境内机构投资者境外证券投资外汇管理规定.md",
+      "markdown_path": "_fulltext/l1-b5ac01bafe1c/6bdcc61c6ebe/4380e5fb555e/full.md",
+      "markdown_sha256": "4380e5fb555e9708502acc616b21568937538630ccadb05a1bd5e0bd0d01c2ab",
+      "origin_kind": "official_republication",
+      "publisher": "国家外汇管理局",
+      "raw_path": "_sources/L1/l1-b5ac01bafe1c/original.html",
+      "raw_sha256": "6bdcc61c6ebe7ae6f9cd277f14fec363157ef5993c01512c844cb24b96b7da6f",
+      "seed_urls": [
+        "https://www.amac.org.cn/fwdt/wyb/jgdjhcpbeian/zcglcpba/xgzc/202003/t20200311_19865.html"
+      ],
+      "source_page_url": "https://www.amac.org.cn/fwdt/wyb/jgdjhcpbeian/zcglcpba/xgzc/202003/t20200311_19865.html",
+      "status": "ready",
+      "title": "合格境内机构投资者境外证券投资外汇管理规定（QDII外汇管理配套细则）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-b5ac01bafe1c/receipt.json",
+          "receipt_sha256": "93668bc1ef72eaee52b519bedcd6fcf5b43e97eaaf177bf6642e84d60640c380"
+        },
+        "article_count": 19,
+        "body_start_line": 1,
+        "completeness": "complete",
+        "conversion": {
+          "record_path": "_fulltext/l1-b5ac01bafe1c/6bdcc61c6ebe/4380e5fb555e/conversions/f5c6c45e5278c423b736f1b2c2666453118d765c778eae608dafb2c57a254de1.json",
+          "record_sha256": "f5c6c45e5278c423b736f1b2c2666453118d765c778eae608dafb2c57a254de1"
+        },
+        "evidence": [
+          "基金业协会正文载外汇管理局公告2013年第1号、2013年8月21日；旧摘要所称2017年版本错误。 原文核验：原HTML标题署外汇管理局公告2013年第1号、2013年8月21日，第十九条明确自发布之日起实施；.TRS_Editor唯一匹配完整19条。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": null
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653919/1653919/files/46%E5%8F%B7%E3%80%8A%E5%90%88%E6%A0%BC%E5%A2%83%E5%86%85%E6%9C%BA%E6%9E%84%E6%8A%95%E8%B5%84%E8%80%85%E5%A2%83%E5%A4%96%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E7%AE%A1%E7%90%86%E8%AF%95%E8%A1%8C%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+      "effective_from": "2007-07-05",
+      "expected_articles": 47,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-3ff1f1ad400f",
+      "issued_date": "2007-06-18",
+      "legacy_path": "L1_监管强制规则/合格境内机构投资者境外证券投资管理试行办法_QDII.md",
+      "markdown_path": "_fulltext/l1-3ff1f1ad400f/0a635738c376/bd6818aea78f/full.md",
+      "markdown_sha256": "bd6818aea78ff6d23a7337faf94fdf42f821ed8cd20472e342e2475b19a5daaa",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-3ff1f1ad400f/original.pdf",
+      "raw_sha256": "0a635738c376799d06111727fef88353dfd5c09c3d42eb9f052d981ba9eeb685",
+      "seed_urls": [
+        "http://www.csrc.gov.cn/csrc/c106256/c1653919/content.shtml"
+      ],
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653919/content.shtml",
+      "status": "converted_unverified",
+      "title": "合格境内机构投资者境外证券投资管理试行办法（QDII）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-3ff1f1ad400f/receipt.json",
+          "receipt_sha256": "5c37f57ab77825ecbb83d0615c858ae66545aba364e54c76e6c81a73c6a3feba"
+        },
+        "article_count": 47,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-3ff1f1ad400f/0a635738c376/bd6818aea78f/conversions/57a6fa4c2f1fff69d40de663e2e683a42832fc4c8fefca78a9beb996a31a8dd0.json",
+          "record_sha256": "57a6fa4c2f1fff69d40de663e2e683a42832fc4c8fefca78a9beb996a31a8dd0"
+        },
+        "evidence": [
+          "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页第46号令明确2007年6月18日公布、2007年7月5日施行，第四十七条确认。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 14
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653823/1653823/files/%E3%80%90176%E5%8F%B7%E3%80%91%E5%90%88%E6%A0%BC%E5%A2%83%E5%A4%96%E6%9C%BA%E6%9E%84%E6%8A%95%E8%B5%84%E8%80%85%E5%92%8C%E4%BA%BA%E6%B0%91%E5%B8%81%E5%90%88%E6%A0%BC%E5%A2%83%E5%A4%96%E6%9C%BA%E6%9E%84%E6%8A%95%E8%B5%84%E8%80%85%E5%A2%83%E5%86%85%E8%AF%81%E5%88%B8%E6%9C%9F%E8%B4%A7%E6%8A%95%E8%B5%84%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95.pdf",
+      "effective_from": "2020-11-01",
+      "expected_articles": 29,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-3f70c6457161",
+      "issued_date": "2020-09-25",
+      "legacy_path": "L1_监管强制规则/合格境外机构投资者和人民币合格境外机构投资者境内证券期货投资管理办法_QFII.md",
+      "markdown_path": "_fulltext/l1-3f70c6457161/9b8e4e41956a/6a8fcb2b15e1/full.md",
+      "markdown_sha256": "6a8fcb2b15e1a65c20730541f9a790d729f7391d1edf6b904dcba59e6a633974",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会、中国人民银行、国家外汇管理局",
+      "raw_path": "_sources/L1/l1-3f70c6457161/original.pdf",
+      "raw_sha256": "9b8e4e41956a928b7d45f3bbeb4b7599ac38be5cbaad364aa8766c690ed386d4",
+      "seed_urls": [
+        "https://www.csrc.gov.cn/csrc/c106256/c1653823/content.shtml"
+      ],
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653823/content.shtml",
+      "status": "converted_unverified",
+      "title": "合格境外机构投资者和人民币合格境外机构投资者境内证券期货投资管理办法（QFII/RQFII）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-3f70c6457161/receipt.json",
+          "receipt_sha256": "348cfaf6e6a1af71fda41fe85d7d5fab910eec64d8a1912e8c036e4cc6a2787c"
+        },
+        "article_count": 29,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-3f70c6457161/9b8e4e41956a/6a8fcb2b15e1/conversions/dbc9e35e71c759b8078f15d07add337b9cc92576a9ff4b392f84d8539d3ac134.json",
+          "record_sha256": "dbc9e35e71c759b8078f15d07add337b9cc92576a9ff4b392f84d8539d3ac134"
+        },
+        "evidence": [
+          "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页第176号令明确2020年9月25日公布、2020年11月1日施行，第二十九条确认。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 9
+      }
+    },
+    {
+      "download_url": "https://docs.static.szse.cn/www/lawrules/rule/inno/W020240614673497419312.pdf",
+      "effective_from": "2024-06-14",
+      "expected_articles": 147,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-de65cbfb0ded",
+      "issued_date": "2024-06-14",
+      "legacy_path": "L1_监管强制规则/深圳证券交易所深港通业务实施办法.md",
+      "markdown_path": "_fulltext/l1-de65cbfb0ded/64c0a06cae1c/05efb6bbdb56/full.md",
+      "markdown_sha256": "05efb6bbdb56cd2842c23fa35cebd9a6a46d0dd56505a77da36d1ce11288f0ae",
+      "origin_kind": "issuer_original",
+      "publisher": "深圳证券交易所（经中国证监会批准）",
+      "raw_path": "_sources/L1/l1-de65cbfb0ded/original.pdf",
+      "raw_sha256": "64c0a06cae1cd633a37c7b68faf6a331e08a75b54362ec824f21e1a1021b54f5",
+      "seed_urls": [
+        "https://docs.static.szse.cn/www/lawrules/rule/inno/W020240614673497419312.pdf"
+      ],
+      "source_page_url": null,
+      "status": "converted_unverified",
+      "title": "深圳证券交易所深港通业务实施办法（2024年修订）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-de65cbfb0ded/receipt.json",
+          "receipt_sha256": "e557ff4720a5386846c0b33dd57e7ddabdd78f0fd944c2c20c2f24d4405ce810"
+        },
+        "article_count": 147,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-de65cbfb0ded/64c0a06cae1c/05efb6bbdb56/conversions/ccf87edb80176eab6d7313dc25598e0665af37997bc27f294e72f17497db54b4.json",
+          "record_sha256": "ccf87edb80176eab6d7313dc25598e0665af37997bc27f294e72f17497db54b4"
+        },
+        "evidence": [
+          "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页沿革明确2024年6月14日第八次修订，第一百四十七条明确同日起施行。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 43
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653981/1653981/files/105%E5%8F%B7%E3%80%8A%E7%A7%81%E5%8B%9F%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E7%9B%91%E7%9D%A3%E7%AE%A1%E7%90%86%E6%9A%82%E8%A1%8C%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+      "effective_from": "2014-08-21",
+      "expected_articles": 41,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-2c28ec1dd684",
+      "issued_date": "2014-08-21",
+      "legacy_path": "L1_监管强制规则/私募投资基金监督管理暂行办法.md",
+      "markdown_path": "_fulltext/l1-2c28ec1dd684/7e70ac8a679b/85556a8021bf/full.md",
+      "markdown_sha256": "85556a8021bf3b6ecc978091c9ed0d73a4e55416e5bc00c7512ae5d425daead8",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-2c28ec1dd684/original.pdf",
+      "raw_sha256": "7e70ac8a679b74c329e0a7862a036260147aeebe86bb510eeb0df934b67d53f9",
+      "seed_urls": [
+        "http://www.csrc.gov.cn/csrc/c106256/c1653981/content.shtml"
+      ],
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653981/content.shtml",
+      "status": "converted_unverified",
+      "title": "私募投资基金监督管理暂行办法",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-2c28ec1dd684/receipt.json",
+          "receipt_sha256": "8b8759951b8b1efd8c7fc9f4668fd75086d0f49bd4243b267a1e81c0f7d040fb"
+        },
+        "article_count": 41,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-2c28ec1dd684/7e70ac8a679b/85556a8021bf/conversions/1f5005fffe7f080cfec322e4c2abc2e12385901371e9f3f5ab71b22facafdc09.json",
+          "record_sha256": "1f5005fffe7f080cfec322e4c2abc2e12385901371e9f3f5ab71b22facafdc09"
+        },
+        "evidence": [
+          "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页第105号令明确2014年8月21日公布并施行，第四十一条确认公布即施行。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 14
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1942800/1942800/files/%E3%80%90195%E5%8F%B7%E3%80%91%E8%AF%81%E5%88%B8%E5%9F%BA%E9%87%91%E7%BB%8F%E8%90%A5%E6%9C%BA%E6%9E%84%E8%91%A3%E4%BA%8B%E3%80%81%E7%9B%91%E4%BA%8B%E3%80%81%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E4%BA%BA%E5%91%98%E5%8F%8A%E4%BB%8E%E4%B8%9A%E4%BA%BA%E5%91%98%E7%9B%91%E7%9D%A3%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95.pdf",
+      "effective_from": "2022-04-01",
+      "expected_articles": 58,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-e1975f668476",
+      "issued_date": "2022-02-18",
+      "legacy_path": "L1_监管强制规则/证券基金经营机构董监高及从业人员监督管理办法.md",
+      "markdown_path": "_fulltext/l1-e1975f668476/937da5640e62/1bac22e48680/full.md",
+      "markdown_sha256": "1bac22e4868088fa43f91edbf2ea08493b75cbb32cccbc1d49c9032b9955d5df",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-e1975f668476/original.pdf",
+      "raw_sha256": "937da5640e62208ce39db9462c81218f57a38ac243d0bbf1700a01bb76c6d115",
+      "seed_urls": [
+        "http://www.csrc.gov.cn/csrc/c106256/c1942800/content.shtml"
+      ],
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1942800/content.shtml",
+      "status": "converted_unverified",
+      "title": "证券基金经营机构董事、监事、高级管理人员及从业人员监督管理办法",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-e1975f668476/receipt.json",
+          "receipt_sha256": "e66b19ec5a00257a2404515de7672c092976e22d921a3ac864d7476027cf9245"
+        },
+        "article_count": 58,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-e1975f668476/937da5640e62/1bac22e48680/conversions/1159e76b254b7b74d712df159a9b85e9b083064ab72b0af37cec1865830264a6.json",
+          "record_sha256": "1159e76b254b7b74d712df159a9b85e9b083064ab72b0af37cec1865830264a6"
+        },
+        "evidence": [
+          "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页第195号令明确2022年2月18日公布、2022年4月1日施行，第五十八条确认。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 27
+      }
+    },
+    {
+      "download_url": "https://www.gov.cn/gongbao/content/2020/content_5535327.htm",
+      "effective_from": "2020-07-10",
+      "expected_articles": 43,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content",
+      "format": "html",
+      "id": "l1-48073b4b4805",
+      "issued_date": "2020-07-10",
+      "legacy_path": "L1_监管强制规则/证券投资基金托管业务管理办法.md",
+      "markdown_path": "_fulltext/l1-48073b4b4805/1749a3fe29e2/a34f9a04a55b/full.md",
+      "markdown_sha256": "a34f9a04a55bd185c5ebadf985ddf25c78f9a7d27cc18b32481e55e76878935d",
+      "origin_kind": "official_republication",
+      "publisher": "中国证券监督管理委员会、中国银行保险监督管理委员会",
+      "raw_path": "_sources/L1/l1-48073b4b4805/original.html",
+      "raw_sha256": "1749a3fe29e29edada4265295843f25ac404d4f3b3d92fdcbc0fabedf66247d0",
+      "seed_urls": [
+        "https://www.gov.cn/gongbao/content/2020/content_5535327.htm"
+      ],
+      "source_page_url": "https://www.gov.cn/gongbao/content/2020/content_5535327.htm",
+      "status": "converted_unverified",
+      "title": "证券投资基金托管业务管理办法",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-48073b4b4805/receipt.json",
+          "receipt_sha256": "1ca866838ea25e70a536e17d4910c08937ae297e20a6152472d39f37ecceb7fb"
+        },
+        "article_count": 43,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-48073b4b4805/1749a3fe29e2/a34f9a04a55b/conversions/5a75bb80ef874db1d2d2925bc9cdbfcca03dc25b9cf4d99d9439d9035fc6ab5e.json",
+          "record_sha256": "5a75bb80ef874db1d2d2925bc9cdbfcca03dc25b9cf4d99d9439d9035fc6ab5e"
+        },
+        "evidence": [
+          "国务院公报2020年第23号再刊172号令，正文至第四十三条。 原文核验：原HTML第172号令落款2020年7月10日并明确公布即施行；.pages_content唯一匹配完整令文至第四十三条。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": null
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653866/1653866/files/%E3%80%90177-2%E5%8F%B7%E3%80%91%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E8%AF%84%E4%BB%B7%E4%B8%9A%E5%8A%A1%E7%AE%A1%E7%90%86%E6%9A%82%E8%A1%8C%E5%8A%9E%E6%B3%95.pdf",
+      "effective_from": "2020-10-30",
+      "expected_articles": 33,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-a96eddc54e73",
+      "issued_date": "2020-10-30",
+      "legacy_path": "L1_监管强制规则/证券投资基金评价业务管理暂行办法.md",
+      "markdown_path": "_fulltext/l1-a96eddc54e73/ba917c901fd5/635d2935d834/full.md",
+      "markdown_sha256": "635d2935d834ac08375805b2d3192112337a163492131062ca5d58dd398dd4ed",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-a96eddc54e73/original.pdf",
+      "raw_sha256": "ba917c901fd5eeb53056bdd7bf764fb2932f64900855a750aae89b1ff981b6db",
+      "seed_urls": [
+        "http://www.csrc.gov.cn/csrc/c101877/c1029632/content.shtml"
+      ],
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653866/content.shtml",
+      "status": "converted_unverified",
+      "title": "证券投资基金评价业务管理暂行办法",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-a96eddc54e73/receipt.json",
+          "receipt_sha256": "33d4929586cbb080d3c5ba224b51c13690087978ed69ddb01602c5ae1f7a8cd2"
+        },
+        "article_count": 33,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-a96eddc54e73/ba917c901fd5/635d2935d834/conversions/6d8e522a9d738edaf6f667f396ce393fc546731a6c67c4ca5bcb67f0ddf2c14c.json",
+          "record_sha256": "6d8e522a9d738edaf6f667f396ce393fc546731a6c67c4ca5bcb67f0ddf2c14c"
+        },
+        "evidence": [
+          "旧来源链接是2009原发布版；通过证监会官方站内搜索找到规章库177-2附件，恢复2020年177号令修订全文。 原文核验：PDF首页沿革明确2020年10月30日第177号令修订，至第三十三条；另核验该令 https://www.csrc.gov.cn/csrc/c101950/c1047976/content.shtml 明确2020年10月30日公布即施行。2010年1月1日仅为原版本施行日。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 12
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c101877/c1029612/1029612/files/%E9%99%84%E4%BB%B6%E4%B8%80%EF%BC%9A%E3%80%8A%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E9%94%80%E5%94%AE%E7%BB%93%E7%AE%97%E8%B5%84%E9%87%91%E7%AE%A1%E7%90%86%E6%9A%82%E8%A1%8C%E8%A7%84%E5%AE%9A%E3%80%8B.doc.docx",
+      "effective_from": "2011-10-01",
+      "expected_articles": 30,
+      "failure_reason": "Word full-text fidelity has not been independently verified",
+      "format": "doc",
+      "id": "l1-6983835b2f9e",
+      "issued_date": "2011-09-23",
+      "legacy_path": "L1_监管强制规则/证券投资基金销售结算资金管理暂行规定.md",
+      "markdown_path": "_fulltext/l1-6983835b2f9e/7da2de179315/f10dc5760ed4/full.md",
+      "markdown_sha256": "f10dc5760ed41514b2a76f7eb8e9fa64a467c911603337be50b8dba900b6f098",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-6983835b2f9e/original.doc",
+      "raw_sha256": "7da2de17931515b4448564d9ec64d5ba437bd68aa4b17439458a292092eb3419",
+      "seed_urls": [
+        "https://www.gov.cn/gongbao/content/2012/content_2112774.htm"
+      ],
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101877/c1029612/content.shtml",
+      "status": "converted_unverified",
+      "title": "证券投资基金销售结算资金管理暂行规定",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-6983835b2f9e/receipt.json",
+          "receipt_sha256": "e5166454071c9eb455a9c2c0881a10a759f0b4f605003be2c35849b3efdbfd0a"
+        },
+        "article_count": 30,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-6983835b2f9e/7da2de179315/f10dc5760ed4/conversions/f79420f413f0b70ebda9666b9f85899e567cb4fa5c2db577a56d6fa8ef1bde90.json",
+          "record_sha256": "f79420f413f0b70ebda9666b9f85899e567cb4fa5c2db577a56d6fa8ef1bde90"
+        },
+        "evidence": [
+          "国务院公报来源明确省略划转流程附件；通过证监会站内搜索找到2011年26号正式发布页附件一，包含正文及流程附件，另附件二为起草说明不混入。 原文核验：已保存source-page.html第2011年26号公告落款二○一一年九月二十三日、2011年10月1日施行。DOC经Word导出正文至第三十条，另含划转流程附件一、至九、；expected_articles仅计正文，附件必须保留。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": null
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c101954/c7608135/7608135/files/%E9%99%84%E4%BB%B62%EF%BC%9A%E3%80%8A%E8%AF%81%E5%88%B8%E6%9C%9F%E8%B4%A7%E4%B8%9A%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%88%86%E7%B1%BB%E4%B8%8E%E4%BB%A3%E7%A0%81%E3%80%8B.pdf",
+      "effective_from": "2026-01-09",
+      "expected_articles": null,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-d02c79127cb8",
+      "issued_date": "2026-01-09",
+      "legacy_path": "L1_监管强制规则/证券期货业信息系统分类与代码.md",
+      "markdown_path": "_fulltext/l1-d02c79127cb8/e460c855bea6/7cdb70133c0f/full.md",
+      "markdown_sha256": "7cdb70133c0fdbec2f26efa6159a3457974e371c2e44a7cbcdf77c90249aeda7",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-d02c79127cb8/original.pdf",
+      "raw_sha256": "e460c855bea69e9a5e664042fbd06d4a66cc35cc81a211d134d9caff274c1b9d",
+      "seed_urls": [
+        "http://www.csrc.gov.cn/csrc/c101954/c7608135/7608135/files/附件2：《证券期货业信息系统分类与代码》.pdf"
+      ],
+      "source_page_url": null,
+      "status": "converted_unverified",
+      "title": "证券期货业信息系统分类与代码",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-d02c79127cb8/receipt.json",
+          "receipt_sha256": "357a8b07392957c6730b4587f1c5219f3a9d0670209a217210dc6f39e4f34131"
+        },
+        "article_count": null,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-d02c79127cb8/e460c855bea6/7cdb70133c0f/conversions/d1bea5283f32326a1f50cfa796f73b10b86d3a3b6f0eb1ce804c9da4f1b40098.json",
+          "record_sha256": "d1bea5283f32326a1f50cfa796f73b10b86d3a3b6f0eb1ce804c9da4f1b40098"
+        },
+        "evidence": [
+          "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF封面JR/T 0348—2026明确2026-01-09发布、2026-01-09实施；技术标准并非连续法条，expected_articles不适用。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 44
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653849/content.shtml",
+      "effective_from": "2020-10-30",
+      "expected_articles": 43,
+      "failure_reason": null,
+      "format": "html",
+      "id": "l1-7e66f1c5846c",
+      "issued_date": "2020-10-30",
+      "legacy_path": "L1_监管强制规则/证券期货投资者适当性管理办法.md",
+      "markdown_path": "_fulltext/l1-7e66f1c5846c/6c7fd3017f0c/779a6c49a75d/full.md",
+      "markdown_sha256": "779a6c49a75d15334007b3566fc058dbf110c953e2d645c9d38dcd5918d0d7e3",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-7e66f1c5846c/original.html",
+      "raw_sha256": "6c7fd3017f0c7e0f6f3baa4e6a887d66d0e723f666207c7c96c613a45337a79d",
+      "seed_urls": [
+        "https://www.csrc.gov.cn/csrc/c106256/c1653849/content.shtml"
+      ],
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653849/content.shtml",
+      "status": "ready",
+      "title": "证券期货投资者适当性管理办法",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-7e66f1c5846c/receipt.json",
+          "receipt_sha256": "4d4489fb12d9d5e25ac0c091a2acc2e2b55d79ae481294df8c445bbbe2569cd5"
+        },
+        "article_count": 43,
+        "body_start_line": 1,
+        "completeness": "complete",
+        "conversion": {
+          "record_path": "_fulltext/l1-7e66f1c5846c/6c7fd3017f0c/779a6c49a75d/conversions/8345127ae6269fa3356eeec4414b89dd491d0e821f3e05af560e0a74c0cdba73.json",
+          "record_sha256": "8345127ae6269fa3356eeec4414b89dd491d0e821f3e05af560e0a74c0cdba73"
+        },
+        "evidence": [
+          "证监会规章库正文明确130号令及2020年177号令修订。 原文核验：原HTML沿革明确2020年10月30日第177号令修订，.content-body唯一匹配完整正文至第四十三条；另核验该令 https://www.csrc.gov.cn/csrc/c101950/c1047976/content.shtml 明确2020年10月30日公布即施行。2017年7月1日仅为原版本施行日。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": null
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c101953/c6987995/6987995/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E3%80%8A%E8%AF%81%E5%88%B8%E6%9C%9F%E8%B4%A7%E7%BB%8F%E8%90%A5%E6%9C%BA%E6%9E%84%E7%A7%81%E5%8B%9F%E8%B5%84%E4%BA%A7%E7%AE%A1%E7%90%86%E4%B8%9A%E5%8A%A1%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+      "effective_from": "2023-03-01",
+      "expected_articles": 84,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-83a2cfba02db",
+      "issued_date": "2023-01-12",
+      "legacy_path": "L1_监管强制规则/证券期货经营机构私募资产管理业务管理办法.md",
+      "markdown_path": "_fulltext/l1-83a2cfba02db/0f8f499e6c3e/694c9c31fa4b/full.md",
+      "markdown_sha256": "694c9c31fa4b3a943348ffec1413e1bacf644f0ab585cf90d80c108ca56dd67c",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-83a2cfba02db/original.pdf",
+      "raw_sha256": "0f8f499e6c3e05fbd33c814b2fcbe2c0b771ca222d62aca2a5b8a83d1cd40c24",
+      "seed_urls": [
+        "https://www.waizi.org.cn/doc/139259.html",
+        "https://www.ssf.gov.cn/portal/rootfiles/2023/02/09/1677610940272387-1677610940282980.pdf"
+      ],
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101953/c6987995/content.shtml",
+      "status": "converted_unverified",
+      "title": "证券期货经营机构私募资产管理业务管理办法",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-83a2cfba02db/receipt.json",
+          "receipt_sha256": "a9e1c80b3a45399a6da8354c06b34396aa8cca272b6355daccd051900ad18c9e"
+        },
+        "article_count": 84,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-83a2cfba02db/0f8f499e6c3e/694c9c31fa4b/conversions/3d186e28299eb3b6d7246083e969a9c9e4bc7c1c82447e4daaa37452c45285b7.json",
+          "record_sha256": "3d186e28299eb3b6d7246083e969a9c9e4bc7c1c82447e4daaa37452c45285b7"
+        },
+        "evidence": [
+          "原转载提供证监会203号令链接；回到发布者核验2023年1月12日发布、3月1日施行，附件1为办法而非配套运作规定。 原文核验：PDF首页第203号令沿革明确2023年1月12日修订，第八十四条明确2023年3月1日施行。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 31
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1654015/1654015/files/120%E5%8F%B7%E3%80%8A%E8%B4%A7%E5%B8%81%E5%B8%82%E5%9C%BA%E5%9F%BA%E9%87%91%E7%9B%91%E7%9D%A3%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+      "effective_from": "2016-02-01",
+      "expected_articles": 43,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-62bc082429c5",
+      "issued_date": "2015-12-17",
+      "legacy_path": "L1_监管强制规则/货币市场基金监督管理办法.md",
+      "markdown_path": "_fulltext/l1-62bc082429c5/db090b826502/193a868e42f6/full.md",
+      "markdown_sha256": "193a868e42f695772d89440823764f653796ac689cced23d2b968c1e0713f139",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会、中国人民银行",
+      "raw_path": "_sources/L1/l1-62bc082429c5/original.pdf",
+      "raw_sha256": "db090b82650230262fcf1ac16937794b2136a57c6d9424ee671ae528cb84a8b1",
+      "seed_urls": [
+        "https://www.csrc.gov.cn/csrc/c106256/c1654015/content.shtml"
+      ],
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1654015/content.shtml",
+      "status": "converted_unverified",
+      "title": "货币市场基金监督管理办法",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-62bc082429c5/receipt.json",
+          "receipt_sha256": "f9bd00fd03dd24e72eb86f31621dd3a9bd68822e7ea61b8a350f5bd8d9332ff9"
+        },
+        "article_count": 43,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-62bc082429c5/db090b826502/193a868e42f6/conversions/186746c12ed1267b18858dd1ac114cdcdd6843036f97fb1f42a800b7ddbce3f9.json",
+          "record_sha256": "186746c12ed1267b18858dd1ac114cdcdd6843036f97fb1f42a800b7ddbce3f9"
+        },
+        "evidence": [
+          "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页第120号令明确2015年12月17日公布、2016年2月1日施行，第四十三条确认。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 16
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c101954/c7123693/7123693/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E9%87%8D%E8%A6%81%E8%B4%A7%E5%B8%81%E5%B8%82%E5%9C%BA%E5%9F%BA%E9%87%91%E7%9B%91%E7%AE%A1%E6%9A%82%E8%A1%8C%E8%A7%84%E5%AE%9A.pdf",
+      "effective_from": "2023-05-16",
+      "expected_articles": 20,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-3953d7041492",
+      "issued_date": "2023-02-17",
+      "legacy_path": "L1_监管强制规则/重要货币市场基金监管暂行规定.md",
+      "markdown_path": "_fulltext/l1-3953d7041492/0fc19bb98125/82fddcbbde28/full.md",
+      "markdown_sha256": "82fddcbbde2879f87aad546647a1b8ecc2fb00fba18088bf61177a0998e1089b",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会、中国人民银行",
+      "raw_path": "_sources/L1/l1-3953d7041492/original.pdf",
+      "raw_sha256": "0fc19bb98125f320e85244f0977ec52470e55ddd316678aa2d382a7446a6e2cd",
+      "seed_urls": [
+        "http://www.csrc.gov.cn/csrc/c101954/c7123693/7123693/files/附件1：重要货币市场基金监管暂行规定.pdf"
+      ],
+      "source_page_url": null,
+      "status": "converted_unverified",
+      "title": "重要货币市场基金监管暂行规定",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-3953d7041492/receipt.json",
+          "receipt_sha256": "63f411d3b92a6baca1a4360f9dfc303689778da8d05e1073f6bab832cd3cf2a1"
+        },
+        "article_count": 20,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-3953d7041492/0fc19bb98125/82fddcbbde28/conversions/10d80662f96df8a29587482176f5da79cfea790f2865c8e45f6913fb40668af2.json",
+          "record_sha256": "10d80662f96df8a29587482176f5da79cfea790f2865c8e45f6913fb40668af2"
+        },
+        "evidence": [
+          "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：另核验官方第2023年42号公告 https://www.csrc.gov.cn/csrc/c101954/c7123693/content.shtml 落款2023年2月17日、2023年5月16日施行，PDF第二十条一致。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 11
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c101954/c7526405/7526405/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E9%A6%99%E6%B8%AF%E4%BA%92%E8%AE%A4%E5%9F%BA%E9%87%91%E7%AE%A1%E7%90%86%E8%A7%84%E5%AE%9A.pdf",
+      "effective_from": "2025-01-01",
+      "expected_articles": 29,
+      "failure_reason": "MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-59db1324b327",
+      "issued_date": "2024-12-17",
+      "legacy_path": "L1_监管强制规则/香港互认基金管理规定.md",
+      "markdown_path": "_fulltext/l1-59db1324b327/fdb25deca3e0/c31c16b78425/full.md",
+      "markdown_sha256": "c31c16b78425a6c30262bac741124fdb0e532df2cef1b15e69b125a474b98e64",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-59db1324b327/original.pdf",
+      "raw_sha256": "fdb25deca3e0e9f97b4a4c4f995292fcff6ac0b3ef3216c3ed0aedce9b6cc87c",
+      "seed_urls": [
+        "https://www.csrc.gov.cn/csrc/c101954/c7526405/7526405/files/附件1：香港互认基金管理规定.pdf"
+      ],
+      "source_page_url": null,
+      "status": "converted_unverified",
+      "title": "香港互认基金管理规定",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-59db1324b327/receipt.json",
+          "receipt_sha256": "6d312d2f5da0db6ee61242161d01c228e8e1ff8f4bc1f12ea446fdb0c6a021c7"
+        },
+        "article_count": 29,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-59db1324b327/fdb25deca3e0/c31c16b78425/conversions/e0f513699a7fcee33bb3f7ec6d8a29c7fc799c086737145c2e9ad785ddfc1185.json",
+          "record_sha256": "e0f513699a7fcee33bb3f7ec6d8a29c7fc799c086737145c2e9ad785ddfc1185"
+        },
+        "evidence": [
+          "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：另核验官方第2024年17号公告 https://www.csrc.gov.cn/csrc/c101954/c7526405/content.shtml 落款2024年12月17日、2025年1月1日施行，PDF第二十九条一致。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 10
+      }
+    },
+    {
+      "download_url": "https://www.amac.org.cn/xwfb/hydt/202106/P020231126371218718148.pdf",
+      "effective_from": "2015-11-11",
+      "expected_articles": null,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "amac-hkconnect-valuation-2015",
+      "issued_date": "2015-11-11",
+      "legacy_path": "L2_行业自律规则/港股通及同业存单估值核算指引.md",
+      "markdown_path": "_fulltext/amac-hkconnect-valuation-2015/84e18cb5e1f0/96e546553387/full.md",
+      "markdown_sha256": "96e546553387232d681358e305ca12db8e63ab9b22ab563d0a5aefe455c496b6",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券投资基金业协会",
+      "raw_path": "_sources/L2/amac-hkconnect-valuation-2015/original.pdf",
+      "raw_sha256": "84e18cb5e1f01592b9eaad049d2af9542b7b6c76b909b65693610bb4951ca6a7",
+      "seed_urls": [
+        "https://www.amac.org.cn/xwfb/hydt/202106/P020231126371218718148.pdf"
+      ],
+      "source_page_url": "https://www.amac.org.cn/xwfb/hydt/202106/t20210602_19535.html",
+      "status": "converted_unverified",
+      "title": "证券投资基金港股通投资资金清算和会计核算估值业务指引（试行）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L2/amac-hkconnect-valuation-2015/receipt.json",
+          "receipt_sha256": "6449a0a4d5db8c1bc19a176d901932534f2f3cb014a3e7b3af8668678d1c4de1"
+        },
+        "article_count": null,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/amac-hkconnect-valuation-2015/84e18cb5e1f0/96e546553387/conversions/fd34a368df132b06e9956d83d734ca20357f4def31fe0d89498a129102e9704e.json",
+          "record_sha256": "fd34a368df132b06e9956d83d734ca20357f4def31fe0d89498a129102e9704e"
+        },
+        "evidence": [
+          "原摘要为港股通与同业存单二合一，本记录仅对应港股通。官方发布通知正文载中基协发〔2015〕17号、二〇一五年十一月十一日、自发布之日起实施；网站迁移目录202106不代表法规发布日期。摘要2016年3月29日与官方通知不符，未采用。保留该原始版本，不静默换成新版本。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 14
+      }
+    },
+    {
+      "download_url": "https://www.amac.org.cn/xwfb/hydt/202106/P020231126371216099536.pdf",
+      "effective_from": "2015-08-28",
+      "expected_articles": null,
+      "failure_reason": "MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "amac-negotiable-cd-valuation-2015",
+      "issued_date": "2015-08-28",
+      "legacy_path": "L2_行业自律规则/港股通及同业存单估值核算指引.md",
+      "markdown_path": "_fulltext/amac-negotiable-cd-valuation-2015/0c6056ff8de1/1d21b538c8ab/full.md",
+      "markdown_sha256": "1d21b538c8ab843b7573604f9c2072970f3a2ee168fd73dfc63c5c6a47f5ed13",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券投资基金业协会",
+      "raw_path": "_sources/L2/amac-negotiable-cd-valuation-2015/original.pdf",
+      "raw_sha256": "0c6056ff8de10b4bad003e4975fddfff1d9e902ff7b5feb49aa854a9c5b05919",
+      "seed_urls": [
+        "https://www.scxsls.com/knowledge/detail?id=154815"
+      ],
+      "source_page_url": "https://www.amac.org.cn/xwfb/hydt/202106/t20210602_19533.html",
+      "status": "converted_unverified",
+      "title": "证券投资基金参与同业存单会计核算和估值业务指引（试行）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L2/amac-negotiable-cd-valuation-2015/receipt.json",
+          "receipt_sha256": "cb9a546e69b0951c4e28c174719660fc8f5a4cd9fce5365235bf9bc1948bc98e"
+        },
+        "article_count": null,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/amac-negotiable-cd-valuation-2015/0c6056ff8de1/1d21b538c8ab/conversions/cc22e1a96391199c44e541dc1947b74997342fa20dc127396e9dacd50e40fef1.json",
+          "record_sha256": "cc22e1a96391199c44e541dc1947b74997342fa20dc127396e9dacd50e40fef1"
+        },
+        "evidence": [
+          "原摘要为二合一，本记录仅对应同业存单。官方通知中基协发〔2015〕12号、二〇一五年八月二十八日、自发布之日起实施；摘要〔2015〕1号错误。官方API标题搜索同业存单返回该发布页及服务大厅原件页，不采用第三方法律网站。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 5
+      }
+    },
+    {
+      "download_url": "https://www.amac.org.cn/xwfb/xhyw/202109/P020231126355446479296.pdf",
+      "effective_from": null,
+      "expected_articles": null,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "amac-fund-advisory-interface-2021",
+      "issued_date": "2021-08-31",
+      "legacy_path": "L2_行业自律规则/公开募集证券投资基金投资顾问业务数据交换技术接口规范.md",
+      "markdown_path": "_fulltext/amac-fund-advisory-interface-2021/b81c9ddb189c/fa6db6bddc76/full.md",
+      "markdown_sha256": "fa6db6bddc76cde8c3ca9c63cca3d57da95379afd6c3df0cdd3306ebb06aa9bc",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券投资基金业协会",
+      "raw_path": "_sources/L2/amac-fund-advisory-interface-2021/original.pdf",
+      "raw_sha256": "b81c9ddb189cf28a678a4546f942b9028fa228da5a2b27a59f00815db323663b",
+      "seed_urls": [
+        "https://www.amac.org.cn/xwfb/xhyw/202109/P020231126355446479296.pdf"
+      ],
+      "source_page_url": "https://www.amac.org.cn/xwfb/xhyw/202109/t20210901_15782.html",
+      "status": "converted_unverified",
+      "title": "公开募集证券投资基金投资顾问业务数据交换技术接口规范（试行）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L2/amac-fund-advisory-interface-2021/receipt.json",
+          "receipt_sha256": "b1e5d40db18db16b93bf5374b93ff2d9f2c14c19244d380b628d9b6585e2d19c"
+        },
+        "article_count": null,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/amac-fund-advisory-interface-2021/b81c9ddb189c/fa6db6bddc76/conversions/48bb1caa856005d8b7b96227071cb9f432a1e30a2a4810f646f0befc987a970c.json",
+          "record_sha256": "48bb1caa856005d8b7b96227071cb9f432a1e30a2a4810f646f0befc987a970c"
+        },
+        "evidence": [
+          "官方发布通知署名2021年8月31日，网页于2021年9月1日发布，PDF封面2021年9月。issued_date采用通知落款，不把封面月份推断为某个日期。仅下载附件1规范全文，不以附件2起草说明代替。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 40
+      }
+    },
+    {
+      "download_url": "https://www.amac.org.cn/xwfb/tzgg/201706/P020231126367038833207.pdf",
+      "effective_from": "2017-07-01",
+      "expected_articles": 55,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "amac-investor-suitability-2017",
+      "issued_date": "2017-06-28",
+      "legacy_path": "L2_行业自律规则/基金募集机构投资者适当性管理实施指引.md",
+      "markdown_path": "_fulltext/amac-investor-suitability-2017/870221ec6244/12d07751b148/full.md",
+      "markdown_sha256": "12d07751b148be4b3366b536bce322070a1f67263ffecdcb7ceb814402470e9c",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券投资基金业协会",
+      "raw_path": "_sources/L2/amac-investor-suitability-2017/original.pdf",
+      "raw_sha256": "870221ec62449bffbe2164e9d87e95773b20acc67969e3bdfb4c8dc2db806351",
+      "seed_urls": [
+        "https://www.ehuataifund.com/upload/pdf/1502781753016-25,20170628jijinmujijigoutouzizheshidangxingguanlishishizhiyin(shixing).pdf"
+      ],
+      "source_page_url": "https://www.amac.org.cn/xwfb/tzgg/201706/t20170628_18210.html",
+      "status": "converted_unverified",
+      "title": "基金募集机构投资者适当性管理实施指引（试行）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L2/amac-investor-suitability-2017/receipt.json",
+          "receipt_sha256": "3d9bb4332eb32f464eb22b736d5ee2b8b71d5470cc81f447f7b02818fb3f4c89"
+        },
+        "article_count": 55,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/amac-investor-suitability-2017/870221ec6244/12d07751b148/conversions/6426e9dc2f2aea23a39d0b90fc378f7197716f4c99072816d9fc36a9685a70be.json",
+          "record_sha256": "6426e9dc2f2aea23a39d0b90fc378f7197716f4c99072816d9fc36a9685a70be"
+        },
+        "evidence": [
+          "按摘要所指2017试行版本恢复。官方通知中基协发〔2017〕4号、二〇一七年六月二十八日，正文第五十四条2017年7月1日起实施，第五十五条结束。不得以2026年公募投资者适当性管理细则静默替代此历史版本。附件参考模板为独立附件，本原件是指引本身完整55条。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 18
+      }
+    },
+    {
+      "download_url": "https://www.amac.org.cn/xwfb/tzgg/201705/P020231126367021178106.pdf",
+      "effective_from": "2017-05-04",
+      "expected_articles": null,
+      "failure_reason": "MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "amac-fof-valuation-2017",
+      "issued_date": "2017-05-04",
+      "legacy_path": "L2_行业自律规则/基金中基金估值业务指引.md",
+      "markdown_path": "_fulltext/amac-fof-valuation-2017/4c5e45591d87/64f7fb8495d4/full.md",
+      "markdown_sha256": "64f7fb8495d4318c8ffc1e137759a1eebc47ae70f9d6131c307f1ed500110b7f",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券投资基金业协会",
+      "raw_path": "_sources/L2/amac-fof-valuation-2017/original.pdf",
+      "raw_sha256": "4c5e45591d87e50f5f264ec78f9dbc822e4521eb890bc019488198354e7b3874",
+      "seed_urls": [
+        "https://fg.amac.org.cn/governmentrules_3854/zcgz_zlgz/zlgz_gmjj/zlgz_gmjj_kjss/201912/t20191222_24293.html"
+      ],
+      "source_page_url": "https://www.amac.org.cn/xwfb/tzgg/201705/t20170504_18201.html",
+      "status": "converted_unverified",
+      "title": "基金中基金估值业务指引（试行）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L2/amac-fof-valuation-2017/receipt.json",
+          "receipt_sha256": "9bedf9188821d9a45a7eee64ca14bdf6b3cc3e8f4759fab200ee427a9d9ebf26"
+        },
+        "article_count": null,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/amac-fof-valuation-2017/4c5e45591d87/64f7fb8495d4/conversions/67e7d03c4ebfc808f6621cd6fa0d079e0028e299e566952ffaab939d9c89fc4d.json",
+          "record_sha256": "67e7d03c4ebfc808f6621cd6fa0d079e0028e299e566952ffaab939d9c89fc4d"
+        },
+        "evidence": [
+          "官方发布通知落款二〇一七年五月四日，指引自发布之日起实施。附件文件名简写为基金中基金估值指引，但PDF正文标题完整为基金中基金估值业务指引（试行），核对了80%以上定义和ETF/LOF估值规则。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 5
+      }
+    },
+    {
+      "download_url": null,
+      "effective_from": null,
+      "expected_articles": null,
+      "failure_reason": "无单份准确对应的官方文档；混合历史规则与分析性叙述，不能以相似标题或现行规则静默替换。",
+      "format": null,
+      "id": "amac-ambers-summary-unresolved",
+      "issued_date": null,
+      "legacy_path": "L2_行业自律规则/私募基金管理人登记须知AMBERS系统关联方认定.md",
+      "markdown_path": null,
+      "markdown_sha256": null,
+      "origin_kind": null,
+      "publisher": "中国证券投资基金业协会",
+      "raw_path": null,
+      "raw_sha256": null,
+      "seed_urls": [],
+      "source_page_url": null,
+      "status": "unresolved",
+      "title": "私募基金管理人登记须知（AMBERS系统关联方/实际控制人认定实操标准）",
+      "verification": {
+        "article_count": null,
+        "completeness": "not_checked",
+        "evidence": [],
+        "identity": "not_checked",
+        "page_count": null
+      }
+    },
+    {
+      "download_url": "https://www.amac.org.cn/xwfb/tzgg/201812/P020231126363581054521.pdf",
+      "effective_from": "2018-12-07",
+      "expected_articles": null,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified; Historical registration notice repealed on 2023-05-01",
+      "format": "pdf",
+      "id": "amac-manager-registration-notice-2018",
+      "issued_date": "2018-12-07",
+      "legacy_path": "L2_行业自律规则/私募基金管理人登记须知AMBERS系统关联方认定.md",
+      "markdown_path": "_fulltext/amac-manager-registration-notice-2018/b3d4add74789/4633e3067235/full.md",
+      "markdown_sha256": "4633e3067235fc12661c13c52f2c719fcad5b6e91330c2e363b5f39074776fd6",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券投资基金业协会",
+      "raw_path": "_sources/L2/amac-manager-registration-notice-2018/original.pdf",
+      "raw_sha256": "b3d4add747892c44dfd881407e9d4b57b71f7c03aa969e7605adc6d046883c17",
+      "seed_urls": [],
+      "source_page_url": "https://www.amac.org.cn/xwfb/tzgg/201812/t20181207_17420.html",
+      "status": "converted_unverified",
+      "title": "私募基金管理人登记须知（2018年12月更新）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L2/amac-manager-registration-notice-2018/receipt.json",
+          "receipt_sha256": "2e04948585d1731f1d79f5400d9124185031a0468847d86df2d25959ad6e19b4"
+        },
+        "article_count": null,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/amac-manager-registration-notice-2018/b3d4add74789/4633e3067235/conversions/d040d9fc96cca7343e97275b4d4f73fe7a787596134ddbcb99b07264fe2579d9.json",
+          "record_sha256": "d040d9fc96cca7343e97275b4d4f73fe7a787596134ddbcb99b07264fe2579d9"
+        },
+        "evidence": [
+          "独立恢复准确的2018年12月更新版历史原件，仅支持AMBERS混合摘要中部分关联方/实际控制人内容，不替代整份摘要。官方更新发布页日期2018-12-07并称自公布之日起施行；2023登记备案办法第八十三条明示2023-05-01起废止登记须知。",
+          "Bound machine conversion record; not human legal review",
+          {
+            "basis": "《私募投资基金登记备案办法》自2023年5月1日起施行，登记须知同时废止。",
+            "repealed_on": "2023-05-01",
+            "source_article": "第八十三条",
+            "source_document_id": "amac-private-fund-registration-2023",
+            "status": "repealed"
+          }
+        ],
+        "identity": "verified",
+        "page_count": 16
+      }
+    },
+    {
+      "download_url": "https://www.amac.org.cn/xwfb/xhyw/202302/P020231126355261616824.pdf",
+      "effective_from": "2023-05-01",
+      "expected_articles": 83,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "amac-private-fund-registration-2023",
+      "issued_date": "2023-02-24",
+      "legacy_path": "L2_行业自律规则/私募投资基金登记备案办法.md",
+      "markdown_path": "_fulltext/amac-private-fund-registration-2023/906ab4e484b7/bc6c5de64b5e/full.md",
+      "markdown_sha256": "bc6c5de64b5e80e404f3a82508605101526f9c0d5ca9e40ba83a6fe29378b1d4",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券投资基金业协会",
+      "raw_path": "_sources/L2/amac-private-fund-registration-2023/original.pdf",
+      "raw_sha256": "906ab4e484b7730ed31b6deaea280319bcc85824789e45f0c3fc2fa4e09fe7a6",
+      "seed_urls": [
+        "https://www.amac.org.cn/xwfb/xhyw/202302/P020231126355265628680.pdf"
+      ],
+      "source_page_url": "https://www.amac.org.cn/xwfb/xhyw/202302/t20230224_15636.html",
+      "status": "converted_unverified",
+      "title": "私募投资基金登记备案办法",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L2/amac-private-fund-registration-2023/receipt.json",
+          "receipt_sha256": "521b77e7020b5f514208debf334f21445a0d7ffdfd50a18b2e75374797eddb25"
+        },
+        "article_count": 83,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/amac-private-fund-registration-2023/906ab4e484b7/bc6c5de64b5e/conversions/67db72f47abe7de6cfa860375c6c2557248675fba957701d0762f1de5ce5616c.json",
+          "record_sha256": "67db72f47abe7de6cfa860375c6c2557248675fba957701d0762f1de5ce5616c"
+        },
+        "evidence": [
+          "官方发布页称六章八十三条，PDF第八十三条规定2023年5月1日起施行。摘要82条错误。seed是发布页附件5公告，不是办法正文；选取附件1办法全文，不把发布公告或征求意见稿冒充全文。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 42
+      }
+    },
+    {
+      "download_url": "https://www.amac.org.cn/xwfb/hydt/202105/P020231126371228453083.pdf",
+      "effective_from": "2018-07-01",
+      "expected_articles": null,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "amac-unlisted-equity-valuation-2018",
+      "issued_date": "2018-03-30",
+      "legacy_path": "L2_行业自律规则/私募投资基金非上市股权投资估值指引.md",
+      "markdown_path": "_fulltext/amac-unlisted-equity-valuation-2018/7aac3a0e38a1/ad40d84167a8/full.md",
+      "markdown_sha256": "ad40d84167a83d323bf36ab52fb4a0413d9ed76d523ad4a27a1e5a43969c521a",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券投资基金业协会",
+      "raw_path": "_sources/L2/amac-unlisted-equity-valuation-2018/original.pdf",
+      "raw_sha256": "7aac3a0e38a1754cb5dde47391d389ef73df56c1f83a856df636b8fda336a4ce",
+      "seed_urls": [
+        "https://www.amac.org.cn/fwdt/wyb/jgdjhcpbeian/smjjglrdjhcpba/xgzc/202001/P020231126372109021141.pdf"
+      ],
+      "source_page_url": "https://www.amac.org.cn/xwfb/hydt/202105/t20210531_19542.html",
+      "status": "converted_unverified",
+      "title": "私募投资基金非上市股权投资估值指引（试行）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L2/amac-unlisted-equity-valuation-2018/receipt.json",
+          "receipt_sha256": "740727251e36d1bf85e453844506a65861562a53a1a22c427cc2678c94f9798c"
+        },
+        "article_count": null,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/amac-unlisted-equity-valuation-2018/7aac3a0e38a1/ad40d84167a8/conversions/bcb63abec0286f10360e2e723aa8c6d7d07cd35bd04d5f03e9e134bfc0be0e0c.json",
+          "record_sha256": "bcb63abec0286f10360e2e723aa8c6d7d07cd35bd04d5f03e9e134bfc0be0e0c"
+        },
+        "evidence": [
+          "官方通知中基协发〔2018〕1号，2018年3月5日第二届理事会表决通过，二零一八年三月三十日发布，2018年7月1日起施行；202105为迁移目录。选择指引全文附件而非起草说明；维持摘要对应2018试行版。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 13
+      }
+    },
+    {
+      "download_url": "https://www.sac.net.cn/flfg/zlgz/202505/t20250506_67743.html",
+      "effective_from": "2025-06-01",
+      "expected_articles": 32,
+      "failure_reason": null,
+      "format": "html",
+      "id": "sac-financial-instruments-valuation-2025",
+      "issued_date": "2025-04-25",
+      "legacy_path": "L2_行业自律规则/证券公司金融工具估值指引.md",
+      "markdown_path": "_fulltext/sac-financial-instruments-valuation-2025/4a4980189d9c/cbc1243f11fc/full.md",
+      "markdown_sha256": "cbc1243f11fc4b000df0886c8b29539ec209bed023f5b6e84fd5c99296439888",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券业协会",
+      "raw_path": "_sources/L2/sac-financial-instruments-valuation-2025/original.html",
+      "raw_sha256": "4a4980189d9cc7839344300ce474fe6ece8f3f5b77c9b2d1a0f42ea6c8e4eb9d",
+      "seed_urls": [
+        "https://idea-cp.cnfin.com/ice/2025/04/25/bbc72b4bbf634a8f95bb25567b72ed61.pdf"
+      ],
+      "source_page_url": "https://www.sac.net.cn/flfg/zlgz/202505/t20250506_67743.html",
+      "status": "ready",
+      "title": "证券公司金融工具估值指引（2025年修订）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L2/sac-financial-instruments-valuation-2025/receipt.json",
+          "receipt_sha256": "e8f0f56a9bbc1bfaee6620913738699cc8fdecbd0abe971dde903a2b9a8718b4"
+        },
+        "article_count": 32,
+        "body_start_line": 1,
+        "completeness": "complete",
+        "conversion": {
+          "record_path": "_fulltext/sac-financial-instruments-valuation-2025/4a4980189d9c/cbc1243f11fc/conversions/3b24618897c0e4a40a7ec49a61fa37903941737468d83dd65de5aaaed142ff29.json",
+          "record_sha256": "3b24618897c0e4a40a7ec49a61fa37903941737468d83dd65de5aaaed142ff29"
+        },
+        "evidence": [
+          "中国证券业协会自律规则官方索引及正文标题均2025年修订，正文首页载七届理事会第三十二次会议审议通过、2025年4月25日发布、2025年6月1日起施行、中证协发〔2025〕86号。全文HTML第一至第三十二条完整，附件下载区域为空，不以旧2018版本或第三方PDF替代。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": null
+      }
+    },
+    {
+      "download_url": "https://www.amac.org.cn/xwfb/tzgg/201709/P020231126367070343127.pdf",
+      "effective_from": null,
+      "expected_articles": null,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "amac-restricted-stock-valuation-2017",
+      "issued_date": "2017-09-04",
+      "legacy_path": "L2_行业自律规则/证券投资基金投资流通受限股票估值指引.md",
+      "markdown_path": "_fulltext/amac-restricted-stock-valuation-2017/6fde7af3c4a4/5ab43abeaf41/full.md",
+      "markdown_sha256": "5ab43abeaf41554b7d23c38bda52a382318a8207ea3083d21f3df476aa4a20a4",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券投资基金业协会",
+      "raw_path": "_sources/L2/amac-restricted-stock-valuation-2017/original.pdf",
+      "raw_sha256": "6fde7af3c4a4557f19142a2346712a1490de62a7fc59a54791a521bf0941ac44",
+      "seed_urls": [
+        "http://www.amahb.org.cn/portal/article/index/id/93/cid/1.html"
+      ],
+      "source_page_url": "https://www.amac.org.cn/xwfb/tzgg/201709/t20170906_18230.html",
+      "status": "converted_unverified",
+      "title": "证券投资基金投资流通受限股票估值指引（试行）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L2/amac-restricted-stock-valuation-2017/receipt.json",
+          "receipt_sha256": "2ba93fe28e0d1c9609cd2d3b6f595000d91196073e3ab0acc45c207a98c480f0"
+        },
+        "article_count": null,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/amac-restricted-stock-valuation-2017/6fde7af3c4a4/5ab43abeaf41/conversions/f09aef6f39128e4ae8b1a04a49acad94c98bfa58f7882da6b86aadc08b8ec36a.json",
+          "record_sha256": "f09aef6f39128e4ae8b1a04a49acad94c98bfa58f7882da6b86aadc08b8ec36a"
+        },
+        "evidence": [
+          "通知中基协发〔2017〕6号、落款二〇一七年九月四日；官方网页发布时间2017-09-06。issued_date采用通知落款，2017-12-31是完成实施工作的期限，不擅自作为施行日期。附件文件名多业务二字，PDF正文标题与摘要完整对应。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 5
+      }
+    },
+    {
+      "download_url": "https://www.amac.org.cn/xwfb/xhyw/201912/P020231126355583305018.pdf",
+      "effective_from": "2019-01-18",
+      "expected_articles": null,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "amac-credit-derivative-valuation-2019",
+      "issued_date": "2019-01-18",
+      "legacy_path": "L2_行业自律规则/证券投资基金投资信用衍生品估值指引.md",
+      "markdown_path": "_fulltext/amac-credit-derivative-valuation-2019/7b5a8efe57d1/a6ba6f874e8e/full.md",
+      "markdown_sha256": "a6ba6f874e8e7ead5f5ed49b28e6f157097e9861bd15f6c00fca9caca4dac85e",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券投资基金业协会",
+      "raw_path": "_sources/L2/amac-credit-derivative-valuation-2019/original.pdf",
+      "raw_sha256": "7b5a8efe57d198998dfef857f23136cfd3f1ba2891ef2941a7325afd03087216",
+      "seed_urls": [
+        "https://picpolicy.mofcom.gov.cn/file/20190327/62151553657754035.pdf"
+      ],
+      "source_page_url": "https://www.amac.org.cn/xwfb/xhyw/201912/t20191231_15884.html",
+      "status": "converted_unverified",
+      "title": "证券投资基金投资信用衍生品估值指引（试行）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L2/amac-credit-derivative-valuation-2019/receipt.json",
+          "receipt_sha256": "e851806c8547ecc24e3bcc3c2df71a59ad8a183c48d2ec2b2c7ce23ce1652d9b"
+        },
+        "article_count": null,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/amac-credit-derivative-valuation-2019/7b5a8efe57d1/a6ba6f874e8e/conversions/26b4e594c1add426f87e38ffe0af018ca15a9ac011b73687ee9d09c7e54a6194.json",
+          "record_sha256": "26b4e594c1add426f87e38ffe0af018ca15a9ac011b73687ee9d09c7e54a6194"
+        },
+        "evidence": [
+          "官方通知中基协发〔2019〕1号、二○一九年一月十八日，自发布之日起施行。201912为迁移目录，不能作为发布日。原件包含正文三部分及附件信用衍生品估值参考方法，不只正文摘要。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 12
+      }
+    },
+    {
+      "download_url": "https://www.csrc.gov.cn/csrc/c101953/c3874209/3874209/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E5%85%B3%E4%BA%8E%E4%BF%AE%E6%94%B9%E3%80%8A%E5%86%85%E5%9C%B0%E4%B8%8E%E9%A6%99%E6%B8%AF%E8%82%A1%E7%A5%A8%E5%B8%82%E5%9C%BA%E4%BA%A4%E6%98%93%E4%BA%92%E8%81%94%E4%BA%92%E9%80%9A%E6%9C%BA%E5%88%B6%E8%8B%A5%E5%B9%B2%E8%A7%84%E5%AE%9A%E3%80%8B%E7%9A%84%E5%86%B3%E5%AE%9A.pdf",
+      "effective_from": "2022-07-25",
+      "expected_articles": 19,
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "format": "pdf",
+      "id": "l1-stock-connect-2022",
+      "issued_date": "2022-06-10",
+      "legacy_path": "L1_监管强制规则/内地与香港股票市场交易互联互通机制若干规定.md",
+      "markdown_path": "_fulltext/l1-stock-connect-2022/d73c9db4b180/b297cf52cbcd/full.md",
+      "markdown_sha256": "b297cf52cbcd79b4ee8bf371984b189d917bd885f4d27c98307a139b1bae33c3",
+      "origin_kind": "issuer_original",
+      "publisher": "中国证券监督管理委员会",
+      "raw_path": "_sources/L1/l1-stock-connect-2022/original.pdf",
+      "raw_sha256": "d73c9db4b180d97482e1063f106ff9bf04f25d53b315b307e0e0909c24c7b104",
+      "seed_urls": [
+        "https://www.csrc.gov.cn/csrc/c106256/c1654020/1654020/files/6dc3bca009924c9ba18e72b62f1869ed.pdf"
+      ],
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101953/c3874209/content.shtml",
+      "status": "converted_unverified",
+      "title": "内地与香港股票市场交易互联互通机制若干规定（2022年修正）",
+      "verification": {
+        "acquisition": {
+          "receipt_path": "_sources/L1/l1-stock-connect-2022/receipt.json",
+          "receipt_sha256": "ca2c3e196796bc0ee7f6e530fdd10f1349a63caa258cd1dd0e22034e77e487aa"
+        },
+        "article_count": 19,
+        "body_start_line": 1,
+        "completeness": "not_checked",
+        "conversion": {
+          "record_path": "_fulltext/l1-stock-connect-2022/d73c9db4b180/b297cf52cbcd/conversions/bfc7fbc1591e67770a085572cf1032df760fee56146b88843478376f29b94414.json",
+          "record_sha256": "bfc7fbc1591e67770a085572cf1032df760fee56146b88843478376f29b94414"
+        },
+        "evidence": [
+          "证监会第200号令发布页落款2022年6月10日，网页发布时间2022年6月24日，2022年7月25日起施行。附件1共9页，第1页为修改决定和过渡安排，第2至9页为根据本决定修正后重新公布的19条全文；第十三条第一款新增沪股通和深股通投资者不包括内地投资者。旧摘要seed实际返回2016原版，原件保存在l1-66dd2b604e86，不能将旧PDF配上2022日期冒充修正版。",
+          "Bound machine conversion record; not human legal review"
+        ],
+        "identity": "verified",
+        "page_count": 9
+      }
+    }
+  ],
+  "schema_version": 1
+}

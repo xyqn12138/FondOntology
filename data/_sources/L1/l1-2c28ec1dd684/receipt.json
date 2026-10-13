@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "l1-2c28ec1dd684",
+  "requested_url": "https://www.csrc.gov.cn/csrc/c106256/c1653981/1653981/files/105号《私募投资基金监督管理暂行办法》.pdf",
+  "final_url": "https://www.csrc.gov.cn/csrc/c106256/c1653981/1653981/files/105%E5%8F%B7%E3%80%8A%E7%A7%81%E5%8B%9F%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E7%9B%91%E7%9D%A3%E7%AE%A1%E7%90%86%E6%9A%82%E8%A1%8C%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+  "redirects": [],
+  "fetched_at": "2026-10-13T03:44:10.878682+00:00",
+  "status_code": 200,
+  "content_type": "application/pdf",
+  "bytes": 219088,
+  "raw_sha256": "7e70ac8a679b74c329e0a7862a036260147aeebe86bb510eeb0df934b67d53f9",
+  "tls_policy": "default_certificate_verification",
+  "identity_basis": "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。",
+  "legal_validity": "not_checked_current",
+  "source_page": {
+    "requested_url": "https://www.csrc.gov.cn/csrc/c106256/c1653981/content.shtml",
+    "final_url": "https://www.csrc.gov.cn/csrc/c106256/c1653981/content.shtml",
+    "raw_path": "_sources/L1/l1-2c28ec1dd684/source-page.html",
+    "sha256": "cad51d50cb3af6804f4b4d22ad213dc5bed1ebb841018706951af21007cbbc7d",
+    "bytes": 59440
+  }
+}

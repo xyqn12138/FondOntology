@@ -1,0 +1,53 @@
+{
+  "identity_review": {
+    "human_reviewed": false,
+    "scope": "machine_conversion_and_structure_only"
+  },
+  "markdown_path": "_fulltext/l1-3f70c6457161/9b8e4e41956a/6a8fcb2b15e1/full.md",
+  "markdown_sha256": "6a8fcb2b15e1a65c20730541f9a790d729f7391d1edf6b904dcba59e6a633974",
+  "method": "mineru-bound-content-list",
+  "observations": {
+    "article_count": 29,
+    "article_heading_separator_insertions": 7,
+    "excluded_title_headers": [
+      "# 合格境外机构投资者和人民币合格境外机构投资者境内证券期货投资管理办法"
+    ],
+    "extraction_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_converted\\L1\\files\\original-f0d5c6d66e16ba240be7a09083c399e3472bc017058448b7c7721922a558c584\\extraction.json",
+    "extraction_sha256": "71a3ca8ffafb33e7365f6ad270aed6254d4d7a5224335cf838833bf46a9efb4b",
+    "extractor_model_version": "pipeline",
+    "missing_images": [],
+    "original_format": "pdf",
+    "page_count": 9,
+    "page_coverage": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "page_scope": "mineru_reported_pages_unreviewed",
+    "raw_pdf_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_sources\\L1\\l1-3f70c6457161\\original.pdf",
+    "unsupported": [
+      {
+        "block_index": 31,
+        "block_type": "text",
+        "page": 4,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 85,
+        "block_type": "text",
+        "page": 8,
+        "reason": "empty_text"
+      }
+    ]
+  },
+  "raw_path": "_sources/L1/l1-3f70c6457161/original.pdf",
+  "schema_version": 1,
+  "source_sha256": "9b8e4e41956a928b7d45f3bbeb4b7599ac38be5cbaad364aa8766c690ed386d4",
+  "version": "data-restoration-v1"
+}

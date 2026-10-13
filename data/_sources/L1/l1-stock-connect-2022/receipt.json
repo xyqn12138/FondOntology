@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "l1-stock-connect-2022",
+  "requested_url": "https://www.csrc.gov.cn/csrc/c101953/c3874209/3874209/files/附件1：关于修改《内地与香港股票市场交易互联互通机制若干规定》的决定.pdf",
+  "final_url": "https://www.csrc.gov.cn/csrc/c101953/c3874209/3874209/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E5%85%B3%E4%BA%8E%E4%BF%AE%E6%94%B9%E3%80%8A%E5%86%85%E5%9C%B0%E4%B8%8E%E9%A6%99%E6%B8%AF%E8%82%A1%E7%A5%A8%E5%B8%82%E5%9C%BA%E4%BA%A4%E6%98%93%E4%BA%92%E8%81%94%E4%BA%92%E9%80%9A%E6%9C%BA%E5%88%B6%E8%8B%A5%E5%B9%B2%E8%A7%84%E5%AE%9A%E3%80%8B%E7%9A%84%E5%86%B3%E5%AE%9A.pdf",
+  "redirects": [],
+  "fetched_at": "2026-10-13T04:04:05.957331+00:00",
+  "status_code": 200,
+  "content_type": "application/pdf",
+  "bytes": 259219,
+  "raw_sha256": "d73c9db4b180d97482e1063f106ff9bf04f25d53b315b307e0e0909c24c7b104",
+  "tls_policy": "default_certificate_verification",
+  "identity_basis": "证监会第200号令发布页落款2022年6月10日，网页发布时间2022年6月24日，2022年7月25日起施行。附件1共9页，第1页为修改决定和过渡安排，第2至9页为根据本决定修正后重新公布的19条全文；第十三条第一款新增沪股通和深股通投资者不包括内地投资者。旧摘要seed实际返回2016原版，原件保存在l1-66dd2b604e86，不能将旧PDF配上2022日期冒充修正版。",
+  "legal_validity": "not_checked_current",
+  "source_page": {
+    "requested_url": "https://www.csrc.gov.cn/csrc/c101953/c3874209/content.shtml",
+    "final_url": "https://www.csrc.gov.cn/csrc/c101953/c3874209/content.shtml",
+    "raw_path": "_sources/L1/l1-stock-connect-2022/source-page.html",
+    "sha256": "54d540118d7e8d718db41c30d63737fd267bb2d11f29b84972b5538c36ddca50",
+    "bytes": 14490
+  }
+}

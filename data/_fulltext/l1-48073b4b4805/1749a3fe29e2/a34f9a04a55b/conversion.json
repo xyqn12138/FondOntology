@@ -1,0 +1,36 @@
+{
+  "identity_review": {
+    "human_reviewed": false,
+    "scope": "machine_conversion_and_structure_only"
+  },
+  "markdown_path": "_fulltext/l1-48073b4b4805/1749a3fe29e2/a34f9a04a55b/full.md",
+  "markdown_sha256": "a34f9a04a55bd185c5ebadf985ddf25c78f9a7d27cc18b32481e55e76878935d",
+  "method": "selected-html-body",
+  "observations": {
+    "article_count": 43,
+    "body_selector": ".pages_content",
+    "excluded_title_headers": [
+      "证券投资基金托管业务管理办法"
+    ],
+    "image_references": [
+      "./W020230512389256379330.jpg"
+    ],
+    "missing_images": [
+      "./W020230512389256379330.jpg"
+    ],
+    "original_format": "html",
+    "page_count": null,
+    "page_coverage": [],
+    "table_count": 0,
+    "unsupported": [
+      {
+        "count": 1,
+        "kind": "html_image_content_unreviewed"
+      }
+    ]
+  },
+  "raw_path": "_sources/L1/l1-48073b4b4805/original.html",
+  "schema_version": 1,
+  "source_sha256": "1749a3fe29e29edada4265295843f25ac404d4f3b3d92fdcbc0fabedf66247d0",
+  "version": "data-restoration-v1"
+}

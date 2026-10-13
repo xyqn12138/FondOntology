@@ -1,0 +1,44 @@
+{
+  "id": "l1-2c28ec1dd684",
+  "legacy_path": "L1_监管强制规则/私募投资基金监督管理暂行办法.md",
+  "title": "私募投资基金监督管理暂行办法",
+  "publisher": "中国证券监督管理委员会",
+  "legacy_metadata": {
+    "发布机关": "中国证券监督管理委员会",
+    "文号": "证监会令第105号",
+    "发布/施行日期": "2014年8月21日公布，自公布之日起施行",
+    "来源": "http://www.csrc.gov.cn/csrc/c106256/c1653981/content.shtml",
+    "分类标签": "L1部门规章 / A规则说明型",
+    "与《私募投资基金监督管理条例》（2023年762号令）的关系": "条例是2023年新颁布的**行政法规**，效力层级高于本办法（部门规章）；本办法在条例覆盖范围内的内容已被条例取代或需与条例一致解释，但条例未覆盖的操作细节（如登记备案具体材料清单、合格投资者的具体金额门槛、行业自律章节）本办法仍然有效，两者是**上位法与操作细则**的关系，本体设计里应将条例列为权威源头，本办法作为补充细则引用",
+    "穿透核查规则": "以合伙企业、契约等非法人形式汇集多数投资者资金投资私募基金的，管理人或销售机构应**穿透核查最终投资者**是否合格并**合并计算投资者人数**；但第（一）(二)(四)类投资者投资私募基金的，不需要穿透核查和合并计算（**这条\"穿透核查\"规则与本轮反复出现的\"股权穿透\"\"关联方穿透\"是同一底层监管逻辑在投资者适格性场景下的应用**）。"
+  },
+  "seed_urls": [
+    "http://www.csrc.gov.cn/csrc/c106256/c1653981/content.shtml"
+  ],
+  "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653981/content.shtml",
+  "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653981/1653981/files/105%E5%8F%B7%E3%80%8A%E7%A7%81%E5%8B%9F%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E7%9B%91%E7%9D%A3%E7%AE%A1%E7%90%86%E6%9A%82%E8%A1%8C%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+  "format": "pdf",
+  "origin_kind": "issuer_original",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": null,
+  "version_basis": "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://www.csrc.gov.cn/csrc/c106256/c1653981/content.shtml",
+  "page_title": "私募投资基金监督管理暂行办法_中国证券监督管理委员会",
+  "attachments": [
+    {
+      "text": "下载图片版",
+      "url": "https://www.csrc.gov.cn/csrc/c106256/c1653981/1653981/files/105号《私募投资基金监督管理暂行办法》.pdf"
+    },
+    {
+      "text": "下载文字版",
+      "url": "https://www.csrc.gov.cn/csrc/c106256/c1653981/1653981/files/105号《私募投资基金监督管理暂行办法》.docx"
+    }
+  ],
+  "raw_path": "_sources/L1/l1-2c28ec1dd684/original.pdf",
+  "raw_sha256": "7e70ac8a679b74c329e0a7862a036260147aeebe86bb510eeb0df934b67d53f9",
+  "receipt_path": "_sources/L1/l1-2c28ec1dd684/receipt.json"
+}

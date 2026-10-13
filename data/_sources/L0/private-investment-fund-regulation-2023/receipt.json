@@ -1,0 +1,18 @@
+{
+  "id": "private-investment-fund-regulation-2023",
+  "retrieved_at": "2026-10-13T03:56:27.527775+00:00",
+  "actual_url": "https://www.gov.cn/zhengce/content/202307/content_6890738.htm",
+  "final_url": "https://www.gov.cn/zhengce/content/202307/content_6890738.htm",
+  "identity_basis": "国务院令第762号，2023-06-16国务院第8次常务会议通过，2023-07-03公布，2023-09-01施行。旧PDF21页由Microsoft Print To PDF生成且无可提取文字，标题元数据指向中国政府网；下载发布原全文保留旧PDF，未用旧PDF推断其逐条内容。",
+  "origin_kind": "issuer_original",
+  "acquisition_method": "http_get",
+  "http_status": 200,
+  "content_type": "text/html",
+  "body_text_characters": 10540,
+  "body_selector": "#UCAP-CONTENT",
+  "article_headings": 62,
+  "sha256": "1261c2273d32bd103709adbe4a20b5969597fd4d2124d3bd3cfdf7b92c0147a3",
+  "bytes": 70543,
+  "raw_path": "_sources/L0/private-investment-fund-regulation-2023/original.html",
+  "status": "downloaded"
+}

@@ -1,0 +1,34 @@
+{
+  "id": "l1-7e66f1c5846c",
+  "legacy_path": "L1_监管强制规则/证券期货投资者适当性管理办法.md",
+  "title": "证券期货投资者适当性管理办法",
+  "publisher": "中国证券监督管理委员会",
+  "legacy_metadata": {
+    "发布机关": "中国证券监督管理委员会",
+    "文号": "证监会令第130号",
+    "发布日期": "2016年12月12日，根据2020年10月30日证监会令第177号修订",
+    "施行日期": "2017年7月1日",
+    "来源": "https://www.csrc.gov.cn/csrc/c106256/c1653849/content.shtml",
+    "分类标签": "L1部门规章 / B字段标准型（\"投资者\"实体分类的核心权威依据，被誉为\"史上最严\"投资者保护首部专项规章）"
+  },
+  "seed_urls": [
+    "https://www.csrc.gov.cn/csrc/c106256/c1653849/content.shtml"
+  ],
+  "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653849/content.shtml",
+  "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653849/content.shtml",
+  "format": "html",
+  "origin_kind": "issuer_original",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": ".content-body",
+  "version_basis": "证监会规章库正文明确130号令及2020年177号令修订。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://www.csrc.gov.cn/csrc/c106256/c1653849/content.shtml",
+  "page_title": "证券期货投资者适当性管理办法_中国证券监督管理委员会",
+  "attachments": [],
+  "raw_path": "_sources/L1/l1-7e66f1c5846c/original.html",
+  "raw_sha256": "6c7fd3017f0c7e0f6f3baa4e6a887d66d0e723f666207c7c96c613a45337a79d",
+  "receipt_path": "_sources/L1/l1-7e66f1c5846c/receipt.json"
+}

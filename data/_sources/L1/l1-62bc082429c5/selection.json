@@ -1,0 +1,44 @@
+{
+  "id": "l1-62bc082429c5",
+  "legacy_path": "L1_监管强制规则/货币市场基金监督管理办法.md",
+  "title": "货币市场基金监督管理办法",
+  "publisher": "中国证券监督管理委员会、中国人民银行",
+  "legacy_metadata": {
+    "发布机关": "中国证券监督管理委员会、中国人民银行",
+    "文号": "证监会、人民银行令第120号",
+    "发布日期": "2015年12月17日",
+    "施行日期": "2016年2月1日",
+    "来源": "https://www.csrc.gov.cn/csrc/c106256/c1654015/content.shtml",
+    "分类标签": "L1部门规章 / A+B双标签（此前被反复引用但从未收录，本次补齐）",
+    "废止旧规": "《货币市场基金暂行规定》等5份历史文件"
+  },
+  "seed_urls": [
+    "https://www.csrc.gov.cn/csrc/c106256/c1654015/content.shtml"
+  ],
+  "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1654015/content.shtml",
+  "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1654015/1654015/files/120%E5%8F%B7%E3%80%8A%E8%B4%A7%E5%B8%81%E5%B8%82%E5%9C%BA%E5%9F%BA%E9%87%91%E7%9B%91%E7%9D%A3%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
+  "format": "pdf",
+  "origin_kind": "issuer_original",
+  "issued_date": null,
+  "effective_from": null,
+  "expected_articles": null,
+  "body_selector": null,
+  "version_basis": "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。",
+  "status": "downloaded",
+  "failure_reason": null,
+  "seed_response_url": "https://www.csrc.gov.cn/csrc/c106256/c1654015/content.shtml",
+  "page_title": "货币市场基金监督管理办法_中国证券监督管理委员会",
+  "attachments": [
+    {
+      "text": "下载图片版",
+      "url": "https://www.csrc.gov.cn/csrc/c106256/c1654015/1654015/files/120号《货币市场基金监督管理办法》.pdf"
+    },
+    {
+      "text": "下载文字版",
+      "url": "https://www.csrc.gov.cn/csrc/c106256/c1654015/1654015/files/120号《货币市场基金监督管理办法》.docx"
+    }
+  ],
+  "raw_path": "_sources/L1/l1-62bc082429c5/original.pdf",
+  "raw_sha256": "db090b82650230262fcf1ac16937794b2136a57c6d9424ee671ae528cb84a8b1",
+  "receipt_path": "_sources/L1/l1-62bc082429c5/receipt.json"
+}
