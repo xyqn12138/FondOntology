@@ -1,0 +1,59 @@
+{
+  "identity_review": {
+    "human_reviewed": false,
+    "scope": "machine_conversion_and_structure_only"
+  },
+  "markdown_path": "_fulltext/l1-c72866243a01/878895a01474/4a1c6ac6927f/full.md",
+  "markdown_sha256": "4a1c6ac6927fd16b02962ca95470395c1a5fa6b592e870e03ba5eedd166729ed",
+  "method": "mineru-bound-content-list",
+  "observations": {
+    "article_count": 20,
+    "article_heading_separator_insertions": 20,
+    "excluded_title_headers": [
+      "## 公开募集证券投资基金宣传推介材料管理暂行规定"
+    ],
+    "extraction_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_converted\\L1\\files\\original-c87dc10ab23b212b206cccfd8a7a9298523084dc91b82ec334e9602fe7235e74\\extraction.json",
+    "extraction_sha256": "97b6946a758c3fcd930f8442bb1acb18ab29dbed27389b62bd37c5183fe733a2",
+    "extractor_model_version": "pipeline",
+    "ignored_empty_text_blocks": [
+      {
+        "block_index": 20,
+        "block_type": "text",
+        "page": 3,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 30,
+        "block_type": "text",
+        "page": 4,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 44,
+        "block_type": "text",
+        "page": 5,
+        "reason": "empty_text"
+      }
+    ],
+    "missing_images": [],
+    "omitted_recognition_images": [],
+    "original_format": "pdf",
+    "page_count": 5,
+    "page_coverage": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "page_scope": "mineru_reported_pages_unreviewed",
+    "pdf_acceptance_scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review",
+    "raw_pdf_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_sources\\L1\\l1-c72866243a01\\original.pdf",
+    "retained_image_paths": [],
+    "unsupported": []
+  },
+  "raw_path": "_sources/L1/l1-c72866243a01/original.pdf",
+  "schema_version": 1,
+  "source_sha256": "878895a01474cf7e04a383f0bbb83b6e8bfc73fa201f60f177927411c21e7942",
+  "version": "data-restoration-v1"
+}

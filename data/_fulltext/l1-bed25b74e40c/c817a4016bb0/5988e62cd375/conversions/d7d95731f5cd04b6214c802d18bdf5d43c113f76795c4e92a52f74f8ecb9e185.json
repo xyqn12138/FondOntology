@@ -1,0 +1,62 @@
+{
+  "identity_review": {
+    "human_reviewed": false,
+    "scope": "machine_conversion_and_structure_only"
+  },
+  "markdown_path": "_fulltext/l1-bed25b74e40c/c817a4016bb0/5988e62cd375/full.md",
+  "markdown_sha256": "5988e62cd375fe3e891d82d2c5e09d7342964e1bb190b020a6e43f1a3291d9d2",
+  "method": "mineru-bound-content-list",
+  "observations": {
+    "article_count": null,
+    "excluded_title_headers": [],
+    "extraction_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_converted\\L1\\files\\original-0e7bac0cf5945b7bd39bddd3e6dbccce72c7c0350c3112a39cb40a8d4c35ccaf\\extraction.json",
+    "extraction_sha256": "0b12f06972a12e36a8147ae5f80fc25a41ee54da732aa63b8f7bfbe5ba506ab9",
+    "extractor_model_version": "pipeline",
+    "ignored_empty_text_blocks": [
+      {
+        "block_index": 7,
+        "block_type": "text",
+        "page": 2,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 73,
+        "block_type": "text",
+        "page": 9,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 89,
+        "block_type": "text",
+        "page": 11,
+        "reason": "empty_text"
+      }
+    ],
+    "missing_images": [],
+    "omitted_recognition_images": [],
+    "original_format": "pdf",
+    "page_count": 11,
+    "page_coverage": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "page_scope": "mineru_reported_pages_unreviewed",
+    "pdf_acceptance_scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review",
+    "raw_pdf_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_sources\\L1\\l1-bed25b74e40c\\original.pdf",
+    "retained_image_paths": [],
+    "unsupported": []
+  },
+  "raw_path": "_sources/L1/l1-bed25b74e40c/original.pdf",
+  "schema_version": 1,
+  "source_sha256": "c817a4016bb047fbc9c9e4256e4de9973be120aad2894a4ed1e0ffec789e69eb",
+  "version": "data-restoration-v1"
+}

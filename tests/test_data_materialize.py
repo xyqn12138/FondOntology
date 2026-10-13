@@ -379,6 +379,15 @@ class DataMaterializeTests(unittest.TestCase):
         result = materialize_data(self.data, source_paths=["sources.json"],
                                   state_paths=["_converted/L3/state.json"])
         self.assertEqual(result["documents"][0]["status"], "ready")
+        self.source["conversion_issues"] = [{
+            "block": 0, "reason": "confirmed_latex_transcription_mismatch",
+            "basis": "Source comparison found an extra equality.",
+        }]
+        self.save_source()
+        result = materialize_data(self.data, source_paths=["sources.json"],
+                                  state_paths=["_converted/L3/state.json"])
+        self.assertEqual(result["documents"][0]["status"], "converted_unverified")
+        self.source.pop("conversion_issues")
         self.source["pdf_fidelity_review"]["markdown_sha256"] = "0" * 64
         self.save_source()
         result = materialize_data(self.data, source_paths=["sources.json"],
@@ -408,7 +417,7 @@ class DataMaterializeTests(unittest.TestCase):
         _, observations, assets = _pdf_body(raw, self.raw, (directory, entry))
         self.assertNotIn(Path("images/recognized.jpg"), assets)
         self.assertIn(Path("images/failed.jpg"), assets)
-        self.assertIn(Path("images/formula.jpg"), assets)
+        self.assertNotIn(Path("images/formula.jpg"), assets)
         self.assertEqual(observations["omitted_recognition_images"][0]["path"],
                          "images/recognized.jpg")
         self.assertTrue(any(block.get("kind") == "visual_or_formula_requires_review"

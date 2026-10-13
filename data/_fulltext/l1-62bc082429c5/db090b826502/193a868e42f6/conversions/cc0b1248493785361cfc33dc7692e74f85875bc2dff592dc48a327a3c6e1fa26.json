@@ -1,0 +1,106 @@
+{
+  "identity_review": {
+    "human_reviewed": false,
+    "scope": "machine_conversion_and_structure_only"
+  },
+  "markdown_path": "_fulltext/l1-62bc082429c5/db090b826502/193a868e42f6/full.md",
+  "markdown_sha256": "193a868e42f695772d89440823764f653796ac689cced23d2b968c1e0713f139",
+  "method": "mineru-bound-content-list",
+  "observations": {
+    "article_count": 43,
+    "article_heading_separator_insertions": 6,
+    "excluded_title_headers": [
+      "## 货币市场基金监督管理办法"
+    ],
+    "extraction_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_converted\\L1\\files\\original-6366ccc3d1b1eda2193234d9c8b8eee6cba34762c855a359622a1672e469f953\\extraction.json",
+    "extraction_sha256": "5682ac628ac29871d403635030e3776075a0ba27fdca66754464be0d4fc3a416",
+    "extractor_model_version": "pipeline",
+    "ignored_empty_text_blocks": [
+      {
+        "block_index": 11,
+        "block_type": "text",
+        "page": 2,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 54,
+        "block_type": "text",
+        "page": 6,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 64,
+        "block_type": "text",
+        "page": 7,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 71,
+        "block_type": "text",
+        "page": 8,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 79,
+        "block_type": "text",
+        "page": 9,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 109,
+        "block_type": "text",
+        "page": 12,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 120,
+        "block_type": "text",
+        "page": 13,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 135,
+        "block_type": "text",
+        "page": 15,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 144,
+        "block_type": "text",
+        "page": 16,
+        "reason": "empty_text"
+      }
+    ],
+    "missing_images": [],
+    "omitted_recognition_images": [],
+    "original_format": "pdf",
+    "page_count": 16,
+    "page_coverage": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "page_scope": "mineru_reported_pages_unreviewed",
+    "pdf_acceptance_scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review",
+    "raw_pdf_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_sources\\L1\\l1-62bc082429c5\\original.pdf",
+    "retained_image_paths": [],
+    "unsupported": []
+  },
+  "raw_path": "_sources/L1/l1-62bc082429c5/original.pdf",
+  "schema_version": 1,
+  "source_sha256": "db090b82650230262fcf1ac16937794b2136a57c6d9424ee671ae528cb84a8b1",
+  "version": "data-restoration-v1"
+}

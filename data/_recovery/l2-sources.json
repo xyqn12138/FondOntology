@@ -381,6 +381,22 @@
     "origin_kind": "issuer_original",
     "raw_path": "_sources/L2/amac-credit-derivative-valuation-2019/original.pdf",
     "raw_sha256": "7b5a8efe57d198998dfef857f23136cfd3f1ba2891ef2941a7325afd03087216",
+    "conversion_issues": [
+      {
+        "block": 82,
+        "page": 7,
+        "type": "equation",
+        "reason": "confirmed_latex_transcription_mismatch",
+        "basis": "2026-10-13重新对照原件公式截图：原式末尾无=0，转换LaTeX正文末尾多出=0；不是LaTeX显示语法差异。"
+      },
+      {
+        "block": 107,
+        "page": 9,
+        "type": "equation",
+        "reason": "confirmed_latex_transcription_mismatch",
+        "basis": "2026-10-13重新对照原件公式截图：原式首个求和为sum从i=j+1到n并乘(T_i-T_{i-1})，转换为stackrel及无关分式；积分上限T_n亦识别异常。"
+      }
+    ],
     "body_selector": null,
     "version_basis": "官方通知中基协发〔2019〕1号、二○一九年一月十八日，自发布之日起施行。201912为迁移目录，不能作为发布日。原件包含正文三部分及附件信用衍生品估值参考方法，不只正文摘要。",
     "source_identity_evidence": {

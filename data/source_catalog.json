@@ -239,8 +239,8 @@
         "body_start_line": 1,
         "completeness": "not_checked",
         "conversion": {
-          "record_path": "_fulltext/sse-security-code-allocation-guide-2023-r6/d01059224a63/eabfe24155a9/conversions/6159b00556fe4c07c0a7cff1f0de2140d65ec046625a21c0691bf9d34f232f0d.json",
-          "record_sha256": "6159b00556fe4c07c0a7cff1f0de2140d65ec046625a21c0691bf9d34f232f0d"
+          "record_path": "_fulltext/sse-security-code-allocation-guide-2023-r6/d01059224a63/eabfe24155a9/conversions/def2a30a29e92096687214cdd3f001525e7494605080891d559aca50081fe4d0.json",
+          "record_sha256": "def2a30a29e92096687214cdd3f001525e7494605080891d559aca50081fe4d0"
         },
         "evidence": [
           "旧摘要指定2023年第6次修订及此PDF种子。下载PDF14页封面逐字匹配版本，末页含四、附则；SSE指南入口本次HTTP403，故保留中国证券网转载来源，不冒充SSE直接原发。",
@@ -316,6 +316,10 @@
             ],
             "basis": "用户授权跨页表格合并占位不阻断ready；空文本占位一并忽略，其他图像、公式及实质空表问题继续阻断。",
             "policy": "user-authorized-mineru-cross-page-merge-v1"
+          },
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
           }
         ],
         "identity": "not_checked",
@@ -353,32 +357,14 @@
         "body_start_line": 1,
         "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/gb-t-39662-2020/b4c77bd15f2e/8f2c9790e386/conversions/7fdf6d77edc6634c94cbfcbd41427ccf8c8cbf1cd54f33debe15a34e64d5349a.json",
-          "record_sha256": "7fdf6d77edc6634c94cbfcbd41427ccf8c8cbf1cd54f33debe15a34e64d5349a"
+          "record_path": "_fulltext/gb-t-39662-2020/b4c77bd15f2e/8f2c9790e386/conversions/13807b192c59de3876cd0da90299a76e2a7e02fd828f85ecd18bbf33d0eb82be.json",
+          "record_sha256": "13807b192c59de3876cd0da90299a76e2a7e02fd828f85ecd18bbf33d0eb82be"
         },
         "evidence": [
           "资本市场标准网和全国标准信息公共服务平台均明确GB/T 39662-2020；此国标与中国结算V2.2-20260320操作规范为不同身份，未替代。",
           "Bound machine conversion record; not human legal review",
           {
             "accepted_blocks": [
-              {
-                "block_index": 13,
-                "block_type": "text",
-                "page": 3,
-                "reason": "empty_text"
-              },
-              {
-                "block_index": 15,
-                "block_type": "text",
-                "page": 4,
-                "reason": "empty_text"
-              },
-              {
-                "block_index": 18,
-                "block_type": "text",
-                "page": 5,
-                "reason": "empty_text"
-              },
               {
                 "block_index": 238,
                 "block_type": "table",
@@ -970,6 +956,10 @@
             ],
             "basis": "用户授权跨页表格合并占位不阻断ready；空文本占位一并忽略，其他图像、公式及实质空表问题继续阻断。",
             "policy": "user-authorized-mineru-cross-page-merge-v1"
+          },
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
           }
         ],
         "identity": "verified",
@@ -980,7 +970,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653983/1653983/files/166-7%E3%80%8A%E4%B8%8A%E5%B8%82%E5%85%AC%E5%8F%B8%E6%94%B6%E8%B4%AD%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
       "effective_from": "2020-03-20",
       "expected_articles": 90,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-ea5f40b1df62",
       "issued_date": "2020-03-20",
@@ -995,7 +985,7 @@
         "https://www.csrc.gov.cn/csrc/c106256/c1653983/content.shtml"
       ],
       "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653983/content.shtml",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "上市公司收购管理办法",
       "verification": {
         "acquisition": {
@@ -1004,14 +994,18 @@
         },
         "article_count": 90,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-ea5f40b1df62/d20681773b7f/4f84448c1494/conversions/c4141a926709d28e66d72c650bc0289dbb5a8a1c4ba9a1efcc2eac0c56436936.json",
-          "record_sha256": "c4141a926709d28e66d72c650bc0289dbb5a8a1c4ba9a1efcc2eac0c56436936"
+          "record_path": "_fulltext/l1-ea5f40b1df62/d20681773b7f/4f84448c1494/conversions/1ca9ec03e03adbfb0811431cf599bb313d3689e8163b586d852d890173d44049.json",
+          "record_sha256": "1ca9ec03e03adbfb0811431cf599bb313d3689e8163b586d852d890173d44049"
         },
         "evidence": [
           "原来源规章库标题与166-7附件；恢复2020修订全文，不再仅摘录关联条款。 原文核验：PDF首页修订沿革明确2020年3月20日第166号令。另核验第166号令发布页 https://www.csrc.gov.cn/csrc/c101950/c1048008/content.shtml 落款2020年3月20日、自公布之日起施行。第九十条2006年9月1日是原版本施行日，不用于本修订版本。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 49
@@ -1062,7 +1056,7 @@
       "download_url": "https://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117431/files/a920cc804ded4fe2b600196d01080e68.pdf",
       "effective_from": "2017-10-01",
       "expected_articles": 41,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": "Source publication page not independently established",
       "format": "pdf",
       "id": "l1-288348db871e",
       "issued_date": "2017-08-31",
@@ -1086,14 +1080,18 @@
         },
         "article_count": 41,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-288348db871e/813558004fa2/71515c2cdeb7/conversions/b5e171c064198fd7a041dcda759c58033456dec81dcce3916235063a9e934b3c.json",
-          "record_sha256": "b5e171c064198fd7a041dcda759c58033456dec81dcce3916235063a9e934b3c"
+          "record_path": "_fulltext/l1-288348db871e/813558004fa2/71515c2cdeb7/conversions/13d36d64ad33d04c2d2c61a8ce28ec6efd96cc43f29f2ddd04de7efc3944b401.json",
+          "record_sha256": "13d36d64ad33d04c2d2c61a8ce28ec6efd96cc43f29f2ddd04de7efc3944b401"
         },
         "evidence": [
           "上交所法律规则栏目再刊证监会2017年12号公告原PDF。 原文核验：PDF第四十一条明确2017年10月1日施行；另核验官方第12号公告 https://www.csrc.gov.cn/csrc/c101877/c1029552/content.shtml 落款2017年8月31日。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 17
@@ -1103,7 +1101,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653985/1653985/files/166-8%E3%80%8A%E5%85%AC%E5%BC%80%E5%8B%9F%E9%9B%86%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E4%BF%A1%E6%81%AF%E6%8A%AB%E9%9C%B2%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
       "effective_from": "2020-03-20",
       "expected_articles": 42,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-625a9db0ed9a",
       "issued_date": "2020-03-20",
@@ -1118,7 +1116,7 @@
         "http://www.csrc.gov.cn/csrc/c106256/c1653985/content.shtml"
       ],
       "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653985/content.shtml",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "公开募集证券投资基金信息披露管理办法",
       "verification": {
         "acquisition": {
@@ -1127,14 +1125,18 @@
         },
         "article_count": 42,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-625a9db0ed9a/4d8ac4d0fe23/40c5976ebfc5/conversions/27b955fdfe30f7c75f21b565e0ed067de458a5bc29c843d69c8d7f9162f09060.json",
-          "record_sha256": "27b955fdfe30f7c75f21b565e0ed067de458a5bc29c843d69c8d7f9162f09060"
+          "record_path": "_fulltext/l1-625a9db0ed9a/4d8ac4d0fe23/40c5976ebfc5/conversions/ffeac9e0150ef2de293666ea93ad5149d5c802724e624aba86925c1ca24dec08.json",
+          "record_sha256": "ffeac9e0150ef2de293666ea93ad5149d5c802724e624aba86925c1ca24dec08"
         },
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页明确2020年3月20日第166号令修订，至第四十二条；另核验第166号令 https://www.csrc.gov.cn/csrc/c101950/c1048008/content.shtml 明确2020年3月20日公布并施行。2019年9月1日仅为原版本施行日。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 18
@@ -1144,7 +1146,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c101899/c1039188/1039188/files/%E3%80%8A%E5%85%AC%E5%BC%80%E5%8B%9F%E9%9B%86%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E5%AE%A3%E4%BC%A0%E6%8E%A8%E4%BB%8B%E6%9D%90%E6%96%99%E7%AE%A1%E7%90%86%E6%9A%82%E8%A1%8C%E8%A7%84%E5%AE%9A%E3%80%8B.pdf",
       "effective_from": "2020-10-01",
       "expected_articles": 20,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-c72866243a01",
       "issued_date": "2020-08-28",
@@ -1159,7 +1161,7 @@
         "http://www.csrc.gov.cn/csrc/c101899/c1039188/content.shtml"
       ],
       "source_page_url": "https://www.csrc.gov.cn/csrc/c101899/c1039188/content.shtml",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "公开募集证券投资基金宣传推介材料管理暂行规定",
       "verification": {
         "acquisition": {
@@ -1168,14 +1170,18 @@
         },
         "article_count": 20,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-c72866243a01/878895a01474/4a1c6ac6927f/conversions/86c76643b629e3cbbda82f5f4750752346aa4f132ab3802fc0a58d5417aa1d89.json",
-          "record_sha256": "86c76643b629e3cbbda82f5f4750752346aa4f132ab3802fc0a58d5417aa1d89"
+          "record_path": "_fulltext/l1-c72866243a01/878895a01474/4a1c6ac6927f/conversions/2eff5b26769673bb81b9144298e53cac5e2b21957956ac381f0bc8430b96c8a2.json",
+          "record_sha256": "2eff5b26769673bb81b9144298e53cac5e2b21957956ac381f0bc8430b96c8a2"
         },
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：已保存source-page.html第59号公告落款2020年8月28日，2020年10月1日施行；PDF至第二十条。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 5
@@ -1226,7 +1232,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653978/1653978/files/104%E5%8F%B7%E3%80%8A%E5%85%AC%E5%BC%80%E5%8B%9F%E9%9B%86%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E8%BF%90%E4%BD%9C%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
       "effective_from": "2014-08-08",
       "expected_articles": 59,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": "Source publication page not independently established",
       "format": "pdf",
       "id": "l1-6f014fe27f98",
       "issued_date": "2014-07-07",
@@ -1250,14 +1256,18 @@
         },
         "article_count": 59,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-6f014fe27f98/b8d078253e30/fcae37369faf/conversions/ce41d2933435581ce5e660ed358a1f8424823d08779bbab4180ae61807e2c33f.json",
-          "record_sha256": "ce41d2933435581ce5e660ed358a1f8424823d08779bbab4180ae61807e2c33f"
+          "record_path": "_fulltext/l1-6f014fe27f98/b8d078253e30/fcae37369faf/conversions/c6b317914d095d1f369a346bd6a1c93cc19c81de3141d63a5a8c5c538ceb5a59.json",
+          "record_sha256": "c6b317914d095d1f369a346bd6a1c93cc19c81de3141d63a5a8c5c538ceb5a59"
         },
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页第104号令明确2014年7月7日公布、2014年8月8日施行，第五十九条确认。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 24
@@ -1308,7 +1318,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c101954/c7606091/7606091/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E5%85%AC%E5%BC%80%E5%8B%9F%E9%9B%86%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E9%94%80%E5%94%AE%E8%B4%B9%E7%94%A8%E7%AE%A1%E7%90%86%E8%A7%84%E5%AE%9A.pdf",
       "effective_from": "2026-01-01",
       "expected_articles": 29,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-087279ad5f40",
       "issued_date": "2025-12-31",
@@ -1323,7 +1333,7 @@
         "https://www.csrc.gov.cn/csrc/c101954/c7606091/content.shtml"
       ],
       "source_page_url": "https://www.csrc.gov.cn/csrc/c101954/c7606091/content.shtml",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "公开募集证券投资基金销售费用管理规定",
       "verification": {
         "acquisition": {
@@ -1332,14 +1342,18 @@
         },
         "article_count": 29,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-087279ad5f40/af9893827fc7/c4fceac732b4/conversions/b0483be7615c41f1778c1c88562cccc85cf32b6e104f8b909273cc671a565b84.json",
-          "record_sha256": "b0483be7615c41f1778c1c88562cccc85cf32b6e104f8b909273cc671a565b84"
+          "record_path": "_fulltext/l1-087279ad5f40/af9893827fc7/c4fceac732b4/conversions/b72aac051faed5c696ca6f562a9c54c4dca176a0c73ecee28bcbcb82d0af8bef.json",
+          "record_sha256": "b72aac051faed5c696ca6f562a9c54c4dca176a0c73ecee28bcbcb82d0af8bef"
         },
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：已保存source-page.html第2025年22号公告落款2025年12月31日，明确2026年1月1日施行，与PDF第二十九条相符。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 10
@@ -1349,7 +1363,7 @@
       "download_url": "https://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117189/files/ca9769b2bd4f4cf9a546040941357ea5.pdf",
       "effective_from": "2020-10-01",
       "expected_articles": null,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": "Source publication page not independently established",
       "format": "pdf",
       "id": "l1-bed25b74e40c",
       "issued_date": "2020-08-28",
@@ -1373,14 +1387,18 @@
         },
         "article_count": null,
         "body_start_line": 3,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-bed25b74e40c/c817a4016bb0/5988e62cd375/conversions/703b09fd4015f1c99bc5b4a54b75712426a70d066ddb29da6a124e5833553039.json",
-          "record_sha256": "703b09fd4015f1c99bc5b4a54b75712426a70d066ddb29da6a124e5833553039"
+          "record_path": "_fulltext/l1-bed25b74e40c/c817a4016bb0/5988e62cd375/conversions/d7d95731f5cd04b6214c802d18bdf5d43c113f76795c4e92a52f74f8ecb9e185.json",
+          "record_sha256": "d7d95731f5cd04b6214c802d18bdf5d43c113f76795c4e92a52f74f8ecb9e185"
         },
         "evidence": [
           "上交所栏目再刊证监会2020年58号公告正式附件，不保留征求意见稿摘要。 原文核验：另核验官方第58号公告 https://www.csrc.gov.cn/csrc/c101877/c1039189/content.shtml 落款2020年8月28日，2020年10月1日施行。PDF按一、至二十九、编号，非第一条格式，expected_articles不适用。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 11
@@ -1390,7 +1408,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1654020/1654020/files/6dc3bca009924c9ba18e72b62f1869ed.pdf",
       "effective_from": "2016-09-30",
       "expected_articles": 19,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": "Source publication page not independently established",
       "format": "pdf",
       "id": "l1-66dd2b604e86",
       "issued_date": "2016-09-30",
@@ -1414,14 +1432,18 @@
         },
         "article_count": 19,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-66dd2b604e86/b9be17f3d826/f122edb58cb2/conversions/05d39c19cfcb89e296c300e4148a43c551a51aacef55a9634c60132d02549e99.json",
-          "record_sha256": "05d39c19cfcb89e296c300e4148a43c551a51aacef55a9634c60132d02549e99"
+          "record_path": "_fulltext/l1-66dd2b604e86/b9be17f3d826/f122edb58cb2/conversions/fd98c1e7af28ffbe1fe46d86b8441287622e79d17fd65e70eb42a291f11419d4.json",
+          "record_sha256": "fd98c1e7af28ffbe1fe46d86b8441287622e79d17fd65e70eb42a291f11419d4"
         },
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页明确2016年9月30日第128号令公布并施行，至第十九条；这是2016历史原版，不是旧摘要所称2022修正版。2022修正全文另存l1-stock-connect-2022。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 9
@@ -1472,7 +1494,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653919/1653919/files/46%E5%8F%B7%E3%80%8A%E5%90%88%E6%A0%BC%E5%A2%83%E5%86%85%E6%9C%BA%E6%9E%84%E6%8A%95%E8%B5%84%E8%80%85%E5%A2%83%E5%A4%96%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E7%AE%A1%E7%90%86%E8%AF%95%E8%A1%8C%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
       "effective_from": "2007-07-05",
       "expected_articles": 47,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-3ff1f1ad400f",
       "issued_date": "2007-06-18",
@@ -1487,7 +1509,7 @@
         "http://www.csrc.gov.cn/csrc/c106256/c1653919/content.shtml"
       ],
       "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653919/content.shtml",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "合格境内机构投资者境外证券投资管理试行办法（QDII）",
       "verification": {
         "acquisition": {
@@ -1496,14 +1518,18 @@
         },
         "article_count": 47,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-3ff1f1ad400f/0a635738c376/bd6818aea78f/conversions/7212e3c3f9b4de69f641bb38cb58579ea28845929f47089d29c8913327b67050.json",
-          "record_sha256": "7212e3c3f9b4de69f641bb38cb58579ea28845929f47089d29c8913327b67050"
+          "record_path": "_fulltext/l1-3ff1f1ad400f/0a635738c376/bd6818aea78f/conversions/b193b7b507ebe00e5aec63485682bafab3ef474cd4b0d954b8ae9cba896f4f09.json",
+          "record_sha256": "b193b7b507ebe00e5aec63485682bafab3ef474cd4b0d954b8ae9cba896f4f09"
         },
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页第46号令明确2007年6月18日公布、2007年7月5日施行，第四十七条确认。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 14
@@ -1513,7 +1539,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653823/1653823/files/%E3%80%90176%E5%8F%B7%E3%80%91%E5%90%88%E6%A0%BC%E5%A2%83%E5%A4%96%E6%9C%BA%E6%9E%84%E6%8A%95%E8%B5%84%E8%80%85%E5%92%8C%E4%BA%BA%E6%B0%91%E5%B8%81%E5%90%88%E6%A0%BC%E5%A2%83%E5%A4%96%E6%9C%BA%E6%9E%84%E6%8A%95%E8%B5%84%E8%80%85%E5%A2%83%E5%86%85%E8%AF%81%E5%88%B8%E6%9C%9F%E8%B4%A7%E6%8A%95%E8%B5%84%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95.pdf",
       "effective_from": "2020-11-01",
       "expected_articles": 29,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-3f70c6457161",
       "issued_date": "2020-09-25",
@@ -1528,7 +1554,7 @@
         "https://www.csrc.gov.cn/csrc/c106256/c1653823/content.shtml"
       ],
       "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653823/content.shtml",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "合格境外机构投资者和人民币合格境外机构投资者境内证券期货投资管理办法（QFII/RQFII）",
       "verification": {
         "acquisition": {
@@ -1537,14 +1563,18 @@
         },
         "article_count": 29,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-3f70c6457161/9b8e4e41956a/6a8fcb2b15e1/conversions/904d8d04fb706375c9a0be8fb71c498da4da547c1fac6b7d87bf64b2e8dab8ad.json",
-          "record_sha256": "904d8d04fb706375c9a0be8fb71c498da4da547c1fac6b7d87bf64b2e8dab8ad"
+          "record_path": "_fulltext/l1-3f70c6457161/9b8e4e41956a/6a8fcb2b15e1/conversions/075cd68657dbe43f5cbbbeec636c2f1db3fa55a086441c1a2cd934a5fe0955cd.json",
+          "record_sha256": "075cd68657dbe43f5cbbbeec636c2f1db3fa55a086441c1a2cd934a5fe0955cd"
         },
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页第176号令明确2020年9月25日公布、2020年11月1日施行，第二十九条确认。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 9
@@ -1554,7 +1584,7 @@
       "download_url": "https://docs.static.szse.cn/www/lawrules/rule/inno/W020240614673497419312.pdf",
       "effective_from": "2024-06-14",
       "expected_articles": 147,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": "Source publication page not independently established",
       "format": "pdf",
       "id": "l1-de65cbfb0ded",
       "issued_date": "2024-06-14",
@@ -1578,14 +1608,18 @@
         },
         "article_count": 147,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-de65cbfb0ded/64c0a06cae1c/05efb6bbdb56/conversions/77c6c64abb8f8ac63e5dfa1543084e571551de572df7a619a201ed8e0089aa97.json",
-          "record_sha256": "77c6c64abb8f8ac63e5dfa1543084e571551de572df7a619a201ed8e0089aa97"
+          "record_path": "_fulltext/l1-de65cbfb0ded/64c0a06cae1c/05efb6bbdb56/conversions/560ef6365fc7b309121470bd9e7080037c07bb5f6492fe11330a66210740b886.json",
+          "record_sha256": "560ef6365fc7b309121470bd9e7080037c07bb5f6492fe11330a66210740b886"
         },
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页沿革明确2024年6月14日第八次修订，第一百四十七条明确同日起施行。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 43
@@ -1595,7 +1629,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653981/1653981/files/105%E5%8F%B7%E3%80%8A%E7%A7%81%E5%8B%9F%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E7%9B%91%E7%9D%A3%E7%AE%A1%E7%90%86%E6%9A%82%E8%A1%8C%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
       "effective_from": "2014-08-21",
       "expected_articles": 41,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-2c28ec1dd684",
       "issued_date": "2014-08-21",
@@ -1610,7 +1644,7 @@
         "http://www.csrc.gov.cn/csrc/c106256/c1653981/content.shtml"
       ],
       "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653981/content.shtml",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "私募投资基金监督管理暂行办法",
       "verification": {
         "acquisition": {
@@ -1619,14 +1653,18 @@
         },
         "article_count": 41,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-2c28ec1dd684/7e70ac8a679b/85556a8021bf/conversions/6816845f1af753973f9b7ad7513a0da84fe5ab58a7913185eb2a4e4092bc4133.json",
-          "record_sha256": "6816845f1af753973f9b7ad7513a0da84fe5ab58a7913185eb2a4e4092bc4133"
+          "record_path": "_fulltext/l1-2c28ec1dd684/7e70ac8a679b/85556a8021bf/conversions/79581f273fbc13639109372c9ffd41cdb01850925c86e2662b6f1e58649b448b.json",
+          "record_sha256": "79581f273fbc13639109372c9ffd41cdb01850925c86e2662b6f1e58649b448b"
         },
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页第105号令明确2014年8月21日公布并施行，第四十一条确认公布即施行。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 14
@@ -1636,7 +1674,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1942800/1942800/files/%E3%80%90195%E5%8F%B7%E3%80%91%E8%AF%81%E5%88%B8%E5%9F%BA%E9%87%91%E7%BB%8F%E8%90%A5%E6%9C%BA%E6%9E%84%E8%91%A3%E4%BA%8B%E3%80%81%E7%9B%91%E4%BA%8B%E3%80%81%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E4%BA%BA%E5%91%98%E5%8F%8A%E4%BB%8E%E4%B8%9A%E4%BA%BA%E5%91%98%E7%9B%91%E7%9D%A3%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95.pdf",
       "effective_from": "2022-04-01",
       "expected_articles": 58,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-e1975f668476",
       "issued_date": "2022-02-18",
@@ -1651,7 +1689,7 @@
         "http://www.csrc.gov.cn/csrc/c106256/c1942800/content.shtml"
       ],
       "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1942800/content.shtml",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "证券基金经营机构董事、监事、高级管理人员及从业人员监督管理办法",
       "verification": {
         "acquisition": {
@@ -1660,14 +1698,18 @@
         },
         "article_count": 58,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-e1975f668476/937da5640e62/1bac22e48680/conversions/4f10faedb1f725b8aaf83307dd5af938001c43f5611f1ed73003f091dbbc6b92.json",
-          "record_sha256": "4f10faedb1f725b8aaf83307dd5af938001c43f5611f1ed73003f091dbbc6b92"
+          "record_path": "_fulltext/l1-e1975f668476/937da5640e62/1bac22e48680/conversions/513a7a8de0c68139c1842fb222b25f96d8cbbacf148ee4857ab62a05c41377c9.json",
+          "record_sha256": "513a7a8de0c68139c1842fb222b25f96d8cbbacf148ee4857ab62a05c41377c9"
         },
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页第195号令明确2022年2月18日公布、2022年4月1日施行，第五十八条确认。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 27
@@ -1718,7 +1760,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653866/1653866/files/%E3%80%90177-2%E5%8F%B7%E3%80%91%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E8%AF%84%E4%BB%B7%E4%B8%9A%E5%8A%A1%E7%AE%A1%E7%90%86%E6%9A%82%E8%A1%8C%E5%8A%9E%E6%B3%95.pdf",
       "effective_from": "2020-10-30",
       "expected_articles": 33,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-a96eddc54e73",
       "issued_date": "2020-10-30",
@@ -1733,7 +1775,7 @@
         "http://www.csrc.gov.cn/csrc/c101877/c1029632/content.shtml"
       ],
       "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653866/content.shtml",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "证券投资基金评价业务管理暂行办法",
       "verification": {
         "acquisition": {
@@ -1742,14 +1784,18 @@
         },
         "article_count": 33,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-a96eddc54e73/ba917c901fd5/635d2935d834/conversions/580f38bf34b1c462d3f49b971922848e4131b68fe027172c0949f08da6137fb5.json",
-          "record_sha256": "580f38bf34b1c462d3f49b971922848e4131b68fe027172c0949f08da6137fb5"
+          "record_path": "_fulltext/l1-a96eddc54e73/ba917c901fd5/635d2935d834/conversions/9660423fa9433a7ace2d069c65445563350dd630331ef0e5ad3505cddd59bfcc.json",
+          "record_sha256": "9660423fa9433a7ace2d069c65445563350dd630331ef0e5ad3505cddd59bfcc"
         },
         "evidence": [
           "旧来源链接是2009原发布版；通过证监会官方站内搜索找到规章库177-2附件，恢复2020年177号令修订全文。 原文核验：PDF首页沿革明确2020年10月30日第177号令修订，至第三十三条；另核验该令 https://www.csrc.gov.cn/csrc/c101950/c1047976/content.shtml 明确2020年10月30日公布即施行。2010年1月1日仅为原版本施行日。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 12
@@ -1800,7 +1846,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c101954/c7608135/7608135/files/%E9%99%84%E4%BB%B62%EF%BC%9A%E3%80%8A%E8%AF%81%E5%88%B8%E6%9C%9F%E8%B4%A7%E4%B8%9A%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%88%86%E7%B1%BB%E4%B8%8E%E4%BB%A3%E7%A0%81%E3%80%8B.pdf",
       "effective_from": "2026-01-09",
       "expected_articles": null,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content",
+      "failure_reason": "Source publication page not independently established; Conversion contains unsupported or unreviewed visual/formula content",
       "format": "pdf",
       "id": "l1-d02c79127cb8",
       "issued_date": "2026-01-09",
@@ -1826,26 +1872,14 @@
         "body_start_line": 1,
         "completeness": "not_checked",
         "conversion": {
-          "record_path": "_fulltext/l1-d02c79127cb8/e460c855bea6/7cdb70133c0f/conversions/df177283211ff1e6837f2089e52b1b414342c4b8d8a24abd977e993c79a81360.json",
-          "record_sha256": "df177283211ff1e6837f2089e52b1b414342c4b8d8a24abd977e993c79a81360"
+          "record_path": "_fulltext/l1-d02c79127cb8/e460c855bea6/7cdb70133c0f/conversions/12d3fb0e4b04a120fd3677a5f6e0760c398f6ebbca1985ba3fe4df680d69af67.json",
+          "record_sha256": "12d3fb0e4b04a120fd3677a5f6e0760c398f6ebbca1985ba3fe4df680d69af67"
         },
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF封面JR/T 0348—2026明确2026-01-09发布、2026-01-09实施；技术标准并非连续法条，expected_articles不适用。",
           "Bound machine conversion record; not human legal review",
           {
             "accepted_blocks": [
-              {
-                "block_index": 8,
-                "block_type": "text",
-                "page": 2,
-                "reason": "empty_text"
-              },
-              {
-                "block_index": 28,
-                "block_type": "text",
-                "page": 6,
-                "reason": "empty_text"
-              },
               {
                 "block_index": 64,
                 "block_type": "table",
@@ -2059,6 +2093,10 @@
             ],
             "basis": "用户授权跨页表格合并占位不阻断ready；空文本占位一并忽略，其他图像、公式及实质空表问题继续阻断。",
             "policy": "user-authorized-mineru-cross-page-merge-v1"
+          },
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
           }
         ],
         "identity": "verified",
@@ -2110,7 +2148,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c101953/c6987995/6987995/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E3%80%8A%E8%AF%81%E5%88%B8%E6%9C%9F%E8%B4%A7%E7%BB%8F%E8%90%A5%E6%9C%BA%E6%9E%84%E7%A7%81%E5%8B%9F%E8%B5%84%E4%BA%A7%E7%AE%A1%E7%90%86%E4%B8%9A%E5%8A%A1%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
       "effective_from": "2023-03-01",
       "expected_articles": 84,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-83a2cfba02db",
       "issued_date": "2023-01-12",
@@ -2126,7 +2164,7 @@
         "https://www.ssf.gov.cn/portal/rootfiles/2023/02/09/1677610940272387-1677610940282980.pdf"
       ],
       "source_page_url": "https://www.csrc.gov.cn/csrc/c101953/c6987995/content.shtml",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "证券期货经营机构私募资产管理业务管理办法",
       "verification": {
         "acquisition": {
@@ -2135,14 +2173,18 @@
         },
         "article_count": 84,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-83a2cfba02db/0f8f499e6c3e/694c9c31fa4b/conversions/8fd0acecf7763dd04163d25cd24e7a3487a9daccfd63ba6c1c6cf8a20c04badd.json",
-          "record_sha256": "8fd0acecf7763dd04163d25cd24e7a3487a9daccfd63ba6c1c6cf8a20c04badd"
+          "record_path": "_fulltext/l1-83a2cfba02db/0f8f499e6c3e/694c9c31fa4b/conversions/a04618a2f668ad502bad7825e4de481ddec059084554e867a08ab3d8ee216906.json",
+          "record_sha256": "a04618a2f668ad502bad7825e4de481ddec059084554e867a08ab3d8ee216906"
         },
         "evidence": [
           "原转载提供证监会203号令链接；回到发布者核验2023年1月12日发布、3月1日施行，附件1为办法而非配套运作规定。 原文核验：PDF首页第203号令沿革明确2023年1月12日修订，第八十四条明确2023年3月1日施行。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 31
@@ -2152,7 +2194,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1654015/1654015/files/120%E5%8F%B7%E3%80%8A%E8%B4%A7%E5%B8%81%E5%B8%82%E5%9C%BA%E5%9F%BA%E9%87%91%E7%9B%91%E7%9D%A3%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
       "effective_from": "2016-02-01",
       "expected_articles": 43,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-62bc082429c5",
       "issued_date": "2015-12-17",
@@ -2167,7 +2209,7 @@
         "https://www.csrc.gov.cn/csrc/c106256/c1654015/content.shtml"
       ],
       "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1654015/content.shtml",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "货币市场基金监督管理办法",
       "verification": {
         "acquisition": {
@@ -2176,14 +2218,18 @@
         },
         "article_count": 43,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-62bc082429c5/db090b826502/193a868e42f6/conversions/441aff2ee6225e401f64a6b353eadb72046ad27b501efa782f9212951496395a.json",
-          "record_sha256": "441aff2ee6225e401f64a6b353eadb72046ad27b501efa782f9212951496395a"
+          "record_path": "_fulltext/l1-62bc082429c5/db090b826502/193a868e42f6/conversions/cc0b1248493785361cfc33dc7692e74f85875bc2dff592dc48a327a3c6e1fa26.json",
+          "record_sha256": "cc0b1248493785361cfc33dc7692e74f85875bc2dff592dc48a327a3c6e1fa26"
         },
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页第120号令明确2015年12月17日公布、2016年2月1日施行，第四十三条确认。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 16
@@ -2193,7 +2239,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c101954/c7123693/7123693/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E9%87%8D%E8%A6%81%E8%B4%A7%E5%B8%81%E5%B8%82%E5%9C%BA%E5%9F%BA%E9%87%91%E7%9B%91%E7%AE%A1%E6%9A%82%E8%A1%8C%E8%A7%84%E5%AE%9A.pdf",
       "effective_from": "2023-05-16",
       "expected_articles": 20,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": "Source publication page not independently established",
       "format": "pdf",
       "id": "l1-3953d7041492",
       "issued_date": "2023-02-17",
@@ -2217,14 +2263,18 @@
         },
         "article_count": 20,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-3953d7041492/0fc19bb98125/82fddcbbde28/conversions/b0b7621104e47d8c3b13d3ea4528f4b375aa1d0236b1a1af7b4b28a15d553db4.json",
-          "record_sha256": "b0b7621104e47d8c3b13d3ea4528f4b375aa1d0236b1a1af7b4b28a15d553db4"
+          "record_path": "_fulltext/l1-3953d7041492/0fc19bb98125/82fddcbbde28/conversions/2e37efa23021baf987c77f7d4379d54304cc4e4d27875df40aae7369ce22448f.json",
+          "record_sha256": "2e37efa23021baf987c77f7d4379d54304cc4e4d27875df40aae7369ce22448f"
         },
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：另核验官方第2023年42号公告 https://www.csrc.gov.cn/csrc/c101954/c7123693/content.shtml 落款2023年2月17日、2023年5月16日施行，PDF第二十条一致。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 11
@@ -2234,7 +2284,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c101954/c7526405/7526405/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E9%A6%99%E6%B8%AF%E4%BA%92%E8%AE%A4%E5%9F%BA%E9%87%91%E7%AE%A1%E7%90%86%E8%A7%84%E5%AE%9A.pdf",
       "effective_from": "2025-01-01",
       "expected_articles": 29,
-      "failure_reason": "MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": "Source publication page not independently established",
       "format": "pdf",
       "id": "l1-59db1324b327",
       "issued_date": "2024-12-17",
@@ -2258,14 +2308,18 @@
         },
         "article_count": 29,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-59db1324b327/fdb25deca3e0/c31c16b78425/conversions/4c8d9140307b747c98395a8848605ef1a0f9031dcb5fcd61434b0bb056e7dfdc.json",
-          "record_sha256": "4c8d9140307b747c98395a8848605ef1a0f9031dcb5fcd61434b0bb056e7dfdc"
+          "record_path": "_fulltext/l1-59db1324b327/fdb25deca3e0/c31c16b78425/conversions/272de05a02a9e2ae701ecbadbacc28e5d77124873631c828ed8fb9642cc1c150.json",
+          "record_sha256": "272de05a02a9e2ae701ecbadbacc28e5d77124873631c828ed8fb9642cc1c150"
         },
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：另核验官方第2024年17号公告 https://www.csrc.gov.cn/csrc/c101954/c7526405/content.shtml 落款2024年12月17日、2025年1月1日施行，PDF第二十九条一致。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 10
@@ -2301,20 +2355,14 @@
         "body_start_line": 3,
         "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/amac-hkconnect-valuation-2015/84e18cb5e1f0/96e546553387/conversions/cc85e7264136ec7a966a29fdb897eafcb752fba705f71c378763a482c41b0aae.json",
-          "record_sha256": "cc85e7264136ec7a966a29fdb897eafcb752fba705f71c378763a482c41b0aae"
+          "record_path": "_fulltext/amac-hkconnect-valuation-2015/84e18cb5e1f0/96e546553387/conversions/b2a8f3f33b5b7059a962231bdb7284c71fa10a7e0c0988506923c243d86bc001.json",
+          "record_sha256": "b2a8f3f33b5b7059a962231bdb7284c71fa10a7e0c0988506923c243d86bc001"
         },
         "evidence": [
           "原摘要为港股通与同业存单二合一，本记录仅对应港股通。官方发布通知正文载中基协发〔2015〕17号、二〇一五年十一月十一日、自发布之日起实施；网站迁移目录202106不代表法规发布日期。摘要2016年3月29日与官方通知不符，未采用。保留该原始版本，不静默换成新版本。",
           "Bound machine conversion record; not human legal review",
           {
             "accepted_blocks": [
-              {
-                "block_index": 35,
-                "block_type": "text",
-                "page": 5,
-                "reason": "empty_text"
-              },
               {
                 "block_index": 43,
                 "block_type": "table",
@@ -2334,6 +2382,10 @@
           {
             "basis": "用户核验确认该全文完整、表格正确，并授权此类跨页合并文档ready。第6、7页空表块属于合并占位，第5页空文本块无实质正文；原始表格截图保留供追溯，不重复索引。",
             "kind": "source_bound_pdf_fidelity_acceptance"
+          },
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
           }
         ],
         "identity": "verified",
@@ -2344,7 +2396,7 @@
       "download_url": "https://www.amac.org.cn/xwfb/hydt/202106/P020231126371216099536.pdf",
       "effective_from": "2015-08-28",
       "expected_articles": null,
-      "failure_reason": "MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "amac-negotiable-cd-valuation-2015",
       "issued_date": "2015-08-28",
@@ -2359,7 +2411,7 @@
         "https://www.scxsls.com/knowledge/detail?id=154815"
       ],
       "source_page_url": "https://www.amac.org.cn/xwfb/hydt/202106/t20210602_19533.html",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "证券投资基金参与同业存单会计核算和估值业务指引（试行）",
       "verification": {
         "acquisition": {
@@ -2368,14 +2420,18 @@
         },
         "article_count": null,
         "body_start_line": 3,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/amac-negotiable-cd-valuation-2015/0c6056ff8de1/1d21b538c8ab/conversions/fb4e5ea633e10bb0c4c476017266e52fcf20b8e9e2cf25a11d9618021dfbe1c7.json",
-          "record_sha256": "fb4e5ea633e10bb0c4c476017266e52fcf20b8e9e2cf25a11d9618021dfbe1c7"
+          "record_path": "_fulltext/amac-negotiable-cd-valuation-2015/0c6056ff8de1/1d21b538c8ab/conversions/caaf94266913708145afddcc5998ede72ad6e840ba0b0dd1e2ec6a802fa2f287.json",
+          "record_sha256": "caaf94266913708145afddcc5998ede72ad6e840ba0b0dd1e2ec6a802fa2f287"
         },
         "evidence": [
           "原摘要为二合一，本记录仅对应同业存单。官方通知中基协发〔2015〕12号、二〇一五年八月二十八日、自发布之日起实施；摘要〔2015〕1号错误。官方API标题搜索同业存单返回该发布页及服务大厅原件页，不采用第三方法律网站。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 5
@@ -2411,20 +2467,14 @@
         "body_start_line": 3,
         "completeness": "not_checked",
         "conversion": {
-          "record_path": "_fulltext/amac-fund-advisory-interface-2021/b81c9ddb189c/fa6db6bddc76/conversions/bc7adc456186c619bb013052351f969d0e58a2a853a4b468bf74394196ccd287.json",
-          "record_sha256": "bc7adc456186c619bb013052351f969d0e58a2a853a4b468bf74394196ccd287"
+          "record_path": "_fulltext/amac-fund-advisory-interface-2021/b81c9ddb189c/fa6db6bddc76/conversions/91b798c092499c06d77d731733c842a2037d44920b078e2e9b5fd2936101beae.json",
+          "record_sha256": "91b798c092499c06d77d731733c842a2037d44920b078e2e9b5fd2936101beae"
         },
         "evidence": [
           "官方发布通知署名2021年8月31日，网页于2021年9月1日发布，PDF封面2021年9月。issued_date采用通知落款，不把封面月份推断为某个日期。仅下载附件1规范全文，不以附件2起草说明代替。",
           "Bound machine conversion record; not human legal review",
           {
             "accepted_blocks": [
-              {
-                "block_index": 7,
-                "block_type": "text",
-                "page": 3,
-                "reason": "empty_text"
-              },
               {
                 "block_index": 27,
                 "block_type": "table",
@@ -2560,6 +2610,10 @@
             ],
             "basis": "用户授权跨页表格合并占位不阻断ready；空文本占位一并忽略，其他图像、公式及实质空表问题继续阻断。",
             "policy": "user-authorized-mineru-cross-page-merge-v1"
+          },
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
           }
         ],
         "identity": "verified",
@@ -2570,7 +2624,7 @@
       "download_url": "https://www.amac.org.cn/xwfb/tzgg/201706/P020231126367038833207.pdf",
       "effective_from": "2017-07-01",
       "expected_articles": 55,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "amac-investor-suitability-2017",
       "issued_date": "2017-06-28",
@@ -2585,7 +2639,7 @@
         "https://www.ehuataifund.com/upload/pdf/1502781753016-25,20170628jijinmujijigoutouzizheshidangxingguanlishishizhiyin(shixing).pdf"
       ],
       "source_page_url": "https://www.amac.org.cn/xwfb/tzgg/201706/t20170628_18210.html",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "基金募集机构投资者适当性管理实施指引（试行）",
       "verification": {
         "acquisition": {
@@ -2594,14 +2648,18 @@
         },
         "article_count": 55,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/amac-investor-suitability-2017/870221ec6244/12d07751b148/conversions/ecb9829c2484b2abb3a66f64e5fbfd0d69c56a46750842d7dfc0609c3103240f.json",
-          "record_sha256": "ecb9829c2484b2abb3a66f64e5fbfd0d69c56a46750842d7dfc0609c3103240f"
+          "record_path": "_fulltext/amac-investor-suitability-2017/870221ec6244/12d07751b148/conversions/a8c6ce09efde7d8be8d2e4a26bbe88a890859087ce770b4f8c9dc28e7a2a1e47.json",
+          "record_sha256": "a8c6ce09efde7d8be8d2e4a26bbe88a890859087ce770b4f8c9dc28e7a2a1e47"
         },
         "evidence": [
           "按摘要所指2017试行版本恢复。官方通知中基协发〔2017〕4号、二〇一七年六月二十八日，正文第五十四条2017年7月1日起实施，第五十五条结束。不得以2026年公募投资者适当性管理细则静默替代此历史版本。附件参考模板为独立附件，本原件是指引本身完整55条。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 18
@@ -2611,7 +2669,7 @@
       "download_url": "https://www.amac.org.cn/xwfb/tzgg/201705/P020231126367021178106.pdf",
       "effective_from": "2017-05-04",
       "expected_articles": null,
-      "failure_reason": "MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "amac-fof-valuation-2017",
       "issued_date": "2017-05-04",
@@ -2626,7 +2684,7 @@
         "https://fg.amac.org.cn/governmentrules_3854/zcgz_zlgz/zlgz_gmjj/zlgz_gmjj_kjss/201912/t20191222_24293.html"
       ],
       "source_page_url": "https://www.amac.org.cn/xwfb/tzgg/201705/t20170504_18201.html",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "基金中基金估值业务指引（试行）",
       "verification": {
         "acquisition": {
@@ -2635,14 +2693,18 @@
         },
         "article_count": null,
         "body_start_line": 3,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/amac-fof-valuation-2017/4c5e45591d87/64f7fb8495d4/conversions/963881da17a7986ffa751ac6986f4941b8114d6a0f451f4299027d39a707fdd3.json",
-          "record_sha256": "963881da17a7986ffa751ac6986f4941b8114d6a0f451f4299027d39a707fdd3"
+          "record_path": "_fulltext/amac-fof-valuation-2017/4c5e45591d87/64f7fb8495d4/conversions/b87ee5e7916d01f2249ace61473c8596ecee11ab00698834d24942c5222c7003.json",
+          "record_sha256": "b87ee5e7916d01f2249ace61473c8596ecee11ab00698834d24942c5222c7003"
         },
         "evidence": [
           "官方发布通知落款二〇一七年五月四日，指引自发布之日起实施。附件文件名简写为基金中基金估值指引，但PDF正文标题完整为基金中基金估值业务指引（试行），核对了80%以上定义和ETF/LOF估值规则。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 5
@@ -2679,7 +2741,7 @@
       "download_url": "https://www.amac.org.cn/xwfb/tzgg/201812/P020231126363581054521.pdf",
       "effective_from": "2018-12-07",
       "expected_articles": null,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified; Historical registration notice repealed on 2023-05-01",
+      "failure_reason": "Historical registration notice repealed on 2023-05-01",
       "format": "pdf",
       "id": "amac-manager-registration-notice-2018",
       "issued_date": "2018-12-07",
@@ -2701,14 +2763,18 @@
         },
         "article_count": null,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/amac-manager-registration-notice-2018/b3d4add74789/4633e3067235/conversions/2e83ca03819140d95015b0c864c3ba12a40bdf5098cee894ac9b5dfc6aea827b.json",
-          "record_sha256": "2e83ca03819140d95015b0c864c3ba12a40bdf5098cee894ac9b5dfc6aea827b"
+          "record_path": "_fulltext/amac-manager-registration-notice-2018/b3d4add74789/4633e3067235/conversions/257f901ef38de34806c5da43d1534969feba3cead95c0b7b88c86435c018332c.json",
+          "record_sha256": "257f901ef38de34806c5da43d1534969feba3cead95c0b7b88c86435c018332c"
         },
         "evidence": [
           "独立恢复准确的2018年12月更新版历史原件，仅支持AMBERS混合摘要中部分关联方/实际控制人内容，不替代整份摘要。官方更新发布页日期2018-12-07并称自公布之日起施行；2023登记备案办法第八十三条明示2023-05-01起废止登记须知。",
           "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          },
           {
             "basis": "《私募投资基金登记备案办法》自2023年5月1日起施行，登记须知同时废止。",
             "repealed_on": "2023-05-01",
@@ -2725,7 +2791,7 @@
       "download_url": "https://www.amac.org.cn/xwfb/xhyw/202302/P020231126355261616824.pdf",
       "effective_from": "2023-05-01",
       "expected_articles": 83,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "amac-private-fund-registration-2023",
       "issued_date": "2023-02-24",
@@ -2740,7 +2806,7 @@
         "https://www.amac.org.cn/xwfb/xhyw/202302/P020231126355265628680.pdf"
       ],
       "source_page_url": "https://www.amac.org.cn/xwfb/xhyw/202302/t20230224_15636.html",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "私募投资基金登记备案办法",
       "verification": {
         "acquisition": {
@@ -2749,14 +2815,18 @@
         },
         "article_count": 83,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/amac-private-fund-registration-2023/906ab4e484b7/bc6c5de64b5e/conversions/40a428ede74245a1e7105c7987e2291ddae0157f76d00e50564df0a93c3f609e.json",
-          "record_sha256": "40a428ede74245a1e7105c7987e2291ddae0157f76d00e50564df0a93c3f609e"
+          "record_path": "_fulltext/amac-private-fund-registration-2023/906ab4e484b7/bc6c5de64b5e/conversions/030c326720bb4884690b025f0fde3b5b45278eca79b5f6f4538135dab4bc738f.json",
+          "record_sha256": "030c326720bb4884690b025f0fde3b5b45278eca79b5f6f4538135dab4bc738f"
         },
         "evidence": [
           "官方发布页称六章八十三条，PDF第八十三条规定2023年5月1日起施行。摘要82条错误。seed是发布页附件5公告，不是办法正文；选取附件1办法全文，不把发布公告或征求意见稿冒充全文。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 42
@@ -2766,7 +2836,7 @@
       "download_url": "https://www.amac.org.cn/xwfb/hydt/202105/P020231126371228453083.pdf",
       "effective_from": "2018-07-01",
       "expected_articles": null,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "amac-unlisted-equity-valuation-2018",
       "issued_date": "2018-03-30",
@@ -2781,7 +2851,7 @@
         "https://www.amac.org.cn/fwdt/wyb/jgdjhcpbeian/smjjglrdjhcpba/xgzc/202001/P020231126372109021141.pdf"
       ],
       "source_page_url": "https://www.amac.org.cn/xwfb/hydt/202105/t20210531_19542.html",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "私募投资基金非上市股权投资估值指引（试行）",
       "verification": {
         "acquisition": {
@@ -2790,14 +2860,18 @@
         },
         "article_count": null,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/amac-unlisted-equity-valuation-2018/7aac3a0e38a1/ad40d84167a8/conversions/4ad29345b9a9d635ea1fc439f8319cf4f2fb6dd162304fb920df324c45ad4f27.json",
-          "record_sha256": "4ad29345b9a9d635ea1fc439f8319cf4f2fb6dd162304fb920df324c45ad4f27"
+          "record_path": "_fulltext/amac-unlisted-equity-valuation-2018/7aac3a0e38a1/ad40d84167a8/conversions/586c46d8c6480104b88810b7281a79dd62cee78f576e5dc78da35ec7eed29124.json",
+          "record_sha256": "586c46d8c6480104b88810b7281a79dd62cee78f576e5dc78da35ec7eed29124"
         },
         "evidence": [
           "官方通知中基协发〔2018〕1号，2018年3月5日第二届理事会表决通过，二零一八年三月三十日发布，2018年7月1日起施行；202105为迁移目录。选择指引全文附件而非起草说明；维持摘要对应2018试行版。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 13
@@ -2848,7 +2922,7 @@
       "download_url": "https://www.amac.org.cn/xwfb/tzgg/201709/P020231126367070343127.pdf",
       "effective_from": null,
       "expected_articles": null,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "amac-restricted-stock-valuation-2017",
       "issued_date": "2017-09-04",
@@ -2863,7 +2937,7 @@
         "http://www.amahb.org.cn/portal/article/index/id/93/cid/1.html"
       ],
       "source_page_url": "https://www.amac.org.cn/xwfb/tzgg/201709/t20170906_18230.html",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "证券投资基金投资流通受限股票估值指引（试行）",
       "verification": {
         "acquisition": {
@@ -2872,14 +2946,18 @@
         },
         "article_count": null,
         "body_start_line": 3,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/amac-restricted-stock-valuation-2017/6fde7af3c4a4/5ab43abeaf41/conversions/e699c88ebef5b2e660af87f0354471c8a4c3d6c58c2e0264084bd9101b6ec337.json",
-          "record_sha256": "e699c88ebef5b2e660af87f0354471c8a4c3d6c58c2e0264084bd9101b6ec337"
+          "record_path": "_fulltext/amac-restricted-stock-valuation-2017/6fde7af3c4a4/5ab43abeaf41/conversions/1d05677580cd324c15d1c5d45e128ef35db68a382d1d047ca0c9f28883f169fe.json",
+          "record_sha256": "1d05677580cd324c15d1c5d45e128ef35db68a382d1d047ca0c9f28883f169fe"
         },
         "evidence": [
           "通知中基协发〔2017〕6号、落款二〇一七年九月四日；官方网页发布时间2017-09-06。issued_date采用通知落款，2017-12-31是完成实施工作的期限，不擅自作为施行日期。附件文件名多业务二字，PDF正文标题与摘要完整对应。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 5
@@ -2889,7 +2967,7 @@
       "download_url": "https://www.amac.org.cn/xwfb/xhyw/201912/P020231126355583305018.pdf",
       "effective_from": "2019-01-18",
       "expected_articles": null,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content",
       "format": "pdf",
       "id": "amac-credit-derivative-valuation-2019",
       "issued_date": "2019-01-18",
@@ -2915,12 +2993,16 @@
         "body_start_line": 1,
         "completeness": "not_checked",
         "conversion": {
-          "record_path": "_fulltext/amac-credit-derivative-valuation-2019/7b5a8efe57d1/a6ba6f874e8e/conversions/6471df3c9fd5c893d1ef815d8a6b813dbd0b34b504546fdd04392901109f9a0f.json",
-          "record_sha256": "6471df3c9fd5c893d1ef815d8a6b813dbd0b34b504546fdd04392901109f9a0f"
+          "record_path": "_fulltext/amac-credit-derivative-valuation-2019/7b5a8efe57d1/a6ba6f874e8e/conversions/75c0b459d07ad0fe1d76b0e10e89e35a0501edd87cc0ae3a507362e6dd78e485.json",
+          "record_sha256": "75c0b459d07ad0fe1d76b0e10e89e35a0501edd87cc0ae3a507362e6dd78e485"
         },
         "evidence": [
           "官方通知中基协发〔2019〕1号、二○一九年一月十八日，自发布之日起施行。201912为迁移目录，不能作为发布日。原件包含正文三部分及附件信用衍生品估值参考方法，不只正文摘要。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 12
@@ -2930,7 +3012,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c101953/c3874209/3874209/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E5%85%B3%E4%BA%8E%E4%BF%AE%E6%94%B9%E3%80%8A%E5%86%85%E5%9C%B0%E4%B8%8E%E9%A6%99%E6%B8%AF%E8%82%A1%E7%A5%A8%E5%B8%82%E5%9C%BA%E4%BA%A4%E6%98%93%E4%BA%92%E8%81%94%E4%BA%92%E9%80%9A%E6%9C%BA%E5%88%B6%E8%8B%A5%E5%B9%B2%E8%A7%84%E5%AE%9A%E3%80%8B%E7%9A%84%E5%86%B3%E5%AE%9A.pdf",
       "effective_from": "2022-07-25",
       "expected_articles": 19,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content; MinerU OCR full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-stock-connect-2022",
       "issued_date": "2022-06-10",
@@ -2945,7 +3027,7 @@
         "https://www.csrc.gov.cn/csrc/c106256/c1654020/1654020/files/6dc3bca009924c9ba18e72b62f1869ed.pdf"
       ],
       "source_page_url": "https://www.csrc.gov.cn/csrc/c101953/c3874209/content.shtml",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "内地与香港股票市场交易互联互通机制若干规定（2022年修正）",
       "verification": {
         "acquisition": {
@@ -2954,14 +3036,18 @@
         },
         "article_count": 19,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-stock-connect-2022/d73c9db4b180/b297cf52cbcd/conversions/b1f423d75ea303aa1476ecf406b22eb22028bfb20677d531a6fcb4a585026c10.json",
-          "record_sha256": "b1f423d75ea303aa1476ecf406b22eb22028bfb20677d531a6fcb4a585026c10"
+          "record_path": "_fulltext/l1-stock-connect-2022/d73c9db4b180/b297cf52cbcd/conversions/d980d6dd9104538286119cf08ce799444ff4fa53b7f4a2d8ffce0a12165423cf.json",
+          "record_sha256": "d980d6dd9104538286119cf08ce799444ff4fa53b7f4a2d8ffce0a12165423cf"
         },
         "evidence": [
           "证监会第200号令发布页落款2022年6月10日，网页发布时间2022年6月24日，2022年7月25日起施行。附件1共9页，第1页为修改决定和过渡安排，第2至9页为根据本决定修正后重新公布的19条全文；第十三条第一款新增沪股通和深股通投资者不包括内地投资者。旧摘要seed实际返回2016原版，原件保存在l1-66dd2b604e86，不能将旧PDF配上2022日期冒充修正版。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "kind": "pdf_machine_acceptance_scope",
+            "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
+          }
         ],
         "identity": "verified",
         "page_count": 9

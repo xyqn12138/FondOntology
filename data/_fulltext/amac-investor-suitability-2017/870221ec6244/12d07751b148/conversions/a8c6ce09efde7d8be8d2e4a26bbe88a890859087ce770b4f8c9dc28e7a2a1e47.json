@@ -1,0 +1,72 @@
+{
+  "identity_review": {
+    "human_reviewed": false,
+    "scope": "machine_conversion_and_structure_only"
+  },
+  "markdown_path": "_fulltext/amac-investor-suitability-2017/870221ec6244/12d07751b148/full.md",
+  "markdown_sha256": "12d07751b148be4b3366b536bce322070a1f67263ffecdcb7ceb814402470e9c",
+  "method": "mineru-bound-content-list",
+  "observations": {
+    "article_count": 55,
+    "article_heading_separator_insertions": 55,
+    "excluded_title_headers": [
+      "# 基金募集机构投资者适当性管理实施指引（试行）"
+    ],
+    "extraction_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_converted\\L2\\files\\original-3b821bb10ed231616805913f663a43ecf1f64f9df6e8d9e89e18bf8aede435ff\\extraction.json",
+    "extraction_sha256": "0f7659b3830a3828757d42560b91b0a1e5c07da0d0ac908c89f29d121843cdc8",
+    "extractor_model_version": "pipeline",
+    "ignored_empty_text_blocks": [
+      {
+        "block_index": 36,
+        "block_type": "text",
+        "page": 5,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 48,
+        "block_type": "text",
+        "page": 6,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 166,
+        "block_type": "text",
+        "page": 17,
+        "reason": "empty_text"
+      }
+    ],
+    "missing_images": [],
+    "omitted_recognition_images": [],
+    "original_format": "pdf",
+    "page_count": 18,
+    "page_coverage": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "page_scope": "mineru_reported_pages_unreviewed",
+    "pdf_acceptance_scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review",
+    "raw_pdf_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_sources\\L2\\amac-investor-suitability-2017\\original.pdf",
+    "retained_image_paths": [],
+    "unsupported": []
+  },
+  "raw_path": "_sources/L2/amac-investor-suitability-2017/original.pdf",
+  "schema_version": 1,
+  "source_sha256": "870221ec62449bffbe2164e9d87e95773b20acc67969e3bdfb4c8dc2db806351",
+  "version": "data-restoration-v1"
+}

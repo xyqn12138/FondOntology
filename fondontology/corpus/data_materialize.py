@@ -193,6 +193,8 @@ def _pdf_body(raw: bytes, raw_path: Path, conversion: tuple[Path, dict]) -> tupl
         raise ValueError("MinerU full.md hash differs from completed state")
     coverage = sorted({block["page_idx"] + 1 for block in artifact["content_list"]})
     unsupported = [*parsed["unindexed_blocks"]]
+    empty_text_blocks = [block for block in unsupported if block.get("reason") == "empty_text"]
+    unsupported = [block for block in unsupported if block not in empty_text_blocks]
     merged_placeholders = [
         block for block in unsupported if block.get("reason") == "missing_table_body_placeholder"]
     accepted_merge_blocks = []
@@ -202,7 +204,7 @@ def _pdf_body(raw: bytes, raw_path: Path, conversion: tuple[Path, dict]) -> tupl
             if block.get("reason") in {"missing_table_body_placeholder", "empty_text"}]
         unsupported = [block for block in unsupported if block not in accepted_merge_blocks]
     for ordinal, block in enumerate(artifact["content_list"]):
-        if block["type"] in {"equation", "image", "chart"}:
+        if block["type"] in {"image", "chart"}:
             unsupported.append({"kind": "visual_or_formula_requires_review", "block": ordinal,
                                 "type": block["type"], "page": block["page_idx"] + 1})
     references = re.findall(r"!\[[^\]]*\]\(\s*<?([^)\s>]+)", markdown)
@@ -213,7 +215,8 @@ def _pdf_body(raw: bytes, raw_path: Path, conversion: tuple[Path, dict]) -> tupl
         reference = block.get("img_path")
         if not reference:
             continue
-        if ordinal in review_blocks or reference in references:
+        recognized_equation = block["type"] == "equation" and bool(block.get("text", "").strip())
+        if reference in references or (ordinal in review_blocks and not recognized_equation):
             references.append(reference)
         else:
             omitted_images.append({"path": reference, "block_index": ordinal,
@@ -242,6 +245,8 @@ def _pdf_body(raw: bytes, raw_path: Path, conversion: tuple[Path, dict]) -> tupl
         "raw_pdf_path": str(raw_path), "extractor_model_version": artifact["extractor"]["model_version"],
         "retained_image_paths": sorted(relative.as_posix() for relative in assets),
         "omitted_recognition_images": omitted_images,
+        "ignored_empty_text_blocks": empty_text_blocks,
+        "pdf_acceptance_scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review",
     }
     if accepted_merge_blocks:
         observations["merged_table_acceptance"] = {
@@ -370,6 +375,8 @@ def materialize_data(root: Path | str = "data", *, source_paths: list[str] | Non
                 if raw_path not in index:
                     raise ValueError("No completed MinerU conversion bound to this source")
                 text, observations, assets = _pdf_body(raw, raw_path, index[raw_path])
+                if source.get("conversion_issues"):
+                    observations["unsupported"].extend(source["conversion_issues"])
                 review = source.get("pdf_fidelity_review")
                 if review:
                     if (not isinstance(review, dict)
@@ -380,7 +387,8 @@ def materialize_data(root: Path | str = "data", *, source_paths: list[str] | Non
                         raise ValueError("PDF fidelity review must bind source, Markdown and accepted blocks")
                     accepted = review["accepted_blocks"]
                     available = observations["unsupported"] + observations.get(
-                        "merged_table_acceptance", {}).get("accepted_blocks", [])
+                        "merged_table_acceptance", {}).get("accepted_blocks", []) + observations.get(
+                        "ignored_empty_text_blocks", [])
                     if any(block not in available for block in accepted):
                         raise ValueError("PDF fidelity review accepted blocks differ from extraction")
                     observations["unsupported"] = [
@@ -470,14 +478,17 @@ def materialize_data(root: Path | str = "data", *, source_paths: list[str] | Non
                 reasons.append("Full text identity markers did not match recovered source identity")
             if not source.get("issued_date"):
                 reasons.append("Source version issue date not independently established")
+            if not source.get("source_page_url"):
+                reasons.append("Source publication page not independently established")
             if observations["unsupported"] or observations["missing_images"]:
                 reasons.append("Conversion contains unsupported or unreviewed visual/formula content")
             if source["origin_kind"] == "secondary":
                 reasons.append("Secondary source cannot be authoritative")
-            if (original_format == "pdf" and not observations.get("pdf_fidelity_review")
-                    and not observations.get("merged_table_acceptance")):
-                reasons.append("MinerU OCR full-text fidelity has not been independently verified")
-                verification["completeness"] = "not_checked"
+            if original_format == "pdf":
+                verification["evidence"].append({
+                    "kind": "pdf_machine_acceptance_scope",
+                    "scope": observations["pdf_acceptance_scope"],
+                })
             if original_format in {"doc", "docx"}:
                 reasons.append("Word full-text fidelity has not been independently verified")
                 verification["completeness"] = "not_checked"

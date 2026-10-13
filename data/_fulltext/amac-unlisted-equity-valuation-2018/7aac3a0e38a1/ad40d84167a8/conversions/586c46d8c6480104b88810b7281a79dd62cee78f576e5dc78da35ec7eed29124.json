@@ -1,0 +1,64 @@
+{
+  "identity_review": {
+    "human_reviewed": false,
+    "scope": "machine_conversion_and_structure_only"
+  },
+  "markdown_path": "_fulltext/amac-unlisted-equity-valuation-2018/7aac3a0e38a1/ad40d84167a8/full.md",
+  "markdown_sha256": "ad40d84167a83d323bf36ab52fb4a0413d9ed76d523ad4a27a1e5a43969c521a",
+  "method": "mineru-bound-content-list",
+  "observations": {
+    "article_count": null,
+    "excluded_title_headers": [],
+    "extraction_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_converted\\L2\\files\\original-e583361528bd660811c3f77e6a2ebc1395a2c2de8835d26d3e8fa799fc168f50\\extraction.json",
+    "extraction_sha256": "7ad2fbfbe659aef44c82cd8dc7ecd58f298035669920c6f297966d137a458899",
+    "extractor_model_version": "pipeline",
+    "ignored_empty_text_blocks": [
+      {
+        "block_index": 38,
+        "block_type": "text",
+        "page": 7,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 48,
+        "block_type": "text",
+        "page": 8,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 79,
+        "block_type": "text",
+        "page": 13,
+        "reason": "empty_text"
+      }
+    ],
+    "missing_images": [],
+    "omitted_recognition_images": [],
+    "original_format": "pdf",
+    "page_count": 13,
+    "page_coverage": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "page_scope": "mineru_reported_pages_unreviewed",
+    "pdf_acceptance_scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review",
+    "raw_pdf_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_sources\\L2\\amac-unlisted-equity-valuation-2018\\original.pdf",
+    "retained_image_paths": [],
+    "unsupported": []
+  },
+  "raw_path": "_sources/L2/amac-unlisted-equity-valuation-2018/original.pdf",
+  "schema_version": 1,
+  "source_sha256": "7aac3a0e38a1754cb5dde47391d389ef73df56c1f83a856df636b8fda336a4ce",
+  "version": "data-restoration-v1"
+}

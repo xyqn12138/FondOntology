@@ -1,0 +1,78 @@
+{
+  "identity_review": {
+    "human_reviewed": false,
+    "scope": "machine_conversion_and_structure_only"
+  },
+  "markdown_path": "_fulltext/l1-a96eddc54e73/ba917c901fd5/635d2935d834/full.md",
+  "markdown_sha256": "635d2935d834ac08375805b2d3192112337a163492131062ca5d58dd398dd4ed",
+  "method": "mineru-bound-content-list",
+  "observations": {
+    "article_count": 33,
+    "article_heading_separator_insertions": 2,
+    "excluded_title_headers": [
+      "# 证券投资基金评价业务管理暂行办法"
+    ],
+    "extraction_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_converted\\L1\\files\\original-d96745dc0f858d88f8a11ff14f19d38eef52fa7b6077cc22a28a00b30e2aa57c\\extraction.json",
+    "extraction_sha256": "8168d3bb86657190b670bcaaeece34774d54a3f133939a0f0aac32bb8f28ab5b",
+    "extractor_model_version": "pipeline",
+    "ignored_empty_text_blocks": [
+      {
+        "block_index": 10,
+        "block_type": "text",
+        "page": 2,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 57,
+        "block_type": "text",
+        "page": 6,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 73,
+        "block_type": "text",
+        "page": 7,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 88,
+        "block_type": "text",
+        "page": 8,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 99,
+        "block_type": "text",
+        "page": 9,
+        "reason": "empty_text"
+      }
+    ],
+    "missing_images": [],
+    "omitted_recognition_images": [],
+    "original_format": "pdf",
+    "page_count": 12,
+    "page_coverage": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "page_scope": "mineru_reported_pages_unreviewed",
+    "pdf_acceptance_scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review",
+    "raw_pdf_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_sources\\L1\\l1-a96eddc54e73\\original.pdf",
+    "retained_image_paths": [],
+    "unsupported": []
+  },
+  "raw_path": "_sources/L1/l1-a96eddc54e73/original.pdf",
+  "schema_version": 1,
+  "source_sha256": "ba917c901fd5eeb53056bdd7bf764fb2932f64900855a750aae89b1ff981b6db",
+  "version": "data-restoration-v1"
+}
