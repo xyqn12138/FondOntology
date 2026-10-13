@@ -50,8 +50,18 @@ and hashes must equal the catalog entries. `identity_review` contains exactly
 the catalog verification; complete page coverage is the actual ordered list
 `[1,...,N]`, or `[]` with null page count for sources without pages. Ready PDF
 requires an explicit page count. Missing images or unsupported content prohibit
-ready status. Extra observations may record extraction details. Conversion
-records preserve bounded machine observations, not a claim of human review or
+ready status. Extra observations may record extraction details.
+
+`data/_recovery/fulltext-reviews.json` records independent follow-up acceptance
+and source-bound corrections. `reviewed_conversion` binds the raw source,
+unmodified conversion text, replacement operations and corrected text hashes.
+Each replacement must match exactly once; PDF block replacements use the bound
+extraction record. `fulltext_review` binds the corrected text, reviewer category,
+review scope and each accepted residual observation. Acceptance never silently
+clears unrelated visual or missing-image observations. Human user acceptance
+and independent model inspection are explicitly distinguished.
+
+Conversion records preserve bounded machine observations, not a claim of human review or
 proof of exact legal equivalence; the recorded page coverage must come from
 actual conversion verification.
 

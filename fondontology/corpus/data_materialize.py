@@ -331,10 +331,17 @@ def materialize_data(root: Path | str = "data", *, source_paths: list[str] | Non
     word_manifest = root / "_recovery" / "word-conversions.json"
     if word_manifest.is_file():
         words = {item["id"]: item for item in _documents(_read_json(word_manifest))}
+    reviews = {}
+    for name in ("fulltext-reviews.json", "source-page-reviews.json"):
+        review_manifest = root / "_recovery" / name
+        if review_manifest.is_file():
+            for item in _documents(_read_json(review_manifest)):
+                reviews[item["id"]] = {**reviews.get(item["id"], {}), **item}
     documents = []
     outputs = {}
     seen = set()
     for source in sources:
+        source = {**source, **reviews.get(source.get("id"), {})}
         document_id = source.get("id")
         if (not isinstance(document_id, str) or ".." in document_id
                 or not re.fullmatch(r"[a-z0-9][a-z0-9.-]{1,120}", document_id)):
@@ -356,6 +363,12 @@ def materialize_data(root: Path | str = "data", *, source_paths: list[str] | Non
         raw = raw_path.read_bytes()
         if _sha(raw) != source.get("raw_sha256"):
             raise ValueError(f"Recovery source hash mismatch: {document_id}")
+        source_page_review = source.get("source_page_review")
+        if source_page_review:
+            page_raw = _path(root, source_page_review["path"], "reviewed source page").read_bytes()
+            if (source_page_review["source_sha256"] != source["raw_sha256"]
+                    or _sha(page_raw) != source_page_review["sha256"]):
+                raise ValueError(f"Reviewed source page binding mismatch: {document_id}")
         document["status"] = "downloaded"
         receipt_relative = source.get("receipt_path") or (Path(raw_relative).parent / "receipt.json").as_posix()
         receipt_path = _path(root, receipt_relative, "receipt_path")
@@ -403,6 +416,46 @@ def materialize_data(root: Path | str = "data", *, source_paths: list[str] | Non
                 method = word["method"]
             else:
                 raise ValueError("Unsupported source format requires a reviewed conversion adapter")
+            correction = source.get("reviewed_conversion")
+            if correction:
+                if (correction.get("source_sha256") != source["raw_sha256"]
+                        or correction.get("input_markdown_sha256") != _sha(text.encode("utf-8"))
+                        or not isinstance(correction.get("basis"), str) or not correction["basis"].strip()):
+                    raise ValueError("Reviewed conversion must bind source and original conversion")
+                for replacement in correction["replacements"]:
+                    old = replacement.get("old")
+                    if "block_index" in replacement:
+                        extraction = _read_json(Path(observations["extraction_path"]))
+                        old = extraction["content_list"][replacement["block_index"]]["text"]
+                    if (not isinstance(old, str) or not old
+                            or not isinstance(replacement.get("new"), str)
+                            or text.count(old) != 1):
+                        raise ValueError("Reviewed conversion replacement must match once")
+                    text = text.replace(old, replacement["new"], 1)
+                if _sha(text.encode("utf-8")) != correction.get("markdown_sha256"):
+                    raise ValueError("Reviewed conversion Markdown hash mismatch")
+                observations["reviewed_conversion"] = correction
+            fulltext_review = source.get("fulltext_review")
+            if fulltext_review:
+                if (not isinstance(fulltext_review, dict)
+                        or fulltext_review.get("source_sha256") != source["raw_sha256"]
+                        or fulltext_review.get("markdown_sha256") != _sha(text.encode("utf-8"))
+                        or fulltext_review.get("reviewer") not in {"human_user", "independent_model"}
+                        or not isinstance(fulltext_review.get("basis"), str)
+                        or not fulltext_review["basis"].strip()
+                        or not isinstance(fulltext_review.get("accepted_blocks"), list)):
+                    raise ValueError("Full-text review must bind source, Markdown, reviewer and accepted blocks")
+                accepted = fulltext_review["accepted_blocks"]
+                if any(block not in observations["unsupported"] for block in accepted):
+                    raise ValueError("Full-text review accepted blocks differ from conversion")
+                observations["unsupported"] = [
+                    block for block in observations["unsupported"] if block not in accepted]
+                accepted_images = fulltext_review.get("accepted_image_references", [])
+                if any(image not in observations["missing_images"] for image in accepted_images):
+                    raise ValueError("Full-text review accepted image references differ from conversion")
+                observations["missing_images"] = [
+                    image for image in observations["missing_images"] if image not in accepted_images]
+                observations["fulltext_review"] = fulltext_review
             if not text.strip():
                 raise ValueError("Converted full text is empty")
             identity_matches = _identity_matches(source, text)
@@ -465,6 +518,10 @@ def materialize_data(root: Path | str = "data", *, source_paths: list[str] | Non
                 "conversion": {"record_path": record_relative, "record_sha256": _sha(record_raw)},
             })
             reasons = []
+            if source_page_review:
+                verification["evidence"].append(source_page_review)
+            if observations.get("fulltext_review"):
+                verification["evidence"].append(observations["fulltext_review"])
             if observations.get("merged_table_acceptance"):
                 verification["evidence"].append(observations["merged_table_acceptance"])
             if observations.get("pdf_fidelity_review"):
@@ -489,7 +546,7 @@ def materialize_data(root: Path | str = "data", *, source_paths: list[str] | Non
                     "kind": "pdf_machine_acceptance_scope",
                     "scope": observations["pdf_acceptance_scope"],
                 })
-            if original_format in {"doc", "docx"}:
+            if original_format in {"doc", "docx"} and not observations.get("fulltext_review"):
                 reasons.append("Word full-text fidelity has not been independently verified")
                 verification["completeness"] = "not_checked"
             if document_id == "amac-manager-registration-notice-2018":

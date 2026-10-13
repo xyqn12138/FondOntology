@@ -70,6 +70,24 @@ class DataMaterializeTests(unittest.TestCase):
         self.assertFalse((self.data / "_fulltext").exists())
         self.assertFalse((self.data / "source_catalog.json").exists())
 
+    def test_reviewed_publication_page_is_bound_to_source_and_saved_page(self):
+        self.source["source_page_url"] = None
+        self.assertEqual(self.restore()["documents"][0]["status"], "converted_unverified")
+        page = self.data / "reviewed-page.html"
+        page.write_bytes(b"<html>Official publication and attachment</html>")
+        review = {
+            "id": self.source["id"], "source_page_url": "https://issuer.example/publication",
+            "source_page_review": {
+                "source_sha256": self.source["raw_sha256"], "path": page.name,
+                "sha256": self.sha(page.read_bytes()), "basis": "Publication links the source.",
+            },
+        }
+        self.write_json("_recovery/source-page-reviews.json", {"documents": [review]})
+        self.assertEqual(self.restore()["documents"][0]["status"], "ready")
+        page.write_bytes(b"Changed page")
+        with self.assertRaisesRegex(ValueError, "source page binding"):
+            self.restore()
+
     def test_technical_examples_do_not_infer_a_legal_article_sequence(self):
         self.source["expected_articles"] = None
         self.raw.write_text(
@@ -306,6 +324,34 @@ class DataMaterializeTests(unittest.TestCase):
         self.assertEqual(record["observations"]["isolated_article_heading_line_joins"], 1)
         output_image = (self.data / document["markdown_path"]).parent / "full.files" / "image001.png"
         self.assertEqual(output_image.read_bytes(), image.read_bytes())
+        self.source["fulltext_review"] = {
+            "source_sha256": self.source["raw_sha256"], "markdown_sha256": self.sha(word_raw),
+            "reviewer": "human_user", "basis": "User verified the current Word body.",
+            "accepted_blocks": [],
+        }
+        document = self.restore()["documents"][0]
+        self.assertEqual(document["status"], "ready")
+        corrected = word_raw.decode("utf-8").replace("Other heading.", "Corrected heading.")
+        self.source["reviewed_conversion"] = {
+            "source_sha256": self.source["raw_sha256"],
+            "input_markdown_sha256": self.sha(word_raw),
+            "markdown_sha256": self.sha(corrected.encode()),
+            "basis": "Source comparison corrected the heading.",
+            "replacements": [{"old": "Other heading.", "new": "Corrected heading."}],
+        }
+        self.source["fulltext_review"]["markdown_sha256"] = self.sha(corrected.encode())
+        document = self.restore()["documents"][0]
+        self.assertEqual(document["status"], "ready")
+        self.source["reviewed_conversion"]["input_markdown_sha256"] = "0" * 64
+        document = self.restore()["documents"][0]
+        self.assertEqual(document["status"], "downloaded")
+        self.assertIn("Reviewed conversion", document["failure_reason"])
+        self.source.pop("reviewed_conversion")
+        self.source["fulltext_review"]["markdown_sha256"] = "0" * 64
+        document = self.restore()["documents"][0]
+        self.assertEqual(document["status"], "downloaded")
+        self.assertIn("Full-text review", document["failure_reason"])
+        self.source.pop("fulltext_review")
         word["observations"]["markdown_sha256"] = "0" * 64
         self.write_json("_recovery/word-conversions.json", {"documents": [word]})
         document = self.restore()["documents"][0]
