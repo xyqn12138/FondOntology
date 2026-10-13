@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "natural_facts_v1_unscoped_baseline",
+  "registered_date": "2026-10-13",
+  "registered_before_first_execution": true,
+  "dataset": "natural_facts_v1",
+  "dataset_status": "source_authored_ai_reviewed_draft_development_diagnostic",
+  "freeze_required_before_execution": true,
+  "questions": "evaluation/cases/natural_facts_v1_questions.json",
+  "oracle": "evaluation/cases/natural_facts_v1_oracle.json",
+  "snapshot": "official-laws-v1",
+  "as_of": "2026-10-12",
+  "retrieval_strategy": "bm25",
+  "network_allowed": false,
+  "generate": false,
+  "require_unscoped": true,
+  "candidate_k": 20,
+  "candidate_k_semantics": "The current bm25 implementation returns all positive lexical matches, not a candidate_k-truncated list. This parameter is recorded for reproducibility; no claim of a 20-candidate BM25 cap is made.",
+  "runs": [
+    {
+      "name": "bm25_top5",
+      "top_k": 5,
+      "role": "primary_fixed_budget_baseline",
+      "reason": "Declared before execution. The initial source-authored draft includes a four-article workflow; a uniform five-parent-article output budget can represent its necessary evidence. No per-case gold-guided budget changes."
+    },
+    {
+      "name": "bm25_top3",
+      "top_k": 3,
+      "role": "constrained_budget_diagnostic",
+      "reason": "Retain the former three-article output setting as a separate diagnostic; explicitly identify cases requiring more than three distinct necessary articles. Do not hide those failures or misclassify them as solely ranking failures."
+    }
+  ],
+  "metrics": [
+    "source_cue_case_count",
+    "eligible_body_set_equality_per_case",
+    "searchable_document_and_full_article_counts",
+    "all_required_evidence_case_pass_count",
+    "target_article_recall_macro",
+    "first_target_mrr_macro",
+    "required_group_coverage_macro",
+    "target_only_evidence_precision_macro",
+    "status_scope_and_execution_errors",
+    "query_latency_ms_excluding_index_startup",
+    "evidence_characters",
+    "required_evidence_exceeding_output_budget"
+  ],
+  "exposure_policy": "All questions are draft development diagnostics. After the first run they are exposed regression inputs, not a fresh blind holdout. Do not rewrite the oracle to fit results.",
+  "scope_policy": "Only id, question and the common as_of environment are supplied per case. No oracle doc IDs, version IDs, article addresses, answers or references enter retrieval. Allowed documents in the oracle represent all four corpus documents, not gold targets.",
+  "limits": [
+    "Four fixed documents and 226 articles are a small corpus, not a large-scale distractor benchmark.",
+    "No source is certified as current law; dates are availability filters within this snapshot.",
+    "AI-authored and AI-reviewed cases do not establish human review or real-user representativeness.",
+    "Recorded scope consistency does not certify authentic execution or replay BM25 scoring.",
+    "No Ragas or answer-correctness claim is made by these retrieval-only runs.",
+    "The old source-cued and new natural-input datasets differ; their aggregate scores are not a paired causal estimate of cue removal."
+  ]
+}

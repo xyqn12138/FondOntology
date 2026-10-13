@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "frozen_at_utc": "2026-10-13T02:51:22+00:00",
+  "dataset_id": "natural_facts_v1",
+  "dataset_snapshot": "official-laws-v1",
+  "as_of": "2026-10-12",
+  "case_count": 16,
+  "review_status": "draft",
+  "independent_human_review": false,
+  "authored_by": {
+    "model": "gpt-6.1-sol",
+    "effort": "high"
+  },
+  "ai_reviewed_by": {
+    "model": "gpt-6-astra",
+    "effort": "high"
+  },
+  "created_without_actuals": true,
+  "tested_system_invoked_before_freeze": false,
+  "files": {
+    "natural_facts_v1_questions.json": "3ee10cb89e6f3c6c6e27bd538eb7a11a80b859db23cd99b40eb2d9522b7b5f89",
+    "natural_facts_v1_oracle.json": "35669852d55ff8474f909113043b832bb20b747e3234c299d9c4a7089705853c",
+    "natural_facts_v1_references.json": "7a011261c2eba9c600655e23558b10e5751c8b2171f5e9352b347258d8d27bc4",
+    "natural_facts_v1_README.md": "d0508c90912a90d7dab1568fde03e54e3fb0060d88fbdca38bf2ffcb8967be1a"
+  },
+  "source_raw_sha256": {
+    "csrc-operations-2014": "d53303588ef1d1ed8a0464b6e38b0247d0560a93adea32fc0be06463bd96043f",
+    "csrc-disclosure-2020": "25351982dc9153f9788182201fe68bc15331ae876a58751805a3396d4a382456",
+    "csrc-sales-2020": "f504c8bdb217979cb7f260df84920328af371453ace17a0274924ec6a614d05b",
+    "state-council-private-funds-2023": "b0e6b3dd403f0e90c7082c142b94fc17cc52cb344cca345bfbe86bf056ddcda5"
+  },
+  "domain_review": {
+    "report": "../../docs/natural-fact-domain-review-20261013.md",
+    "result": "approved_for_draft_freeze",
+    "approved_content_sha256": {
+      "natural_facts_v1_questions.json": "3ee10cb89e6f3c6c6e27bd538eb7a11a80b859db23cd99b40eb2d9522b7b5f89",
+      "natural_facts_v1_oracle.json": "35669852d55ff8474f909113043b832bb20b747e3234c299d9c4a7089705853c",
+      "natural_facts_v1_references.json": "7a011261c2eba9c600655e23558b10e5751c8b2171f5e9352b347258d8d27bc4",
+      "natural_facts_v1_README.md": "d0508c90912a90d7dab1568fde03e54e3fb0060d88fbdca38bf2ffcb8967be1a"
+    }
+  },
+  "protocol": {
+    "path": "../experiments/natural_facts_v1_protocol.json",
+    "sha256": "9d3ae9f7dd938640d7dbf847d789bf2e6570d70c9fdb32a080ff783da5990ce5"
+  },
+  "post_freeze_policy": "Immutable draft development release. Record executions separately. Once run, exposed regression; never label as a fresh blind holdout. Later corrections require a new explicit revision with parent hashes."
+}

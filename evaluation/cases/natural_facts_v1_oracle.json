@@ -1,0 +1,241 @@
+{
+  "schema_version": "1.0",
+  "authorship": {
+    "kind": "source_authored",
+    "created_without_actuals": true,
+    "review_status": "draft",
+    "source_description": "2026-10-13，同团队AI命题者仅依据四份official-laws-v1原始HTML及源索引拟定，自声明未读取既有题库、实际输出、检索轨迹、评分、消融、检索实现或父审报告。不是独立人工命题；经GPT-6 Astra high首轮复核提出五处P2后修订，保留draft待复查；发布协议要求复核后冻结。仅诊断固定历史语料的事实检索，法律效力未核验。"
+  },
+  "rows": [
+    {
+      "id": "nf-001",
+      "expected_status": "retrieved",
+      "target_articles": [
+        {"doc_id": "csrc-operations-2014", "article_number": 23},
+        {"doc_id": "csrc-operations-2014", "article_number": 24},
+        {"doc_id": "csrc-operations-2014", "article_number": 25},
+        {"doc_id": "csrc-disclosure-2020", "article_number": 21}
+      ],
+      "required_groups": [
+        [{"doc_id": "csrc-operations-2014", "article_number": 23}],
+        [{"doc_id": "csrc-operations-2014", "article_number": 24}],
+        [{"doc_id": "csrc-operations-2014", "article_number": 25}],
+        [{"doc_id": "csrc-disclosure-2020", "article_number": 21}]
+      ],
+      "allowed_doc_ids": ["csrc-operations-2014", "csrc-disclosure-2020", "csrc-sales-2020", "state-council-private-funds-2023"],
+      "category": "business",
+      "scenario": "普通公募开放式基金单日集中赎回的处理及投资者告知",
+      "split": "dev",
+      "source_notes": "主目标为运作文本。单日净赎回判定、比例办理和未办部分处理、定向通知、临时报告分别为流程必要环节；不能以笼统公告替代。信息披露文本第21条另有两日临时报告及规定报刊/网站要求，属于确实跨文档流程。题设不涉及连续巨额赎回或特殊品种。销售文本第19条是一般受理义务，不能替代本题延期分配和通知证据。"
+    },
+    {
+      "id": "nf-002",
+      "expected_status": "retrieved",
+      "target_articles": [
+        {"doc_id": "state-council-private-funds-2023", "article_number": 15},
+        {"doc_id": "state-council-private-funds-2023", "article_number": 22}
+      ],
+      "required_groups": [
+        [{"doc_id": "state-council-private-funds-2023", "article_number": 15}],
+        [{"doc_id": "state-council-private-funds-2023", "article_number": 22}]
+      ],
+      "allowed_doc_ids": ["csrc-operations-2014", "csrc-disclosure-2020", "csrc-sales-2020", "state-council-private-funds-2023"],
+      "category": "business",
+      "scenario": "境内私募股权基金不托管安排与募集结束备案",
+      "split": "dev",
+      "source_notes": "主目标为私募文本。题设已经明示境内登记管理人和合同约定不托管；财产安全/纠纷机制与募集完毕备案的期限、材料和实缴资金要求均有原文。只能回答快照明示安排，不据此推断完成备案就能豁免其他运作要求。公募运作第12、13条不适用于题设。"
+    },
+    {
+      "id": "nf-003",
+      "expected_status": "retrieved",
+      "target_articles": [{"doc_id": "csrc-sales-2020", "article_number": 33}],
+      "required_groups": [[{"doc_id": "csrc-sales-2020", "article_number": 33}]],
+      "allowed_doc_ids": ["csrc-operations-2014", "csrc-disclosure-2020", "csrc-sales-2020", "state-council-private-funds-2023"],
+      "category": "business",
+      "scenario": "公募代销档案清理的保管期限起算",
+      "split": "dev",
+      "source_notes": "主目标为销售文本。题设明确已销户客户身份资料与交易业务资料，两者起算点不同。披露文本第31条针对出具审计报告、法律意见书的专业机构档案，不是代销客户档案的替代证据；私募文本第11条仅列保存职责，没有本题期限。"
+    },
+    {
+      "id": "nf-004",
+      "expected_status": "retrieved",
+      "target_articles": [
+        {"doc_id": "csrc-disclosure-2020", "article_number": 14},
+        {"doc_id": "csrc-disclosure-2020", "article_number": 3}
+      ],
+      "required_groups": [
+        [{"doc_id": "csrc-disclosure-2020", "article_number": 14}],
+        [{"doc_id": "csrc-disclosure-2020", "article_number": 3}]
+      ],
+      "allowed_doc_ids": ["csrc-operations-2014", "csrc-disclosure-2020", "csrc-sales-2020", "state-council-private-funds-2023"],
+      "category": "user",
+      "scenario": "普通公募开放式基金开放前后净值查阅",
+      "split": "dev",
+      "source_notes": "主目标为披露文本。明确公募开放式且非特殊品种，查询开放前后公布频率、最迟时间及渠道。第14条给出阶段和频率，第3条定义规定网站具体主体，二者累积才能给投资者可操作的查阅渠道。运作文本第17条规定净值计算而非披露时间，销售文本第22条的一般查询服务不能替代净值发布频率。"
+    },
+    {
+      "id": "nf-005",
+      "expected_status": "retrieved",
+      "target_articles": [
+        {"doc_id": "csrc-operations-2014", "article_number": 39},
+        {"doc_id": "csrc-disclosure-2020", "article_number": 21},
+        {"doc_id": "csrc-disclosure-2020", "article_number": 22}
+      ],
+      "required_groups": [
+        [{"doc_id": "csrc-operations-2014", "article_number": 39}],
+        [{"doc_id": "csrc-disclosure-2020", "article_number": 21}],
+        [{"doc_id": "csrc-disclosure-2020", "article_number": 22}]
+      ],
+      "allowed_doc_ids": ["csrc-operations-2014", "csrc-disclosure-2020", "csrc-sales-2020", "state-council-private-funds-2023"],
+      "category": "business",
+      "scenario": "合同未约定方案的公募基金合并准备流程",
+      "split": "dev",
+      "source_notes": "主目标为运作文本。实施方案审议、选择期及提示性通知为运作环节；大会提前公告及重大事件临时报告为公开告知环节，不能只引用运作第39条，属于确实跨文档流程。召集人身份并未给定，问题不要求推断由谁召集，因此不强制第43至46条的不同召集路径。"
+    },
+    {
+      "id": "nf-006",
+      "expected_status": "retrieved",
+      "target_articles": [{"doc_id": "csrc-sales-2020", "article_number": 59}],
+      "required_groups": [[{"doc_id": "csrc-sales-2020", "article_number": 59}]],
+      "allowed_doc_ids": ["csrc-operations-2014", "csrc-disclosure-2020", "csrc-sales-2020", "state-council-private-funds-2023"],
+      "category": "user",
+      "scenario": "销售许可证注销后的投资者退出与转托管",
+      "split": "dev",
+      "source_notes": "主目标为销售文本。许可证已注销，直接适用第59条处理既有投资人业务；第54条针对责令暂停业务，第60条针对支付机构停止业务，均不是题设触发状态的替代。问题不要求判断注销是否合法或列举注销原因。"
+    },
+    {
+      "id": "nf-007",
+      "expected_status": "retrieved",
+      "target_articles": [{"doc_id": "state-council-private-funds-2023", "article_number": 27}],
+      "required_groups": [[{"doc_id": "state-council-private-funds-2023", "article_number": 27}]],
+      "allowed_doc_ids": ["csrc-operations-2014", "csrc-disclosure-2020", "csrc-sales-2020", "state-council-private-funds-2023"],
+      "category": "user",
+      "scenario": "私募证券基金外包投资决策与购买建议的边界",
+      "split": "dev",
+      "source_notes": "主目标为私募文本。题设明确研究公司实际负责投资决策，不只是行政或信息技术服务；原文区分不得委托投资管理职责与委托合资格投资顾问提供证券投资建议。无需隐藏假设认定外部公司的资质，只给出资质条件。销售文本第23、43条不涉及管理人的投资职责。"
+    },
+    {
+      "id": "nf-008",
+      "expected_status": "retrieved",
+      "target_articles": [
+        {"doc_id": "csrc-disclosure-2020", "article_number": 16},
+        {"doc_id": "csrc-disclosure-2020", "article_number": 26}
+      ],
+      "required_groups": [
+        [{"doc_id": "csrc-disclosure-2020", "article_number": 16}],
+        [{"doc_id": "csrc-disclosure-2020", "article_number": 26}]
+      ],
+      "allowed_doc_ids": ["csrc-operations-2014", "csrc-disclosure-2020", "csrc-sales-2020", "state-council-private-funds-2023"],
+      "category": "business",
+      "scenario": "公募基金年报审计、托管复核及发布",
+      "split": "dev",
+      "source_notes": "主目标为披露文本。年报财务审计与托管人对定期报告的复核确认是不同把关职责；期限与双媒介载明于第16条。题设明确基金已运行一年多，排除第19条合同生效不足两个月的当期报告例外；未要求专业机构工作底稿保存期限。"
+    },
+    {
+      "id": "nf-009",
+      "expected_status": "retrieved",
+      "target_articles": [
+        {"doc_id": "csrc-operations-2014", "article_number": 32},
+        {"doc_id": "csrc-operations-2014", "article_number": 35}
+      ],
+      "required_groups": [
+        [{"doc_id": "csrc-operations-2014", "article_number": 32}],
+        [{"doc_id": "csrc-operations-2014", "article_number": 35}]
+      ],
+      "allowed_doc_ids": ["csrc-operations-2014", "csrc-disclosure-2020", "csrc-sales-2020", "state-council-private-funds-2023"],
+      "category": "business",
+      "scenario": "普通主动公募基金证券集中度与被动超限调整",
+      "split": "dev",
+      "source_notes": "主目标为运作文本。明示普通主动管理排除完全按指数构成比例投资的例外，不预填数字门槛。限制分别以单只基金资产净值与被持有证券为分母，另需市场变化导致超限的整改期限。私募文本第24、25条并无相同集中度规则。"
+    },
+    {
+      "id": "nf-010",
+      "expected_status": "retrieved",
+      "target_articles": [{"doc_id": "csrc-sales-2020", "article_number": 43}],
+      "required_groups": [[{"doc_id": "csrc-sales-2020", "article_number": 43}]],
+      "allowed_doc_ids": ["csrc-operations-2014", "csrc-disclosure-2020", "csrc-sales-2020", "state-council-private-funds-2023"],
+      "category": "business",
+      "scenario": "公募代销机构信息技术服务商业务与数据边界",
+      "split": "dev",
+      "source_notes": "主目标为销售文本。题设机构是受委托系统开发服务商，未经认定为另一个基金销售机构；第23条对其他销售机构中后台委托不是其合法替代。第42条的数据交换主体也不能替代服务商的数据禁限规定。"
+    },
+    {
+      "id": "nf-011",
+      "expected_status": "retrieved",
+      "target_articles": [{"doc_id": "csrc-disclosure-2020", "article_number": 23}],
+      "required_groups": [[{"doc_id": "csrc-disclosure-2020", "article_number": 23}]],
+      "allowed_doc_ids": ["csrc-operations-2014", "csrc-disclosure-2020", "csrc-sales-2020", "state-council-private-funds-2023"],
+      "category": "business",
+      "scenario": "上市公募基金市场传言的即时回应",
+      "split": "dev",
+      "source_notes": "主目标为披露文本。题设明确消息可能误导价格、损害持有人且已知悉；上市事实决定证券交易所报告接收方并非隐藏gold。第21条重大事件临时报告不替代本题立即公开澄清和立即报告要求。"
+    },
+    {
+      "id": "nf-012",
+      "expected_status": "retrieved",
+      "target_articles": [
+        {"doc_id": "state-council-private-funds-2023", "article_number": 18},
+        {"doc_id": "state-council-private-funds-2023", "article_number": 20}
+      ],
+      "required_groups": [
+        [{"doc_id": "state-council-private-funds-2023", "article_number": 18}],
+        [{"doc_id": "state-council-private-funds-2023", "article_number": 20}]
+      ],
+      "allowed_doc_ids": ["csrc-operations-2014", "csrc-disclosure-2020", "csrc-sales-2020", "state-council-private-funds-2023"],
+      "category": "user",
+      "scenario": "私募股权基金认购资格与拆分代持安排",
+      "split": "dev",
+      "source_notes": "主目标为私募文本。已给出投资者自身不符合资格，不要求计算语料未给的合格投资者数值标准；份额/收益权拆分降低标准与向代持投资者募集分别需第18、20条。题设为管理人直接募集，销售文本第45、46条的代销程序不是完整替代。"
+    },
+    {
+      "id": "nf-013",
+      "expected_status": "retrieved",
+      "target_articles": [
+        {"doc_id": "csrc-operations-2014", "article_number": 14},
+        {"doc_id": "csrc-operations-2014", "article_number": 36}
+      ],
+      "required_groups": [
+        [{"doc_id": "csrc-operations-2014", "article_number": 14}],
+        [{"doc_id": "csrc-operations-2014", "article_number": 36}]
+      ],
+      "allowed_doc_ids": ["csrc-operations-2014", "csrc-disclosure-2020", "csrc-sales-2020", "state-council-private-funds-2023"],
+      "category": "business",
+      "scenario": "公募基金募集前后费用承担",
+      "split": "dev",
+      "source_notes": "主目标为运作文本。募集期间费用不从基金财产列支，若收取认购费可由认购费列支；合同生效后相应会计师/律师费及管理托管费可列支。不能编造无认购费时的法定支付来源。披露文本第30条对自主披露费用的禁止是更特定场景，本题并未设定该类费用。"
+    },
+    {
+      "id": "nf-014",
+      "expected_status": "retrieved",
+      "target_articles": [{"doc_id": "csrc-disclosure-2020", "article_number": 30}],
+      "required_groups": [[{"doc_id": "csrc-disclosure-2020", "article_number": 30}]],
+      "allowed_doc_ids": ["csrc-operations-2014", "csrc-disclosure-2020", "csrc-sales-2020", "state-council-private-funds-2023"],
+      "category": "business",
+      "scenario": "公募管理人自主增补月报及社交平台信息服务",
+      "split": "dev",
+      "source_notes": "主目标为披露文本。明确是持有人信息服务，非营销材料；题设基金在交易所上市，因而公开发布的先后顺序涉及上市交易所网站。自主披露条件、持续公开、同一信息一致性、费用承担均有第30条。运作第36条一般费用列支不替代自主披露的特定禁止。"
+    },
+    {
+      "id": "nf-015",
+      "expected_status": "retrieved",
+      "target_articles": [{"doc_id": "csrc-sales-2020", "article_number": 22}],
+      "required_groups": [[{"doc_id": "csrc-sales-2020", "article_number": 22}]],
+      "allowed_doc_ids": ["csrc-operations-2014", "csrc-disclosure-2020", "csrc-sales-2020", "state-council-private-funds-2023"],
+      "category": "user",
+      "scenario": "公募代销平台成交后持续信息服务",
+      "split": "dev",
+      "source_notes": "主目标为销售文本。及时交易确认、实时查询、主动保有信息及双方约定方式由第22条完整规定。披露文本第29条对重大信息传递的一般要求不能独自替代本题成交确认、持仓及方式约定。"
+    },
+    {
+      "id": "nf-016",
+      "expected_status": "retrieved",
+      "target_articles": [{"doc_id": "state-council-private-funds-2023", "article_number": 28}],
+      "required_groups": [[{"doc_id": "state-council-private-funds-2023", "article_number": 28}]],
+      "allowed_doc_ids": ["csrc-operations-2014", "csrc-disclosure-2020", "csrc-sales-2020", "state-council-private-funds-2023"],
+      "category": "business",
+      "scenario": "私募股权基金与受同一实际控制人影响的基金交易",
+      "split": "dev",
+      "source_notes": "主目标为私募文本。题设给出第28条列举的关联关系并明示基金已有托管人，因此无需隐含假设托管安排；合同决策程序、及时通知投资者和托管人、不得不正当交易及嵌套隐瞒均在同条。公募运作第33条的董事会/独董程序不可套用于私募；销售第48条针对关联产品销售准入，也非本题投资交易。"
+    }
+  ]
+}
