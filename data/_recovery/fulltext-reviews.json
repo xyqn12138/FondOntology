@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "documents": [
+    {
+      "id": "central-data-exchange-protocol-v2.2-20260320",
+      "source_identity_evidence": {
+        "identity_markers": ["开放式基金业务数据交换协议", "Ver2.2", "中国结算数据标准"]
+      },
+      "fulltext_review": {
+        "source_sha256": "071b21e8057863e68c4e91d37ddc03f0bc68344d36cb65512b95016cd946b2b5",
+        "markdown_sha256": "16b11091c178ec3afdde1782f65dc15a770e601e05876be38d3923ee9c109823",
+        "reviewer": "independent_model",
+        "basis": "gpt-6.1-sol/high独立原Word只读核验：155924非空白字符含219项原Word自动编号逐字顺序相等；106表文字、行、单元格、rowspan及colspan全部相等；三段非空封面形状文字均保留。按当前修订视图排除删除文本。证据见_recovery/central-current-verification.json；不宣称分页或人工核验。",
+        "accepted_blocks": []
+      }
+    },
+    {
+      "id": "l1-6918bfa29041",
+      "fulltext_review": {
+        "source_sha256": "ef88727f17828c6697995b1478f964e0c77dea0591e1056dbb8467fead14dcf2",
+        "markdown_sha256": "da426cfa03155b9439d303096f9cd55bbade96c02f386081ae58ffdbd42c8983",
+        "reviewer": "independent_model",
+        "basis": "gpt-6.1-sol/high独立只读Word COM与OOXML当前正文双重比对：18783非空白字符逐字顺序相等；无修订、表格、图像或脚注，不依赖原转换多集合证明。",
+        "accepted_blocks": []
+      }
+    },
+    {
+      "id": "l1-6983835b2f9e",
+      "fulltext_review": {
+        "source_sha256": "7da2de17931515b4448564d9ec64d5ba437bd68aa4b17439458a292092eb3419",
+        "markdown_sha256": "ac565d1c4da76c8e0f7aa2fa9a0017e9443bee0aaf299fa345f5239f16fa84d2",
+        "reviewer": "independent_model",
+        "basis": "gpt-6.1-sol/high独立只读Word COM、Word当前XML及HTML正文比对：5972非空白字符逐字顺序相等，正文30条与九项附录保留；无修订、表格、图像或脚注。",
+        "accepted_blocks": []
+      }
+    },
+    {
+      "id": "l1-48073b4b4805",
+      "reviewed_conversion": {
+        "source_sha256": "1749a3fe29e29edada4265295843f25ac404d4f3b3d92fdcbc0fabedf66247d0",
+        "input_markdown_sha256": "f1fd381e33d85ff3a6c0ec8e09bf79a262fce3d9a577ed1bb104366e45c80405",
+        "markdown_sha256": "63dd4a301f5ff0db10debab4460183460026aedd100735d7a3a7da62d425c579",
+        "basis": "官方HTML正文发文机关标头图片已独立目视核验，以三行文字代替；图片SHA256=a927ae63c55bbfc0ef82c1d01b875077863659286a00b8df33373a1c371d42b2。",
+        "replacements": [
+          {"old": "<img align=\"center\" alt=\"\" border=\"0\" oldsrc=\"W020230512389256379330.jpg\" picname=\"\" src=\"./W020230512389256379330.jpg\"/>", "new": "中国证券监督管理委员会\n中国银行保险监督管理委员会\n令"}
+        ]
+      },
+      "fulltext_review": {
+        "source_sha256": "1749a3fe29e29edada4265295843f25ac404d4f3b3d92fdcbc0fabedf66247d0",
+        "markdown_sha256": "63dd4a301f5ff0db10debab4460183460026aedd100735d7a3a7da62d425c579",
+        "reviewer": "independent_model",
+        "basis": "gpt-6-astra/high对同域官方标头图片逐字视觉核验；正文及172号令、签名和落款保留，图片文字已转写，不再依赖远程图片。仅核验残余告警。",
+        "accepted_blocks": [{"kind": "html_image_content_unreviewed", "count": 1}],
+        "accepted_image_references": ["./W020230512389256379330.jpg"]
+      }
+    },
+    {
+      "id": "l1-d02c79127cb8",
+      "reviewed_conversion": {
+        "source_sha256": "e460c855bea69e9a5e664042fbd06d4a66cc35cc81a211d134d9caff274c1b9d",
+        "input_markdown_sha256": "7cdb70133c0fdbec2f26efa6159a3457974e371c2e44a7cbcdf77c90249aeda7",
+        "markdown_sha256": "eca2fc69454af937fd37ea5ff993c6198eac9c9b48b8ba61cfea7b7fbb8e6823",
+        "basis": "独立模型目视核验原PDF第8页编码图，补充等价文字，不新增图外关系。",
+        "replacements": [
+          {
+            "old": "![](images/448716666580f41a327969b42eae43887b019eb48e9043d896f8b47e9322c38a.jpg)",
+            "new": "![](images/448716666580f41a327969b42eae43887b019eb48e9043d896f8b47e9322c38a.jpg)\n\n图1（文字转写）：证券期货业信息系统分类代码按 X XX XX 排列。第一层为第1位大写英文字母，表示机构类别；第二层为第2、3位两位阿拉伯数字，表示业务分类；第三层为第4、5位两位阿拉伯数字，表示系统技术功能域。"
+          }
+        ]
+      },
+      "fulltext_review": {
+        "source_sha256": "e460c855bea69e9a5e664042fbd06d4a66cc35cc81a211d134d9caff274c1b9d",
+        "markdown_sha256": "eca2fc69454af937fd37ea5ff993c6198eac9c9b48b8ba61cfea7b7fbb8e6823",
+        "reviewer": "independent_model",
+        "basis": "gpt-6-astra/high原页视觉核验；编码图三层位序与相邻a/b/c及B0101示例一致，已补等价文字。仅核验残余告警，不冒称全篇人工核验。",
+        "accepted_blocks": [{"block": 57, "kind": "visual_or_formula_requires_review", "page": 8, "type": "image"}]
+      }
+    },
+    {
+      "id": "amac-fund-advisory-interface-2021",
+      "reviewed_conversion": {
+        "source_sha256": "b81c9ddb189cf28a678a4546f942b9028fa228da5a2b27a59f00815db323663b",
+        "input_markdown_sha256": "fa6db6bddc76cde8c3ca9c63cca3d57da95379afd6c3df0cdd3306ebb06aa9bc",
+        "markdown_sha256": "9ede6f7e7a58fe9ddd7a745e4592d156ec6ada742d9aff7aaa41b3ae72607f11",
+        "basis": "独立模型目视核验原PDF第6页系统框图，补四节点及四组双向连接的等价文字。",
+        "replacements": [
+          {
+            "old": "![](images/c3ed80ea40ad472a936dfb1aa40d5015ef6797838a6e32b307fece659afe1f40.jpg)",
+            "new": "![](images/c3ed80ea40ad472a936dfb1aa40d5015ef6797838a6e32b307fece659afe1f40.jpg)\n\n系统框架图（文字转写）：图中包含客户、基金投顾前端系统、基金投顾后端系统和基金销售系统四个节点。双向连接为：客户 ↔ 基金投顾前端系统；基金投顾前端系统 ↔ 基金投顾后端系统；基金投顾前端系统 ↔ 基金销售系统；基金投顾后端系统 ↔ 基金销售系统。"
+          }
+        ]
+      },
+      "fulltext_review": {
+        "source_sha256": "b81c9ddb189cf28a678a4546f942b9028fa228da5a2b27a59f00815db323663b",
+        "markdown_sha256": "9ede6f7e7a58fe9ddd7a745e4592d156ec6ada742d9aff7aaa41b3ae72607f11",
+        "reviewer": "independent_model",
+        "basis": "gpt-6-astra/high独立目视核验原页及截图，四节点四组双向箭头完整转写；后续说明段落保留。仅核验残余告警，不冒称全篇人工核验。",
+        "accepted_blocks": [
+          {"block_index": 29, "block_type": "image", "page": 6, "reason": "image_without_caption"},
+          {"block": 29, "kind": "visual_or_formula_requires_review", "page": 6, "type": "image"}
+        ]
+      }
+    },
+    {
+      "id": "amac-credit-derivative-valuation-2019",
+      "reviewed_conversion": {
+        "source_sha256": "7b5a8efe57d198998dfef857f23136cfd3f1ba2891ef2941a7325afd03087216",
+        "input_markdown_sha256": "a6ba6f874e8e7ead5f5ed49b28e6f157097e9861bd15f6c00fca9caca4dac85e",
+        "markdown_sha256": "cd12f21ce87160da966161883347a007449f7db2d6daa80a24383d8b6194c3b7",
+        "basis": "原PDF第7、9页独立视觉核验：纠正block82乘号及指数结构；保留用户已正确修改的block107公式；补block108附注下标1。",
+        "replacements": [
+          {
+            "block_index": 82,
+            "new": "$$\nV_{\\mathrm{CRMW}} = \\frac{\\left(1-e^{t_1\\cdot\\ln(1-D)}\\right)\\cdot FV\\cdot(1-R)}{(1+r_1)^{t_1}} + \\cdots + \\frac{e^{t_1\\cdot\\ln(1-D)}\\cdot(1-D)^{n-2}\\cdot D\\cdot FV\\cdot(1-R)}{(1+r_n)^{t_n}}\n$$"
+          },
+          {
+            "block_index": 107,
+            "new": "$$\n\\begin{aligned}\nV_{\\mathrm{CRMW}} ={}& FV \\times (1-R) \\times \\int_t^{T_n} \\frac{1}{(1+r_{s-t})^{s-t}} \\times h \\times e^{-h(s-t)}\\,ds \\\\\n&-100 \\times C_1 \\Bigg[\n\\sum_{i=j+1}^{n} (T_i-T_{i-1}) \\times \\frac{1}{(1+r_{T_i-t})^{T_i-t}} \\times \\left(1-e^{-h(T_i-t)}\\right) \\\\\n&\\qquad+\\int_t^{T_{j+1}} (s-T_j) \\frac{1}{(1+r_{s-t})^{s-t}} \\times h \\times e^{-h(s-t)}\\,ds \\\\\n&\\qquad+\\sum_{k=j+1}^{n-1} \\int_{T_k}^{T_{k+1}} (s-T_k) \\frac{1}{(1+r_{s-t})^{s-t}} \\times h \\times e^{-h(s-t)}\\,ds\n\\Bigg]\n\\end{aligned}\n$$"
+          },
+          {"block_index": 108, "new": "注： $T_j < t < T_{j+1}$"}
+        ]
+      },
+      "fulltext_review": {
+        "source_sha256": "7b5a8efe57d198998dfef857f23136cfd3f1ba2891ef2941a7325afd03087216",
+        "markdown_sha256": "cd12f21ce87160da966161883347a007449f7db2d6daa80a24383d8b6194c3b7",
+        "reviewer": "independent_model",
+        "basis": "gpt-6-astra/high对原PDF第7、9页完整渲染与公式裁剪逐项核验，发现的两处具体差异及附注已纠正；不以金融理论改写原件，不冒称全篇人工核验。",
+        "accepted_blocks": [
+          {"block": 82, "page": 7, "type": "equation", "reason": "confirmed_latex_transcription_mismatch", "basis": "2026-10-13重新对照原件公式截图：原式末尾无=0，转换LaTeX正文末尾多出=0；不是LaTeX显示语法差异。"},
+          {"block": 107, "page": 9, "type": "equation", "reason": "confirmed_latex_transcription_mismatch", "basis": "2026-10-13重新对照原件公式截图：原式首个求和为sum从i=j+1到n并乘(T_i-T_{i-1})，转换为stackrel及无关分式；积分上限T_n亦识别异常。"}
+        ]
+      }
+    }
+  ]
+}

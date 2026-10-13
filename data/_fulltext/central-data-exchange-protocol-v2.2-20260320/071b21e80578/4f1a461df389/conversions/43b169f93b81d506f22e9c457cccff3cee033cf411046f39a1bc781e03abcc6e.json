@@ -1,0 +1,58 @@
+{
+  "identity_review": {
+    "human_reviewed": false,
+    "scope": "machine_conversion_and_structure_only"
+  },
+  "markdown_path": "_fulltext/central-data-exchange-protocol-v2.2-20260320/071b21e80578/4f1a461df389/full.md",
+  "markdown_sha256": "4f1a461df389104de3b2006b720262340e595c2b2847437329918c3b8dd585a3",
+  "method": "Microsoft Word original DOC read-only SaveAs2 DOCX; OOXML current-view extraction with original Word ListString labels; independent complete body and table verification",
+  "observations": {
+    "all_source_shape_texts_preserved": true,
+    "all_tables_current_text_and_structure_equal": true,
+    "article_count": null,
+    "article_heading_separator_insertions": 4,
+    "automatic_numbered_paragraph_count": 219,
+    "body_paragraph_count": 26930,
+    "body_table_count": 106,
+    "excluded_title_headers": [],
+    "fulltext_review": {
+      "accepted_blocks": [],
+      "basis": "gpt-6.1-sol/high独立原Word只读核验：155924非空白字符含219项原Word自动编号逐字顺序相等；106表文字、行、单元格、rowspan及colspan全部相等；三段非空封面形状文字均保留。按当前修订视图排除删除文本。证据见_recovery/central-current-verification.json；不宣称分页或人工核验。",
+      "markdown_sha256": "16b11091c178ec3afdde1782f65dc15a770e601e05876be38d3923ee9c109823",
+      "reviewer": "independent_model",
+      "source_sha256": "071b21e8057863e68c4e91d37ddc03f0bc68344d36cb65512b95016cd946b2b5"
+    },
+    "human_review_asserted": false,
+    "image_assets": {},
+    "limitations": [
+      "Independent machine current-body, numbering and table verification; not human signoff.",
+      "No rendered-page or pagination-coverage claim; cover geometry and footer pagination are not semantic Markdown."
+    ],
+    "markdown_sha256": "16b11091c178ec3afdde1782f65dc15a770e601e05876be38d3923ee9c109823",
+    "missing_images": [],
+    "original_format": "doc",
+    "page_count": null,
+    "page_coverage": [],
+    "recovered_text_character_count": 155924,
+    "source_and_recovered_character_multiset_equal": true,
+    "source_and_recovered_text_order_equal": true,
+    "source_body_text_sha256": "4c209202186548a5fb250e66f5ae324a9e55e4672b78a2aaa6e2445ea110a64d",
+    "source_shape_texts_nonempty": [
+      "中国结算数据标准",
+      "代替（代替JR/T0017—2004）",
+      "中央数据交换平台开放式基金业务数据交换协议（Ver2.2）Open-endedfundbusinessdataexchangeprotocol"
+    ],
+    "source_text_character_count": 155924,
+    "tracked_change_policy": "Current text includes insertions and excludes deleted revision text; original DOC retains all revisions.",
+    "tracked_changes_current_view_verified": true,
+    "unsupported": [],
+    "validation_status": "verified",
+    "verification_report": "_recovery/central-current-verification.json",
+    "word_converter_version": "reviewed-word-current-2",
+    "word_shapes_total": 9
+  },
+  "raw_path": "_sources/L3/central-data-exchange-protocol-v2.2-20260320/original.doc",
+  "schema_version": 1,
+  "source_sha256": "071b21e8057863e68c4e91d37ddc03f0bc68344d36cb65512b95016cd946b2b5",
+  "version": "data-restoration-v1"
+}

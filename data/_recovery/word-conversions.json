@@ -126,70 +126,43 @@
     },
     {
       "id": "central-data-exchange-protocol-v2.2-20260320",
-      "markdown_path": "_converted/word/central-data-exchange-protocol-v2.2-20260320/full.md",
+      "markdown_path": "_converted/word/central-data-exchange-protocol-v2.2-20260320/current.md",
       "source_sha256": "071b21e8057863e68c4e91d37ddc03f0bc68344d36cb65512b95016cd946b2b5",
-      "method": "Microsoft Word readonly HTML export plus lxml semantic extraction",
-      "version": "recovered-word-converter-1",
+      "method": "Microsoft Word original DOC read-only SaveAs2 DOCX; OOXML current-view extraction with original Word ListString labels; independent complete body and table verification",
+      "version": "reviewed-word-current-2",
       "observations": {
-        "html_encoding": "x-cp20936",
-        "body_paragraph_count": 27151,
-        "body_table_count": 110,
-        "top_level_table_count": 107,
-        "html_rowspan_cells": 7,
-        "html_colspan_cells": 445,
-        "source_text_character_count": 160772,
-        "recovered_text_character_count": 160772,
+        "body_paragraph_count": 26930,
+        "body_table_count": 106,
+        "automatic_numbered_paragraph_count": 219,
+        "source_text_character_count": 155924,
+        "recovered_text_character_count": 155924,
         "source_and_recovered_character_multiset_equal": true,
-        "unsupported": [
-          "conditional_vml_shape_requires_visual_review"
+        "source_and_recovered_text_order_equal": true,
+        "source_body_text_sha256": "4c209202186548a5fb250e66f5ae324a9e55e4672b78a2aaa6e2445ea110a64d",
+        "tracked_change_policy": "Current text includes insertions and excludes deleted revision text; original DOC retains all revisions.",
+        "unsupported": [],
+        "word_shapes_total": 9,
+        "source_shape_texts_nonempty": [
+          "中国结算数据标准",
+          "代替（代替JR/T0017—2004）",
+          "中央数据交换平台开放式基金业务数据交换协议（Ver2.2）Open-endedfundbusinessdataexchangeprotocol"
         ],
-        "export_metadata_pages": [
-          "1"
-        ],
-        "html_image_sources": [
-          "full.files/image001.png",
-          "full.files/image002.png"
-        ],
-        "non_data_cover_layout_tables": 4,
-        "word_html_layout_note": "The DOC export contains cover-layout tables in addition to Word's data-table count; all are retained.",
+        "all_source_shape_texts_preserved": true,
+        "all_tables_current_text_and_structure_equal": true,
+        "tracked_changes_current_view_verified": true,
+        "verification_report": "_recovery/central-current-verification.json",
         "original_format": "doc",
         "page_count": null,
         "page_coverage": [],
         "article_count": null,
         "missing_images": [],
-        "image_assets": {
-          "full.files/image001.png": "8dbedfe646b27e183c44ace4d696230d4f5fab07b40fef680b8a6ffdb8989bb8",
-          "full.files/image002.png": "a9c465bb9b20a91c54e044c3472cf4cd39d30931a1c5dc9b51e3eadb6293bf4f"
-        },
-        "first_nonempty_paragraphs": [
-          "目    次",
-          "目    次.......................................................................... I",
-          "前    言............................................................................ IV",
-          "修订说明............................................................................. 1",
-          "开放式基金业务数据交换协议........................................................... 3",
-          "1 范围............................................................................... 3",
-          "2 规范性引用文件..................................................................... 3",
-          "3 术语和定义......................................................................... 3",
-          "4 要求............................................................................... 5",
-          "4.1 数据类型定义..................................................................... 5",
-          "4.2 数据处理......................................................................... 5",
-          "4.3 加密............................................................................. 6"
-        ],
-        "last_nonempty_paragraphs": [
-          "其中“??”为TA代码，“XXX”为销售代理人代码。yyyymmdd为文件发送日期。",
-          "TA发送代理人文件：",
-          "A.1.4　文件类型与业务类型对应关系表",
-          "表A.3 文件类型与业务类型对照表",
-          "A.2　文件加密与数字签名技术",
-          "由数据文件交换各方协商决定文件加密和数字签名所采用的技术方案。",
-          "附录B （规范性附录）交易处理返回代码的取值及含义",
-          "注意：如果找不到合适的返回代码，统一填写“9999”，即“其它错误”。"
-        ],
-        "markdown_sha256": "3e0ee6998a0d0acf4affd5b1816a78e10bdbed8c0575e55b9a2d0d17e456a3ae",
-        "validation_status": "unverified",
+        "image_assets": {},
+        "markdown_sha256": "16b11091c178ec3afdde1782f65dc15a770e601e05876be38d3923ee9c109823",
+        "validation_status": "verified",
+        "human_review_asserted": false,
         "limitations": [
-          "No independent rendered page review; page count and coverage remain unasserted.",
-          "Headers and footers are recorded separately; cached pagination and TOC page references do not prove coverage."
+          "Independent machine current-body, numbering and table verification; not human signoff.",
+          "No rendered-page or pagination-coverage claim; cover geometry and footer pagination are not semantic Markdown."
         ]
       }
     },

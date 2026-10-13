@@ -1,0 +1,104 @@
+{
+  "identity_review": {
+    "human_reviewed": false,
+    "scope": "machine_conversion_and_structure_only"
+  },
+  "markdown_path": "_fulltext/fund-central-backup-interface-v2.2-20260320/132637b87df2/f1ff41893ae2/full.md",
+  "markdown_sha256": "f1ff41893ae23a708d9939f203f70d73a693fce3f253692e652730492a212219",
+  "method": "OOXML body-order extraction with HTML rowspan and colspan tables",
+  "observations": {
+    "article_count": null,
+    "automatic_number_formats": {
+      "decimal": 212,
+      "upperLetter": 4
+    },
+    "automatic_numbered_paragraph_count": 105,
+    "body_paragraph_count": 15599,
+    "body_table_count": 51,
+    "excluded_title_headers": [],
+    "field_count": 113,
+    "first_nonempty_paragraphs": [
+      "基金行业数据",
+      "集中备份接口规范",
+      "（Ver2.2）",
+      "目录",
+      "目录\t2",
+      "修订说明\t4",
+      "1. 总则\t6",
+      "2. 术语定义\t6",
+      "3. 基本要求\t9",
+      "4. 数据接口\t10",
+      "4.1. 信息格式\t10",
+      "4.2. 数据报送机制\t11"
+    ],
+    "fulltext_review": {
+      "accepted_blocks": [
+        "tracked_changes_visible_insertions_only:282"
+      ],
+      "basis": "用户2026-10-13明确确认本份接口规范核验完毕；现正文采用显示插入、排除删除的修订视图，版本由官方附件标签及封面Ver2.2共同确认。",
+      "markdown_sha256": "f1ff41893ae23a708d9939f203f70d73a693fce3f253692e652730492a212219",
+      "reviewer": "human_user",
+      "source_sha256": "132637b87df2184026129812d96d3ca039c0900db9337b50da4eebca684ee1e6"
+    },
+    "header_footer_cached_text": {
+      "word/footer1.xml": "126"
+    },
+    "image_assets": {},
+    "last_nonempty_paragraphs": [
+      "01-权益类 02-固收类 03-商品及金融衍生品类 04-混合类  99-其它",
+      "2418",
+      "Detail",
+      "C",
+      "200",
+      "详细信息",
+      "8.",
+      "9."
+    ],
+    "limitations": [
+      "No independent rendered page review; page count and coverage remain unasserted.",
+      "Headers and footers are recorded separately; cached pagination and TOC page references do not prove coverage."
+    ],
+    "markdown_sha256": "ceb47d76311788dd6a8654ca2cc3d028d05ab0972901e2227536308928d40066",
+    "merge_counts": {
+      "horizontal_merged_cells": 5,
+      "vertical_continuation_cells": 36
+    },
+    "missing_images": [],
+    "original_format": "docx",
+    "page_count": null,
+    "page_coverage": [],
+    "recovered_text_character_count": 88707,
+    "reviewed_conversion": {
+      "basis": "保留用户已核验正文中的附录编号和空白布局清理，变更仅涉及空编号、空表及由空编号引起的附录序号偏移。",
+      "input_markdown_sha256": "ceb47d76311788dd6a8654ca2cc3d028d05ab0972901e2227536308928d40066",
+      "markdown_sha256": "f1ff41893ae23a708d9939f203f70d73a693fce3f253692e652730492a212219",
+      "replacements": [
+        {
+          "new": "\r\n# 5. 附录A接口文件规范数据类型定义",
+          "old": "\r\n\r\n# 5.\r\n\r\n# 6. 附录A接口文件规范数据类型定义"
+        },
+        {
+          "new": "# 6. 附录B数据字典",
+          "old": "# 7. 附录B数据字典"
+        },
+        {
+          "new": "",
+          "old": "\r\n# 8.\r\n\r\n# 9.\r\n\r\n<table>\r\n<tr><td></td><td></td><td></td></tr>\r\n<tr><td></td><td></td><td></td></tr>\r\n<tr><td></td><td></td><td></td></tr>\r\n</table>\r\n"
+        }
+      ],
+      "source_sha256": "132637b87df2184026129812d96d3ca039c0900db9337b50da4eebca684ee1e6"
+    },
+    "source_and_recovered_character_multiset_equal": true,
+    "source_and_recovered_text_order_equal": true,
+    "source_body_text_sha256": "20b8319ddc2bca80561d0cc22356a3e7fb9048a463631d85c2937aff5f71f15b",
+    "source_visible_text_character_count": 88707,
+    "tracked_change_policy": "Current text includes insertions and excludes deleted revision text; original OOXML retains all revisions.",
+    "unsupported": [],
+    "validation_status": "unverified",
+    "word_converter_version": "recovered-word-converter-1"
+  },
+  "raw_path": "_sources/L3/fund-central-backup-interface-v2.2-20260320/original.docx",
+  "schema_version": 1,
+  "source_sha256": "132637b87df2184026129812d96d3ca039c0900db9337b50da4eebca684ee1e6",
+  "version": "data-restoration-v1"
+}

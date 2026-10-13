@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "documents": [
+    {
+      "id": "l1-288348db871e",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101877/c1029552/content.shtml",
+      "issued_date": "2017-08-31",
+      "effective_from": "2017-10-01",
+      "source_page_review": {
+        "source_sha256": "813558004fa2d8d6c87050ef634b49d47a8e913d99c76590f281d711554ecf93",
+        "path": "_sources/L1/l1-288348db871e/source-page-verified.html",
+        "sha256": "5ba1fd287a94eb5144c43676b307433cf51b7c25a874d2f4f47990c56833dcaf",
+        "basis": "证监会2017年12号公告附件与现存上交所官方再刊原件SHA256相同；保留原下载收据和再刊属性。"
+      }
+    },
+    {
+      "id": "l1-6f014fe27f98",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653978/content.shtml",
+      "issued_date": "2014-07-07",
+      "effective_from": "2014-08-08",
+      "source_page_review": {
+        "source_sha256": "b8d078253e3048aebb2e057e953ee442ec41c864c4461c0008d4042f8a952511",
+        "path": "_sources/L1/l1-6f014fe27f98/source-page-verified.html",
+        "sha256": "d53303588ef1d1ed8a0464b6e38b0247d0560a93adea32fc0be06463bd96043f",
+        "basis": "证监会第104号令规章正文、59条及附件URL匹配现存原件，版本保持2014年。"
+      }
+    },
+    {
+      "id": "l1-bed25b74e40c",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101877/c1039189/content.shtml",
+      "issued_date": "2020-08-28",
+      "effective_from": "2020-10-01",
+      "source_page_review": {
+        "source_sha256": "c817a4016bb047fbc9c9e4256e4de9973be120aad2894a4ed1e0ffec789e69eb",
+        "path": "_sources/L1/l1-bed25b74e40c/source-page-verified.html",
+        "sha256": "dffb1ca28ae49141479f0c6de173f0b6672d5ce610a474f423e5863b3b6a0d69",
+        "basis": "证监会2020年58号公告附件与现存上交所官方再刊原件SHA256相同；保留原下载收据和再刊属性。"
+      }
+    },
+    {
+      "id": "l1-66dd2b604e86",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1654020/content.shtml",
+      "issued_date": "2016-09-30",
+      "effective_from": "2016-09-30",
+      "source_page_review": {
+        "source_sha256": "b9be17f3d826b166b1309da8f34e3c8a3372d1e1e4cf11c1b15c599c89163fa6",
+        "path": "_sources/L1/l1-66dd2b604e86/source-page-verified.html",
+        "sha256": "e5aae9e84e00a07c8f7dead9ace5fdac7ef77907442aac03f24572d70fad427e",
+        "basis": "证监会2016年第128号令原版附件虽文件名变化，重新取得附件与现存原件SHA256相同；明确历史版，未替换为2022版。"
+      }
+    },
+    {
+      "id": "l1-de65cbfb0ded",
+      "source_page_url": "https://www.szse.cn/lawrules/rule/inno/szhk/t20240614_607685.html",
+      "issued_date": "2024-06-14",
+      "effective_from": "2024-06-14",
+      "source_page_review": {
+        "source_sha256": "64c0a06cae1cd633a37c7b68faf6a331e08a75b54362ec824f21e1a1021b54f5",
+        "path": "_sources/L1/l1-de65cbfb0ded/source-page-verified.html",
+        "sha256": "4ecb5d2eb6ff0f91f72a88899e4b07a78c80f602cfe16514f6c32a61b384edee",
+        "basis": "深交所2024年修订通知链接的szhk子目录附件与现存不同URL原件SHA256相同。"
+      }
+    },
+    {
+      "id": "l1-d02c79127cb8",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101954/c7608135/content.shtml",
+      "issued_date": "2026-01-09",
+      "effective_from": "2026-01-09",
+      "source_page_review": {
+        "source_sha256": "e460c855bea69e9a5e664042fbd06d4a66cc35cc81a211d134d9caff274c1b9d",
+        "path": "_sources/L1/l1-d02c79127cb8/source-page-verified.html",
+        "sha256": "90b9bf993596b4f09ff9c6f4bb5af2ce44777a6f635535ec4138bce980a4af33",
+        "basis": "证监会2026年1号公告附件2、JR/T 0348—2026封面及现存附件URL匹配。"
+      }
+    },
+    {
+      "id": "l1-3953d7041492",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101954/c7123693/content.shtml",
+      "issued_date": "2023-02-17",
+      "effective_from": "2023-05-16",
+      "source_page_review": {
+        "source_sha256": "0fc19bb98125f320e85244f0977ec52470e55ddd316678aa2d382a7446a6e2cd",
+        "path": "_sources/L1/l1-3953d7041492/source-page-verified.html",
+        "sha256": "11cd34eb7b3b4c01f821481dcf1a1906fee8f04bdd81b5ae5f1a66c4b953a4fa",
+        "basis": "证监会2023年42号公告、施行日期及附件1链接匹配现存原件。"
+      }
+    },
+    {
+      "id": "l1-59db1324b327",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101954/c7526405/content.shtml",
+      "issued_date": "2024-12-17",
+      "effective_from": "2025-01-01",
+      "source_page_review": {
+        "source_sha256": "fdb25deca3e0e9f97b4a4c4f995292fcff6ac0b3ef3216c3ed0aedce9b6cc87c",
+        "path": "_sources/L1/l1-59db1324b327/source-page-verified.html",
+        "sha256": "3b8dd99bdc9dc9ae5fe734581fe0168f820e47f963219185182f8781e994ebb8",
+        "basis": "证监会2024年16号公告落款、2025年1月1日施行日期及附件1链接匹配现存原件。"
+      }
+    }
+  ]
+}

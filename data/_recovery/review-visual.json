@@ -1,0 +1,306 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-13",
+  "reviewer": "Codex visual_reaudit agent",
+  "human_reviewed": false,
+  "review_method": "AI visual inspection of local source PDF page renders and original/converted image crops; direct comparison to bound extraction blocks and current Markdown. This is not human review or validation of financial/legal correctness.",
+  "scope": "Only the five listed residual visual/formula items; no claim of a complete verbatim review of these documents.",
+  "page_numbering": "PDF pages are one-based; block indices are zero-based content_list positions.",
+  "bindings": [
+    {
+      "extraction_sha256": "8e16efd904a5f5e2d4e2a43e24884ac62ad7adf2cf293305e285384fc8a9e76b",
+      "actual_markdown_sha256": "7cdb70133c0fdbec2f26efa6159a3457974e371c2e44a7cbcdf77c90249aeda7",
+      "source_sha256": "e460c855bea69e9a5e664042fbd06d4a66cc35cc81a211d134d9caff274c1b9d",
+      "blocks": [
+        {
+          "content": {
+            "bbox": [
+              159,
+              290,
+              705,
+              378
+            ],
+            "image_caption": [
+              "图1 证券期货业信息系统分类代码的构成"
+            ],
+            "image_footnote": [
+              "示例：",
+              "B0101=证券经营机构（机构类别）一经纪业务（业务分类）一交易账户管理（系统技术功能域）"
+            ],
+            "img_path": "images/448716666580f41a327969b42eae43887b019eb48e9043d896f8b47e9322c38a.jpg",
+            "page_idx": 7,
+            "type": "image"
+          },
+          "index": 57
+        }
+      ],
+      "conversion_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_fulltext\\l1-d02c79127cb8\\e460c855bea6\\7cdb70133c0f\\conversions\\12d3fb0e4b04a120fd3677a5f6e0760c398f6ebbca1985ba3fe4df680d69af67.json",
+      "conversion_sha256": "12d3fb0e4b04a120fd3677a5f6e0760c398f6ebbca1985ba3fe4df680d69af67",
+      "extraction_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_converted\\L1\\files\\original-22489936c11748c55ce2167d344311dc3169e45a3c2ed2dbd110da4b4afef674\\extraction.json",
+      "recorded_markdown_sha256": "7cdb70133c0fdbec2f26efa6159a3457974e371c2e44a7cbcdf77c90249aeda7",
+      "id": "l1-d02c79127cb8",
+      "images": [
+        {
+          "sha256": "eef801a3e3aa0430db5710a7003a52f80865642d533bc1eb59238c624a0067c9",
+          "path": "E:\\LX\\LX_fund\\FondOntology\\data\\_fulltext\\l1-d02c79127cb8\\e460c855bea6\\7cdb70133c0f\\images\\448716666580f41a327969b42eae43887b019eb48e9043d896f8b47e9322c38a.jpg"
+        }
+      ],
+      "raw_path": "_sources/L1/l1-d02c79127cb8/original.pdf",
+      "markdown_path": "_fulltext/l1-d02c79127cb8/e460c855bea6/7cdb70133c0f/full.md"
+    },
+    {
+      "extraction_sha256": "6db15c131b07eaabc53b55778bf7dd61ce42e95a11fbd127b7b2ba45abb24938",
+      "actual_markdown_sha256": "fa6db6bddc76cde8c3ca9c63cca3d57da95379afd6c3df0cdd3306ebb06aa9bc",
+      "source_sha256": "b81c9ddb189cf28a678a4546f942b9028fa228da5a2b27a59f00815db323663b",
+      "blocks": [
+        {
+          "content": {
+            "bbox": [
+              174,
+              184,
+              838,
+              299
+            ],
+            "image_caption": [],
+            "image_footnote": [],
+            "img_path": "images/c3ed80ea40ad472a936dfb1aa40d5015ef6797838a6e32b307fece659afe1f40.jpg",
+            "page_idx": 5,
+            "type": "image"
+          },
+          "index": 29
+        }
+      ],
+      "conversion_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_fulltext\\amac-fund-advisory-interface-2021\\b81c9ddb189c\\fa6db6bddc76\\conversions\\91b798c092499c06d77d731733c842a2037d44920b078e2e9b5fd2936101beae.json",
+      "conversion_sha256": "91b798c092499c06d77d731733c842a2037d44920b078e2e9b5fd2936101beae",
+      "extraction_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_converted\\L2\\files\\original-a5d8aa30ead288ac3b8476c1e16a53f4bccf570be8099b8316fb932871a0eaf2\\extraction.json",
+      "recorded_markdown_sha256": "fa6db6bddc76cde8c3ca9c63cca3d57da95379afd6c3df0cdd3306ebb06aa9bc",
+      "id": "amac-fund-advisory-interface-2021",
+      "images": [
+        {
+          "sha256": "81b30329763bb79fc0d398f09f6d148c99cfcf8b42b1c2b233d2d16831bb63af",
+          "path": "E:\\LX\\LX_fund\\FondOntology\\data\\_fulltext\\amac-fund-advisory-interface-2021\\b81c9ddb189c\\fa6db6bddc76\\images\\c3ed80ea40ad472a936dfb1aa40d5015ef6797838a6e32b307fece659afe1f40.jpg"
+        }
+      ],
+      "raw_path": "_sources/L2/amac-fund-advisory-interface-2021/original.pdf",
+      "markdown_path": "_fulltext/amac-fund-advisory-interface-2021/b81c9ddb189c/fa6db6bddc76/full.md"
+    },
+    {
+      "extraction_sha256": null,
+      "actual_markdown_sha256": "a34f9a04a55bd185c5ebadf985ddf25c78f9a7d27cc18b32481e55e76878935d",
+      "source_sha256": "1749a3fe29e29edada4265295843f25ac404d4f3b3d92fdcbc0fabedf66247d0",
+      "blocks": [],
+      "conversion_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_fulltext\\l1-48073b4b4805\\1749a3fe29e2\\a34f9a04a55b\\conversions\\5a75bb80ef874db1d2d2925bc9cdbfcca03dc25b9cf4d99d9439d9035fc6ab5e.json",
+      "conversion_sha256": "5a75bb80ef874db1d2d2925bc9cdbfcca03dc25b9cf4d99d9439d9035fc6ab5e",
+      "extraction_path": null,
+      "recorded_markdown_sha256": "a34f9a04a55bd185c5ebadf985ddf25c78f9a7d27cc18b32481e55e76878935d",
+      "id": "l1-48073b4b4805",
+      "images": [],
+      "raw_path": "_sources/L1/l1-48073b4b4805/original.html",
+      "markdown_path": "_fulltext/l1-48073b4b4805/1749a3fe29e2/a34f9a04a55b/full.md"
+    },
+    {
+      "extraction_sha256": "40a660fad09298261fc8f6cbb8fae4877e898b14ee99419dd2f0619ab993dcb7",
+      "actual_markdown_sha256": "6f4b453e843f420ef01a752882ff6513284a0b114b4372c3593a3446fa874bbf",
+      "source_sha256": "7b5a8efe57d198998dfef857f23136cfd3f1ba2891ef2941a7325afd03087216",
+      "blocks": [
+        {
+          "content": {
+            "bbox": [
+              146,
+              736,
+              857,
+              784
+            ],
+            "img_path": "images/eed69eb34df2fa2a634bc6bb28233802000c3085ae57a43dea7b792439fb0e16.jpg",
+            "page_idx": 6,
+            "text": "$$\nV _ { _ { C R M W } } = { \\frac { ( 1 - e ^ { t _ { 1 } ^ { \\ast \\mathrm { l n } ( 1 - D ) } } ) ^ { \\ast } F V ^ { \\ast } ( 1 - R ) } { \\left( 1 + r _ { 1 } \\right) ^ { t _ { 1 } } } } + \\cdots + { \\frac { e ^ { t _ { 1 } ^ { \\ast \\mathrm { l n } ( 1 - D ) } \\ast } \\ \\left( 1 - D \\right) ^ { ( n - 2 ) \\ast } D ^ { \\ast } F V ^ { \\ast } ( 1 - R ) } { \\left( 1 + r _ { n } \\right) ^ { t _ { n } } } } = 0 .\n$$",
+            "text_format": "latex",
+            "type": "equation"
+          },
+          "index": 82
+        },
+        {
+          "content": {
+            "bbox": [
+              146,
+              92,
+              843,
+              225
+            ],
+            "img_path": "images/921390973588b2175be7957862b71535a0086f8901c775e304ce2ff81121f97f.jpg",
+            "page_idx": 8,
+            "text": "$$\n\\begin{array}{c} \\begin{array} { l } { { \\displaystyle V _ { \\scriptscriptstyle { C R M W } } = F V ^ { * } ( 1 - R ) ^ { * } \\{ \\int _ { t } ^ { T _ { o } } \\frac { 1 } { ( 1 + F _ { s - t } ) ^ { s - t } } { } ^ { * } h ^ { * } e ^ { - h ^ { * } ( s - t ) } d s  } } \\\\ { { \\displaystyle  \\ - 1 0 0 ^ { * } C _ { 1 } [ \\stackrel { n } { [ i \\frac { n } { 2 i + j + 1 }  } ( T _ { i - 1 } ) ^ { * } \\frac { 1 } { ( 1 + F _ { \\scriptscriptstyle { C _ { i - 1 } } } ) ^ { T _ { i } - t } } { } ^ { * } ( 1 - e ^ { - h ^ { * } ( T _ { i } - t ) } )   } } \\\\ { { \\displaystyle   + \\int _ { t } ^ { T _ { i + 1 } } ( s - T _ { j } ) \\frac { 1 } { ( 1 + F _ { s - t } ) ^ { s - t } } { } ^ { * } h ^ { * } e ^ { - h ^ { * } ( s - t ) } d s + \\sum _ { k = j + 1 } ^ { n - 1 } \\int _ { T _ { k } } ^ { T _ { k + 1 } } { } ^ { * } ( s - T _ { k } ) \\frac { 1 } { ( 1 + F _ { s - t } ) ^ { s - t } } { } ^ { * } h ^ { * } e ^ { - h ^ { * } ( s - t ) } d s ]  } } \\end{array} ]   \\end{array}\n$$",
+            "text_format": "latex",
+            "type": "equation"
+          },
+          "index": 107
+        }
+      ],
+      "conversion_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_fulltext\\amac-credit-derivative-valuation-2019\\7b5a8efe57d1\\a6ba6f874e8e\\conversions\\75c0b459d07ad0fe1d76b0e10e89e35a0501edd87cc0ae3a507362e6dd78e485.json",
+      "conversion_sha256": "75c0b459d07ad0fe1d76b0e10e89e35a0501edd87cc0ae3a507362e6dd78e485",
+      "extraction_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_converted\\L2\\files\\original-f59dff748b6ba4ec7f51b8e455b86b982b8e5b58128b6955c4030d3c78390945\\extraction.json",
+      "recorded_markdown_sha256": "a6ba6f874e8e7ead5f5ed49b28e6f157097e9861bd15f6c00fca9caca4dac85e",
+      "id": "amac-credit-derivative-valuation-2019",
+      "images": [],
+      "raw_path": "_sources/L2/amac-credit-derivative-valuation-2019/original.pdf",
+      "markdown_path": "_fulltext/amac-credit-derivative-valuation-2019/7b5a8efe57d1/a6ba6f874e8e/full.md"
+    }
+  ],
+  "evidence": [
+    {
+      "sha256": "7a9f0f248d78d2ec3ae87f004c01b620dc5e0b774e8f1b308ba8b61173922a19",
+      "path": "E:\\LX\\LX_fund\\FondOntology\\artifacts\\review-visual\\advisory-p6.png"
+    },
+    {
+      "sha256": "c44d0d426f83f22c26b72be6699d773599f417ed650586f31c46d67ec23c5c6b",
+      "path": "E:\\LX\\LX_fund\\FondOntology\\artifacts\\review-visual\\classification-p8.png"
+    },
+    {
+      "sha256": "f58a8c72831110e33f6707a73e65669959bd6059505eb722669feaf10fe1ece0",
+      "path": "E:\\LX\\LX_fund\\FondOntology\\artifacts\\review-visual\\credit-p7.png"
+    },
+    {
+      "sha256": "70f051e5f2bc89e1915816bd6eac4039b5c98d8ea29b5964951f17cbe20a7f02",
+      "path": "E:\\LX\\LX_fund\\FondOntology\\artifacts\\review-visual\\credit-p9.png"
+    },
+    {
+      "sha256": "a927ae63c55bbfc0ef82c1d01b875077863659286a00b8df33373a1c371d42b2",
+      "path": "E:\\LX\\LX_fund\\FondOntology\\artifacts\\review-visual\\W020230512389256379330.jpg"
+    }
+  ],
+  "findings": [
+    {
+      "document_id": "l1-d02c79127cb8",
+      "block": 57,
+      "page": 8,
+      "kind": "image",
+      "disposition": "accept_after_text_equivalent_added",
+      "substantive": true,
+      "evidence_files": [
+        "artifacts/review-visual/classification-p8.png",
+        "E:\\LX\\LX_fund\\FondOntology\\data\\_fulltext\\l1-d02c79127cb8\\e460c855bea6\\7cdb70133c0f\\images\\448716666580f41a327969b42eae43887b019eb48e9043d896f8b47e9322c38a.jpg"
+      ],
+      "assessment": "图1是三层编码结构图，非装饰。原文上一段a/b/c已经完整解释各位数；图形内容可等价文本化后验收。",
+      "suggested_markdown": "图1（文字转写）：证券期货业信息系统分类代码按 X XX XX 排列。第一层为第1位大写英文字母，表示机构类别；第二层为第2、3位两位阿拉伯数字，表示业务分类；第三层为第4、5位两位阿拉伯数字，表示系统技术功能域。",
+      "placement": "Retain original image and caption; insert text equivalent adjacent to block 57.",
+      "acceptance_basis": [
+        "源PDF第8页（印刷页2）图1及独立截取图一致。",
+        "从左到右为机构类别、业务分类、系统技术功能域，不能按图右侧标签的上下顺序误记位序。",
+        "原文a/b/c及B0101示例与图示一致；新增内容明确标记为图示转写。"
+      ]
+    },
+    {
+      "document_id": "amac-fund-advisory-interface-2021",
+      "block": 29,
+      "page": 6,
+      "kind": "image",
+      "disposition": "accept_after_text_equivalent_added",
+      "substantive": true,
+      "evidence_files": [
+        "artifacts/review-visual/advisory-p6.png",
+        "E:\\LX\\LX_fund\\FondOntology\\data\\_fulltext\\amac-fund-advisory-interface-2021\\b81c9ddb189c\\fa6db6bddc76\\images\\c3ed80ea40ad472a936dfb1aa40d5015ef6797838a6e32b307fece659afe1f40.jpg"
+      ],
+      "assessment": "第4节系统框架图包含四个节点及四组双向连接，非装饰；无图注只是排版事实，不构成不可转写。",
+      "suggested_markdown": "系统框架图（文字转写）：图中包含客户、基金投顾前端系统、基金投顾后端系统和基金销售系统四个节点。双向连接为：客户 ↔ 基金投顾前端系统；基金投顾前端系统 ↔ 基金投顾后端系统；基金投顾前端系统 ↔ 基金销售系统；基金投顾后端系统 ↔ 基金销售系统。",
+      "placement": "Retain original image; insert text equivalent adjacent to block 29.",
+      "acceptance_basis": [
+        "源PDF第6页全页渲染与独立图像裁剪一致。",
+        "逐一检查四组箭头，两端均有箭头；未增加图中未绘出的客户与销售系统/后端系统直接关系。",
+        "框图后原文1至3说明段落保留，转写不替代这些段落。"
+      ]
+    },
+    {
+      "document_id": "l1-48073b4b4805",
+      "block": null,
+      "html_locator": ".pages_content > div[style='text-align: center;'] > img[src='./W020230512389256379330.jpg']",
+      "source_html_line": 249,
+      "markdown_line": 1,
+      "kind": "html_image",
+      "disposition": "accept_after_text_replacement_and_local_asset_binding",
+      "substantive": true,
+      "image_url": "https://www.gov.cn/gongbao/content/2020/W020230512389256379330.jpg",
+      "downloaded_image": "artifacts/review-visual/W020230512389256379330.jpg",
+      "image_sha256": "a927ae63c55bbfc0ef82c1d01b875077863659286a00b8df33373a1c371d42b2",
+      "assessment": "图片是联合发文机关与“令”字，属于172号令的发文标头，非网页装饰。仅有第172号和签名不能替代完整机关名。",
+      "literal_text_lines": [
+        "中国证券监督管理委员会",
+        "中国银行保险监督管理委员会",
+        "令"
+      ],
+      "suggested_markdown": "中国证券监督管理委员会\n中国银行保险监督管理委员会\n令",
+      "placement": "Replace first Markdown img element with text transcription or bind downloaded image locally and add this text. Keep the following existing 第172号, promulgation paragraph, signatures, and 2020年7月10日.",
+      "acceptance_basis": [
+        "从原始HTML正文容器内相对img src与receipt.final_url解析出同域绝对图片URL，下载后经view_image直接核验。",
+        "图片两行机构全称共享右侧“令”字，建议保留三行文本以免误读成分别独立发文。",
+        "原HTML及下载图像分别以SHA-256绑定；此结论不涉及现行有效性。"
+      ]
+    },
+    {
+      "document_id": "amac-credit-derivative-valuation-2019",
+      "block": 82,
+      "page": 7,
+      "kind": "equation",
+      "disposition": "requires_full_latex_replacement",
+      "evidence_files": [
+        "artifacts/review-visual/credit-p7.png"
+      ],
+      "assessment": "抽取block82多出末尾=0，且将乘法符号误作为t1、FV、D及(n−2)等的上标；当前Markdown已去掉=0，但剩余错误并未消除。",
+      "suggested_latex": "V_{\\mathrm{CRMW}} = \\frac{\\left(1-e^{t_1\\cdot\\ln(1-D)}\\right)\\cdot FV\\cdot(1-R)}{(1+r_1)^{t_1}} + \\cdots + \\frac{e^{t_1\\cdot\\ln(1-D)}\\cdot(1-D)^{n-2}\\cdot D\\cdot FV\\cdot(1-R)}{(1+r_n)^{t_n}}",
+      "acceptance_basis": [
+        "原件第7页与公式裁剪均无末尾=0。",
+        "e的指数为t_1乘ln(1-D)，不是t_1的指数。",
+        "(1-D)的指数仅为n−2；其后D、FV、(1−R)均为分子中的乘法因子。",
+        "分母分别为(1+r_1)^{t_1}及(1+r_n)^{t_n}；省略号保留原件，未推演缺省中间项。"
+      ]
+    },
+    {
+      "document_id": "amac-credit-derivative-valuation-2019",
+      "block": 107,
+      "page": 9,
+      "kind": "equation",
+      "disposition": "accept_existing_user_correction_after_adjacent_note_fix",
+      "evidence_files": [
+        "artifacts/review-visual/credit-p9.png"
+      ],
+      "assessment": "原始抽取block107错误涉及积分上限T_n、利率符号r、首个求和及时间差(T_i−T_{i−1})、部分上下标和嵌套括号。当前用户手改后的aligned公式已逐项与原页核验一致，应保留该公式，无需重写。紧随其后的block108注记仍将T_{j+1}误为T_{j+}，需补数字1。",
+      "suggested_latex": "\\begin{aligned}\nV_{\\mathrm{CRMW}}\n={}&FV\\cdot(1-R)\\cdot\\int_t^{T_n}\\frac{1}{(1+r_{s-t})^{s-t}}\\cdot h\\cdot e^{-h\\cdot(s-t)}\\,ds\\\\\n&-100\\cdot C_1\\Bigg[\n\\sum_{i=j+1}^{n}(T_i-T_{i-1})\\cdot\\frac{1}{(1+r_{T_i-t})^{T_i-t}}\\cdot\\left(1-e^{-h\\cdot(T_i-t)}\\right)\\\\\n&\\qquad+\\int_t^{T_{j+1}}(s-T_j)\\frac{1}{(1+r_{s-t})^{s-t}}\\cdot h\\cdot e^{-h\\cdot(s-t)}\\,ds\\\\\n&\\qquad+\\sum_{k=j+1}^{n-1}\\int_{T_k}^{T_{k+1}}(s-T_k)\\frac{1}{(1+r_{s-t})^{s-t}}\\cdot h\\cdot e^{-h\\cdot(s-t)}\\,ds\n\\Bigg]\n\\end{aligned}",
+      "adjacent_note_latex": "T_j<t<T_{j+1}",
+      "acceptance_basis": [
+        "源PDF第9页完整渲染与独立公式裁剪逐项核对。",
+        "首积分上下限为t、T_n；全部折现率为小写r，不能用F。",
+        "首求和上下限i=j+1、n，乘(T_i−T_{i−1})；该项指数为−h(T_i−t)，括号中保留原件1−e形式。",
+        "下一积分上下限t、T_{j+1}，因子(s−T_j)；末求和k=j+1至n−1，内部积分T_k至T_{k+1}。",
+        "−100·C_1乘一个包含三项的方括号；保留原件附注T_j<t<T_{j+1}。",
+        "乘号以\\cdot等价呈现；不据金融理论改写原件模型。"
+      ],
+      "current_user_formula_check": {
+        "result": "matches_source_semantically",
+        "checked_items": [
+          "外部FV(1−R)",
+          "首积分t至T_n",
+          "r_{s−t}及(s−t)次幂",
+          "h·exp(−h(s−t))",
+          "−100C_1外乘三项方括号",
+          "求和i=j+1至n",
+          "(T_i−T_{i−1})及r_{T_i−t}",
+          "1−exp(−h(T_i−t))",
+          "第二积分t至T_{j+1}及(s−T_j)",
+          "末求和k=j+1至n−1及积分T_k至T_{k+1}",
+          "(s−T_k)及末积分折现和强度因子"
+        ],
+        "rendering_variations": "当前公式使用\\times及隐式指数乘法，与原件星号和建议\\cdot表示相同乘法；不存在语义差异。"
+      },
+      "suggested_latex_purpose": "Equivalent normalized reference only; keep existing corrected user formula.",
+      "adjacent_note_block": 108,
+      "adjacent_note_original_markdown": "注： $T _ { j } < t < T _ { j + }$",
+      "adjacent_note_suggested_markdown": "注： $T_j < t < T_{j+1}$"
+    }
+  ],
+  "integration_requirements": [
+    "Apply corrections only when source, extraction, and pre-edit Markdown hashes match their intended reviewed versions.",
+    "Credit Markdown actual hash differs from recorded hash; investigate existing/concurrent edit and regenerate complete conversion provenance before ready acceptance.",
+    "Acceptance must state AI visual review and human_reviewed=false, and bind exact source SHA-256, corrected Markdown SHA-256, blocks, evidence, and text/formula replacements.",
+    "Preserve source files and original extraction records; create derived corrected Markdown/conversion record with new hashes and retain this report as review evidence.",
+    "No data or production code was modified by this reviewer."
+  ]
+}

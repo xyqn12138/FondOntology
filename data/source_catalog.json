@@ -128,13 +128,13 @@
       "download_url": "https://www.chinaclear.cn/zdjs/sjjhjszl/202603/37804a0a9a524699becf2cfd58553856/files/中央数据交换平台开放式基金业务数据交换协议V2.2-20260320.doc",
       "effective_from": null,
       "expected_articles": null,
-      "failure_reason": "Full text identity markers did not match recovered source identity; Conversion contains unsupported or unreviewed visual/formula content; Word full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "doc",
       "id": "central-data-exchange-protocol-v2.2-20260320",
       "issued_date": "2026-03-20",
       "legacy_path": "L3_市场基础设施技术协议/中央数据交换平台开放式基金业务数据交换协议.md",
-      "markdown_path": "_fulltext/central-data-exchange-protocol-v2.2-20260320/071b21e80578/4cc60e23bc2d/full.md",
-      "markdown_sha256": "4cc60e23bc2d3d3c7e32866c0082654300cbcee9248f823b508f6b25afed5f92",
+      "markdown_path": "_fulltext/central-data-exchange-protocol-v2.2-20260320/071b21e80578/4f1a461df389/full.md",
+      "markdown_sha256": "4f1a461df389104de3b2006b720262340e595c2b2847437329918c3b8dd585a3",
       "origin_kind": "issuer_original",
       "publisher": "中国证券登记结算有限责任公司",
       "raw_path": "_sources/L3/central-data-exchange-protocol-v2.2-20260320/original.doc",
@@ -144,7 +144,7 @@
         "https://www.chinaclear.cn/zdjs/sjjhjszl/plat_list/code_2.shtml"
       ],
       "source_page_url": "https://www.chinaclear.cn/zdjs/sjjhjszl/plat_list/code_2.shtml",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "中央数据交换平台开放式基金业务数据交换协议V2.2-20260320",
       "verification": {
         "acquisition": {
@@ -153,16 +153,23 @@
         },
         "article_count": null,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/central-data-exchange-protocol-v2.2-20260320/071b21e80578/4cc60e23bc2d/conversions/df06049aef734426c05b85c186c585eddd813325aff705872cb2ce274e1689af.json",
-          "record_sha256": "df06049aef734426c05b85c186c585eddd813325aff705872cb2ce274e1689af"
+          "record_path": "_fulltext/central-data-exchange-protocol-v2.2-20260320/071b21e80578/4f1a461df389/conversions/43b169f93b81d506f22e9c457cccff3cee033cf411046f39a1bc781e03abcc6e.json",
+          "record_sha256": "43b169f93b81d506f22e9c457cccff3cee033cf411046f39a1bc781e03abcc6e"
         },
         "evidence": [
           "旧摘要指定V2.2-20260320，官方技术资料列表对应标题、附件名称和发布日期完全一致。此原件是中国结算技术协议，不将旧摘要所称国家标准身份延用到此文件。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "accepted_blocks": [],
+            "basis": "gpt-6.1-sol/high独立原Word只读核验：155924非空白字符含219项原Word自动编号逐字顺序相等；106表文字、行、单元格、rowspan及colspan全部相等；三段非空封面形状文字均保留。按当前修订视图排除删除文本。证据见_recovery/central-current-verification.json；不宣称分页或人工核验。",
+            "markdown_sha256": "16b11091c178ec3afdde1782f65dc15a770e601e05876be38d3923ee9c109823",
+            "reviewer": "independent_model",
+            "source_sha256": "071b21e8057863e68c4e91d37ddc03f0bc68344d36cb65512b95016cd946b2b5"
+          }
         ],
-        "identity": "not_checked",
+        "identity": "verified",
         "page_count": null
       }
     },
@@ -170,13 +177,13 @@
       "download_url": "https://www.chinaclear.cn/zdjs/sjjhjszl/202603/7e3d3b09db114af9b275f679a5a026bf/files/基金行业数据集中备份接口规范V2.2-20260320.docx",
       "effective_from": null,
       "expected_articles": null,
-      "failure_reason": "Full text identity markers did not match recovered source identity; Conversion contains unsupported or unreviewed visual/formula content; Word full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "docx",
       "id": "fund-central-backup-interface-v2.2-20260320",
       "issued_date": "2026-03-20",
       "legacy_path": "L3_市场基础设施技术协议/基金行业数据集中备份接口规范.md",
-      "markdown_path": "_fulltext/fund-central-backup-interface-v2.2-20260320/132637b87df2/ceb47d763117/full.md",
-      "markdown_sha256": "ceb47d76311788dd6a8654ca2cc3d028d05ab0972901e2227536308928d40066",
+      "markdown_path": "_fulltext/fund-central-backup-interface-v2.2-20260320/132637b87df2/f1ff41893ae2/full.md",
+      "markdown_sha256": "f1ff41893ae23a708d9939f203f70d73a693fce3f253692e652730492a212219",
       "origin_kind": "issuer_original",
       "publisher": "中国证券登记结算有限责任公司",
       "raw_path": "_sources/L3/fund-central-backup-interface-v2.2-20260320/original.docx",
@@ -186,7 +193,7 @@
         "https://www.chinaclear.cn/zdjs/sjjhjszl/plat_list/code_2.shtml"
       ],
       "source_page_url": "https://www.chinaclear.cn/zdjs/sjjhjszl/plat_list/code_2.shtml",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "基金行业数据集中备份接口规范V2.2-20260320",
       "verification": {
         "acquisition": {
@@ -195,16 +202,25 @@
         },
         "article_count": null,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/fund-central-backup-interface-v2.2-20260320/132637b87df2/ceb47d763117/conversions/6ab2b904636c6785af7d86958ecd0f450232f25ce0361909c1b70c6b3cc73337.json",
-          "record_sha256": "6ab2b904636c6785af7d86958ecd0f450232f25ce0361909c1b70c6b3cc73337"
+          "record_path": "_fulltext/fund-central-backup-interface-v2.2-20260320/132637b87df2/f1ff41893ae2/conversions/852aea35a0f8cc4f851dfed462012270cc33d480c53c0515f288c949f2c8d62b.json",
+          "record_sha256": "852aea35a0f8cc4f851dfed462012270cc33d480c53c0515f288c949f2c8d62b"
         },
         "evidence": [
           "旧摘要混合了GB/T 39662-2020与V2.2-20260320两个身份。本项仅恢复其明确提到的中国结算V2.2-20260320操作规范，官方列表标题、附件名称、发布日期相符；DOCX内封面为Ver2.2，最后修订记录日期2026-01-09，无20260320内文字符串，20260320按官方发布附件标签确认。不是GB/T 39662-2020原件，国标另列未解决记录。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "accepted_blocks": [
+              "tracked_changes_visible_insertions_only:282"
+            ],
+            "basis": "用户2026-10-13明确确认本份接口规范核验完毕；现正文采用显示插入、排除删除的修订视图，版本由官方附件标签及封面Ver2.2共同确认。",
+            "markdown_sha256": "f1ff41893ae23a708d9939f203f70d73a693fce3f253692e652730492a212219",
+            "reviewer": "human_user",
+            "source_sha256": "132637b87df2184026129812d96d3ca039c0900db9337b50da4eebca684ee1e6"
+          }
         ],
-        "identity": "not_checked",
+        "identity": "verified",
         "page_count": null
       }
     },
@@ -1015,7 +1031,7 @@
       "download_url": "https://www.sse.com.cn/lawandrules/sselawsrules2025/global/hkexsc/c/10795123/files/e8c08d2dfcd74f27b88728d986bb9cda.docx",
       "effective_from": "2024-06-14",
       "expected_articles": 146,
-      "failure_reason": "Word full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "docx",
       "id": "l1-6918bfa29041",
       "issued_date": "2024-06-14",
@@ -1030,7 +1046,7 @@
         "https://www.sse.com.cn/lawandrules/sselawsrules2025/global/hkexsc/c/c_20251017_10795123.shtml"
       ],
       "source_page_url": "https://www.sse.com.cn/lawandrules/sselawsrules2025/global/hkexsc/c/c_20251017_10795123.shtml",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "上海证券交易所沪港通业务实施办法（2024年修订）",
       "verification": {
         "acquisition": {
@@ -1039,14 +1055,21 @@
         },
         "article_count": 146,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-6918bfa29041/ef88727f1782/d342b68f45ce/conversions/e045ad7f53224f1ff4e955b129ca7ea453ee33177beedb610418de96e00828e0.json",
-          "record_sha256": "e045ad7f53224f1ff4e955b129ca7ea453ee33177beedb610418de96e00828e0"
+          "record_path": "_fulltext/l1-6918bfa29041/ef88727f1782/d342b68f45ce/conversions/07adb71166451f9d661d4d08b44f32ac4541f7f9b88ce70dc40122c8b1dc2132.json",
+          "record_sha256": "07adb71166451f9d661d4d08b44f32ac4541f7f9b88ce70dc40122c8b1dc2132"
         },
         "evidence": [
           "上交所原来源页明确2024年修订；附件1为正文，附件2、3为起草说明/衔接安排，不混入正文。 原文核验：DOCX首页沿革明确2024年6月14日第十一次修订，第一百四十六条明确同日起施行；发布页上证发〔2024〕76号一致。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "accepted_blocks": [],
+            "basis": "gpt-6.1-sol/high独立只读Word COM与OOXML当前正文双重比对：18783非空白字符逐字顺序相等；无修订、表格、图像或脚注，不依赖原转换多集合证明。",
+            "markdown_sha256": "da426cfa03155b9439d303096f9cd55bbade96c02f386081ae58ffdbd42c8983",
+            "reviewer": "independent_model",
+            "source_sha256": "ef88727f17828c6697995b1478f964e0c77dea0591e1056dbb8467fead14dcf2"
+          }
         ],
         "identity": "verified",
         "page_count": null
@@ -1056,7 +1079,7 @@
       "download_url": "https://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117431/files/a920cc804ded4fe2b600196d01080e68.pdf",
       "effective_from": "2017-10-01",
       "expected_articles": 41,
-      "failure_reason": "Source publication page not independently established",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-288348db871e",
       "issued_date": "2017-08-31",
@@ -1070,8 +1093,8 @@
       "seed_urls": [
         "https://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117431/files/a920cc804ded4fe2b600196d01080e68.pdf"
       ],
-      "source_page_url": null,
-      "status": "converted_unverified",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101877/c1029552/content.shtml",
+      "status": "ready",
       "title": "公开募集开放式证券投资基金流动性风险管理规定",
       "verification": {
         "acquisition": {
@@ -1088,6 +1111,12 @@
         "evidence": [
           "上交所法律规则栏目再刊证监会2017年12号公告原PDF。 原文核验：PDF第四十一条明确2017年10月1日施行；另核验官方第12号公告 https://www.csrc.gov.cn/csrc/c101877/c1029552/content.shtml 落款2017年8月31日。",
           "Bound machine conversion record; not human legal review",
+          {
+            "basis": "证监会2017年12号公告附件与现存上交所官方再刊原件SHA256相同；保留原下载收据和再刊属性。",
+            "path": "_sources/L1/l1-288348db871e/source-page-verified.html",
+            "sha256": "5ba1fd287a94eb5144c43676b307433cf51b7c25a874d2f4f47990c56833dcaf",
+            "source_sha256": "813558004fa2d8d6c87050ef634b49d47a8e913d99c76590f281d711554ecf93"
+          },
           {
             "kind": "pdf_machine_acceptance_scope",
             "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
@@ -1232,7 +1261,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1653978/1653978/files/104%E5%8F%B7%E3%80%8A%E5%85%AC%E5%BC%80%E5%8B%9F%E9%9B%86%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E8%BF%90%E4%BD%9C%E7%AE%A1%E7%90%86%E5%8A%9E%E6%B3%95%E3%80%8B.pdf",
       "effective_from": "2014-08-08",
       "expected_articles": 59,
-      "failure_reason": "Source publication page not independently established",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-6f014fe27f98",
       "issued_date": "2014-07-07",
@@ -1246,8 +1275,8 @@
       "seed_urls": [
         "http://www.csrc.gov.cn/csrc/c106256/c1653978/1653978/files/104号《公开募集证券投资基金运作管理办法》.pdf"
       ],
-      "source_page_url": null,
-      "status": "converted_unverified",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653978/content.shtml",
+      "status": "ready",
       "title": "公开募集证券投资基金运作管理办法",
       "verification": {
         "acquisition": {
@@ -1264,6 +1293,12 @@
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页第104号令明确2014年7月7日公布、2014年8月8日施行，第五十九条确认。",
           "Bound machine conversion record; not human legal review",
+          {
+            "basis": "证监会第104号令规章正文、59条及附件URL匹配现存原件，版本保持2014年。",
+            "path": "_sources/L1/l1-6f014fe27f98/source-page-verified.html",
+            "sha256": "d53303588ef1d1ed8a0464b6e38b0247d0560a93adea32fc0be06463bd96043f",
+            "source_sha256": "b8d078253e3048aebb2e057e953ee442ec41c864c4461c0008d4042f8a952511"
+          },
           {
             "kind": "pdf_machine_acceptance_scope",
             "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
@@ -1363,7 +1398,7 @@
       "download_url": "https://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117189/files/ca9769b2bd4f4cf9a546040941357ea5.pdf",
       "effective_from": "2020-10-01",
       "expected_articles": null,
-      "failure_reason": "Source publication page not independently established",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-bed25b74e40c",
       "issued_date": "2020-08-28",
@@ -1377,8 +1412,8 @@
       "seed_urls": [
         "http://www.sse.com.cn/lawandrules/regulations/csrcannoun/c/10117189/files/ca9769b2bd4f4cf9a546040941357ea5.pdf"
       ],
-      "source_page_url": null,
-      "status": "converted_unverified",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101877/c1039189/content.shtml",
+      "status": "ready",
       "title": "关于实施《公开募集证券投资基金销售机构监督管理办法》的规定",
       "verification": {
         "acquisition": {
@@ -1396,6 +1431,12 @@
           "上交所栏目再刊证监会2020年58号公告正式附件，不保留征求意见稿摘要。 原文核验：另核验官方第58号公告 https://www.csrc.gov.cn/csrc/c101877/c1039189/content.shtml 落款2020年8月28日，2020年10月1日施行。PDF按一、至二十九、编号，非第一条格式，expected_articles不适用。",
           "Bound machine conversion record; not human legal review",
           {
+            "basis": "证监会2020年58号公告附件与现存上交所官方再刊原件SHA256相同；保留原下载收据和再刊属性。",
+            "path": "_sources/L1/l1-bed25b74e40c/source-page-verified.html",
+            "sha256": "dffb1ca28ae49141479f0c6de173f0b6672d5ce610a474f423e5863b3b6a0d69",
+            "source_sha256": "c817a4016bb047fbc9c9e4256e4de9973be120aad2894a4ed1e0ffec789e69eb"
+          },
+          {
             "kind": "pdf_machine_acceptance_scope",
             "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
           }
@@ -1408,7 +1449,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c106256/c1654020/1654020/files/6dc3bca009924c9ba18e72b62f1869ed.pdf",
       "effective_from": "2016-09-30",
       "expected_articles": 19,
-      "failure_reason": "Source publication page not independently established",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-66dd2b604e86",
       "issued_date": "2016-09-30",
@@ -1422,8 +1463,8 @@
       "seed_urls": [
         "http://www.csrc.gov.cn/csrc/c106256/c1654020/1654020/files/6dc3bca009924c9ba18e72b62f1869ed.pdf"
       ],
-      "source_page_url": null,
-      "status": "converted_unverified",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1654020/content.shtml",
+      "status": "ready",
       "title": "内地与香港股票市场交易互联互通机制若干规定",
       "verification": {
         "acquisition": {
@@ -1440,6 +1481,12 @@
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页明确2016年9月30日第128号令公布并施行，至第十九条；这是2016历史原版，不是旧摘要所称2022修正版。2022修正全文另存l1-stock-connect-2022。",
           "Bound machine conversion record; not human legal review",
+          {
+            "basis": "证监会2016年第128号令原版附件虽文件名变化，重新取得附件与现存原件SHA256相同；明确历史版，未替换为2022版。",
+            "path": "_sources/L1/l1-66dd2b604e86/source-page-verified.html",
+            "sha256": "e5aae9e84e00a07c8f7dead9ace5fdac7ef77907442aac03f24572d70fad427e",
+            "source_sha256": "b9be17f3d826b166b1309da8f34e3c8a3372d1e1e4cf11c1b15c599c89163fa6"
+          },
           {
             "kind": "pdf_machine_acceptance_scope",
             "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
@@ -1584,7 +1631,7 @@
       "download_url": "https://docs.static.szse.cn/www/lawrules/rule/inno/W020240614673497419312.pdf",
       "effective_from": "2024-06-14",
       "expected_articles": 147,
-      "failure_reason": "Source publication page not independently established",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-de65cbfb0ded",
       "issued_date": "2024-06-14",
@@ -1598,8 +1645,8 @@
       "seed_urls": [
         "https://docs.static.szse.cn/www/lawrules/rule/inno/W020240614673497419312.pdf"
       ],
-      "source_page_url": null,
-      "status": "converted_unverified",
+      "source_page_url": "https://www.szse.cn/lawrules/rule/inno/szhk/t20240614_607685.html",
+      "status": "ready",
       "title": "深圳证券交易所深港通业务实施办法（2024年修订）",
       "verification": {
         "acquisition": {
@@ -1616,6 +1663,12 @@
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF首页沿革明确2024年6月14日第八次修订，第一百四十七条明确同日起施行。",
           "Bound machine conversion record; not human legal review",
+          {
+            "basis": "深交所2024年修订通知链接的szhk子目录附件与现存不同URL原件SHA256相同。",
+            "path": "_sources/L1/l1-de65cbfb0ded/source-page-verified.html",
+            "sha256": "4ecb5d2eb6ff0f91f72a88899e4b07a78c80f602cfe16514f6c32a61b384edee",
+            "source_sha256": "64c0a06cae1cd633a37c7b68faf6a331e08a75b54362ec824f21e1a1021b54f5"
+          },
           {
             "kind": "pdf_machine_acceptance_scope",
             "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
@@ -1719,13 +1772,13 @@
       "download_url": "https://www.gov.cn/gongbao/content/2020/content_5535327.htm",
       "effective_from": "2020-07-10",
       "expected_articles": 43,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content",
+      "failure_reason": null,
       "format": "html",
       "id": "l1-48073b4b4805",
       "issued_date": "2020-07-10",
       "legacy_path": "L1_监管强制规则/证券投资基金托管业务管理办法.md",
-      "markdown_path": "_fulltext/l1-48073b4b4805/1749a3fe29e2/a34f9a04a55b/full.md",
-      "markdown_sha256": "a34f9a04a55bd185c5ebadf985ddf25c78f9a7d27cc18b32481e55e76878935d",
+      "markdown_path": "_fulltext/l1-48073b4b4805/1749a3fe29e2/59109a14a41b/full.md",
+      "markdown_sha256": "59109a14a41bc12aed50b5da8de3d091321ed6abea48986c865ee60a6d745749",
       "origin_kind": "official_republication",
       "publisher": "中国证券监督管理委员会、中国银行保险监督管理委员会",
       "raw_path": "_sources/L1/l1-48073b4b4805/original.html",
@@ -1734,7 +1787,7 @@
         "https://www.gov.cn/gongbao/content/2020/content_5535327.htm"
       ],
       "source_page_url": "https://www.gov.cn/gongbao/content/2020/content_5535327.htm",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "证券投资基金托管业务管理办法",
       "verification": {
         "acquisition": {
@@ -1743,14 +1796,29 @@
         },
         "article_count": 43,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-48073b4b4805/1749a3fe29e2/a34f9a04a55b/conversions/5a75bb80ef874db1d2d2925bc9cdbfcca03dc25b9cf4d99d9439d9035fc6ab5e.json",
-          "record_sha256": "5a75bb80ef874db1d2d2925bc9cdbfcca03dc25b9cf4d99d9439d9035fc6ab5e"
+          "record_path": "_fulltext/l1-48073b4b4805/1749a3fe29e2/59109a14a41b/conversions/67d6c01b5c8663cc18d983535778af7f607e00e6012c2e6a5db97739445092a6.json",
+          "record_sha256": "67d6c01b5c8663cc18d983535778af7f607e00e6012c2e6a5db97739445092a6"
         },
         "evidence": [
           "国务院公报2020年第23号再刊172号令，正文至第四十三条。 原文核验：原HTML第172号令落款2020年7月10日并明确公布即施行；.pages_content唯一匹配完整令文至第四十三条。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "accepted_blocks": [
+              {
+                "count": 1,
+                "kind": "html_image_content_unreviewed"
+              }
+            ],
+            "accepted_image_references": [
+              "./W020230512389256379330.jpg"
+            ],
+            "basis": "gpt-6-astra/high对同域官方标头图片逐字视觉核验；正文及172号令、签名和落款保留，图片文字已转写，不再依赖远程图片。仅核验残余告警。",
+            "markdown_sha256": "63dd4a301f5ff0db10debab4460183460026aedd100735d7a3a7da62d425c579",
+            "reviewer": "independent_model",
+            "source_sha256": "1749a3fe29e29edada4265295843f25ac404d4f3b3d92fdcbc0fabedf66247d0"
+          }
         ],
         "identity": "verified",
         "page_count": null
@@ -1805,7 +1873,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c101877/c1029612/1029612/files/%E9%99%84%E4%BB%B6%E4%B8%80%EF%BC%9A%E3%80%8A%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91%E9%94%80%E5%94%AE%E7%BB%93%E7%AE%97%E8%B5%84%E9%87%91%E7%AE%A1%E7%90%86%E6%9A%82%E8%A1%8C%E8%A7%84%E5%AE%9A%E3%80%8B.doc.docx",
       "effective_from": "2011-10-01",
       "expected_articles": 30,
-      "failure_reason": "Word full-text fidelity has not been independently verified",
+      "failure_reason": null,
       "format": "doc",
       "id": "l1-6983835b2f9e",
       "issued_date": "2011-09-23",
@@ -1820,7 +1888,7 @@
         "https://www.gov.cn/gongbao/content/2012/content_2112774.htm"
       ],
       "source_page_url": "https://www.csrc.gov.cn/csrc/c101877/c1029612/content.shtml",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "证券投资基金销售结算资金管理暂行规定",
       "verification": {
         "acquisition": {
@@ -1829,14 +1897,21 @@
         },
         "article_count": 30,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-6983835b2f9e/7da2de179315/f10dc5760ed4/conversions/f79420f413f0b70ebda9666b9f85899e567cb4fa5c2db577a56d6fa8ef1bde90.json",
-          "record_sha256": "f79420f413f0b70ebda9666b9f85899e567cb4fa5c2db577a56d6fa8ef1bde90"
+          "record_path": "_fulltext/l1-6983835b2f9e/7da2de179315/f10dc5760ed4/conversions/570f014354fb2a8197a143e704171228a87be91952d5ab135fde3142267d47de.json",
+          "record_sha256": "570f014354fb2a8197a143e704171228a87be91952d5ab135fde3142267d47de"
         },
         "evidence": [
           "国务院公报来源明确省略划转流程附件；通过证监会站内搜索找到2011年26号正式发布页附件一，包含正文及流程附件，另附件二为起草说明不混入。 原文核验：已保存source-page.html第2011年26号公告落款二○一一年九月二十三日、2011年10月1日施行。DOC经Word导出正文至第三十条，另含划转流程附件一、至九、；expected_articles仅计正文，附件必须保留。",
-          "Bound machine conversion record; not human legal review"
+          "Bound machine conversion record; not human legal review",
+          {
+            "accepted_blocks": [],
+            "basis": "gpt-6.1-sol/high独立只读Word COM、Word当前XML及HTML正文比对：5972非空白字符逐字顺序相等，正文30条与九项附录保留；无修订、表格、图像或脚注。",
+            "markdown_sha256": "ac565d1c4da76c8e0f7aa2fa9a0017e9443bee0aaf299fa345f5239f16fa84d2",
+            "reviewer": "independent_model",
+            "source_sha256": "7da2de17931515b4448564d9ec64d5ba437bd68aa4b17439458a292092eb3419"
+          }
         ],
         "identity": "verified",
         "page_count": null
@@ -1846,13 +1921,13 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c101954/c7608135/7608135/files/%E9%99%84%E4%BB%B62%EF%BC%9A%E3%80%8A%E8%AF%81%E5%88%B8%E6%9C%9F%E8%B4%A7%E4%B8%9A%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%88%86%E7%B1%BB%E4%B8%8E%E4%BB%A3%E7%A0%81%E3%80%8B.pdf",
       "effective_from": "2026-01-09",
       "expected_articles": null,
-      "failure_reason": "Source publication page not independently established; Conversion contains unsupported or unreviewed visual/formula content",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-d02c79127cb8",
       "issued_date": "2026-01-09",
       "legacy_path": "L1_监管强制规则/证券期货业信息系统分类与代码.md",
-      "markdown_path": "_fulltext/l1-d02c79127cb8/e460c855bea6/7cdb70133c0f/full.md",
-      "markdown_sha256": "7cdb70133c0fdbec2f26efa6159a3457974e371c2e44a7cbcdf77c90249aeda7",
+      "markdown_path": "_fulltext/l1-d02c79127cb8/e460c855bea6/eca2fc69454a/full.md",
+      "markdown_sha256": "eca2fc69454af937fd37ea5ff993c6198eac9c9b48b8ba61cfea7b7fbb8e6823",
       "origin_kind": "issuer_original",
       "publisher": "中国证券监督管理委员会",
       "raw_path": "_sources/L1/l1-d02c79127cb8/original.pdf",
@@ -1860,8 +1935,8 @@
       "seed_urls": [
         "http://www.csrc.gov.cn/csrc/c101954/c7608135/7608135/files/附件2：《证券期货业信息系统分类与代码》.pdf"
       ],
-      "source_page_url": null,
-      "status": "converted_unverified",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101954/c7608135/content.shtml",
+      "status": "ready",
       "title": "证券期货业信息系统分类与代码",
       "verification": {
         "acquisition": {
@@ -1870,14 +1945,34 @@
         },
         "article_count": null,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/l1-d02c79127cb8/e460c855bea6/7cdb70133c0f/conversions/12d3fb0e4b04a120fd3677a5f6e0760c398f6ebbca1985ba3fe4df680d69af67.json",
-          "record_sha256": "12d3fb0e4b04a120fd3677a5f6e0760c398f6ebbca1985ba3fe4df680d69af67"
+          "record_path": "_fulltext/l1-d02c79127cb8/e460c855bea6/eca2fc69454a/conversions/a7de445e43bcd9721d93530745aeae7b7a3b5214192990025ef09af23eddaa5b.json",
+          "record_sha256": "a7de445e43bcd9721d93530745aeae7b7a3b5214192990025ef09af23eddaa5b"
         },
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：PDF封面JR/T 0348—2026明确2026-01-09发布、2026-01-09实施；技术标准并非连续法条，expected_articles不适用。",
           "Bound machine conversion record; not human legal review",
+          {
+            "basis": "证监会2026年1号公告附件2、JR/T 0348—2026封面及现存附件URL匹配。",
+            "path": "_sources/L1/l1-d02c79127cb8/source-page-verified.html",
+            "sha256": "90b9bf993596b4f09ff9c6f4bb5af2ce44777a6f635535ec4138bce980a4af33",
+            "source_sha256": "e460c855bea69e9a5e664042fbd06d4a66cc35cc81a211d134d9caff274c1b9d"
+          },
+          {
+            "accepted_blocks": [
+              {
+                "block": 57,
+                "kind": "visual_or_formula_requires_review",
+                "page": 8,
+                "type": "image"
+              }
+            ],
+            "basis": "gpt-6-astra/high原页视觉核验；编码图三层位序与相邻a/b/c及B0101示例一致，已补等价文字。仅核验残余告警，不冒称全篇人工核验。",
+            "markdown_sha256": "eca2fc69454af937fd37ea5ff993c6198eac9c9b48b8ba61cfea7b7fbb8e6823",
+            "reviewer": "independent_model",
+            "source_sha256": "e460c855bea69e9a5e664042fbd06d4a66cc35cc81a211d134d9caff274c1b9d"
+          },
           {
             "accepted_blocks": [
               {
@@ -2239,7 +2334,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c101954/c7123693/7123693/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E9%87%8D%E8%A6%81%E8%B4%A7%E5%B8%81%E5%B8%82%E5%9C%BA%E5%9F%BA%E9%87%91%E7%9B%91%E7%AE%A1%E6%9A%82%E8%A1%8C%E8%A7%84%E5%AE%9A.pdf",
       "effective_from": "2023-05-16",
       "expected_articles": 20,
-      "failure_reason": "Source publication page not independently established",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-3953d7041492",
       "issued_date": "2023-02-17",
@@ -2253,8 +2348,8 @@
       "seed_urls": [
         "http://www.csrc.gov.cn/csrc/c101954/c7123693/7123693/files/附件1：重要货币市场基金监管暂行规定.pdf"
       ],
-      "source_page_url": null,
-      "status": "converted_unverified",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101954/c7123693/content.shtml",
+      "status": "ready",
       "title": "重要货币市场基金监管暂行规定",
       "verification": {
         "acquisition": {
@@ -2272,6 +2367,12 @@
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：另核验官方第2023年42号公告 https://www.csrc.gov.cn/csrc/c101954/c7123693/content.shtml 落款2023年2月17日、2023年5月16日施行，PDF第二十条一致。",
           "Bound machine conversion record; not human legal review",
           {
+            "basis": "证监会2023年42号公告、施行日期及附件1链接匹配现存原件。",
+            "path": "_sources/L1/l1-3953d7041492/source-page-verified.html",
+            "sha256": "11cd34eb7b3b4c01f821481dcf1a1906fee8f04bdd81b5ae5f1a66c4b953a4fa",
+            "source_sha256": "0fc19bb98125f320e85244f0977ec52470e55ddd316678aa2d382a7446a6e2cd"
+          },
+          {
             "kind": "pdf_machine_acceptance_scope",
             "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
           }
@@ -2284,7 +2385,7 @@
       "download_url": "https://www.csrc.gov.cn/csrc/c101954/c7526405/7526405/files/%E9%99%84%E4%BB%B61%EF%BC%9A%E9%A6%99%E6%B8%AF%E4%BA%92%E8%AE%A4%E5%9F%BA%E9%87%91%E7%AE%A1%E7%90%86%E8%A7%84%E5%AE%9A.pdf",
       "effective_from": "2025-01-01",
       "expected_articles": 29,
-      "failure_reason": "Source publication page not independently established",
+      "failure_reason": null,
       "format": "pdf",
       "id": "l1-59db1324b327",
       "issued_date": "2024-12-17",
@@ -2298,8 +2399,8 @@
       "seed_urls": [
         "https://www.csrc.gov.cn/csrc/c101954/c7526405/7526405/files/附件1：香港互认基金管理规定.pdf"
       ],
-      "source_page_url": null,
-      "status": "converted_unverified",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101954/c7526405/content.shtml",
+      "status": "ready",
       "title": "香港互认基金管理规定",
       "verification": {
         "acquisition": {
@@ -2316,6 +2417,12 @@
         "evidence": [
           "依据旧摘要指向的原发布页/正式正文附件恢复；版本需再以原件条文头尾核验。 原文核验：另核验官方第2024年17号公告 https://www.csrc.gov.cn/csrc/c101954/c7526405/content.shtml 落款2024年12月17日、2025年1月1日施行，PDF第二十九条一致。",
           "Bound machine conversion record; not human legal review",
+          {
+            "basis": "证监会2024年16号公告落款、2025年1月1日施行日期及附件1链接匹配现存原件。",
+            "path": "_sources/L1/l1-59db1324b327/source-page-verified.html",
+            "sha256": "3b8dd99bdc9dc9ae5fe734581fe0168f820e47f963219185182f8781e994ebb8",
+            "source_sha256": "fdb25deca3e0e9f97b4a4c4f995292fcff6ac0b3ef3216c3ed0aedce9b6cc87c"
+          },
           {
             "kind": "pdf_machine_acceptance_scope",
             "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"
@@ -2441,13 +2548,13 @@
       "download_url": "https://www.amac.org.cn/xwfb/xhyw/202109/P020231126355446479296.pdf",
       "effective_from": null,
       "expected_articles": null,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content",
+      "failure_reason": null,
       "format": "pdf",
       "id": "amac-fund-advisory-interface-2021",
       "issued_date": "2021-08-31",
       "legacy_path": "L2_行业自律规则/公开募集证券投资基金投资顾问业务数据交换技术接口规范.md",
-      "markdown_path": "_fulltext/amac-fund-advisory-interface-2021/b81c9ddb189c/fa6db6bddc76/full.md",
-      "markdown_sha256": "fa6db6bddc76cde8c3ca9c63cca3d57da95379afd6c3df0cdd3306ebb06aa9bc",
+      "markdown_path": "_fulltext/amac-fund-advisory-interface-2021/b81c9ddb189c/9ede6f7e7a58/full.md",
+      "markdown_sha256": "9ede6f7e7a58fe9ddd7a745e4592d156ec6ada742d9aff7aaa41b3ae72607f11",
       "origin_kind": "issuer_original",
       "publisher": "中国证券投资基金业协会",
       "raw_path": "_sources/L2/amac-fund-advisory-interface-2021/original.pdf",
@@ -2456,7 +2563,7 @@
         "https://www.amac.org.cn/xwfb/xhyw/202109/P020231126355446479296.pdf"
       ],
       "source_page_url": "https://www.amac.org.cn/xwfb/xhyw/202109/t20210901_15782.html",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "公开募集证券投资基金投资顾问业务数据交换技术接口规范（试行）",
       "verification": {
         "acquisition": {
@@ -2465,14 +2572,34 @@
         },
         "article_count": null,
         "body_start_line": 3,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/amac-fund-advisory-interface-2021/b81c9ddb189c/fa6db6bddc76/conversions/91b798c092499c06d77d731733c842a2037d44920b078e2e9b5fd2936101beae.json",
-          "record_sha256": "91b798c092499c06d77d731733c842a2037d44920b078e2e9b5fd2936101beae"
+          "record_path": "_fulltext/amac-fund-advisory-interface-2021/b81c9ddb189c/9ede6f7e7a58/conversions/53bfabad22af16b34f0d9f4b5fbed135f5adc898b9d5bb8e262a38c708b0208c.json",
+          "record_sha256": "53bfabad22af16b34f0d9f4b5fbed135f5adc898b9d5bb8e262a38c708b0208c"
         },
         "evidence": [
           "官方发布通知署名2021年8月31日，网页于2021年9月1日发布，PDF封面2021年9月。issued_date采用通知落款，不把封面月份推断为某个日期。仅下载附件1规范全文，不以附件2起草说明代替。",
           "Bound machine conversion record; not human legal review",
+          {
+            "accepted_blocks": [
+              {
+                "block_index": 29,
+                "block_type": "image",
+                "page": 6,
+                "reason": "image_without_caption"
+              },
+              {
+                "block": 29,
+                "kind": "visual_or_formula_requires_review",
+                "page": 6,
+                "type": "image"
+              }
+            ],
+            "basis": "gpt-6-astra/high独立目视核验原页及截图，四节点四组双向箭头完整转写；后续说明段落保留。仅核验残余告警，不冒称全篇人工核验。",
+            "markdown_sha256": "9ede6f7e7a58fe9ddd7a745e4592d156ec6ada742d9aff7aaa41b3ae72607f11",
+            "reviewer": "independent_model",
+            "source_sha256": "b81c9ddb189cf28a678a4546f942b9028fa228da5a2b27a59f00815db323663b"
+          },
           {
             "accepted_blocks": [
               {
@@ -2967,13 +3094,13 @@
       "download_url": "https://www.amac.org.cn/xwfb/xhyw/201912/P020231126355583305018.pdf",
       "effective_from": "2019-01-18",
       "expected_articles": null,
-      "failure_reason": "Conversion contains unsupported or unreviewed visual/formula content",
+      "failure_reason": null,
       "format": "pdf",
       "id": "amac-credit-derivative-valuation-2019",
       "issued_date": "2019-01-18",
       "legacy_path": "L2_行业自律规则/证券投资基金投资信用衍生品估值指引.md",
-      "markdown_path": "_fulltext/amac-credit-derivative-valuation-2019/7b5a8efe57d1/a6ba6f874e8e/full.md",
-      "markdown_sha256": "a6ba6f874e8e7ead5f5ed49b28e6f157097e9861bd15f6c00fca9caca4dac85e",
+      "markdown_path": "_fulltext/amac-credit-derivative-valuation-2019/7b5a8efe57d1/cd12f21ce871/full.md",
+      "markdown_sha256": "cd12f21ce87160da966161883347a007449f7db2d6daa80a24383d8b6194c3b7",
       "origin_kind": "issuer_original",
       "publisher": "中国证券投资基金业协会",
       "raw_path": "_sources/L2/amac-credit-derivative-valuation-2019/original.pdf",
@@ -2982,7 +3109,7 @@
         "https://picpolicy.mofcom.gov.cn/file/20190327/62151553657754035.pdf"
       ],
       "source_page_url": "https://www.amac.org.cn/xwfb/xhyw/201912/t20191231_15884.html",
-      "status": "converted_unverified",
+      "status": "ready",
       "title": "证券投资基金投资信用衍生品估值指引（试行）",
       "verification": {
         "acquisition": {
@@ -2991,14 +3118,36 @@
         },
         "article_count": null,
         "body_start_line": 1,
-        "completeness": "not_checked",
+        "completeness": "complete",
         "conversion": {
-          "record_path": "_fulltext/amac-credit-derivative-valuation-2019/7b5a8efe57d1/a6ba6f874e8e/conversions/75c0b459d07ad0fe1d76b0e10e89e35a0501edd87cc0ae3a507362e6dd78e485.json",
-          "record_sha256": "75c0b459d07ad0fe1d76b0e10e89e35a0501edd87cc0ae3a507362e6dd78e485"
+          "record_path": "_fulltext/amac-credit-derivative-valuation-2019/7b5a8efe57d1/cd12f21ce871/conversions/d1acf6b282aca251434395c237f74c379a3322501b947f48add0fd66a0d18211.json",
+          "record_sha256": "d1acf6b282aca251434395c237f74c379a3322501b947f48add0fd66a0d18211"
         },
         "evidence": [
           "官方通知中基协发〔2019〕1号、二○一九年一月十八日，自发布之日起施行。201912为迁移目录，不能作为发布日。原件包含正文三部分及附件信用衍生品估值参考方法，不只正文摘要。",
           "Bound machine conversion record; not human legal review",
+          {
+            "accepted_blocks": [
+              {
+                "basis": "2026-10-13重新对照原件公式截图：原式末尾无=0，转换LaTeX正文末尾多出=0；不是LaTeX显示语法差异。",
+                "block": 82,
+                "page": 7,
+                "reason": "confirmed_latex_transcription_mismatch",
+                "type": "equation"
+              },
+              {
+                "basis": "2026-10-13重新对照原件公式截图：原式首个求和为sum从i=j+1到n并乘(T_i-T_{i-1})，转换为stackrel及无关分式；积分上限T_n亦识别异常。",
+                "block": 107,
+                "page": 9,
+                "reason": "confirmed_latex_transcription_mismatch",
+                "type": "equation"
+              }
+            ],
+            "basis": "gpt-6-astra/high对原PDF第7、9页完整渲染与公式裁剪逐项核验，发现的两处具体差异及附注已纠正；不以金融理论改写原件，不冒称全篇人工核验。",
+            "markdown_sha256": "cd12f21ce87160da966161883347a007449f7db2d6daa80a24383d8b6194c3b7",
+            "reviewer": "independent_model",
+            "source_sha256": "7b5a8efe57d198998dfef857f23136cfd3f1ba2891ef2941a7325afd03087216"
+          },
           {
             "kind": "pdf_machine_acceptance_scope",
             "scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review"

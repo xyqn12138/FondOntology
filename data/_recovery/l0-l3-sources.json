@@ -109,6 +109,27 @@
     "version_basis": "旧摘要混合了GB/T 39662-2020与V2.2-20260320两个身份。本项仅恢复其明确提到的中国结算V2.2-20260320操作规范，官方列表标题、附件名称、发布日期相符；DOCX内封面为Ver2.2，最后修订记录日期2026-01-09，无20260320内文字符串，20260320按官方发布附件标签确认。不是GB/T 39662-2020原件，国标另列未解决记录。",
     "raw_path": "_sources/L3/fund-central-backup-interface-v2.2-20260320/original.docx",
     "raw_sha256": "132637b87df2184026129812d96d3ca039c0900db9337b50da4eebca684ee1e6",
+    "source_identity_evidence": {
+      "identity_markers": ["基金行业数据", "集中备份接口规范", "Ver2.2"]
+    },
+    "reviewed_conversion": {
+      "source_sha256": "132637b87df2184026129812d96d3ca039c0900db9337b50da4eebca684ee1e6",
+      "input_markdown_sha256": "ceb47d76311788dd6a8654ca2cc3d028d05ab0972901e2227536308928d40066",
+      "markdown_sha256": "f1ff41893ae23a708d9939f203f70d73a693fce3f253692e652730492a212219",
+      "basis": "保留用户已核验正文中的附录编号和空白布局清理，变更仅涉及空编号、空表及由空编号引起的附录序号偏移。",
+      "replacements": [
+        {"old": "\r\n\r\n# 5.\r\n\r\n# 6. 附录A接口文件规范数据类型定义", "new": "\r\n# 5. 附录A接口文件规范数据类型定义"},
+        {"old": "# 7. 附录B数据字典", "new": "# 6. 附录B数据字典"},
+        {"old": "\r\n# 8.\r\n\r\n# 9.\r\n\r\n<table>\r\n<tr><td></td><td></td><td></td></tr>\r\n<tr><td></td><td></td><td></td></tr>\r\n<tr><td></td><td></td><td></td></tr>\r\n</table>\r\n", "new": ""}
+      ]
+    },
+    "fulltext_review": {
+      "source_sha256": "132637b87df2184026129812d96d3ca039c0900db9337b50da4eebca684ee1e6",
+      "markdown_sha256": "f1ff41893ae23a708d9939f203f70d73a693fce3f253692e652730492a212219",
+      "reviewer": "human_user",
+      "basis": "用户2026-10-13明确确认本份接口规范核验完毕；现正文采用显示插入、排除删除的修订视图，版本由官方附件标签及封面Ver2.2共同确认。",
+      "accepted_blocks": ["tracked_changes_visible_insertions_only:282"]
+    },
     "status": "downloaded",
     "failure_reason": null
   },

@@ -1,0 +1,4615 @@
+{
+  "schema_version": 1,
+  "audit_date": "2026-10-13",
+  "scope": "Three remaining Word originals and their existing converted full Markdown",
+  "reviewer": "Codex machine review",
+  "human_review_asserted": false,
+  "normalization": "Unicode whitespace, Word cell/end markers, and image/footnote control markers removed; Markdown escapes and headings decoded; all other characters compared in order",
+  "documents": [
+    {
+      "id": "central-data-exchange-protocol-v2.2-20260320",
+      "source_path": "data/_sources/L3/central-data-exchange-protocol-v2.2-20260320/original.doc",
+      "source_sha256": "071b21e8057863e68c4e91d37ddc03f0bc68344d36cb65512b95016cd946b2b5",
+      "converted_path": "data/_converted/word/central-data-exchange-protocol-v2.2-20260320/full.md",
+      "converted_sha256": "3e0ee6998a0d0acf4affd5b1816a78e10bdbed8c0575e55b9a2d0d17e456a3ae",
+      "verification_type": "independent_machine_source_reaudit",
+      "human_review_asserted": false,
+      "word_opened_readonly": true,
+      "word_version": "16.0",
+      "original_to_markdown_text": {
+        "source_characters": 155008,
+        "recovered_characters": 160772,
+        "equal_in_order": false,
+        "source_sha256": "2a11d8164a2aa4132ccf80135c87f5ab8bb30674515604dc3e4afd0731349577",
+        "recovered_sha256": "6c769161588daefc5068ecc8273f992a0cec9cafe03e88b29e805f8c7713a04b",
+        "first_mismatch": {
+          "normalized_character_offset": 0,
+          "source_context": "目次目次I前言IV修订说明1开放式基金业务数据交换协议31范围32规范性引用文件33术语和定义34要求54.1数据类型定义54.2数据处理54.3加密65信息交换格式66业务类型编码67业务交换数据项87.1说明87.2",
+          "recovered_context": "中央数据交换平台开放式基金业务数据交换协议（Ver2.2）Open-endedfundbusinessdataexchangeprotocol目次目次..................................."
+        }
+      },
+      "word_body_to_current_xml": {
+        "source_characters": 155075,
+        "recovered_characters": 155008,
+        "equal_in_order": false,
+        "source_sha256": "87b3314551abefa15e0737ca1fcf1983629a24b52d34af90011fe68649bed2d8",
+        "recovered_sha256": "2a11d8164a2aa4132ccf80135c87f5ab8bb30674515604dc3e4afd0731349577",
+        "first_mismatch": {
+          "normalized_character_offset": 4415,
+          "source_context": "达成协议的各方研究是否可使用这些文件的最新版本。凡是不注日期的引用文件，其最新版本适用于本标准。GB2312-1980信息交换用汉字编码字符集基本集GB18030-200522信息技术信息交换用汉字编码字符集基本集的扩充GB/T1988-1998信息技术信息交换用七位编码字符集GB/T12406-2008表示货币和资金",
+          "recovered_context": "达成协议的各方研究是否可使用这些文件的最新版本。凡是不注日期的引用文件，其最新版本适用于本标准。GB18030-2022信息技术信息交换用汉字编码字符集GB/T1988-1998信息技术信息交换用七位编码字符集GB/T12406-2008表示货币和资金的代码GB/T2260-2007中华人民共和国行政区划代码ISO31"
+        }
+      },
+      "word_counts": {
+        "paragraph_count": 31150,
+        "table_count": 106,
+        "shapes_count": 9,
+        "inline_shapes_count": 0,
+        "revision_count": 36,
+        "comment_count": 0,
+        "footnote_count": 0,
+        "endnote_count": 0
+      },
+      "xml_change_counts": {
+        "ins": 140,
+        "del": 9,
+        "rPrChange": 4
+      },
+      "revision_texts": [
+        {
+          "kind": "ins",
+          "text": "202"
+        },
+        {
+          "kind": "ins",
+          "text": "6"
+        },
+        {
+          "kind": "ins",
+          "text": "-0"
+        },
+        {
+          "kind": "ins",
+          "text": "1"
+        },
+        {
+          "kind": "ins",
+          "text": "-"
+        },
+        {
+          "kind": "ins",
+          "text": "0"
+        },
+        {
+          "kind": "ins",
+          "text": "9"
+        },
+        {
+          "kind": "ins",
+          "text": "2.2"
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": "为支持"
+        },
+        {
+          "kind": "ins",
+          "text": "先计提后"
+        },
+        {
+          "kind": "ins",
+          "text": "返还销售服务费"
+        },
+        {
+          "kind": "ins",
+          "text": "功能"
+        },
+        {
+          "kind": "ins",
+          "text": "，在赎回确认、基金转换确认、"
+        },
+        {
+          "kind": "ins",
+          "text": "强增强"
+        },
+        {
+          "kind": "ins",
+          "text": "减、红利发放"
+        },
+        {
+          "kind": "ins",
+          "text": "、基金清盘"
+        },
+        {
+          "kind": "ins",
+          "text": "章节中，使用‘其"
+        },
+        {
+          "kind": "ins",
+          "text": "他"
+        },
+        {
+          "kind": "ins",
+          "text": "费用2’表示"
+        },
+        {
+          "kind": "ins",
+          "text": "返还的销售服务费。"
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": "为支持浮动管理费收费模式，在赎回确认、基金转换"
+        },
+        {
+          "kind": "ins",
+          "text": "确认、基金清盘"
+        },
+        {
+          "kind": "ins",
+          "text": "章节中，"
+        },
+        {
+          "kind": "ins",
+          "text": "使用"
+        },
+        {
+          "kind": "ins",
+          "text": "‘"
+        },
+        {
+          "kind": "ins",
+          "text": "最少收费"
+        },
+        {
+          "kind": "ins",
+          "text": "’字段表示管理人收取的或有管理费"
+        },
+        {
+          "kind": "ins",
+          "text": "。"
+        },
+        {
+          "kind": "ins",
+          "text": "超额管理费属于‘业绩报酬’，返还投资者的或有管理费属于‘业绩补偿’。"
+        },
+        {
+          "kind": "ins",
+          "text": "为支持个人"
+        },
+        {
+          "kind": "ins",
+          "text": "养老金提前赎回业务，在赎回申请中增加‘强制赎回类型’字段，并扩展字典。"
+        },
+        {
+          "kind": "ins",
+          "text": "开户"
+        },
+        {
+          "kind": "ins",
+          "text": "和账户信息修改"
+        },
+        {
+          "kind": "ins",
+          "text": "申请中"
+        },
+        {
+          "kind": "ins",
+          "text": "，对"
+        },
+        {
+          "kind": "ins",
+          "text": "‘证件有效日期’"
+        },
+        {
+          "kind": "ins",
+          "text": "的填写进行说明。"
+        },
+        {
+          "kind": "ins",
+          "text": "陈鸿鹄"
+        },
+        {
+          "kind": "del",
+          "text": ""
+        },
+        {
+          "kind": "del",
+          "text": "GB2312-1980信息交换用汉字编码字符集基本集"
+        },
+        {
+          "kind": "del",
+          "text": "05"
+        },
+        {
+          "kind": "ins",
+          "text": "22"
+        },
+        {
+          "kind": "del",
+          "text": "基本集的扩充"
+        },
+        {
+          "kind": "del",
+          "text": "、"
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "del",
+          "text": "GB2312-1980和"
+        },
+        {
+          "kind": "del",
+          "text": "05"
+        },
+        {
+          "kind": "ins",
+          "text": "22"
+        },
+        {
+          "kind": "ins",
+          "text": "若数据文件过大，可以进行拆分，具体参见"
+        },
+        {
+          "kind": "ins",
+          "text": "附录A。"
+        },
+        {
+          "kind": "ins",
+          "text": "对开户"
+        },
+        {
+          "kind": "ins",
+          "text": "申请"
+        },
+        {
+          "kind": "ins",
+          "text": "，若"
+        },
+        {
+          "kind": "ins",
+          "text": "证件"
+        },
+        {
+          "kind": "ins",
+          "text": "类型为‘身份证’或"
+        },
+        {
+          "kind": "ins",
+          "text": "加"
+        },
+        {
+          "kind": "ins",
+          "text": "载了有效日期的其它证件，此字段必填。"
+        },
+        {
+          "kind": "ins",
+          "text": "对账户信息修改申请，若"
+        },
+        {
+          "kind": "ins",
+          "text": "投资者"
+        },
+        {
+          "kind": "ins",
+          "text": "修改"
+        },
+        {
+          "kind": "ins",
+          "text": "了"
+        },
+        {
+          "kind": "ins",
+          "text": "证件"
+        },
+        {
+          "kind": "ins",
+          "text": "有效日期"
+        },
+        {
+          "kind": "ins",
+          "text": "，此字段必填。"
+        },
+        {
+          "kind": "ins",
+          "text": "长期有效填写99991231。"
+        },
+        {
+          "kind": "ins",
+          "text": "对机构和产品"
+        },
+        {
+          "kind": "ins",
+          "text": ",若经办人"
+        },
+        {
+          "kind": "ins",
+          "text": "证件类型为‘身份证’或加载了有效日期的其它证件，此字段必填"
+        },
+        {
+          "kind": "ins",
+          "text": "。长期有效填写99991231。"
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": "N"
+        },
+        {
+          "kind": "ins",
+          "text": "含返还的销售服务费。"
+        },
+        {
+          "kind": "ins",
+          "text": "对浮动管理费产品，超额管理费属于‘业绩报酬’"
+        },
+        {
+          "kind": "ins",
+          "text": "对浮动管理费产品，返还投资者的或有管理费属于‘业绩补偿’"
+        },
+        {
+          "kind": "del",
+          "text": "0-强制赎回，1-违约赎回，2-到期"
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": "返还的销售服务费"
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": "Y"
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": "浮动管理费产品必填，填写管理人对该笔业务收取的或有管理费"
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": "N"
+        },
+        {
+          "kind": "ins",
+          "text": "(跨市场"
+        },
+        {
+          "kind": "ins",
+          "text": "转托管到场内不用填写"
+        },
+        {
+          "kind": "ins",
+          "text": ")"
+        },
+        {
+          "kind": "ins",
+          "text": "浮动管理费产品必填，填写管理人对该笔业务收取的或有管理费"
+        },
+        {
+          "kind": "ins",
+          "text": "对浮动管理费产品，超额管理费属于‘业绩报酬’"
+        },
+        {
+          "kind": "ins",
+          "text": "对浮动管理费产品，返还投资者的或有管理费属于‘业绩补偿’"
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": "份额转出时，返还的销售服务费"
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": "Y"
+        },
+        {
+          "kind": "ins",
+          "text": "货币"
+        },
+        {
+          "kind": "ins",
+          "text": "基金收益结转时必填，填写"
+        },
+        {
+          "kind": "ins",
+          "text": "返还的销售服务费"
+        },
+        {
+          "kind": "ins",
+          "text": "货币基金收益结转时必填，填写"
+        },
+        {
+          "kind": "ins",
+          "text": "返还的销售服务费"
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": ""
+        },
+        {
+          "kind": "del",
+          "text": ""
+        },
+        {
+          "kind": "ins",
+          "text": "对浮动"
+        },
+        {
+          "kind": "ins",
+          "text": "管理费产品，净值类型为‘普通净值’"
+        },
+        {
+          "kind": "ins",
+          "text": "的记录中，此字段表示业绩基准累计"
+        },
+        {
+          "kind": "ins",
+          "text": "单位"
+        },
+        {
+          "kind": "ins",
+          "text": "净值"
+        },
+        {
+          "kind": "ins",
+          "text": "3-个人"
+        },
+        {
+          "kind": "ins",
+          "text": "养老金提前赎回"
+        }
+      ],
+      "embedded_media": [],
+      "shapes": [
+        {
+          "index": 1,
+          "name": "fmFrame2",
+          "type": 17,
+          "anchor": 8,
+          "text": "中国结算数据标准 \r",
+          "alternative_text": "文本框: 中国结算数据标准 "
+        },
+        {
+          "index": 2,
+          "name": "fmFrame8",
+          "type": 17,
+          "anchor": 7,
+          "text": "\r",
+          "alternative_text": ""
+        },
+        {
+          "index": 3,
+          "name": "fmFrame3",
+          "type": 17,
+          "anchor": 6,
+          "text": "\r代替\r（代替JR/T 0017—2004）\r\r",
+          "alternative_text": "文本框: 代替\r\n（代替JR/T 0017—2004）\r\n\r\n"
+        },
+        {
+          "index": 4,
+          "name": "fmFrame4",
+          "type": 17,
+          "anchor": 5,
+          "text": "中央数据交换平台\r开放式基金业务数据交换协议\r（Ver2.2）\r\rOpen-ended fund business data exchange protocol\r\r\r\r",
+          "alternative_text": "文本框: 中央数据交换平台\r\n开放式基金业务数据交换协议\r\n（Ver2.2）\r\n\r\nOpen-ended fund business data exchange protocol\r\n\r\n\r\n\r\n"
+        },
+        {
+          "index": 5,
+          "name": "fmFrame5",
+          "type": 17,
+          "anchor": 4,
+          "text": "\r",
+          "alternative_text": ""
+        },
+        {
+          "index": 6,
+          "name": "fmFrame6",
+          "type": 17,
+          "anchor": 3,
+          "text": "\r",
+          "alternative_text": ""
+        },
+        {
+          "index": 7,
+          "name": "fmFrame7",
+          "type": 17,
+          "anchor": 2,
+          "text": "\r",
+          "alternative_text": ""
+        },
+        {
+          "index": 8,
+          "name": "直线 3",
+          "type": 9,
+          "anchor": 1,
+          "text": "",
+          "alternative_text": ""
+        },
+        {
+          "index": 9,
+          "name": "直线 2",
+          "type": 9,
+          "anchor": 0,
+          "text": "",
+          "alternative_text": ""
+        }
+      ],
+      "source_body_table_count": 106,
+      "markdown_table_count": 110,
+      "html_sha256": "360fd741cefade53fa1dc129b546eb600c7690e5388e43ef81d3b0edc8170f16",
+      "html_to_markdown_text": {
+        "source_characters": 160772,
+        "recovered_characters": 160772,
+        "equal_in_order": true,
+        "source_sha256": "6c769161588daefc5068ecc8273f992a0cec9cafe03e88b29e805f8c7713a04b",
+        "recovered_sha256": "6c769161588daefc5068ecc8273f992a0cec9cafe03e88b29e805f8c7713a04b",
+        "first_mismatch": null
+      },
+      "source_body_to_html_main_text": {
+        "source_characters": 155008,
+        "recovered_characters": 160701,
+        "equal_in_order": false,
+        "source_sha256": "2a11d8164a2aa4132ccf80135c87f5ab8bb30674515604dc3e4afd0731349577",
+        "recovered_sha256": "33a06b324f09c04c63fd152248e3c2396cc56c0694be257cdc69069bd3d75d4f",
+        "first_mismatch": {
+          "normalized_character_offset": 4,
+          "source_context": "目次目次I前言IV修订说明1开放式基金业务数据交换协议31范围32规范性引用文件33术语和定义34要求54.1数据类型定义54.2数据处理54.3加密65信息交换格式66业务类型编码67业务交换数据项87.1说明87.2开户申请",
+          "recovered_context": "目次目次..........................................................................I前言................................."
+        }
+      },
+      "cover_table_texts": [
+        "中央数据交换平台开放式基金业务数据交换协议（Ver2.2）Open-endedfundbusinessdataexchangeprotocol",
+        "",
+        "中央数据交换平台开放式基金业务数据交换协议（Ver2.2）Open-endedfundbusinessdataexchangeprotocol",
+        ""
+      ],
+      "table_checks": [
+        {
+          "table_index": 1,
+          "text": {
+            "source_characters": 2045,
+            "recovered_characters": 2045,
+            "equal_in_order": true,
+            "source_sha256": "9397c774244414a9f8fbb40569fc779e1185b863cf99cdaa4437208f8802622f",
+            "recovered_sha256": "9397c774244414a9f8fbb40569fc779e1185b863cf99cdaa4437208f8802622f",
+            "first_mismatch": null
+          },
+          "source_rows": 6,
+          "html_rows": 6,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 24,
+          "html_cells": 24
+        },
+        {
+          "table_index": 2,
+          "text": {
+            "source_characters": 54,
+            "recovered_characters": 54,
+            "equal_in_order": true,
+            "source_sha256": "80334fa0b656bc7fcac3492c3b9b524895e4c100a7941369f8faf9adb19a9c66",
+            "recovered_sha256": "80334fa0b656bc7fcac3492c3b9b524895e4c100a7941369f8faf9adb19a9c66",
+            "first_mismatch": null
+          },
+          "source_rows": 5,
+          "html_rows": 5,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 10,
+          "html_cells": 10
+        },
+        {
+          "table_index": 3,
+          "text": {
+            "source_characters": 93,
+            "recovered_characters": 93,
+            "equal_in_order": true,
+            "source_sha256": "1718cb46e92730c17ebbcffa2a9c9b42d78eef63215ed51916a11feb287c2395",
+            "recovered_sha256": "1718cb46e92730c17ebbcffa2a9c9b42d78eef63215ed51916a11feb287c2395",
+            "first_mismatch": null
+          },
+          "source_rows": 6,
+          "html_rows": 6,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 12,
+          "html_cells": 12
+        },
+        {
+          "table_index": 4,
+          "text": {
+            "source_characters": 99,
+            "recovered_characters": 99,
+            "equal_in_order": true,
+            "source_sha256": "b361d92822b9fe218203e73940b476e5568c4d5a8f45577153bbd490c726627b",
+            "recovered_sha256": "b361d92822b9fe218203e73940b476e5568c4d5a8f45577153bbd490c726627b",
+            "first_mismatch": null
+          },
+          "source_rows": 16,
+          "html_rows": 16,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 32,
+          "html_cells": 32
+        },
+        {
+          "table_index": 5,
+          "text": {
+            "source_characters": 835,
+            "recovered_characters": 835,
+            "equal_in_order": true,
+            "source_sha256": "f6d1c45e200f3a78a029b94b637508fca827109eb0be73b59a3bcb6783951a88",
+            "recovered_sha256": "f6d1c45e200f3a78a029b94b637508fca827109eb0be73b59a3bcb6783951a88",
+            "first_mismatch": null
+          },
+          "source_rows": 63,
+          "html_rows": 63,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 246,
+          "html_cells": 246
+        },
+        {
+          "table_index": 6,
+          "text": {
+            "source_characters": 4344,
+            "recovered_characters": 4344,
+            "equal_in_order": true,
+            "source_sha256": "12304aac3075a13bda40d82dd2373aec29974ceba2e65c80e960954a63150f28",
+            "recovered_sha256": "12304aac3075a13bda40d82dd2373aec29974ceba2e65c80e960954a63150f28",
+            "first_mismatch": null
+          },
+          "source_rows": 84,
+          "html_rows": 84,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 588,
+          "html_cells": 588
+        },
+        {
+          "table_index": 7,
+          "text": {
+            "source_characters": 497,
+            "recovered_characters": 497,
+            "equal_in_order": true,
+            "source_sha256": "c192d9fd196df6a8f81f9fda5c245692ab8b1359fe2c3c4c212ccb8e7d2d71e0",
+            "recovered_sha256": "c192d9fd196df6a8f81f9fda5c245692ab8b1359fe2c3c4c212ccb8e7d2d71e0",
+            "first_mismatch": null
+          },
+          "source_rows": 15,
+          "html_rows": 15,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 105,
+          "html_cells": 105
+        },
+        {
+          "table_index": 8,
+          "text": {
+            "source_characters": 571,
+            "recovered_characters": 571,
+            "equal_in_order": true,
+            "source_sha256": "31e3173eba73301b0eb08db1b06fbd83ba08488fd5c8ed315815681866723060",
+            "recovered_sha256": "31e3173eba73301b0eb08db1b06fbd83ba08488fd5c8ed315815681866723060",
+            "first_mismatch": null
+          },
+          "source_rows": 12,
+          "html_rows": 12,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 84,
+          "html_cells": 84
+        },
+        {
+          "table_index": 9,
+          "text": {
+            "source_characters": 1004,
+            "recovered_characters": 1004,
+            "equal_in_order": true,
+            "source_sha256": "8baad41c1a5d95dfefa1a58b06d7af65af8ec7ce51e738d66599f82f284cecec",
+            "recovered_sha256": "8baad41c1a5d95dfefa1a58b06d7af65af8ec7ce51e738d66599f82f284cecec",
+            "first_mismatch": null
+          },
+          "source_rows": 23,
+          "html_rows": 23,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 161,
+          "html_cells": 161
+        },
+        {
+          "table_index": 10,
+          "text": {
+            "source_characters": 459,
+            "recovered_characters": 459,
+            "equal_in_order": true,
+            "source_sha256": "75da71eeaed58ef8ad4119472cded734a5ee0d0fccc90bebaeaba737c7e3a701",
+            "recovered_sha256": "75da71eeaed58ef8ad4119472cded734a5ee0d0fccc90bebaeaba737c7e3a701",
+            "first_mismatch": null
+          },
+          "source_rows": 13,
+          "html_rows": 13,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 91,
+          "html_cells": 91
+        },
+        {
+          "table_index": 11,
+          "text": {
+            "source_characters": 510,
+            "recovered_characters": 510,
+            "equal_in_order": true,
+            "source_sha256": "1cf550ab5a6bacd3150385b5a37c589ae257891321f74d6e02a4c95775592cc5",
+            "recovered_sha256": "1cf550ab5a6bacd3150385b5a37c589ae257891321f74d6e02a4c95775592cc5",
+            "first_mismatch": null
+          },
+          "source_rows": 15,
+          "html_rows": 15,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 105,
+          "html_cells": 105
+        },
+        {
+          "table_index": 12,
+          "text": {
+            "source_characters": 341,
+            "recovered_characters": 341,
+            "equal_in_order": true,
+            "source_sha256": "8d478e46935742c93e55a95cd19c4a9929d939f5f005404fd09e6ad7c4e397e2",
+            "recovered_sha256": "8d478e46935742c93e55a95cd19c4a9929d939f5f005404fd09e6ad7c4e397e2",
+            "first_mismatch": null
+          },
+          "source_rows": 11,
+          "html_rows": 11,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 77,
+          "html_cells": 77
+        },
+        {
+          "table_index": 13,
+          "text": {
+            "source_characters": 1066,
+            "recovered_characters": 1066,
+            "equal_in_order": true,
+            "source_sha256": "28f91f48c141782cff929888415197bf5a4ac0400bc704c520ca70315cd4255d",
+            "recovered_sha256": "28f91f48c141782cff929888415197bf5a4ac0400bc704c520ca70315cd4255d",
+            "first_mismatch": null
+          },
+          "source_rows": 22,
+          "html_rows": 22,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 154,
+          "html_cells": 154
+        },
+        {
+          "table_index": 14,
+          "text": {
+            "source_characters": 319,
+            "recovered_characters": 319,
+            "equal_in_order": true,
+            "source_sha256": "96077d619db46a0595f63a18b85cf7b86f20a119f437d85a8752a0160539a346",
+            "recovered_sha256": "96077d619db46a0595f63a18b85cf7b86f20a119f437d85a8752a0160539a346",
+            "first_mismatch": null
+          },
+          "source_rows": 11,
+          "html_rows": 11,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 77,
+          "html_cells": 77
+        },
+        {
+          "table_index": 15,
+          "text": {
+            "source_characters": 409,
+            "recovered_characters": 409,
+            "equal_in_order": true,
+            "source_sha256": "21d89dd1323b0997697afbc4cc278a2afce54aff35b4d2602a66f76db8fd206a",
+            "recovered_sha256": "21d89dd1323b0997697afbc4cc278a2afce54aff35b4d2602a66f76db8fd206a",
+            "first_mismatch": null
+          },
+          "source_rows": 14,
+          "html_rows": 14,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 98,
+          "html_cells": 98
+        },
+        {
+          "table_index": 16,
+          "text": {
+            "source_characters": 1111,
+            "recovered_characters": 1111,
+            "equal_in_order": true,
+            "source_sha256": "aa016c923482a3ddaa79b4be0118f1d71727af2038b50a5b687dfd37f30f313a",
+            "recovered_sha256": "aa016c923482a3ddaa79b4be0118f1d71727af2038b50a5b687dfd37f30f313a",
+            "first_mismatch": null
+          },
+          "source_rows": 30,
+          "html_rows": 31,
+          "cell_order_and_colspan_equal": false,
+          "source_cells": 210,
+          "html_cells": 218
+        },
+        {
+          "table_index": 17,
+          "text": {
+            "source_characters": 1106,
+            "recovered_characters": 1106,
+            "equal_in_order": true,
+            "source_sha256": "31c4fe444094fec75a9638fe7edfc316f21121daa6d6b9b0d7a0fbf47f2e3ffe",
+            "recovered_sha256": "31c4fe444094fec75a9638fe7edfc316f21121daa6d6b9b0d7a0fbf47f2e3ffe",
+            "first_mismatch": null
+          },
+          "source_rows": 32,
+          "html_rows": 32,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 224,
+          "html_cells": 224
+        },
+        {
+          "table_index": 18,
+          "text": {
+            "source_characters": 1304,
+            "recovered_characters": 1304,
+            "equal_in_order": true,
+            "source_sha256": "3509aa5117067b5f0cfb0d128e703b6c5e57a3d8406908f79a2f5c91a62fa1c9",
+            "recovered_sha256": "3509aa5117067b5f0cfb0d128e703b6c5e57a3d8406908f79a2f5c91a62fa1c9",
+            "first_mismatch": null
+          },
+          "source_rows": 36,
+          "html_rows": 36,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 252,
+          "html_cells": 252
+        },
+        {
+          "table_index": 19,
+          "text": {
+            "source_characters": 1460,
+            "recovered_characters": 1460,
+            "equal_in_order": true,
+            "source_sha256": "765ccd19c00bb25718b53fd8c577a8a8a7f84e56558f5232cedd90d3d9433fa1",
+            "recovered_sha256": "765ccd19c00bb25718b53fd8c577a8a8a7f84e56558f5232cedd90d3d9433fa1",
+            "first_mismatch": null
+          },
+          "source_rows": 40,
+          "html_rows": 41,
+          "cell_order_and_colspan_equal": false,
+          "source_cells": 280,
+          "html_cells": 288
+        },
+        {
+          "table_index": 20,
+          "text": {
+            "source_characters": 676,
+            "recovered_characters": 676,
+            "equal_in_order": true,
+            "source_sha256": "f59624a9d6e125884fb740a7312c7b30896b6256452e1bf4cd051d83745ebe9e",
+            "recovered_sha256": "f59624a9d6e125884fb740a7312c7b30896b6256452e1bf4cd051d83745ebe9e",
+            "first_mismatch": null
+          },
+          "source_rows": 21,
+          "html_rows": 21,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 147,
+          "html_cells": 147
+        },
+        {
+          "table_index": 21,
+          "text": {
+            "source_characters": 1306,
+            "recovered_characters": 1306,
+            "equal_in_order": true,
+            "source_sha256": "e57987e2bbe8c9ba1dd2f195aa0d09cda442de7b888d4beda9b05645f7e8e316",
+            "recovered_sha256": "e57987e2bbe8c9ba1dd2f195aa0d09cda442de7b888d4beda9b05645f7e8e316",
+            "first_mismatch": null
+          },
+          "source_rows": 35,
+          "html_rows": 35,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 245,
+          "html_cells": 245
+        },
+        {
+          "table_index": 22,
+          "text": {
+            "source_characters": 2195,
+            "recovered_characters": 2213,
+            "equal_in_order": false,
+            "source_sha256": "018c12e6eac537a62295ed6062e731b34e646e3d564f1387f78b81094550ab64",
+            "recovered_sha256": "b04a7805a943246df8bd2a9602ccf69d2404b6470618ee29218d804fb914636b",
+            "first_mismatch": {
+              "normalized_character_offset": 2109,
+              "source_context": "gC1带走收益标志0-不带走，1-带走N303ForceRedemptionTypeC1强制赎回类型N95OtherFee2N16（两位小数）其他费用2返还的销售服务费Y194MinFeeN16（两位小数）最少收费浮动管理费产品必填，填写管理人对该笔业务收取的或有管理费N",
+              "recovered_context": "gC1带走收益标志0-不带走，1-带走N303ForceRedemptionTypeC1强制赎回类型0-强制赎回，1-违约赎回，2-到期N95OtherFee2N16（两位小数）其他费用2返还的销售服务费Y194MinFeeN16（两位小数）最少收费浮动管理费产品必填，填写管理人对该笔业务收取的或有管理费N"
+            }
+          },
+          "source_rows": 52,
+          "html_rows": 52,
+          "cell_order_and_colspan_equal": false,
+          "source_cells": 364,
+          "html_cells": 364
+        },
+        {
+          "table_index": 23,
+          "text": {
+            "source_characters": 799,
+            "recovered_characters": 799,
+            "equal_in_order": true,
+            "source_sha256": "c8b1a555d4c36e02ff38c472a1969e9f546d1411974604dd8c5ff8d05ad2964a",
+            "recovered_sha256": "c8b1a555d4c36e02ff38c472a1969e9f546d1411974604dd8c5ff8d05ad2964a",
+            "first_mismatch": null
+          },
+          "source_rows": 24,
+          "html_rows": 24,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 168,
+          "html_cells": 168
+        },
+        {
+          "table_index": 24,
+          "text": {
+            "source_characters": 1037,
+            "recovered_characters": 1037,
+            "equal_in_order": true,
+            "source_sha256": "71ff4b43ff84b0ebd04e5c5660e73a99b2cc3772e70d23d2e646ca35d58c5886",
+            "recovered_sha256": "71ff4b43ff84b0ebd04e5c5660e73a99b2cc3772e70d23d2e646ca35d58c5886",
+            "first_mismatch": null
+          },
+          "source_rows": 23,
+          "html_rows": 23,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 161,
+          "html_cells": 161
+        },
+        {
+          "table_index": 25,
+          "text": {
+            "source_characters": 1376,
+            "recovered_characters": 1376,
+            "equal_in_order": true,
+            "source_sha256": "c83a7926dacc897481bba8fef59793d7d1b3df449ab33f00bed6745140baabff",
+            "recovered_sha256": "c83a7926dacc897481bba8fef59793d7d1b3df449ab33f00bed6745140baabff",
+            "first_mismatch": null
+          },
+          "source_rows": 39,
+          "html_rows": 39,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 273,
+          "html_cells": 273
+        },
+        {
+          "table_index": 26,
+          "text": {
+            "source_characters": 514,
+            "recovered_characters": 514,
+            "equal_in_order": true,
+            "source_sha256": "5cff6dec591fe87ecd47ab1401ae0b2c7262e5f9517b9c353f6c68758f81d41a",
+            "recovered_sha256": "5cff6dec591fe87ecd47ab1401ae0b2c7262e5f9517b9c353f6c68758f81d41a",
+            "first_mismatch": null
+          },
+          "source_rows": 15,
+          "html_rows": 15,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 105,
+          "html_cells": 105
+        },
+        {
+          "table_index": 27,
+          "text": {
+            "source_characters": 734,
+            "recovered_characters": 734,
+            "equal_in_order": true,
+            "source_sha256": "b0e3a24145f4c4cec9bb6f79f87f290bd421e33e2064de010e494660a6f59754",
+            "recovered_sha256": "b0e3a24145f4c4cec9bb6f79f87f290bd421e33e2064de010e494660a6f59754",
+            "first_mismatch": null
+          },
+          "source_rows": 20,
+          "html_rows": 20,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 140,
+          "html_cells": 140
+        },
+        {
+          "table_index": 28,
+          "text": {
+            "source_characters": 1395,
+            "recovered_characters": 1395,
+            "equal_in_order": true,
+            "source_sha256": "a221e48e5e3c8ac89ec44a0a5990a02d5f592f45326e6fe6fc1783a4ddfd836d",
+            "recovered_sha256": "a221e48e5e3c8ac89ec44a0a5990a02d5f592f45326e6fe6fc1783a4ddfd836d",
+            "first_mismatch": null
+          },
+          "source_rows": 37,
+          "html_rows": 37,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 259,
+          "html_cells": 259
+        },
+        {
+          "table_index": 29,
+          "text": {
+            "source_characters": 617,
+            "recovered_characters": 617,
+            "equal_in_order": true,
+            "source_sha256": "7c7be42835cd2d4cc2c90b6bb91bbee72670b59ed4c32b922a2e3f0b460ebf1a",
+            "recovered_sha256": "7c7be42835cd2d4cc2c90b6bb91bbee72670b59ed4c32b922a2e3f0b460ebf1a",
+            "first_mismatch": null
+          },
+          "source_rows": 19,
+          "html_rows": 19,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 133,
+          "html_cells": 133
+        },
+        {
+          "table_index": 30,
+          "text": {
+            "source_characters": 930,
+            "recovered_characters": 930,
+            "equal_in_order": true,
+            "source_sha256": "3b86bc5b59048678105d18754ffa65ddaf6a4e480f8be8487042daeb78e213f2",
+            "recovered_sha256": "3b86bc5b59048678105d18754ffa65ddaf6a4e480f8be8487042daeb78e213f2",
+            "first_mismatch": null
+          },
+          "source_rows": 27,
+          "html_rows": 27,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 189,
+          "html_cells": 189
+        },
+        {
+          "table_index": 31,
+          "text": {
+            "source_characters": 642,
+            "recovered_characters": 642,
+            "equal_in_order": true,
+            "source_sha256": "177540f82f8c87c066bd182c5a2829d5ad527141b9ac2d76e05aff1d3b3966e0",
+            "recovered_sha256": "177540f82f8c87c066bd182c5a2829d5ad527141b9ac2d76e05aff1d3b3966e0",
+            "first_mismatch": null
+          },
+          "source_rows": 19,
+          "html_rows": 19,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 133,
+          "html_cells": 133
+        },
+        {
+          "table_index": 32,
+          "text": {
+            "source_characters": 828,
+            "recovered_characters": 828,
+            "equal_in_order": true,
+            "source_sha256": "ed271695690632873dfdb541359a01a1adb55a34a274f8fc245b0794c0b76be1",
+            "recovered_sha256": "ed271695690632873dfdb541359a01a1adb55a34a274f8fc245b0794c0b76be1",
+            "first_mismatch": null
+          },
+          "source_rows": 24,
+          "html_rows": 24,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 168,
+          "html_cells": 168
+        },
+        {
+          "table_index": 33,
+          "text": {
+            "source_characters": 874,
+            "recovered_characters": 874,
+            "equal_in_order": true,
+            "source_sha256": "4161df49a47ceddb93acac79fe84483f3993c9f3d53f8d3acff51c645ae4d4cd",
+            "recovered_sha256": "4161df49a47ceddb93acac79fe84483f3993c9f3d53f8d3acff51c645ae4d4cd",
+            "first_mismatch": null
+          },
+          "source_rows": 25,
+          "html_rows": 25,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 175,
+          "html_cells": 175
+        },
+        {
+          "table_index": 34,
+          "text": {
+            "source_characters": 1338,
+            "recovered_characters": 1338,
+            "equal_in_order": true,
+            "source_sha256": "e9d82fb019d72165202014379ca61f138227e1ded86f8dd791713cb6a1663dd5",
+            "recovered_sha256": "e9d82fb019d72165202014379ca61f138227e1ded86f8dd791713cb6a1663dd5",
+            "first_mismatch": null
+          },
+          "source_rows": 40,
+          "html_rows": 40,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 280,
+          "html_cells": 280
+        },
+        {
+          "table_index": 35,
+          "text": {
+            "source_characters": 1169,
+            "recovered_characters": 1169,
+            "equal_in_order": true,
+            "source_sha256": "b6f66757f3f88800f8e98d5cb825a89b5d078293898d05b81fbc868dd8265933",
+            "recovered_sha256": "b6f66757f3f88800f8e98d5cb825a89b5d078293898d05b81fbc868dd8265933",
+            "first_mismatch": null
+          },
+          "source_rows": 30,
+          "html_rows": 30,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 210,
+          "html_cells": 210
+        },
+        {
+          "table_index": 36,
+          "text": {
+            "source_characters": 2262,
+            "recovered_characters": 2262,
+            "equal_in_order": true,
+            "source_sha256": "5df642bd1cd358a7ba7cc7f93a22679b8e33af2264e88535cac0476b5115c501",
+            "recovered_sha256": "5df642bd1cd358a7ba7cc7f93a22679b8e33af2264e88535cac0476b5115c501",
+            "first_mismatch": null
+          },
+          "source_rows": 56,
+          "html_rows": 56,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 392,
+          "html_cells": 392
+        },
+        {
+          "table_index": 37,
+          "text": {
+            "source_characters": 1617,
+            "recovered_characters": 1617,
+            "equal_in_order": true,
+            "source_sha256": "f608236aa681e58db51fbd5036ab3d82eb1b599acef4f6552837e56a1e226b0d",
+            "recovered_sha256": "f608236aa681e58db51fbd5036ab3d82eb1b599acef4f6552837e56a1e226b0d",
+            "first_mismatch": null
+          },
+          "source_rows": 42,
+          "html_rows": 42,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 294,
+          "html_cells": 294
+        },
+        {
+          "table_index": 38,
+          "text": {
+            "source_characters": 1171,
+            "recovered_characters": 1171,
+            "equal_in_order": true,
+            "source_sha256": "f65f83c47dead0dea3acd2e365fb0c276b693ef4cdd499978984bc0517bbaf91",
+            "recovered_sha256": "f65f83c47dead0dea3acd2e365fb0c276b693ef4cdd499978984bc0517bbaf91",
+            "first_mismatch": null
+          },
+          "source_rows": 33,
+          "html_rows": 33,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 231,
+          "html_cells": 231
+        },
+        {
+          "table_index": 39,
+          "text": {
+            "source_characters": 410,
+            "recovered_characters": 410,
+            "equal_in_order": true,
+            "source_sha256": "b3f26f86932a780fb69469dc5b05c5e87593419fe5bfc576b2f9e8deb05c293c",
+            "recovered_sha256": "b3f26f86932a780fb69469dc5b05c5e87593419fe5bfc576b2f9e8deb05c293c",
+            "first_mismatch": null
+          },
+          "source_rows": 14,
+          "html_rows": 14,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 98,
+          "html_cells": 98
+        },
+        {
+          "table_index": 40,
+          "text": {
+            "source_characters": 796,
+            "recovered_characters": 796,
+            "equal_in_order": true,
+            "source_sha256": "63a42259ef4d9a8e537e63a0636a5780b402297341be7b461ba74245096b68cb",
+            "recovered_sha256": "63a42259ef4d9a8e537e63a0636a5780b402297341be7b461ba74245096b68cb",
+            "first_mismatch": null
+          },
+          "source_rows": 21,
+          "html_rows": 21,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 147,
+          "html_cells": 147
+        },
+        {
+          "table_index": 41,
+          "text": {
+            "source_characters": 882,
+            "recovered_characters": 882,
+            "equal_in_order": true,
+            "source_sha256": "58fc531abca509c4bb4b3c35b302d252b49c51347ad0ff5d8e6e8ba956a10428",
+            "recovered_sha256": "58fc531abca509c4bb4b3c35b302d252b49c51347ad0ff5d8e6e8ba956a10428",
+            "first_mismatch": null
+          },
+          "source_rows": 26,
+          "html_rows": 26,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 182,
+          "html_cells": 182
+        },
+        {
+          "table_index": 42,
+          "text": {
+            "source_characters": 391,
+            "recovered_characters": 391,
+            "equal_in_order": true,
+            "source_sha256": "173ab77bbb67543c10b4f6636de1c8a5b28c47cab06396ed8599930f1552e29c",
+            "recovered_sha256": "173ab77bbb67543c10b4f6636de1c8a5b28c47cab06396ed8599930f1552e29c",
+            "first_mismatch": null
+          },
+          "source_rows": 12,
+          "html_rows": 12,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 84,
+          "html_cells": 84
+        },
+        {
+          "table_index": 43,
+          "text": {
+            "source_characters": 594,
+            "recovered_characters": 594,
+            "equal_in_order": true,
+            "source_sha256": "2cb86eb0a9e35fae160fa19244bafdcbf1b7168969b900ff33ad62b69171581a",
+            "recovered_sha256": "2cb86eb0a9e35fae160fa19244bafdcbf1b7168969b900ff33ad62b69171581a",
+            "first_mismatch": null
+          },
+          "source_rows": 18,
+          "html_rows": 18,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 126,
+          "html_cells": 126
+        },
+        {
+          "table_index": 44,
+          "text": {
+            "source_characters": 956,
+            "recovered_characters": 956,
+            "equal_in_order": true,
+            "source_sha256": "c99ef1ecb503ccbe2d2d530d839791deee569a462151bff8035b2e6e36d174f9",
+            "recovered_sha256": "c99ef1ecb503ccbe2d2d530d839791deee569a462151bff8035b2e6e36d174f9",
+            "first_mismatch": null
+          },
+          "source_rows": 30,
+          "html_rows": 30,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 210,
+          "html_cells": 210
+        },
+        {
+          "table_index": 45,
+          "text": {
+            "source_characters": 1160,
+            "recovered_characters": 1160,
+            "equal_in_order": true,
+            "source_sha256": "5850e6c6ad99139436480aa69b2f411c95ae1231088a275df8b709bbdc2b9585",
+            "recovered_sha256": "5850e6c6ad99139436480aa69b2f411c95ae1231088a275df8b709bbdc2b9585",
+            "first_mismatch": null
+          },
+          "source_rows": 36,
+          "html_rows": 36,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 252,
+          "html_cells": 252
+        },
+        {
+          "table_index": 46,
+          "text": {
+            "source_characters": 1293,
+            "recovered_characters": 1293,
+            "equal_in_order": true,
+            "source_sha256": "64ce4526bd56a5b67bcce08dfa0af32676ef836cde3a04278db21656d69ed17b",
+            "recovered_sha256": "64ce4526bd56a5b67bcce08dfa0af32676ef836cde3a04278db21656d69ed17b",
+            "first_mismatch": null
+          },
+          "source_rows": 41,
+          "html_rows": 41,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 287,
+          "html_cells": 287
+        },
+        {
+          "table_index": 47,
+          "text": {
+            "source_characters": 573,
+            "recovered_characters": 573,
+            "equal_in_order": true,
+            "source_sha256": "85b6ee3d91e14c8a6181a6b771211bb8ee0d02a1033eaf47e6b9ae814fc3853b",
+            "recovered_sha256": "85b6ee3d91e14c8a6181a6b771211bb8ee0d02a1033eaf47e6b9ae814fc3853b",
+            "first_mismatch": null
+          },
+          "source_rows": 17,
+          "html_rows": 17,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 119,
+          "html_cells": 119
+        },
+        {
+          "table_index": 48,
+          "text": {
+            "source_characters": 1212,
+            "recovered_characters": 1212,
+            "equal_in_order": true,
+            "source_sha256": "146a43020932523ec44604ceb1a7e74f9aabcbbebf2963049bf1d9a0d6a0688c",
+            "recovered_sha256": "146a43020932523ec44604ceb1a7e74f9aabcbbebf2963049bf1d9a0d6a0688c",
+            "first_mismatch": null
+          },
+          "source_rows": 33,
+          "html_rows": 33,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 231,
+          "html_cells": 231
+        },
+        {
+          "table_index": 49,
+          "text": {
+            "source_characters": 1312,
+            "recovered_characters": 1312,
+            "equal_in_order": true,
+            "source_sha256": "ff30ab748b74bfa27b9f58ae19a38d6b6795a043e53d9b9c9c975f7646704fa7",
+            "recovered_sha256": "ff30ab748b74bfa27b9f58ae19a38d6b6795a043e53d9b9c9c975f7646704fa7",
+            "first_mismatch": null
+          },
+          "source_rows": 36,
+          "html_rows": 37,
+          "cell_order_and_colspan_equal": false,
+          "source_cells": 252,
+          "html_cells": 260
+        },
+        {
+          "table_index": 50,
+          "text": {
+            "source_characters": 543,
+            "recovered_characters": 543,
+            "equal_in_order": true,
+            "source_sha256": "d3bb545b453f2a80423751fe6130af8168924a2cc53531da14f30ac0c08dc49e",
+            "recovered_sha256": "d3bb545b453f2a80423751fe6130af8168924a2cc53531da14f30ac0c08dc49e",
+            "first_mismatch": null
+          },
+          "source_rows": 18,
+          "html_rows": 19,
+          "cell_order_and_colspan_equal": false,
+          "source_cells": 126,
+          "html_cells": 134
+        },
+        {
+          "table_index": 51,
+          "text": {
+            "source_characters": 573,
+            "recovered_characters": 573,
+            "equal_in_order": true,
+            "source_sha256": "2fc41fffe7f753b4d2324f6ab7edd518cd0c80f60374d17f90bce73bf6e95734",
+            "recovered_sha256": "2fc41fffe7f753b4d2324f6ab7edd518cd0c80f60374d17f90bce73bf6e95734",
+            "first_mismatch": null
+          },
+          "source_rows": 20,
+          "html_rows": 20,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 140,
+          "html_cells": 140
+        },
+        {
+          "table_index": 52,
+          "text": {
+            "source_characters": 877,
+            "recovered_characters": 877,
+            "equal_in_order": true,
+            "source_sha256": "e28062f31346d0c6b4018b1de3fdd24679232f912fca02fbe70873345ba792e5",
+            "recovered_sha256": "e28062f31346d0c6b4018b1de3fdd24679232f912fca02fbe70873345ba792e5",
+            "first_mismatch": null
+          },
+          "source_rows": 28,
+          "html_rows": 28,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 196,
+          "html_cells": 196
+        },
+        {
+          "table_index": 53,
+          "text": {
+            "source_characters": 969,
+            "recovered_characters": 969,
+            "equal_in_order": true,
+            "source_sha256": "8c02fae8f90e9ca8603990fdaf0f518e9dbcaf84b44cbce79c733b341efb8625",
+            "recovered_sha256": "8c02fae8f90e9ca8603990fdaf0f518e9dbcaf84b44cbce79c733b341efb8625",
+            "first_mismatch": null
+          },
+          "source_rows": 31,
+          "html_rows": 31,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 217,
+          "html_cells": 217
+        },
+        {
+          "table_index": 54,
+          "text": {
+            "source_characters": 800,
+            "recovered_characters": 800,
+            "equal_in_order": true,
+            "source_sha256": "a174cc4345846420d67890acf07f7ab34dcc72a2f7e97d3edbba57b4b725b140",
+            "recovered_sha256": "a174cc4345846420d67890acf07f7ab34dcc72a2f7e97d3edbba57b4b725b140",
+            "first_mismatch": null
+          },
+          "source_rows": 17,
+          "html_rows": 17,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 119,
+          "html_cells": 119
+        },
+        {
+          "table_index": 55,
+          "text": {
+            "source_characters": 625,
+            "recovered_characters": 625,
+            "equal_in_order": true,
+            "source_sha256": "4910d52e20f95ce32be048eeadc8c2375f56475b60564e0896afe454c58bff8c",
+            "recovered_sha256": "4910d52e20f95ce32be048eeadc8c2375f56475b60564e0896afe454c58bff8c",
+            "first_mismatch": null
+          },
+          "source_rows": 17,
+          "html_rows": 17,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 119,
+          "html_cells": 119
+        },
+        {
+          "table_index": 56,
+          "text": {
+            "source_characters": 693,
+            "recovered_characters": 693,
+            "equal_in_order": true,
+            "source_sha256": "38f9f9d559b35ce607fed23c6f40926a39a1cbfcc6c34b765f4cb0b15eefbf5d",
+            "recovered_sha256": "38f9f9d559b35ce607fed23c6f40926a39a1cbfcc6c34b765f4cb0b15eefbf5d",
+            "first_mismatch": null
+          },
+          "source_rows": 20,
+          "html_rows": 20,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 140,
+          "html_cells": 140
+        },
+        {
+          "table_index": 57,
+          "text": {
+            "source_characters": 259,
+            "recovered_characters": 259,
+            "equal_in_order": true,
+            "source_sha256": "c4a5e8e20f675d43610e4197e69081db1b8fc90301aaa5724926027448ff8012",
+            "recovered_sha256": "c4a5e8e20f675d43610e4197e69081db1b8fc90301aaa5724926027448ff8012",
+            "first_mismatch": null
+          },
+          "source_rows": 8,
+          "html_rows": 8,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 56,
+          "html_cells": 56
+        },
+        {
+          "table_index": 58,
+          "text": {
+            "source_characters": 1645,
+            "recovered_characters": 1645,
+            "equal_in_order": true,
+            "source_sha256": "110c132749263967710bcb8bb6f832c78d126f9ad70d1d9ccced4efd23ea2bd8",
+            "recovered_sha256": "110c132749263967710bcb8bb6f832c78d126f9ad70d1d9ccced4efd23ea2bd8",
+            "first_mismatch": null
+          },
+          "source_rows": 42,
+          "html_rows": 42,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 294,
+          "html_cells": 294
+        },
+        {
+          "table_index": 59,
+          "text": {
+            "source_characters": 809,
+            "recovered_characters": 809,
+            "equal_in_order": true,
+            "source_sha256": "909a61c1a9b168ef873c0ffa40187a3582d041b4e2ef803b4238b5389e92f38c",
+            "recovered_sha256": "909a61c1a9b168ef873c0ffa40187a3582d041b4e2ef803b4238b5389e92f38c",
+            "first_mismatch": null
+          },
+          "source_rows": 23,
+          "html_rows": 23,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 161,
+          "html_cells": 161
+        },
+        {
+          "table_index": 60,
+          "text": {
+            "source_characters": 723,
+            "recovered_characters": 723,
+            "equal_in_order": true,
+            "source_sha256": "1b56005d5d2fea3bc66a4575c5dd20715e996995c96c231559ad44c9b3f09d9b",
+            "recovered_sha256": "1b56005d5d2fea3bc66a4575c5dd20715e996995c96c231559ad44c9b3f09d9b",
+            "first_mismatch": null
+          },
+          "source_rows": 22,
+          "html_rows": 22,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 154,
+          "html_cells": 154
+        },
+        {
+          "table_index": 61,
+          "text": {
+            "source_characters": 836,
+            "recovered_characters": 836,
+            "equal_in_order": true,
+            "source_sha256": "ae16b9c5a39ab9347c5ef9a3db0eaf697d2f70f0f0d482fff31e225e705c425d",
+            "recovered_sha256": "ae16b9c5a39ab9347c5ef9a3db0eaf697d2f70f0f0d482fff31e225e705c425d",
+            "first_mismatch": null
+          },
+          "source_rows": 26,
+          "html_rows": 26,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 182,
+          "html_cells": 182
+        },
+        {
+          "table_index": 62,
+          "text": {
+            "source_characters": 725,
+            "recovered_characters": 725,
+            "equal_in_order": true,
+            "source_sha256": "67e9ec079176c0dddb87b61b3661247f7c0824d46059e66962bdadfbaa1a696f",
+            "recovered_sha256": "67e9ec079176c0dddb87b61b3661247f7c0824d46059e66962bdadfbaa1a696f",
+            "first_mismatch": null
+          },
+          "source_rows": 21,
+          "html_rows": 21,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 147,
+          "html_cells": 147
+        },
+        {
+          "table_index": 63,
+          "text": {
+            "source_characters": 782,
+            "recovered_characters": 782,
+            "equal_in_order": true,
+            "source_sha256": "297a1856157a9f835caa0aaf523c564b130f7cca0cad640ce82fadf2721a34f7",
+            "recovered_sha256": "297a1856157a9f835caa0aaf523c564b130f7cca0cad640ce82fadf2721a34f7",
+            "first_mismatch": null
+          },
+          "source_rows": 23,
+          "html_rows": 23,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 161,
+          "html_cells": 161
+        },
+        {
+          "table_index": 64,
+          "text": {
+            "source_characters": 569,
+            "recovered_characters": 569,
+            "equal_in_order": true,
+            "source_sha256": "dc206f6d2252baaac2cb31cfbae74370f42a2fee4214f5fd1f88ccf619ca74c1",
+            "recovered_sha256": "dc206f6d2252baaac2cb31cfbae74370f42a2fee4214f5fd1f88ccf619ca74c1",
+            "first_mismatch": null
+          },
+          "source_rows": 18,
+          "html_rows": 18,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 126,
+          "html_cells": 126
+        },
+        {
+          "table_index": 65,
+          "text": {
+            "source_characters": 864,
+            "recovered_characters": 864,
+            "equal_in_order": true,
+            "source_sha256": "aa52175a5a0abca15145c29b2b28573f4d5671228437a60c748645f906771919",
+            "recovered_sha256": "aa52175a5a0abca15145c29b2b28573f4d5671228437a60c748645f906771919",
+            "first_mismatch": null
+          },
+          "source_rows": 25,
+          "html_rows": 25,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 175,
+          "html_cells": 175
+        },
+        {
+          "table_index": 66,
+          "text": {
+            "source_characters": 1360,
+            "recovered_characters": 1360,
+            "equal_in_order": true,
+            "source_sha256": "ea76d2572841d5a56c7a2326aab9e406ec1f5c1ad65ee4d191719cbccd72d9b6",
+            "recovered_sha256": "ea76d2572841d5a56c7a2326aab9e406ec1f5c1ad65ee4d191719cbccd72d9b6",
+            "first_mismatch": null
+          },
+          "source_rows": 41,
+          "html_rows": 41,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 287,
+          "html_cells": 287
+        },
+        {
+          "table_index": 67,
+          "text": {
+            "source_characters": 1356,
+            "recovered_characters": 1356,
+            "equal_in_order": true,
+            "source_sha256": "0b03b4ab87d2cc68dc62b1273ce1b8e22632a219cde56d047ae8950fa8c790e4",
+            "recovered_sha256": "0b03b4ab87d2cc68dc62b1273ce1b8e22632a219cde56d047ae8950fa8c790e4",
+            "first_mismatch": null
+          },
+          "source_rows": 41,
+          "html_rows": 41,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 287,
+          "html_cells": 287
+        },
+        {
+          "table_index": 68,
+          "text": {
+            "source_characters": 985,
+            "recovered_characters": 985,
+            "equal_in_order": true,
+            "source_sha256": "d615b71a3284af6b72d82a0da436dd4304f408c8631439f0ef14c4dd9215451a",
+            "recovered_sha256": "d615b71a3284af6b72d82a0da436dd4304f408c8631439f0ef14c4dd9215451a",
+            "first_mismatch": null
+          },
+          "source_rows": 29,
+          "html_rows": 29,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 203,
+          "html_cells": 203
+        },
+        {
+          "table_index": 69,
+          "text": {
+            "source_characters": 1011,
+            "recovered_characters": 1011,
+            "equal_in_order": true,
+            "source_sha256": "6bd5b9e068ab5a21c32f852437852ffd6151e227f797db7b7400f73d56cf4073",
+            "recovered_sha256": "6bd5b9e068ab5a21c32f852437852ffd6151e227f797db7b7400f73d56cf4073",
+            "first_mismatch": null
+          },
+          "source_rows": 31,
+          "html_rows": 31,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 217,
+          "html_cells": 217
+        },
+        {
+          "table_index": 70,
+          "text": {
+            "source_characters": 2339,
+            "recovered_characters": 2339,
+            "equal_in_order": true,
+            "source_sha256": "2eedf2dc41c29812310efcbd76a1bb7fbc57f728e86112f70ce8cacee8720c96",
+            "recovered_sha256": "2eedf2dc41c29812310efcbd76a1bb7fbc57f728e86112f70ce8cacee8720c96",
+            "first_mismatch": null
+          },
+          "source_rows": 90,
+          "html_rows": 90,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 540,
+          "html_cells": 540
+        },
+        {
+          "table_index": 71,
+          "text": {
+            "source_characters": 706,
+            "recovered_characters": 706,
+            "equal_in_order": true,
+            "source_sha256": "f24b6ea674c3fb57fa812077387cda4da3b82935bb93d8f5dd8eec3d49003e38",
+            "recovered_sha256": "f24b6ea674c3fb57fa812077387cda4da3b82935bb93d8f5dd8eec3d49003e38",
+            "first_mismatch": null
+          },
+          "source_rows": 28,
+          "html_rows": 28,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 168,
+          "html_cells": 168
+        },
+        {
+          "table_index": 72,
+          "text": {
+            "source_characters": 2278,
+            "recovered_characters": 2278,
+            "equal_in_order": true,
+            "source_sha256": "f029ad9a3a0ed488e7d776f98d76074c2ea10ec8ee8961d7dc65c8e53aae7827",
+            "recovered_sha256": "f029ad9a3a0ed488e7d776f98d76074c2ea10ec8ee8961d7dc65c8e53aae7827",
+            "first_mismatch": null
+          },
+          "source_rows": 83,
+          "html_rows": 83,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 498,
+          "html_cells": 498
+        },
+        {
+          "table_index": 73,
+          "text": {
+            "source_characters": 3463,
+            "recovered_characters": 3463,
+            "equal_in_order": true,
+            "source_sha256": "14b6d4c97bbb1965e1a1fbe30e84b1304a775e59f22c1726fb689c2d86775e7a",
+            "recovered_sha256": "14b6d4c97bbb1965e1a1fbe30e84b1304a775e59f22c1726fb689c2d86775e7a",
+            "first_mismatch": null
+          },
+          "source_rows": 123,
+          "html_rows": 123,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 738,
+          "html_cells": 738
+        },
+        {
+          "table_index": 74,
+          "text": {
+            "source_characters": 1031,
+            "recovered_characters": 1031,
+            "equal_in_order": true,
+            "source_sha256": "4a546a0803feff47937ae57eafe1bf0a3c0f17d1ef4fb8349550d59753fabd06",
+            "recovered_sha256": "4a546a0803feff47937ae57eafe1bf0a3c0f17d1ef4fb8349550d59753fabd06",
+            "first_mismatch": null
+          },
+          "source_rows": 24,
+          "html_rows": 24,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 168,
+          "html_cells": 168
+        },
+        {
+          "table_index": 75,
+          "text": {
+            "source_characters": 1576,
+            "recovered_characters": 1576,
+            "equal_in_order": true,
+            "source_sha256": "8b9c8ea0fc1effd4edbd66401c797d1089c415c03994d965d8f784ec194da1fa",
+            "recovered_sha256": "8b9c8ea0fc1effd4edbd66401c797d1089c415c03994d965d8f784ec194da1fa",
+            "first_mismatch": null
+          },
+          "source_rows": 42,
+          "html_rows": 42,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 294,
+          "html_cells": 294
+        },
+        {
+          "table_index": 76,
+          "text": {
+            "source_characters": 3258,
+            "recovered_characters": 3258,
+            "equal_in_order": true,
+            "source_sha256": "8f1cccc9c223d7e44dff5f5c9d685974ccd0afa8370c82e3bc7b805caf139b3f",
+            "recovered_sha256": "8f1cccc9c223d7e44dff5f5c9d685974ccd0afa8370c82e3bc7b805caf139b3f",
+            "first_mismatch": null
+          },
+          "source_rows": 87,
+          "html_rows": 87,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 609,
+          "html_cells": 609
+        },
+        {
+          "table_index": 77,
+          "text": {
+            "source_characters": 226,
+            "recovered_characters": 226,
+            "equal_in_order": true,
+            "source_sha256": "87fc34182d9850befa8b18945ef78ca62318aa573ae48bcc972c3f881d58e17d",
+            "recovered_sha256": "87fc34182d9850befa8b18945ef78ca62318aa573ae48bcc972c3f881d58e17d",
+            "first_mismatch": null
+          },
+          "source_rows": 7,
+          "html_rows": 7,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 49,
+          "html_cells": 49
+        },
+        {
+          "table_index": 78,
+          "text": {
+            "source_characters": 359,
+            "recovered_characters": 359,
+            "equal_in_order": true,
+            "source_sha256": "89a0b91c663c617efb35bfd606c828b96e05ac7b4af508ad4b5c56d57cd9887b",
+            "recovered_sha256": "89a0b91c663c617efb35bfd606c828b96e05ac7b4af508ad4b5c56d57cd9887b",
+            "first_mismatch": null
+          },
+          "source_rows": 11,
+          "html_rows": 11,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 77,
+          "html_cells": 77
+        },
+        {
+          "table_index": 79,
+          "text": {
+            "source_characters": 2160,
+            "recovered_characters": 2160,
+            "equal_in_order": true,
+            "source_sha256": "545704201d7db53c45a63f39af3bdb689a107e7d0c26ba0749d739f69f818201",
+            "recovered_sha256": "545704201d7db53c45a63f39af3bdb689a107e7d0c26ba0749d739f69f818201",
+            "first_mismatch": null
+          },
+          "source_rows": 59,
+          "html_rows": 59,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 413,
+          "html_cells": 413
+        },
+        {
+          "table_index": 80,
+          "text": {
+            "source_characters": 250,
+            "recovered_characters": 250,
+            "equal_in_order": true,
+            "source_sha256": "53be0a861539848240b218faf5d29272a575361af0481c40da68a926acaefd4c",
+            "recovered_sha256": "53be0a861539848240b218faf5d29272a575361af0481c40da68a926acaefd4c",
+            "first_mismatch": null
+          },
+          "source_rows": 8,
+          "html_rows": 8,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 56,
+          "html_cells": 56
+        },
+        {
+          "table_index": 81,
+          "text": {
+            "source_characters": 398,
+            "recovered_characters": 398,
+            "equal_in_order": true,
+            "source_sha256": "04d578cef9fc9cf216a77a11635c6d8107a652dfbfa73927cbc1f15e36f38ca2",
+            "recovered_sha256": "04d578cef9fc9cf216a77a11635c6d8107a652dfbfa73927cbc1f15e36f38ca2",
+            "first_mismatch": null
+          },
+          "source_rows": 12,
+          "html_rows": 12,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 84,
+          "html_cells": 84
+        },
+        {
+          "table_index": 82,
+          "text": {
+            "source_characters": 250,
+            "recovered_characters": 250,
+            "equal_in_order": true,
+            "source_sha256": "53be0a861539848240b218faf5d29272a575361af0481c40da68a926acaefd4c",
+            "recovered_sha256": "53be0a861539848240b218faf5d29272a575361af0481c40da68a926acaefd4c",
+            "first_mismatch": null
+          },
+          "source_rows": 8,
+          "html_rows": 8,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 56,
+          "html_cells": 56
+        },
+        {
+          "table_index": 83,
+          "text": {
+            "source_characters": 196,
+            "recovered_characters": 196,
+            "equal_in_order": true,
+            "source_sha256": "baccfc94c26fc0ebae2e23058cc36f800923e3f272f6aef17925a4201d813514",
+            "recovered_sha256": "baccfc94c26fc0ebae2e23058cc36f800923e3f272f6aef17925a4201d813514",
+            "first_mismatch": null
+          },
+          "source_rows": 6,
+          "html_rows": 6,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 42,
+          "html_cells": 42
+        },
+        {
+          "table_index": 84,
+          "text": {
+            "source_characters": 1179,
+            "recovered_characters": 1179,
+            "equal_in_order": true,
+            "source_sha256": "55836f0f237c43c6b2f4c38e3a02963feb7a19e3def91d3c891ae5518c77292f",
+            "recovered_sha256": "55836f0f237c43c6b2f4c38e3a02963feb7a19e3def91d3c891ae5518c77292f",
+            "first_mismatch": null
+          },
+          "source_rows": 48,
+          "html_rows": 48,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 288,
+          "html_cells": 288
+        },
+        {
+          "table_index": 85,
+          "text": {
+            "source_characters": 1009,
+            "recovered_characters": 1009,
+            "equal_in_order": true,
+            "source_sha256": "22189a77b7eab8b3ec32c2a73a3ea093d4815cde09dcaca645fdec7c4c776f1d",
+            "recovered_sha256": "22189a77b7eab8b3ec32c2a73a3ea093d4815cde09dcaca645fdec7c4c776f1d",
+            "first_mismatch": null
+          },
+          "source_rows": 41,
+          "html_rows": 41,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 246,
+          "html_cells": 246
+        },
+        {
+          "table_index": 86,
+          "text": {
+            "source_characters": 1311,
+            "recovered_characters": 1311,
+            "equal_in_order": true,
+            "source_sha256": "acf98227d2b78a6d953f16f3ab2eb596b545b77cc090001a5df81fb61a03b84c",
+            "recovered_sha256": "acf98227d2b78a6d953f16f3ab2eb596b545b77cc090001a5df81fb61a03b84c",
+            "first_mismatch": null
+          },
+          "source_rows": 24,
+          "html_rows": 24,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 168,
+          "html_cells": 168
+        },
+        {
+          "table_index": 87,
+          "text": {
+            "source_characters": 906,
+            "recovered_characters": 906,
+            "equal_in_order": true,
+            "source_sha256": "20f60db05c84ac8f28968b5b45f45dd030b03ab323dbf787cfb524ee30e22fe1",
+            "recovered_sha256": "20f60db05c84ac8f28968b5b45f45dd030b03ab323dbf787cfb524ee30e22fe1",
+            "first_mismatch": null
+          },
+          "source_rows": 22,
+          "html_rows": 22,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 154,
+          "html_cells": 154
+        },
+        {
+          "table_index": 88,
+          "text": {
+            "source_characters": 3326,
+            "recovered_characters": 3326,
+            "equal_in_order": true,
+            "source_sha256": "0bae29f4c606d0bd3268b7c4c311791d7ae0e2eec6bf3c00e9318aabc50b32d5",
+            "recovered_sha256": "0bae29f4c606d0bd3268b7c4c311791d7ae0e2eec6bf3c00e9318aabc50b32d5",
+            "first_mismatch": null
+          },
+          "source_rows": 60,
+          "html_rows": 60,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 420,
+          "html_cells": 420
+        },
+        {
+          "table_index": 89,
+          "text": {
+            "source_characters": 250,
+            "recovered_characters": 250,
+            "equal_in_order": true,
+            "source_sha256": "e206b4f8c2fd2ffa6a8ce607226c7795f6c2083714765ff2f85fac51bd775778",
+            "recovered_sha256": "e206b4f8c2fd2ffa6a8ce607226c7795f6c2083714765ff2f85fac51bd775778",
+            "first_mismatch": null
+          },
+          "source_rows": 10,
+          "html_rows": 10,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 70,
+          "html_cells": 70
+        },
+        {
+          "table_index": 90,
+          "text": {
+            "source_characters": 2351,
+            "recovered_characters": 2351,
+            "equal_in_order": true,
+            "source_sha256": "adeca6a1e6ec4acecb103291c3f7af874a961d65d23e0a9c178bb92dfdc23c56",
+            "recovered_sha256": "adeca6a1e6ec4acecb103291c3f7af874a961d65d23e0a9c178bb92dfdc23c56",
+            "first_mismatch": null
+          },
+          "source_rows": 49,
+          "html_rows": 49,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 343,
+          "html_cells": 343
+        },
+        {
+          "table_index": 91,
+          "text": {
+            "source_characters": 3235,
+            "recovered_characters": 3235,
+            "equal_in_order": true,
+            "source_sha256": "abbd16cbd6bba9f1382dd6c123e46ed618868d3135a2e69455652e72d11c8363",
+            "recovered_sha256": "abbd16cbd6bba9f1382dd6c123e46ed618868d3135a2e69455652e72d11c8363",
+            "first_mismatch": null
+          },
+          "source_rows": 52,
+          "html_rows": 52,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 364,
+          "html_cells": 364
+        },
+        {
+          "table_index": 92,
+          "text": {
+            "source_characters": 250,
+            "recovered_characters": 250,
+            "equal_in_order": true,
+            "source_sha256": "e206b4f8c2fd2ffa6a8ce607226c7795f6c2083714765ff2f85fac51bd775778",
+            "recovered_sha256": "e206b4f8c2fd2ffa6a8ce607226c7795f6c2083714765ff2f85fac51bd775778",
+            "first_mismatch": null
+          },
+          "source_rows": 10,
+          "html_rows": 10,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 70,
+          "html_cells": 70
+        },
+        {
+          "table_index": 93,
+          "text": {
+            "source_characters": 899,
+            "recovered_characters": 899,
+            "equal_in_order": true,
+            "source_sha256": "4b0798dfff50e0ae997619c9690496fffbfe182759ab5b2cffa94861ef36150d",
+            "recovered_sha256": "4b0798dfff50e0ae997619c9690496fffbfe182759ab5b2cffa94861ef36150d",
+            "first_mismatch": null
+          },
+          "source_rows": 28,
+          "html_rows": 28,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 196,
+          "html_cells": 196
+        },
+        {
+          "table_index": 94,
+          "text": {
+            "source_characters": 2820,
+            "recovered_characters": 2820,
+            "equal_in_order": true,
+            "source_sha256": "2c3f95404c1783cc8fe2693abea00b9334037813079bd1bfb196d0959961a225",
+            "recovered_sha256": "2c3f95404c1783cc8fe2693abea00b9334037813079bd1bfb196d0959961a225",
+            "first_mismatch": null
+          },
+          "source_rows": 82,
+          "html_rows": 82,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 574,
+          "html_cells": 574
+        },
+        {
+          "table_index": 95,
+          "text": {
+            "source_characters": 719,
+            "recovered_characters": 719,
+            "equal_in_order": true,
+            "source_sha256": "626445bf56f1a7e217e7d70d3b24721f0c6fdf2ea90c20312521aab370ffaffd",
+            "recovered_sha256": "626445bf56f1a7e217e7d70d3b24721f0c6fdf2ea90c20312521aab370ffaffd",
+            "first_mismatch": null
+          },
+          "source_rows": 17,
+          "html_rows": 17,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 119,
+          "html_cells": 119
+        },
+        {
+          "table_index": 96,
+          "text": {
+            "source_characters": 577,
+            "recovered_characters": 577,
+            "equal_in_order": true,
+            "source_sha256": "c9f99e7132dc811a669b5c942b528e2862d592cefd6083c29a6b1c4877f89b6c",
+            "recovered_sha256": "c9f99e7132dc811a669b5c942b528e2862d592cefd6083c29a6b1c4877f89b6c",
+            "first_mismatch": null
+          },
+          "source_rows": 16,
+          "html_rows": 16,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 112,
+          "html_cells": 112
+        },
+        {
+          "table_index": 97,
+          "text": {
+            "source_characters": 621,
+            "recovered_characters": 621,
+            "equal_in_order": true,
+            "source_sha256": "ca0c74810db82e167e799f7dd0a78ace1d383c0034f42292df15d56ed867928b",
+            "recovered_sha256": "ca0c74810db82e167e799f7dd0a78ace1d383c0034f42292df15d56ed867928b",
+            "first_mismatch": null
+          },
+          "source_rows": 16,
+          "html_rows": 16,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 112,
+          "html_cells": 112
+        },
+        {
+          "table_index": 98,
+          "text": {
+            "source_characters": 1385,
+            "recovered_characters": 1385,
+            "equal_in_order": true,
+            "source_sha256": "63956dfb737183a2f1cf401919935d53833be27ccaaf56120ad765a04c256f6e",
+            "recovered_sha256": "63956dfb737183a2f1cf401919935d53833be27ccaaf56120ad765a04c256f6e",
+            "first_mismatch": null
+          },
+          "source_rows": 28,
+          "html_rows": 28,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 196,
+          "html_cells": 196
+        },
+        {
+          "table_index": 99,
+          "text": {
+            "source_characters": 157,
+            "recovered_characters": 157,
+            "equal_in_order": true,
+            "source_sha256": "98ad864e6b8ccaff6924bd8e46a78863961f990adbb969cfde204cd11e71b231",
+            "recovered_sha256": "98ad864e6b8ccaff6924bd8e46a78863961f990adbb969cfde204cd11e71b231",
+            "first_mismatch": null
+          },
+          "source_rows": 6,
+          "html_rows": 6,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 42,
+          "html_cells": 42
+        },
+        {
+          "table_index": 100,
+          "text": {
+            "source_characters": 21227,
+            "recovered_characters": 21227,
+            "equal_in_order": true,
+            "source_sha256": "9af72a3ade3aa4875c1dc5c52a26908585001c773075630e9d195cbd95141026",
+            "recovered_sha256": "9af72a3ade3aa4875c1dc5c52a26908585001c773075630e9d195cbd95141026",
+            "first_mismatch": null
+          },
+          "source_rows": 583,
+          "html_rows": 584,
+          "cell_order_and_colspan_equal": false,
+          "source_cells": 3498,
+          "html_cells": 3772
+        },
+        {
+          "table_index": 101,
+          "text": {
+            "source_characters": 246,
+            "recovered_characters": 246,
+            "equal_in_order": true,
+            "source_sha256": "cbadffb31c72ff189c464c79e4975f39ced6c85476327ea889b6602004d41b74",
+            "recovered_sha256": "cbadffb31c72ff189c464c79e4975f39ced6c85476327ea889b6602004d41b74",
+            "first_mismatch": null
+          },
+          "source_rows": 11,
+          "html_rows": 11,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 41,
+          "html_cells": 41
+        },
+        {
+          "table_index": 102,
+          "text": {
+            "source_characters": 597,
+            "recovered_characters": 597,
+            "equal_in_order": true,
+            "source_sha256": "b72a139589a8cdd3822cdb1abd1c3c179f00723f0d402d2c7abe3a47682292d2",
+            "recovered_sha256": "b72a139589a8cdd3822cdb1abd1c3c179f00723f0d402d2c7abe3a47682292d2",
+            "first_mismatch": null
+          },
+          "source_rows": 23,
+          "html_rows": 23,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 92,
+          "html_cells": 92
+        },
+        {
+          "table_index": 103,
+          "text": {
+            "source_characters": 421,
+            "recovered_characters": 421,
+            "equal_in_order": true,
+            "source_sha256": "dc02dc07eb99076987f4bc09347e889c6102192e12f384b168a36c6b8fe91df0",
+            "recovered_sha256": "dc02dc07eb99076987f4bc09347e889c6102192e12f384b168a36c6b8fe91df0",
+            "first_mismatch": null
+          },
+          "source_rows": 14,
+          "html_rows": 14,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 56,
+          "html_cells": 56
+        },
+        {
+          "table_index": 104,
+          "text": {
+            "source_characters": 1613,
+            "recovered_characters": 1613,
+            "equal_in_order": true,
+            "source_sha256": "6d1023f4ce6b252dcd7b90f8c30fb3f723f812ca0a42a3daf7ba8024d0b22bc0",
+            "recovered_sha256": "6d1023f4ce6b252dcd7b90f8c30fb3f723f812ca0a42a3daf7ba8024d0b22bc0",
+            "first_mismatch": null
+          },
+          "source_rows": 55,
+          "html_rows": 55,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 220,
+          "html_cells": 220
+        },
+        {
+          "table_index": 105,
+          "text": {
+            "source_characters": 1206,
+            "recovered_characters": 1206,
+            "equal_in_order": true,
+            "source_sha256": "a0518e108869c916e0c42bdb84a0fa7f3e9280cc4734826f8e6c33eb7b5ada81",
+            "recovered_sha256": "a0518e108869c916e0c42bdb84a0fa7f3e9280cc4734826f8e6c33eb7b5ada81",
+            "first_mismatch": null
+          },
+          "source_rows": 48,
+          "html_rows": 48,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 65,
+          "html_cells": 65
+        },
+        {
+          "table_index": 106,
+          "text": {
+            "source_characters": 8023,
+            "recovered_characters": 8023,
+            "equal_in_order": true,
+            "source_sha256": "61d7f8d5c3fb6b5b4e0d1521c7fdcf22652831187f21957c0ea444e497a57f7d",
+            "recovered_sha256": "61d7f8d5c3fb6b5b4e0d1521c7fdcf22652831187f21957c0ea444e497a57f7d",
+            "first_mismatch": null
+          },
+          "source_rows": 586,
+          "html_rows": 586,
+          "cell_order_and_colspan_equal": true,
+          "source_cells": 1758,
+          "html_cells": 1758
+        }
+      ],
+      "html_main_table_count": 106,
+      "html_cover_table_count": 4,
+      "html_to_markdown_tables": {
+        "same_count": true,
+        "all_table_rows_cells_colspan_equal": true,
+        "all_rowspan_attributes_equal": true
+      },
+      "corrected_conversion": {
+        "verification_type": "independent_machine_source_reaudit",
+        "human_review_asserted": false,
+        "source_path": "data/_sources/L3/central-data-exchange-protocol-v2.2-20260320/original.doc",
+        "source_sha256": "071b21e8057863e68c4e91d37ddc03f0bc68344d36cb65512b95016cd946b2b5",
+        "input_markdown_sha256": "3e0ee6998a0d0acf4affd5b1816a78e10bdbed8c0575e55b9a2d0d17e456a3ae",
+        "intermediate_path": "artifacts/review-word/central-original-readonly.docx",
+        "intermediate_sha256": "b1ec116c6b814d90ff3c2e04d0df8c4454501f775143a92b98fff6354725c4ff",
+        "intermediate_method": "Microsoft Word read-only original DOC opened, SaveAs2 wdFormatXMLDocument into artifacts, original DOC unchanged",
+        "output_path": "artifacts/review-word/central-data-exchange-protocol-v2.2-20260320.current.md",
+        "output_sha256": "16b11091c178ec3afdde1782f65dc15a770e601e05876be38d3923ee9c109823",
+        "source_unchanged": true,
+        "original_doc_to_intermediate_current_text_equal": true,
+        "original_doc_to_corrected_markdown_current_text_equal_in_order": true,
+        "source_current_text_characters": 155106,
+        "source_current_text_with_word_labels_characters": 155924,
+        "corrected_markdown_text_characters": 155924,
+        "source_current_text_sha256": "07e407f00523350bb3d2b114863e8955a47c689fb1c6a06504937cc702b0f2e6",
+        "source_current_text_with_word_labels_sha256": "4c209202186548a5fb250e66f5ae324a9e55e4672b78a2aaa6e2445ea110a64d",
+        "corrected_markdown_text_sha256": "4c209202186548a5fb250e66f5ae324a9e55e4672b78a2aaa6e2445ea110a64d",
+        "source_body_tables": 106,
+        "corrected_markdown_tables": 106,
+        "all_table_text_equal_in_order": true,
+        "all_table_rows_cells_and_spans_equal": true,
+        "table_checks": [
+          {
+            "index": 1,
+            "source_current_text_sha256": "9397c774244414a9f8fbb40569fc779e1185b863cf99cdaa4437208f8802622f",
+            "recovered_text_sha256": "9397c774244414a9f8fbb40569fc779e1185b863cf99cdaa4437208f8802622f",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 6,
+            "recovered_rows": 6
+          },
+          {
+            "index": 2,
+            "source_current_text_sha256": "80334fa0b656bc7fcac3492c3b9b524895e4c100a7941369f8faf9adb19a9c66",
+            "recovered_text_sha256": "80334fa0b656bc7fcac3492c3b9b524895e4c100a7941369f8faf9adb19a9c66",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 5,
+            "recovered_rows": 5
+          },
+          {
+            "index": 3,
+            "source_current_text_sha256": "1718cb46e92730c17ebbcffa2a9c9b42d78eef63215ed51916a11feb287c2395",
+            "recovered_text_sha256": "1718cb46e92730c17ebbcffa2a9c9b42d78eef63215ed51916a11feb287c2395",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 6,
+            "recovered_rows": 6
+          },
+          {
+            "index": 4,
+            "source_current_text_sha256": "b361d92822b9fe218203e73940b476e5568c4d5a8f45577153bbd490c726627b",
+            "recovered_text_sha256": "b361d92822b9fe218203e73940b476e5568c4d5a8f45577153bbd490c726627b",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 16,
+            "recovered_rows": 16
+          },
+          {
+            "index": 5,
+            "source_current_text_sha256": "f6d1c45e200f3a78a029b94b637508fca827109eb0be73b59a3bcb6783951a88",
+            "recovered_text_sha256": "f6d1c45e200f3a78a029b94b637508fca827109eb0be73b59a3bcb6783951a88",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 63,
+            "recovered_rows": 63
+          },
+          {
+            "index": 6,
+            "source_current_text_sha256": "12304aac3075a13bda40d82dd2373aec29974ceba2e65c80e960954a63150f28",
+            "recovered_text_sha256": "12304aac3075a13bda40d82dd2373aec29974ceba2e65c80e960954a63150f28",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 84,
+            "recovered_rows": 84
+          },
+          {
+            "index": 7,
+            "source_current_text_sha256": "c192d9fd196df6a8f81f9fda5c245692ab8b1359fe2c3c4c212ccb8e7d2d71e0",
+            "recovered_text_sha256": "c192d9fd196df6a8f81f9fda5c245692ab8b1359fe2c3c4c212ccb8e7d2d71e0",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 15,
+            "recovered_rows": 15
+          },
+          {
+            "index": 8,
+            "source_current_text_sha256": "31e3173eba73301b0eb08db1b06fbd83ba08488fd5c8ed315815681866723060",
+            "recovered_text_sha256": "31e3173eba73301b0eb08db1b06fbd83ba08488fd5c8ed315815681866723060",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 12,
+            "recovered_rows": 12
+          },
+          {
+            "index": 9,
+            "source_current_text_sha256": "8baad41c1a5d95dfefa1a58b06d7af65af8ec7ce51e738d66599f82f284cecec",
+            "recovered_text_sha256": "8baad41c1a5d95dfefa1a58b06d7af65af8ec7ce51e738d66599f82f284cecec",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 23,
+            "recovered_rows": 23
+          },
+          {
+            "index": 10,
+            "source_current_text_sha256": "75da71eeaed58ef8ad4119472cded734a5ee0d0fccc90bebaeaba737c7e3a701",
+            "recovered_text_sha256": "75da71eeaed58ef8ad4119472cded734a5ee0d0fccc90bebaeaba737c7e3a701",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 13,
+            "recovered_rows": 13
+          },
+          {
+            "index": 11,
+            "source_current_text_sha256": "1cf550ab5a6bacd3150385b5a37c589ae257891321f74d6e02a4c95775592cc5",
+            "recovered_text_sha256": "1cf550ab5a6bacd3150385b5a37c589ae257891321f74d6e02a4c95775592cc5",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 15,
+            "recovered_rows": 15
+          },
+          {
+            "index": 12,
+            "source_current_text_sha256": "8d478e46935742c93e55a95cd19c4a9929d939f5f005404fd09e6ad7c4e397e2",
+            "recovered_text_sha256": "8d478e46935742c93e55a95cd19c4a9929d939f5f005404fd09e6ad7c4e397e2",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 11,
+            "recovered_rows": 11
+          },
+          {
+            "index": 13,
+            "source_current_text_sha256": "28f91f48c141782cff929888415197bf5a4ac0400bc704c520ca70315cd4255d",
+            "recovered_text_sha256": "28f91f48c141782cff929888415197bf5a4ac0400bc704c520ca70315cd4255d",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 22,
+            "recovered_rows": 22
+          },
+          {
+            "index": 14,
+            "source_current_text_sha256": "96077d619db46a0595f63a18b85cf7b86f20a119f437d85a8752a0160539a346",
+            "recovered_text_sha256": "96077d619db46a0595f63a18b85cf7b86f20a119f437d85a8752a0160539a346",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 11,
+            "recovered_rows": 11
+          },
+          {
+            "index": 15,
+            "source_current_text_sha256": "21d89dd1323b0997697afbc4cc278a2afce54aff35b4d2602a66f76db8fd206a",
+            "recovered_text_sha256": "21d89dd1323b0997697afbc4cc278a2afce54aff35b4d2602a66f76db8fd206a",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 14,
+            "recovered_rows": 14
+          },
+          {
+            "index": 16,
+            "source_current_text_sha256": "aa016c923482a3ddaa79b4be0118f1d71727af2038b50a5b687dfd37f30f313a",
+            "recovered_text_sha256": "aa016c923482a3ddaa79b4be0118f1d71727af2038b50a5b687dfd37f30f313a",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 30,
+            "recovered_rows": 30
+          },
+          {
+            "index": 17,
+            "source_current_text_sha256": "31c4fe444094fec75a9638fe7edfc316f21121daa6d6b9b0d7a0fbf47f2e3ffe",
+            "recovered_text_sha256": "31c4fe444094fec75a9638fe7edfc316f21121daa6d6b9b0d7a0fbf47f2e3ffe",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 32,
+            "recovered_rows": 32
+          },
+          {
+            "index": 18,
+            "source_current_text_sha256": "3509aa5117067b5f0cfb0d128e703b6c5e57a3d8406908f79a2f5c91a62fa1c9",
+            "recovered_text_sha256": "3509aa5117067b5f0cfb0d128e703b6c5e57a3d8406908f79a2f5c91a62fa1c9",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 36,
+            "recovered_rows": 36
+          },
+          {
+            "index": 19,
+            "source_current_text_sha256": "765ccd19c00bb25718b53fd8c577a8a8a7f84e56558f5232cedd90d3d9433fa1",
+            "recovered_text_sha256": "765ccd19c00bb25718b53fd8c577a8a8a7f84e56558f5232cedd90d3d9433fa1",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 40,
+            "recovered_rows": 40
+          },
+          {
+            "index": 20,
+            "source_current_text_sha256": "f59624a9d6e125884fb740a7312c7b30896b6256452e1bf4cd051d83745ebe9e",
+            "recovered_text_sha256": "f59624a9d6e125884fb740a7312c7b30896b6256452e1bf4cd051d83745ebe9e",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 21,
+            "recovered_rows": 21
+          },
+          {
+            "index": 21,
+            "source_current_text_sha256": "e57987e2bbe8c9ba1dd2f195aa0d09cda442de7b888d4beda9b05645f7e8e316",
+            "recovered_text_sha256": "e57987e2bbe8c9ba1dd2f195aa0d09cda442de7b888d4beda9b05645f7e8e316",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 35,
+            "recovered_rows": 35
+          },
+          {
+            "index": 22,
+            "source_current_text_sha256": "018c12e6eac537a62295ed6062e731b34e646e3d564f1387f78b81094550ab64",
+            "recovered_text_sha256": "018c12e6eac537a62295ed6062e731b34e646e3d564f1387f78b81094550ab64",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 52,
+            "recovered_rows": 52
+          },
+          {
+            "index": 23,
+            "source_current_text_sha256": "c8b1a555d4c36e02ff38c472a1969e9f546d1411974604dd8c5ff8d05ad2964a",
+            "recovered_text_sha256": "c8b1a555d4c36e02ff38c472a1969e9f546d1411974604dd8c5ff8d05ad2964a",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 24,
+            "recovered_rows": 24
+          },
+          {
+            "index": 24,
+            "source_current_text_sha256": "71ff4b43ff84b0ebd04e5c5660e73a99b2cc3772e70d23d2e646ca35d58c5886",
+            "recovered_text_sha256": "71ff4b43ff84b0ebd04e5c5660e73a99b2cc3772e70d23d2e646ca35d58c5886",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 23,
+            "recovered_rows": 23
+          },
+          {
+            "index": 25,
+            "source_current_text_sha256": "c83a7926dacc897481bba8fef59793d7d1b3df449ab33f00bed6745140baabff",
+            "recovered_text_sha256": "c83a7926dacc897481bba8fef59793d7d1b3df449ab33f00bed6745140baabff",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 39,
+            "recovered_rows": 39
+          },
+          {
+            "index": 26,
+            "source_current_text_sha256": "5cff6dec591fe87ecd47ab1401ae0b2c7262e5f9517b9c353f6c68758f81d41a",
+            "recovered_text_sha256": "5cff6dec591fe87ecd47ab1401ae0b2c7262e5f9517b9c353f6c68758f81d41a",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 15,
+            "recovered_rows": 15
+          },
+          {
+            "index": 27,
+            "source_current_text_sha256": "b0e3a24145f4c4cec9bb6f79f87f290bd421e33e2064de010e494660a6f59754",
+            "recovered_text_sha256": "b0e3a24145f4c4cec9bb6f79f87f290bd421e33e2064de010e494660a6f59754",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 20,
+            "recovered_rows": 20
+          },
+          {
+            "index": 28,
+            "source_current_text_sha256": "a221e48e5e3c8ac89ec44a0a5990a02d5f592f45326e6fe6fc1783a4ddfd836d",
+            "recovered_text_sha256": "a221e48e5e3c8ac89ec44a0a5990a02d5f592f45326e6fe6fc1783a4ddfd836d",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 37,
+            "recovered_rows": 37
+          },
+          {
+            "index": 29,
+            "source_current_text_sha256": "7c7be42835cd2d4cc2c90b6bb91bbee72670b59ed4c32b922a2e3f0b460ebf1a",
+            "recovered_text_sha256": "7c7be42835cd2d4cc2c90b6bb91bbee72670b59ed4c32b922a2e3f0b460ebf1a",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 19,
+            "recovered_rows": 19
+          },
+          {
+            "index": 30,
+            "source_current_text_sha256": "3b86bc5b59048678105d18754ffa65ddaf6a4e480f8be8487042daeb78e213f2",
+            "recovered_text_sha256": "3b86bc5b59048678105d18754ffa65ddaf6a4e480f8be8487042daeb78e213f2",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 27,
+            "recovered_rows": 27
+          },
+          {
+            "index": 31,
+            "source_current_text_sha256": "177540f82f8c87c066bd182c5a2829d5ad527141b9ac2d76e05aff1d3b3966e0",
+            "recovered_text_sha256": "177540f82f8c87c066bd182c5a2829d5ad527141b9ac2d76e05aff1d3b3966e0",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 19,
+            "recovered_rows": 19
+          },
+          {
+            "index": 32,
+            "source_current_text_sha256": "ed271695690632873dfdb541359a01a1adb55a34a274f8fc245b0794c0b76be1",
+            "recovered_text_sha256": "ed271695690632873dfdb541359a01a1adb55a34a274f8fc245b0794c0b76be1",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 24,
+            "recovered_rows": 24
+          },
+          {
+            "index": 33,
+            "source_current_text_sha256": "4161df49a47ceddb93acac79fe84483f3993c9f3d53f8d3acff51c645ae4d4cd",
+            "recovered_text_sha256": "4161df49a47ceddb93acac79fe84483f3993c9f3d53f8d3acff51c645ae4d4cd",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 25,
+            "recovered_rows": 25
+          },
+          {
+            "index": 34,
+            "source_current_text_sha256": "e9d82fb019d72165202014379ca61f138227e1ded86f8dd791713cb6a1663dd5",
+            "recovered_text_sha256": "e9d82fb019d72165202014379ca61f138227e1ded86f8dd791713cb6a1663dd5",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 40,
+            "recovered_rows": 40
+          },
+          {
+            "index": 35,
+            "source_current_text_sha256": "b6f66757f3f88800f8e98d5cb825a89b5d078293898d05b81fbc868dd8265933",
+            "recovered_text_sha256": "b6f66757f3f88800f8e98d5cb825a89b5d078293898d05b81fbc868dd8265933",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 30,
+            "recovered_rows": 30
+          },
+          {
+            "index": 36,
+            "source_current_text_sha256": "5df642bd1cd358a7ba7cc7f93a22679b8e33af2264e88535cac0476b5115c501",
+            "recovered_text_sha256": "5df642bd1cd358a7ba7cc7f93a22679b8e33af2264e88535cac0476b5115c501",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 56,
+            "recovered_rows": 56
+          },
+          {
+            "index": 37,
+            "source_current_text_sha256": "f608236aa681e58db51fbd5036ab3d82eb1b599acef4f6552837e56a1e226b0d",
+            "recovered_text_sha256": "f608236aa681e58db51fbd5036ab3d82eb1b599acef4f6552837e56a1e226b0d",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 42,
+            "recovered_rows": 42
+          },
+          {
+            "index": 38,
+            "source_current_text_sha256": "f65f83c47dead0dea3acd2e365fb0c276b693ef4cdd499978984bc0517bbaf91",
+            "recovered_text_sha256": "f65f83c47dead0dea3acd2e365fb0c276b693ef4cdd499978984bc0517bbaf91",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 33,
+            "recovered_rows": 33
+          },
+          {
+            "index": 39,
+            "source_current_text_sha256": "b3f26f86932a780fb69469dc5b05c5e87593419fe5bfc576b2f9e8deb05c293c",
+            "recovered_text_sha256": "b3f26f86932a780fb69469dc5b05c5e87593419fe5bfc576b2f9e8deb05c293c",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 14,
+            "recovered_rows": 14
+          },
+          {
+            "index": 40,
+            "source_current_text_sha256": "63a42259ef4d9a8e537e63a0636a5780b402297341be7b461ba74245096b68cb",
+            "recovered_text_sha256": "63a42259ef4d9a8e537e63a0636a5780b402297341be7b461ba74245096b68cb",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 21,
+            "recovered_rows": 21
+          },
+          {
+            "index": 41,
+            "source_current_text_sha256": "58fc531abca509c4bb4b3c35b302d252b49c51347ad0ff5d8e6e8ba956a10428",
+            "recovered_text_sha256": "58fc531abca509c4bb4b3c35b302d252b49c51347ad0ff5d8e6e8ba956a10428",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 26,
+            "recovered_rows": 26
+          },
+          {
+            "index": 42,
+            "source_current_text_sha256": "173ab77bbb67543c10b4f6636de1c8a5b28c47cab06396ed8599930f1552e29c",
+            "recovered_text_sha256": "173ab77bbb67543c10b4f6636de1c8a5b28c47cab06396ed8599930f1552e29c",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 12,
+            "recovered_rows": 12
+          },
+          {
+            "index": 43,
+            "source_current_text_sha256": "2cb86eb0a9e35fae160fa19244bafdcbf1b7168969b900ff33ad62b69171581a",
+            "recovered_text_sha256": "2cb86eb0a9e35fae160fa19244bafdcbf1b7168969b900ff33ad62b69171581a",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 18,
+            "recovered_rows": 18
+          },
+          {
+            "index": 44,
+            "source_current_text_sha256": "c99ef1ecb503ccbe2d2d530d839791deee569a462151bff8035b2e6e36d174f9",
+            "recovered_text_sha256": "c99ef1ecb503ccbe2d2d530d839791deee569a462151bff8035b2e6e36d174f9",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 30,
+            "recovered_rows": 30
+          },
+          {
+            "index": 45,
+            "source_current_text_sha256": "5850e6c6ad99139436480aa69b2f411c95ae1231088a275df8b709bbdc2b9585",
+            "recovered_text_sha256": "5850e6c6ad99139436480aa69b2f411c95ae1231088a275df8b709bbdc2b9585",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 36,
+            "recovered_rows": 36
+          },
+          {
+            "index": 46,
+            "source_current_text_sha256": "64ce4526bd56a5b67bcce08dfa0af32676ef836cde3a04278db21656d69ed17b",
+            "recovered_text_sha256": "64ce4526bd56a5b67bcce08dfa0af32676ef836cde3a04278db21656d69ed17b",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 41,
+            "recovered_rows": 41
+          },
+          {
+            "index": 47,
+            "source_current_text_sha256": "85b6ee3d91e14c8a6181a6b771211bb8ee0d02a1033eaf47e6b9ae814fc3853b",
+            "recovered_text_sha256": "85b6ee3d91e14c8a6181a6b771211bb8ee0d02a1033eaf47e6b9ae814fc3853b",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 17,
+            "recovered_rows": 17
+          },
+          {
+            "index": 48,
+            "source_current_text_sha256": "146a43020932523ec44604ceb1a7e74f9aabcbbebf2963049bf1d9a0d6a0688c",
+            "recovered_text_sha256": "146a43020932523ec44604ceb1a7e74f9aabcbbebf2963049bf1d9a0d6a0688c",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 33,
+            "recovered_rows": 33
+          },
+          {
+            "index": 49,
+            "source_current_text_sha256": "ff30ab748b74bfa27b9f58ae19a38d6b6795a043e53d9b9c9c975f7646704fa7",
+            "recovered_text_sha256": "ff30ab748b74bfa27b9f58ae19a38d6b6795a043e53d9b9c9c975f7646704fa7",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 36,
+            "recovered_rows": 36
+          },
+          {
+            "index": 50,
+            "source_current_text_sha256": "d3bb545b453f2a80423751fe6130af8168924a2cc53531da14f30ac0c08dc49e",
+            "recovered_text_sha256": "d3bb545b453f2a80423751fe6130af8168924a2cc53531da14f30ac0c08dc49e",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 18,
+            "recovered_rows": 18
+          },
+          {
+            "index": 51,
+            "source_current_text_sha256": "2fc41fffe7f753b4d2324f6ab7edd518cd0c80f60374d17f90bce73bf6e95734",
+            "recovered_text_sha256": "2fc41fffe7f753b4d2324f6ab7edd518cd0c80f60374d17f90bce73bf6e95734",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 20,
+            "recovered_rows": 20
+          },
+          {
+            "index": 52,
+            "source_current_text_sha256": "e28062f31346d0c6b4018b1de3fdd24679232f912fca02fbe70873345ba792e5",
+            "recovered_text_sha256": "e28062f31346d0c6b4018b1de3fdd24679232f912fca02fbe70873345ba792e5",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 28,
+            "recovered_rows": 28
+          },
+          {
+            "index": 53,
+            "source_current_text_sha256": "8c02fae8f90e9ca8603990fdaf0f518e9dbcaf84b44cbce79c733b341efb8625",
+            "recovered_text_sha256": "8c02fae8f90e9ca8603990fdaf0f518e9dbcaf84b44cbce79c733b341efb8625",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 31,
+            "recovered_rows": 31
+          },
+          {
+            "index": 54,
+            "source_current_text_sha256": "a174cc4345846420d67890acf07f7ab34dcc72a2f7e97d3edbba57b4b725b140",
+            "recovered_text_sha256": "a174cc4345846420d67890acf07f7ab34dcc72a2f7e97d3edbba57b4b725b140",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 17,
+            "recovered_rows": 17
+          },
+          {
+            "index": 55,
+            "source_current_text_sha256": "4910d52e20f95ce32be048eeadc8c2375f56475b60564e0896afe454c58bff8c",
+            "recovered_text_sha256": "4910d52e20f95ce32be048eeadc8c2375f56475b60564e0896afe454c58bff8c",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 17,
+            "recovered_rows": 17
+          },
+          {
+            "index": 56,
+            "source_current_text_sha256": "38f9f9d559b35ce607fed23c6f40926a39a1cbfcc6c34b765f4cb0b15eefbf5d",
+            "recovered_text_sha256": "38f9f9d559b35ce607fed23c6f40926a39a1cbfcc6c34b765f4cb0b15eefbf5d",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 20,
+            "recovered_rows": 20
+          },
+          {
+            "index": 57,
+            "source_current_text_sha256": "c4a5e8e20f675d43610e4197e69081db1b8fc90301aaa5724926027448ff8012",
+            "recovered_text_sha256": "c4a5e8e20f675d43610e4197e69081db1b8fc90301aaa5724926027448ff8012",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 8,
+            "recovered_rows": 8
+          },
+          {
+            "index": 58,
+            "source_current_text_sha256": "110c132749263967710bcb8bb6f832c78d126f9ad70d1d9ccced4efd23ea2bd8",
+            "recovered_text_sha256": "110c132749263967710bcb8bb6f832c78d126f9ad70d1d9ccced4efd23ea2bd8",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 42,
+            "recovered_rows": 42
+          },
+          {
+            "index": 59,
+            "source_current_text_sha256": "909a61c1a9b168ef873c0ffa40187a3582d041b4e2ef803b4238b5389e92f38c",
+            "recovered_text_sha256": "909a61c1a9b168ef873c0ffa40187a3582d041b4e2ef803b4238b5389e92f38c",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 23,
+            "recovered_rows": 23
+          },
+          {
+            "index": 60,
+            "source_current_text_sha256": "1b56005d5d2fea3bc66a4575c5dd20715e996995c96c231559ad44c9b3f09d9b",
+            "recovered_text_sha256": "1b56005d5d2fea3bc66a4575c5dd20715e996995c96c231559ad44c9b3f09d9b",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 22,
+            "recovered_rows": 22
+          },
+          {
+            "index": 61,
+            "source_current_text_sha256": "ae16b9c5a39ab9347c5ef9a3db0eaf697d2f70f0f0d482fff31e225e705c425d",
+            "recovered_text_sha256": "ae16b9c5a39ab9347c5ef9a3db0eaf697d2f70f0f0d482fff31e225e705c425d",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 26,
+            "recovered_rows": 26
+          },
+          {
+            "index": 62,
+            "source_current_text_sha256": "67e9ec079176c0dddb87b61b3661247f7c0824d46059e66962bdadfbaa1a696f",
+            "recovered_text_sha256": "67e9ec079176c0dddb87b61b3661247f7c0824d46059e66962bdadfbaa1a696f",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 21,
+            "recovered_rows": 21
+          },
+          {
+            "index": 63,
+            "source_current_text_sha256": "297a1856157a9f835caa0aaf523c564b130f7cca0cad640ce82fadf2721a34f7",
+            "recovered_text_sha256": "297a1856157a9f835caa0aaf523c564b130f7cca0cad640ce82fadf2721a34f7",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 23,
+            "recovered_rows": 23
+          },
+          {
+            "index": 64,
+            "source_current_text_sha256": "dc206f6d2252baaac2cb31cfbae74370f42a2fee4214f5fd1f88ccf619ca74c1",
+            "recovered_text_sha256": "dc206f6d2252baaac2cb31cfbae74370f42a2fee4214f5fd1f88ccf619ca74c1",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 18,
+            "recovered_rows": 18
+          },
+          {
+            "index": 65,
+            "source_current_text_sha256": "aa52175a5a0abca15145c29b2b28573f4d5671228437a60c748645f906771919",
+            "recovered_text_sha256": "aa52175a5a0abca15145c29b2b28573f4d5671228437a60c748645f906771919",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 25,
+            "recovered_rows": 25
+          },
+          {
+            "index": 66,
+            "source_current_text_sha256": "ea76d2572841d5a56c7a2326aab9e406ec1f5c1ad65ee4d191719cbccd72d9b6",
+            "recovered_text_sha256": "ea76d2572841d5a56c7a2326aab9e406ec1f5c1ad65ee4d191719cbccd72d9b6",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 41,
+            "recovered_rows": 41
+          },
+          {
+            "index": 67,
+            "source_current_text_sha256": "0b03b4ab87d2cc68dc62b1273ce1b8e22632a219cde56d047ae8950fa8c790e4",
+            "recovered_text_sha256": "0b03b4ab87d2cc68dc62b1273ce1b8e22632a219cde56d047ae8950fa8c790e4",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 41,
+            "recovered_rows": 41
+          },
+          {
+            "index": 68,
+            "source_current_text_sha256": "d615b71a3284af6b72d82a0da436dd4304f408c8631439f0ef14c4dd9215451a",
+            "recovered_text_sha256": "d615b71a3284af6b72d82a0da436dd4304f408c8631439f0ef14c4dd9215451a",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 29,
+            "recovered_rows": 29
+          },
+          {
+            "index": 69,
+            "source_current_text_sha256": "6bd5b9e068ab5a21c32f852437852ffd6151e227f797db7b7400f73d56cf4073",
+            "recovered_text_sha256": "6bd5b9e068ab5a21c32f852437852ffd6151e227f797db7b7400f73d56cf4073",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 31,
+            "recovered_rows": 31
+          },
+          {
+            "index": 70,
+            "source_current_text_sha256": "2eedf2dc41c29812310efcbd76a1bb7fbc57f728e86112f70ce8cacee8720c96",
+            "recovered_text_sha256": "2eedf2dc41c29812310efcbd76a1bb7fbc57f728e86112f70ce8cacee8720c96",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 90,
+            "recovered_rows": 90
+          },
+          {
+            "index": 71,
+            "source_current_text_sha256": "f24b6ea674c3fb57fa812077387cda4da3b82935bb93d8f5dd8eec3d49003e38",
+            "recovered_text_sha256": "f24b6ea674c3fb57fa812077387cda4da3b82935bb93d8f5dd8eec3d49003e38",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 28,
+            "recovered_rows": 28
+          },
+          {
+            "index": 72,
+            "source_current_text_sha256": "f029ad9a3a0ed488e7d776f98d76074c2ea10ec8ee8961d7dc65c8e53aae7827",
+            "recovered_text_sha256": "f029ad9a3a0ed488e7d776f98d76074c2ea10ec8ee8961d7dc65c8e53aae7827",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 83,
+            "recovered_rows": 83
+          },
+          {
+            "index": 73,
+            "source_current_text_sha256": "14b6d4c97bbb1965e1a1fbe30e84b1304a775e59f22c1726fb689c2d86775e7a",
+            "recovered_text_sha256": "14b6d4c97bbb1965e1a1fbe30e84b1304a775e59f22c1726fb689c2d86775e7a",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 123,
+            "recovered_rows": 123
+          },
+          {
+            "index": 74,
+            "source_current_text_sha256": "4a546a0803feff47937ae57eafe1bf0a3c0f17d1ef4fb8349550d59753fabd06",
+            "recovered_text_sha256": "4a546a0803feff47937ae57eafe1bf0a3c0f17d1ef4fb8349550d59753fabd06",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 24,
+            "recovered_rows": 24
+          },
+          {
+            "index": 75,
+            "source_current_text_sha256": "8b9c8ea0fc1effd4edbd66401c797d1089c415c03994d965d8f784ec194da1fa",
+            "recovered_text_sha256": "8b9c8ea0fc1effd4edbd66401c797d1089c415c03994d965d8f784ec194da1fa",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 42,
+            "recovered_rows": 42
+          },
+          {
+            "index": 76,
+            "source_current_text_sha256": "8f1cccc9c223d7e44dff5f5c9d685974ccd0afa8370c82e3bc7b805caf139b3f",
+            "recovered_text_sha256": "8f1cccc9c223d7e44dff5f5c9d685974ccd0afa8370c82e3bc7b805caf139b3f",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 87,
+            "recovered_rows": 87
+          },
+          {
+            "index": 77,
+            "source_current_text_sha256": "87fc34182d9850befa8b18945ef78ca62318aa573ae48bcc972c3f881d58e17d",
+            "recovered_text_sha256": "87fc34182d9850befa8b18945ef78ca62318aa573ae48bcc972c3f881d58e17d",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 7,
+            "recovered_rows": 7
+          },
+          {
+            "index": 78,
+            "source_current_text_sha256": "89a0b91c663c617efb35bfd606c828b96e05ac7b4af508ad4b5c56d57cd9887b",
+            "recovered_text_sha256": "89a0b91c663c617efb35bfd606c828b96e05ac7b4af508ad4b5c56d57cd9887b",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 11,
+            "recovered_rows": 11
+          },
+          {
+            "index": 79,
+            "source_current_text_sha256": "545704201d7db53c45a63f39af3bdb689a107e7d0c26ba0749d739f69f818201",
+            "recovered_text_sha256": "545704201d7db53c45a63f39af3bdb689a107e7d0c26ba0749d739f69f818201",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 59,
+            "recovered_rows": 59
+          },
+          {
+            "index": 80,
+            "source_current_text_sha256": "53be0a861539848240b218faf5d29272a575361af0481c40da68a926acaefd4c",
+            "recovered_text_sha256": "53be0a861539848240b218faf5d29272a575361af0481c40da68a926acaefd4c",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 8,
+            "recovered_rows": 8
+          },
+          {
+            "index": 81,
+            "source_current_text_sha256": "04d578cef9fc9cf216a77a11635c6d8107a652dfbfa73927cbc1f15e36f38ca2",
+            "recovered_text_sha256": "04d578cef9fc9cf216a77a11635c6d8107a652dfbfa73927cbc1f15e36f38ca2",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 12,
+            "recovered_rows": 12
+          },
+          {
+            "index": 82,
+            "source_current_text_sha256": "53be0a861539848240b218faf5d29272a575361af0481c40da68a926acaefd4c",
+            "recovered_text_sha256": "53be0a861539848240b218faf5d29272a575361af0481c40da68a926acaefd4c",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 8,
+            "recovered_rows": 8
+          },
+          {
+            "index": 83,
+            "source_current_text_sha256": "baccfc94c26fc0ebae2e23058cc36f800923e3f272f6aef17925a4201d813514",
+            "recovered_text_sha256": "baccfc94c26fc0ebae2e23058cc36f800923e3f272f6aef17925a4201d813514",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 6,
+            "recovered_rows": 6
+          },
+          {
+            "index": 84,
+            "source_current_text_sha256": "55836f0f237c43c6b2f4c38e3a02963feb7a19e3def91d3c891ae5518c77292f",
+            "recovered_text_sha256": "55836f0f237c43c6b2f4c38e3a02963feb7a19e3def91d3c891ae5518c77292f",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 48,
+            "recovered_rows": 48
+          },
+          {
+            "index": 85,
+            "source_current_text_sha256": "22189a77b7eab8b3ec32c2a73a3ea093d4815cde09dcaca645fdec7c4c776f1d",
+            "recovered_text_sha256": "22189a77b7eab8b3ec32c2a73a3ea093d4815cde09dcaca645fdec7c4c776f1d",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 41,
+            "recovered_rows": 41
+          },
+          {
+            "index": 86,
+            "source_current_text_sha256": "acf98227d2b78a6d953f16f3ab2eb596b545b77cc090001a5df81fb61a03b84c",
+            "recovered_text_sha256": "acf98227d2b78a6d953f16f3ab2eb596b545b77cc090001a5df81fb61a03b84c",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 24,
+            "recovered_rows": 24
+          },
+          {
+            "index": 87,
+            "source_current_text_sha256": "20f60db05c84ac8f28968b5b45f45dd030b03ab323dbf787cfb524ee30e22fe1",
+            "recovered_text_sha256": "20f60db05c84ac8f28968b5b45f45dd030b03ab323dbf787cfb524ee30e22fe1",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 22,
+            "recovered_rows": 22
+          },
+          {
+            "index": 88,
+            "source_current_text_sha256": "0bae29f4c606d0bd3268b7c4c311791d7ae0e2eec6bf3c00e9318aabc50b32d5",
+            "recovered_text_sha256": "0bae29f4c606d0bd3268b7c4c311791d7ae0e2eec6bf3c00e9318aabc50b32d5",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 60,
+            "recovered_rows": 60
+          },
+          {
+            "index": 89,
+            "source_current_text_sha256": "e206b4f8c2fd2ffa6a8ce607226c7795f6c2083714765ff2f85fac51bd775778",
+            "recovered_text_sha256": "e206b4f8c2fd2ffa6a8ce607226c7795f6c2083714765ff2f85fac51bd775778",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 10,
+            "recovered_rows": 10
+          },
+          {
+            "index": 90,
+            "source_current_text_sha256": "adeca6a1e6ec4acecb103291c3f7af874a961d65d23e0a9c178bb92dfdc23c56",
+            "recovered_text_sha256": "adeca6a1e6ec4acecb103291c3f7af874a961d65d23e0a9c178bb92dfdc23c56",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 49,
+            "recovered_rows": 49
+          },
+          {
+            "index": 91,
+            "source_current_text_sha256": "abbd16cbd6bba9f1382dd6c123e46ed618868d3135a2e69455652e72d11c8363",
+            "recovered_text_sha256": "abbd16cbd6bba9f1382dd6c123e46ed618868d3135a2e69455652e72d11c8363",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 52,
+            "recovered_rows": 52
+          },
+          {
+            "index": 92,
+            "source_current_text_sha256": "e206b4f8c2fd2ffa6a8ce607226c7795f6c2083714765ff2f85fac51bd775778",
+            "recovered_text_sha256": "e206b4f8c2fd2ffa6a8ce607226c7795f6c2083714765ff2f85fac51bd775778",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 10,
+            "recovered_rows": 10
+          },
+          {
+            "index": 93,
+            "source_current_text_sha256": "4b0798dfff50e0ae997619c9690496fffbfe182759ab5b2cffa94861ef36150d",
+            "recovered_text_sha256": "4b0798dfff50e0ae997619c9690496fffbfe182759ab5b2cffa94861ef36150d",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 28,
+            "recovered_rows": 28
+          },
+          {
+            "index": 94,
+            "source_current_text_sha256": "2c3f95404c1783cc8fe2693abea00b9334037813079bd1bfb196d0959961a225",
+            "recovered_text_sha256": "2c3f95404c1783cc8fe2693abea00b9334037813079bd1bfb196d0959961a225",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 82,
+            "recovered_rows": 82
+          },
+          {
+            "index": 95,
+            "source_current_text_sha256": "626445bf56f1a7e217e7d70d3b24721f0c6fdf2ea90c20312521aab370ffaffd",
+            "recovered_text_sha256": "626445bf56f1a7e217e7d70d3b24721f0c6fdf2ea90c20312521aab370ffaffd",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 17,
+            "recovered_rows": 17
+          },
+          {
+            "index": 96,
+            "source_current_text_sha256": "c9f99e7132dc811a669b5c942b528e2862d592cefd6083c29a6b1c4877f89b6c",
+            "recovered_text_sha256": "c9f99e7132dc811a669b5c942b528e2862d592cefd6083c29a6b1c4877f89b6c",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 16,
+            "recovered_rows": 16
+          },
+          {
+            "index": 97,
+            "source_current_text_sha256": "ca0c74810db82e167e799f7dd0a78ace1d383c0034f42292df15d56ed867928b",
+            "recovered_text_sha256": "ca0c74810db82e167e799f7dd0a78ace1d383c0034f42292df15d56ed867928b",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 16,
+            "recovered_rows": 16
+          },
+          {
+            "index": 98,
+            "source_current_text_sha256": "63956dfb737183a2f1cf401919935d53833be27ccaaf56120ad765a04c256f6e",
+            "recovered_text_sha256": "63956dfb737183a2f1cf401919935d53833be27ccaaf56120ad765a04c256f6e",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 28,
+            "recovered_rows": 28
+          },
+          {
+            "index": 99,
+            "source_current_text_sha256": "98ad864e6b8ccaff6924bd8e46a78863961f990adbb969cfde204cd11e71b231",
+            "recovered_text_sha256": "98ad864e6b8ccaff6924bd8e46a78863961f990adbb969cfde204cd11e71b231",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 6,
+            "recovered_rows": 6
+          },
+          {
+            "index": 100,
+            "source_current_text_sha256": "9af72a3ade3aa4875c1dc5c52a26908585001c773075630e9d195cbd95141026",
+            "recovered_text_sha256": "9af72a3ade3aa4875c1dc5c52a26908585001c773075630e9d195cbd95141026",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 583,
+            "recovered_rows": 583
+          },
+          {
+            "index": 101,
+            "source_current_text_sha256": "cbadffb31c72ff189c464c79e4975f39ced6c85476327ea889b6602004d41b74",
+            "recovered_text_sha256": "cbadffb31c72ff189c464c79e4975f39ced6c85476327ea889b6602004d41b74",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 11,
+            "recovered_rows": 11
+          },
+          {
+            "index": 102,
+            "source_current_text_sha256": "b72a139589a8cdd3822cdb1abd1c3c179f00723f0d402d2c7abe3a47682292d2",
+            "recovered_text_sha256": "b72a139589a8cdd3822cdb1abd1c3c179f00723f0d402d2c7abe3a47682292d2",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 23,
+            "recovered_rows": 23
+          },
+          {
+            "index": 103,
+            "source_current_text_sha256": "dc02dc07eb99076987f4bc09347e889c6102192e12f384b168a36c6b8fe91df0",
+            "recovered_text_sha256": "dc02dc07eb99076987f4bc09347e889c6102192e12f384b168a36c6b8fe91df0",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 14,
+            "recovered_rows": 14
+          },
+          {
+            "index": 104,
+            "source_current_text_sha256": "6d1023f4ce6b252dcd7b90f8c30fb3f723f812ca0a42a3daf7ba8024d0b22bc0",
+            "recovered_text_sha256": "6d1023f4ce6b252dcd7b90f8c30fb3f723f812ca0a42a3daf7ba8024d0b22bc0",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 55,
+            "recovered_rows": 55
+          },
+          {
+            "index": 105,
+            "source_current_text_sha256": "a0518e108869c916e0c42bdb84a0fa7f3e9280cc4734826f8e6c33eb7b5ada81",
+            "recovered_text_sha256": "a0518e108869c916e0c42bdb84a0fa7f3e9280cc4734826f8e6c33eb7b5ada81",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 48,
+            "recovered_rows": 48
+          },
+          {
+            "index": 106,
+            "source_current_text_sha256": "61d7f8d5c3fb6b5b4e0d1521c7fdcf22652831187f21957c0ea444e497a57f7d",
+            "recovered_text_sha256": "61d7f8d5c3fb6b5b4e0d1521c7fdcf22652831187f21957c0ea444e497a57f7d",
+            "text_equal_in_order": true,
+            "rows_cells_and_spans_equal": true,
+            "source_rows": 586,
+            "recovered_rows": 586
+          }
+        ],
+        "automatic_numbering_method": "Read original DOC's Word ListParagraphs/ListString directly; match numbered paragraph text and source order; do not infer OOXML counters or fall back from numFmt=none.",
+        "original_word_list_paragraphs": 220,
+        "original_word_nonempty_labels": 219,
+        "source_validated_labels": 220,
+        "source_validated_nonempty_labels": 219,
+        "recovered_validated_labels": 220,
+        "source_and_recovered_word_labels_equal": true,
+        "validated_word_labels": [
+          {
+            "paragraph_text": "前言",
+            "label": ""
+          },
+          {
+            "paragraph_text": "范围",
+            "label": "1　"
+          },
+          {
+            "paragraph_text": "规范性引用文件",
+            "label": "2　"
+          },
+          {
+            "paragraph_text": "术语和定义",
+            "label": "3　"
+          },
+          {
+            "paragraph_text": "要求",
+            "label": "4　"
+          },
+          {
+            "paragraph_text": "数据类型定义",
+            "label": "4.1　"
+          },
+          {
+            "paragraph_text": "数据类型定义",
+            "label": "表1　"
+          },
+          {
+            "paragraph_text": "数据处理",
+            "label": "4.2　"
+          },
+          {
+            "paragraph_text": "加密",
+            "label": "4.3　"
+          },
+          {
+            "paragraph_text": "信息交换格式",
+            "label": "5　"
+          },
+          {
+            "paragraph_text": "信息头格式",
+            "label": "表2　"
+          },
+          {
+            "paragraph_text": "信息体格式",
+            "label": "表3　"
+          },
+          {
+            "paragraph_text": "信息尾：表示一次数据交换的结束。",
+            "label": "c)"
+          },
+          {
+            "paragraph_text": "业务类型编码",
+            "label": "6　"
+          },
+          {
+            "paragraph_text": "基金业务类型",
+            "label": "表4　"
+          },
+          {
+            "paragraph_text": "业务交换数据项",
+            "label": "7　"
+          },
+          {
+            "paragraph_text": "说明",
+            "label": "7.1　"
+          },
+          {
+            "paragraph_text": "开户申请(001)，账户信息修改申请(003)",
+            "label": "7.2　"
+          },
+          {
+            "paragraph_text": "账户信息数据",
+            "label": "表5　"
+          },
+          {
+            "paragraph_text": "开户确认(101)",
+            "label": "7.3　"
+          },
+          {
+            "paragraph_text": "开户确认数据",
+            "label": "表6　"
+          },
+          {
+            "paragraph_text": "销户申请(002)，撤销交易账户申请(009)，",
+            "label": "7.4　"
+          },
+          {
+            "paragraph_text": "销户/撤销交易账户申请数据",
+            "label": "表7　"
+          },
+          {
+            "paragraph_text": "销户确认(102)，账户信息修改确认(103)，基金账户冻结确认(104)，基金账户解冻确认(105)，基金账户卡挂失确认(106)，基金账户卡解挂确认(107)，增加交易账户确认(108)，撤销交易账户确认(109)",
+            "label": "7.5　"
+          },
+          {
+            "paragraph_text": "账户确认数据",
+            "label": "表8　"
+          },
+          {
+            "paragraph_text": "基金账户冻结申请(004)",
+            "label": "7.6　"
+          },
+          {
+            "paragraph_text": "基金账户冻结申请数据",
+            "label": "表9　"
+          },
+          {
+            "paragraph_text": "基金账户解冻申请(005)，基金账户卡解挂申请(007)",
+            "label": "7.7　"
+          },
+          {
+            "paragraph_text": "账户解冻/账户卡解挂申请数据",
+            "label": "表10　"
+          },
+          {
+            "paragraph_text": "基金账户卡挂失申请(006)",
+            "label": "7.8　"
+          },
+          {
+            "paragraph_text": "基金账户卡挂失申请数据",
+            "label": "表11　"
+          },
+          {
+            "paragraph_text": "增加交易账户申请(008)",
+            "label": "7.9　"
+          },
+          {
+            "paragraph_text": "增加交易账户申请数据",
+            "label": "表12　"
+          },
+          {
+            "paragraph_text": "变更交易账号申请（058）",
+            "label": "7.10　"
+          },
+          {
+            "paragraph_text": "变更交易账号申请数据",
+            "label": "表13　"
+          },
+          {
+            "paragraph_text": "变更交易账号确认（158）",
+            "label": "7.11　"
+          },
+          {
+            "paragraph_text": "变更交易账号确认数据",
+            "label": "表14　"
+          },
+          {
+            "paragraph_text": "认购申请(020)，预约认购申请(021)",
+            "label": "7.12　"
+          },
+          {
+            "paragraph_text": "认购申请数据",
+            "label": "表15　"
+          },
+          {
+            "paragraph_text": "认购确认(120)，预约认购确认(121)",
+            "label": "7.13　"
+          },
+          {
+            "paragraph_text": "认购确认数据",
+            "label": "表16　"
+          },
+          {
+            "paragraph_text": "申购申请(022)，预约申购申请(023)，定时定额申购申请(039)",
+            "label": "7.14　"
+          },
+          {
+            "paragraph_text": "申购申请数据",
+            "label": "表17　"
+          },
+          {
+            "paragraph_text": "申购确认(122)，定时定额申购确认(139)",
+            "label": "7.15　"
+          },
+          {
+            "paragraph_text": "申购确认数据",
+            "label": "表18　"
+          },
+          {
+            "paragraph_text": "预约申购确认(123)",
+            "label": "7.16　"
+          },
+          {
+            "paragraph_text": "预约申购确认数据",
+            "label": "表19　"
+          },
+          {
+            "paragraph_text": "赎回申请(024)，定时定额赎回申请(063)，预约赎回申请(025)",
+            "label": "7.17　"
+          },
+          {
+            "paragraph_text": "赎回申请数据",
+            "label": "表20　"
+          },
+          {
+            "paragraph_text": "赎回确认(124)，定时定额赎回确认(163)，强行赎回确认(142)",
+            "label": "7.18　"
+          },
+          {
+            "paragraph_text": "赎回确认数据",
+            "label": "表21　"
+          },
+          {
+            "paragraph_text": "预约赎回确认(125)",
+            "label": "7.19　"
+          },
+          {
+            "paragraph_text": "预约赎回确认数据",
+            "label": "表22　"
+          },
+          {
+            "paragraph_text": "转销售人/机构申请(026)，转销售人/机构转入申请(027)，转销售人/机构转出申请(028)",
+            "label": "7.20　"
+          },
+          {
+            "paragraph_text": "转销售人/机构申请数据",
+            "label": "表23　"
+          },
+          {
+            "paragraph_text": "转销售人/机构确认(126)，转销售人/机构转入确认(127)，转销售人/机构转出确认(128)",
+            "label": "7.21　"
+          },
+          {
+            "paragraph_text": "转销售人/机构确认数据",
+            "label": "表24　"
+          },
+          {
+            "paragraph_text": "设置分红方式申请(029)",
+            "label": "7.22　"
+          },
+          {
+            "paragraph_text": "设置分红方式申请数据",
+            "label": "表25　"
+          },
+          {
+            "paragraph_text": "设置分红方式确认(129)",
+            "label": "7.23　"
+          },
+          {
+            "paragraph_text": "设置分红方式确认数据",
+            "label": "表26　"
+          },
+          {
+            "paragraph_text": "认购结果(130)",
+            "label": "7.24　"
+          },
+          {
+            "paragraph_text": "认购结果数据",
+            "label": "表27　"
+          },
+          {
+            "paragraph_text": "基金份数冻结申请(031)",
+            "label": "7.25　"
+          },
+          {
+            "paragraph_text": "基金份数冻结申请数据",
+            "label": "表28　"
+          },
+          {
+            "paragraph_text": "基金份数冻结确认(131)",
+            "label": "7.26　"
+          },
+          {
+            "paragraph_text": "基金份数冻结确认数据",
+            "label": "表29　"
+          },
+          {
+            "paragraph_text": "基金份数解冻申请(032)",
+            "label": "7.27　"
+          },
+          {
+            "paragraph_text": "基金份数解冻申请数据",
+            "label": "表30　"
+          },
+          {
+            "paragraph_text": "基金份数解冻确认(132)",
+            "label": "7.28　"
+          },
+          {
+            "paragraph_text": "基金份数解冻确认数据",
+            "label": "表31　"
+          },
+          {
+            "paragraph_text": "非交易过户申请(033)，非交易过户转入申请(034)，非交易过户转出申请(035)",
+            "label": "7.29　"
+          },
+          {
+            "paragraph_text": "非交易过户申请数据",
+            "label": "表32　"
+          },
+          {
+            "paragraph_text": "非交易过户确认(133)，非交易过户转入确认(134)，非交易过户转出确认(135)",
+            "label": "7.30　"
+          },
+          {
+            "paragraph_text": "非交易过户确认数据",
+            "label": "表33　"
+          },
+          {
+            "paragraph_text": "基金转换申请(036)，基金转换转入申请(037)，基金转换转出申请(038)",
+            "label": "7.31　"
+          },
+          {
+            "paragraph_text": "基金转换申请数据",
+            "label": "表34　"
+          },
+          {
+            "paragraph_text": "基金转换确认(136)，基金转换转入确认(137)，基金转换转出确认(138)",
+            "label": "7.32　"
+          },
+          {
+            "paragraph_text": "基金转换确认数据",
+            "label": "表35　"
+          },
+          {
+            "paragraph_text": "红利/红利再投资发放(143)",
+            "label": "7.33　"
+          },
+          {
+            "paragraph_text": "红利/红利再投资发放数据",
+            "label": "表36　"
+          },
+          {
+            "paragraph_text": "强行调增(144)，强行调减(145)",
+            "label": "7.34　"
+          },
+          {
+            "paragraph_text": "强行调增/调减数据",
+            "label": "表37　"
+          },
+          {
+            "paragraph_text": "配号(146)",
+            "label": "7.35　"
+          },
+          {
+            "paragraph_text": "配号数据",
+            "label": "表38　"
+          },
+          {
+            "paragraph_text": "募集失败(149)",
+            "label": "7.36　"
+          },
+          {
+            "paragraph_text": "募集失败数据",
+            "label": "表39　"
+          },
+          {
+            "paragraph_text": "基金清盘(150)，基金终止(151)",
+            "label": "7.37　"
+          },
+          {
+            "paragraph_text": "基金清盘/终止数据",
+            "label": "表40　"
+          },
+          {
+            "paragraph_text": "撤单(052)，撤预约单(053)",
+            "label": "7.38　"
+          },
+          {
+            "paragraph_text": "撤单/撤预约单数据",
+            "label": "表41　"
+          },
+          {
+            "paragraph_text": "撤单确认(152)，撤预约单确认(153)",
+            "label": "7.39　"
+          },
+          {
+            "paragraph_text": "撤单/撤预约单确认数据",
+            "label": "表42　"
+          },
+          {
+            "paragraph_text": "无效资金(054)",
+            "label": "7.40　"
+          },
+          {
+            "paragraph_text": "无效资金数据",
+            "label": "表43　"
+          },
+          {
+            "paragraph_text": "基金销售人资金清算（155）",
+            "label": "7.41　"
+          },
+          {
+            "paragraph_text": "基金销售人资金清算数据",
+            "label": "表44　"
+          },
+          {
+            "paragraph_text": "投资人资金清算（156）",
+            "label": "7.42　"
+          },
+          {
+            "paragraph_text": "投资人资金清算数据",
+            "label": "表45　"
+          },
+          {
+            "paragraph_text": "红利解冻确认（157）",
+            "label": "7.43　"
+          },
+          {
+            "paragraph_text": "红利解冻确认数据",
+            "label": "表46　"
+          },
+          {
+            "paragraph_text": "定时定额注册申请（059），定时定额注销申请（060）",
+            "label": "7.44　"
+          },
+          {
+            "paragraph_text": "定时定额注册开通/注销申请数据",
+            "label": "表47　"
+          },
+          {
+            "paragraph_text": "定时定额注册确认（159），定时定额注销确认（160）",
+            "label": "7.45　"
+          },
+          {
+            "paragraph_text": "定时定额注册/注销确认数据",
+            "label": "表48　"
+          },
+          {
+            "paragraph_text": "定时定额变更申请（061）",
+            "label": "7.46　"
+          },
+          {
+            "paragraph_text": "定时定额变更申请数据",
+            "label": "表49　"
+          },
+          {
+            "paragraph_text": "定时定额变更确认（161）",
+            "label": "7.47　"
+          },
+          {
+            "paragraph_text": "定时定额变更确认数据",
+            "label": "表50　"
+          },
+          {
+            "paragraph_text": "认购调整申请(062)",
+            "label": "7.48　"
+          },
+          {
+            "paragraph_text": "认购调整申请数据",
+            "label": "表51　"
+          },
+          {
+            "paragraph_text": "认购调整确认(162)",
+            "label": "7.49　"
+          },
+          {
+            "paragraph_text": "认购调整确认数据",
+            "label": "表52　"
+          },
+          {
+            "paragraph_text": "基金联名卡开通申请（067），基金联名卡撤销申请（068）",
+            "label": "7.50　"
+          },
+          {
+            "paragraph_text": "基金联名卡开通/撤消申请数据",
+            "label": "表53　"
+          },
+          {
+            "paragraph_text": "基金联名卡开通确认（167），基金联名卡撤销确认（168）",
+            "label": "7.51　"
+          },
+          {
+            "paragraph_text": "基金联名卡开通/撤消确认数据",
+            "label": "表54　"
+          },
+          {
+            "paragraph_text": "积分确认（169）",
+            "label": "7.52　"
+          },
+          {
+            "paragraph_text": "积分确认数据",
+            "label": "表55　"
+          },
+          {
+            "paragraph_text": "地区编号变更通知（070）",
+            "label": "7.53　"
+          },
+          {
+            "paragraph_text": "地区编号变更通知数据",
+            "label": "表56　"
+          },
+          {
+            "paragraph_text": "确权申请（080）",
+            "label": "7.54　"
+          },
+          {
+            "paragraph_text": "确权申请数据",
+            "label": "表57　"
+          },
+          {
+            "paragraph_text": "确权确认（180）",
+            "label": "7.55　"
+          },
+          {
+            "paragraph_text": "确权确认数据",
+            "label": "表58　"
+          },
+          {
+            "paragraph_text": "快速过户申请(098),快速过户入申请(097),快速过户出申请(096)",
+            "label": "7.56　"
+          },
+          {
+            "paragraph_text": "快速过户申请数据",
+            "label": "表59　"
+          },
+          {
+            "paragraph_text": "快速过户确认(198),快速过户入确认(197),快速过户出确认(196)",
+            "label": "7.57　"
+          },
+          {
+            "paragraph_text": "快速过户确认数据",
+            "label": "表60　"
+          },
+          {
+            "paragraph_text": "基金质押申请（088）",
+            "label": "7.58　"
+          },
+          {
+            "paragraph_text": "基金质押申请数据",
+            "label": "表61　"
+          },
+          {
+            "paragraph_text": "基金质押确认（188）",
+            "label": "7.59　"
+          },
+          {
+            "paragraph_text": "基金质押确认数据",
+            "label": "表62　"
+          },
+          {
+            "paragraph_text": "ETF申购申请（091）",
+            "label": "7.60　"
+          },
+          {
+            "paragraph_text": "ETF申购申请",
+            "label": "表63　"
+          },
+          {
+            "paragraph_text": "ETF赎回申请（093）",
+            "label": "7.61　"
+          },
+          {
+            "paragraph_text": "ETF赎回申请",
+            "label": "表64　"
+          },
+          {
+            "paragraph_text": "ETF申购一次确认（191）",
+            "label": "7.62　"
+          },
+          {
+            "paragraph_text": "ETF申购一次确认",
+            "label": "表65　"
+          },
+          {
+            "paragraph_text": "ETF申购二次确认（192）",
+            "label": "7.63　"
+          },
+          {
+            "paragraph_text": "ETF申购二次确认",
+            "label": "表66　"
+          },
+          {
+            "paragraph_text": "ETF赎回一次确认（193）",
+            "label": "7.64　"
+          },
+          {
+            "paragraph_text": "ETF赎回一次确认",
+            "label": "表67　"
+          },
+          {
+            "paragraph_text": "ETF赎回二次确认（194）",
+            "label": "7.65　"
+          },
+          {
+            "paragraph_text": "ETF赎回二次确认",
+            "label": "表68　"
+          },
+          {
+            "paragraph_text": "TA与销售人交易类汇总数据",
+            "label": "7.66　"
+          },
+          {
+            "paragraph_text": "账户申请（01文件）",
+            "label": "7.66.1　"
+          },
+          {
+            "paragraph_text": "账户申请",
+            "label": "表69　"
+          },
+          {
+            "paragraph_text": "账户确认（02文件）",
+            "label": "7.66.2　"
+          },
+          {
+            "paragraph_text": "账户确认",
+            "label": "表70　"
+          },
+          {
+            "paragraph_text": "交易申请（03文件）",
+            "label": "7.66.3　"
+          },
+          {
+            "paragraph_text": "交易申请",
+            "label": "表71　"
+          },
+          {
+            "paragraph_text": "交易确认（04文件）",
+            "label": "7.66.4　"
+          },
+          {
+            "paragraph_text": "交易确认",
+            "label": "表72　"
+          },
+          {
+            "paragraph_text": "基金账户对账数据（05文件）",
+            "label": "7.66.5　"
+          },
+          {
+            "paragraph_text": "基金账户对账数据",
+            "label": "表73　"
+          },
+          {
+            "paragraph_text": "分红数据（06文件）",
+            "label": "7.66.6　"
+          },
+          {
+            "paragraph_text": "分红数据",
+            "label": "表74　"
+          },
+          {
+            "paragraph_text": "基金动态信息数据项（07文件）",
+            "label": "7.66.7　"
+          },
+          {
+            "paragraph_text": "基金信息数据",
+            "label": "表75　"
+          },
+          {
+            "paragraph_text": "公告（08文件）",
+            "label": "7.66.8　"
+          },
+          {
+            "paragraph_text": "公告数据",
+            "label": "表76　"
+          },
+          {
+            "paragraph_text": "红利汇总数据项（09文件）",
+            "label": "7.66.9　"
+          },
+          {
+            "paragraph_text": "红利汇总数据",
+            "label": "表77　"
+          },
+          {
+            "paragraph_text": "日交割汇总数据项（10文件）",
+            "label": "7.66.10　"
+          },
+          {
+            "paragraph_text": "日交割汇总数据",
+            "label": "表78　"
+          },
+          {
+            "paragraph_text": "TA发送的业务申请汇总数据项（11文件）",
+            "label": "7.66.11　"
+          },
+          {
+            "paragraph_text": "业务申请汇总数据",
+            "label": "表79　"
+          },
+          {
+            "paragraph_text": "TA发送的业务确认汇总数据项（12文件）",
+            "label": "7.66.12　"
+          },
+          {
+            "paragraph_text": "业务确认汇总数据",
+            "label": "表80　"
+          },
+          {
+            "paragraph_text": "销售人发送的业务申请汇总数据项（13文件）",
+            "label": "7.66.13　"
+          },
+          {
+            "paragraph_text": "业务申请汇总数据",
+            "label": "表81　"
+          },
+          {
+            "paragraph_text": "参与人及结算席位文件（21文件）",
+            "label": "7.66.14　"
+          },
+          {
+            "paragraph_text": "参与人及结算席位文件",
+            "label": "表82　"
+          },
+          {
+            "paragraph_text": "其它类申请文件（23文件）",
+            "label": "7.66.15　"
+          },
+          {
+            "paragraph_text": "其它类申请数据",
+            "label": "表83　"
+          },
+          {
+            "paragraph_text": "其它类确认文件（24文件）",
+            "label": "7.66.16　"
+          },
+          {
+            "paragraph_text": "其它类确认数据",
+            "label": "表84　"
+          },
+          {
+            "paragraph_text": "资金清算文件（25文件）",
+            "label": "7.66.17　"
+          },
+          {
+            "paragraph_text": "资金清算文件",
+            "label": "表85　"
+          },
+          {
+            "paragraph_text": "理财产品份额明细文件（26文件）",
+            "label": "7.66.18　"
+          },
+          {
+            "paragraph_text": "理财产品份额明细文件",
+            "label": "表86　"
+          },
+          {
+            "paragraph_text": "T日过户申请（33文件）",
+            "label": "7.66.19　"
+          },
+          {
+            "paragraph_text": "T日过户确认（34文件）",
+            "label": "7.66.20　"
+          },
+          {
+            "paragraph_text": "T日过户对账（35文件）",
+            "label": "7.66.21　"
+          },
+          {
+            "paragraph_text": "非居民涉税信息（R1文件）",
+            "label": "7.66.22　"
+          },
+          {
+            "paragraph_text": "非居民涉税信息文件",
+            "label": "表87　"
+          },
+          {
+            "paragraph_text": "非居民涉税信息确认（R2文件）",
+            "label": "7.66.23　"
+          },
+          {
+            "paragraph_text": "非居民涉税信息确认文件",
+            "label": "表88　"
+          },
+          {
+            "paragraph_text": "个人反洗钱信息（X1文件）、机构反洗钱信息（X3文件）",
+            "label": "7.66.24　"
+          },
+          {
+            "paragraph_text": "个人反洗钱信息（X1文件）",
+            "label": "表89　"
+          },
+          {
+            "paragraph_text": "机构反洗钱信息（X3文件）",
+            "label": "表90　"
+          },
+          {
+            "paragraph_text": "个人反洗钱信息确认（X2文件）、机构反洗钱信息确认（X4文件）",
+            "label": "7.66.25　"
+          },
+          {
+            "paragraph_text": "反洗钱信息确认文件",
+            "label": "表91　"
+          },
+          {
+            "paragraph_text": "基金通回报（J4文件）",
+            "label": "7.66.26　"
+          },
+          {
+            "paragraph_text": "基金通份额对账（J5文件）、基金通份额数量（J1文件）",
+            "label": "7.66.27　"
+          },
+          {
+            "paragraph_text": "基金通清算（J8文件）",
+            "label": "7.66.28　"
+          },
+          {
+            "paragraph_text": "基金通清算",
+            "label": "表92　"
+          },
+          {
+            "paragraph_text": "TA与销售人参数类汇总数据",
+            "label": "7.67　"
+          },
+          {
+            "paragraph_text": "基金基础参数（C1文件）",
+            "label": "7.67.1　"
+          },
+          {
+            "paragraph_text": "基金基础参数",
+            "label": "表93　"
+          },
+          {
+            "paragraph_text": "基金代理关系（C2文件）",
+            "label": "7.67.2　"
+          },
+          {
+            "paragraph_text": "基金代理关系",
+            "label": "表94　"
+          },
+          {
+            "paragraph_text": "基金转换关系（C3文件）",
+            "label": "7.67.3　"
+          },
+          {
+            "paragraph_text": "基金转换关系",
+            "label": "表95　"
+          },
+          {
+            "paragraph_text": "基金分红方案（C4文件）",
+            "label": "7.67.4　"
+          },
+          {
+            "paragraph_text": "基金分红方案",
+            "label": "表96　"
+          },
+          {
+            "paragraph_text": "基金费率（C5文件）",
+            "label": "7.67.5　"
+          },
+          {
+            "paragraph_text": "基金费率",
+            "label": "表97　"
+          },
+          {
+            "paragraph_text": "理财产品可赎回日期文件（C6文件）",
+            "label": "7.67.6　"
+          },
+          {
+            "paragraph_text": "理财产品可赎回日期文件",
+            "label": "表98　"
+          },
+          {
+            "paragraph_text": "数据字典",
+            "label": "8　"
+          },
+          {
+            "paragraph_text": "数据字典",
+            "label": "表99　"
+          },
+          {
+            "paragraph_text": "（规范性附录）文件方式接口及通讯规范",
+            "label": "附　录　A"
+          },
+          {
+            "paragraph_text": "TA与销售人汇总数据文件组织结构",
+            "label": "A.1　"
+          },
+          {
+            "paragraph_text": "数据索引文件",
+            "label": "A.1.1　"
+          },
+          {
+            "paragraph_text": "数据文件",
+            "label": "A.1.2　"
+          },
+          {
+            "paragraph_text": "TA与代理人交换的数据索引文件、数据文件列表",
+            "label": "A.1.3　"
+          },
+          {
+            "paragraph_text": "文件类型与业务类型对应关系表",
+            "label": "A.1.4　"
+          },
+          {
+            "paragraph_text": "文件加密与数字签名技术",
+            "label": "A.2　"
+          }
+        ],
+        "shape_texts": [
+          "中国结算数据标准",
+          "代替（代替JR/T0017—2004）",
+          "中央数据交换平台开放式基金业务数据交换协议（Ver2.2）Open-endedfundbusinessdataexchangeprotocol"
+        ],
+        "all_nonempty_shape_text_preserved": true,
+        "shape_inspection": "Nine source shapes: seven text boxes (three carry nonempty text) plus two rules; all nonempty text retained. Two original HTML fallback PNGs visually inspected: ChinaClear standards banner and cover rules only, no business diagrams. Layout is intentionally represented as text.",
+        "embedded_media": [],
+        "tracked_change_policy": "Current view: preserve insertions and exclude deletions. Deleted historical requirements remain in unchanged original DOC and artifact intermediate DOCX; they are excluded from corrected current Markdown.",
+        "known_limitations": [
+          "Machine verification, not human original signoff.",
+          "No rendered-page or pagination-coverage claim; source body and all table cells are compared in order.",
+          "Cover shape geometry and footer pagination are not part of semantic Markdown; all nonempty source shape text is preserved."
+        ],
+        "observations": {
+          "body_paragraph_count": 26930,
+          "body_table_count": 106,
+          "merge_counts": {
+            "vertical_continuation_cells": 37,
+            "horizontal_merged_cells": 441
+          },
+          "automatic_numbered_paragraph_count": 219,
+          "automatic_number_formats": {
+            "WordListString": 219
+          },
+          "header_footer_cached_text": {
+            "word/header1.xml": "",
+            "word/header2.xml": "GB/T 10.2—2003",
+            "word/footer1.xml": "2",
+            "word/footer2.xml": "I",
+            "word/header3.xml": "  ",
+            "word/footer3.xml": "",
+            "word/header4.xml": "",
+            "word/footer4.xml": "I",
+            "word/header5.xml": "",
+            "word/footer5.xml": "157"
+          },
+          "field_count": 91,
+          "tracked_change_policy": "Current text includes insertions and excludes deleted revision text; original OOXML retains all revisions.",
+          "source_visible_text_character_count": 155106,
+          "recovered_text_character_count": 155924,
+          "source_and_recovered_character_multiset_equal": true,
+          "source_and_recovered_text_order_equal": true,
+          "source_body_text_sha256": "4c209202186548a5fb250e66f5ae324a9e55e4672b78a2aaa6e2445ea110a64d",
+          "resolved_source_unsupported": [
+            "drawing_objects_require_visual_review:9",
+            "tracked_changes_visible_insertions_only:149"
+          ],
+          "unsupported": [],
+          "original_format": "doc",
+          "page_count": null,
+          "page_coverage": [],
+          "article_count": null,
+          "missing_images": [],
+          "image_assets": {},
+          "source_text_character_count": 155924,
+          "markdown_sha256": "16b11091c178ec3afdde1782f65dc15a770e601e05876be38d3923ee9c109823",
+          "validation_status": "verified",
+          "verification_type": "independent_machine_source_reaudit",
+          "human_review_asserted": false,
+          "word_shapes_total": 9,
+          "source_shape_texts_nonempty": [
+            "中国结算数据标准",
+            "代替（代替JR/T0017—2004）",
+            "中央数据交换平台开放式基金业务数据交换协议（Ver2.2）Open-endedfundbusinessdataexchangeprotocol"
+          ],
+          "all_source_shape_texts_preserved": true,
+          "all_tables_current_text_and_structure_equal": true,
+          "tracked_changes_current_view_verified": true,
+          "source_revision_xml_counts": {
+            "ins": 140,
+            "del": 9,
+            "rPrChange": 4
+          },
+          "limitations": [
+            "Machine verification, not human original signoff.",
+            "No rendered-page or pagination-coverage claim; source body and all table cells are compared in order.",
+            "Cover shape geometry and footer pagination are not part of semantic Markdown; all nonempty source shape text is preserved."
+          ]
+        },
+        "decision": "accept_corrected_conversion",
+        "method": "Microsoft Word original DOC read-only SaveAs2 DOCX; OOXML current-view extraction with original Word ListString labels; independent complete body and table verification",
+        "version": "reviewed-word-current-2"
+      },
+      "source_sha256_matches_conversion_manifest": true,
+      "input_markdown_sha256": "3e0ee6998a0d0acf4affd5b1816a78e10bdbed8c0575e55b9a2d0d17e456a3ae",
+      "input_markdown_sha256_matches_conversion_manifest": true,
+      "published_fulltext_bindings": [
+        {
+          "path": "data/_fulltext/central-data-exchange-protocol-v2.2-20260320/071b21e80578/4cc60e23bc2d/full.md",
+          "sha256": "4cc60e23bc2d3d3c7e32866c0082654300cbcee9248f823b508f6b25afed5f92",
+          "same_as_reviewed_input": false
+        }
+      ],
+      "decision": "accept_corrected_conversion",
+      "existing_input_decision": "replace_with_verified_current_view",
+      "existing_input_issues": [
+        {
+          "kind": "deleted_revision_text_in_body",
+          "detail": "Non-table HTML paragraph extraction used text_content and flattened deleted reference text into ordinary Markdown. References to GB2312-1980 and old GB18030-2005 wording are deleted in the original current view.",
+          "material_effect": "Historical encoding requirements became indistinguishable from current requirements."
+        },
+        {
+          "kind": "deleted_revision_table_text",
+          "detail": "Table 22 preserves deletion markup around '0-强制赎回，1-违约赎回，2-到期'. The old table markup is not unmarked, but a current-view conversion should exclude those deleted values.",
+          "material_effect": "Text-only downstream extraction may retain deleted values unless it explicitly interprets del elements."
+        },
+        {
+          "kind": "cover_vml_text",
+          "detail": "Old conditional-VML handling omitted the nonempty replacement-standard text '代替（代替JR/T 0017—2004）'. ChinaClear standard banner is retained as an existing fallback PNG.",
+          "material_effect": "Cover bibliographic text was incomplete; no business diagram is missing."
+        }
+      ]
+    },
+    {
+      "id": "l1-6918bfa29041",
+      "source_path": "data/_sources/L1/l1-6918bfa29041/original.docx",
+      "source_sha256": "ef88727f17828c6697995b1478f964e0c77dea0591e1056dbb8467fead14dcf2",
+      "converted_path": "data/_converted/word/l1-6918bfa29041/full.md",
+      "converted_sha256": "da426cfa03155b9439d303096f9cd55bbade96c02f386081ae58ffdbd42c8983",
+      "verification_type": "independent_machine_source_reaudit",
+      "human_review_asserted": false,
+      "word_opened_readonly": true,
+      "word_version": "16.0",
+      "original_to_markdown_text": {
+        "source_characters": 18783,
+        "recovered_characters": 18783,
+        "equal_in_order": true,
+        "source_sha256": "cb97ecfc64d2a5ef2e60f0902aff7cb5b9eaa0e246dd852bcd9905d06ecc012d",
+        "recovered_sha256": "cb97ecfc64d2a5ef2e60f0902aff7cb5b9eaa0e246dd852bcd9905d06ecc012d",
+        "first_mismatch": null
+      },
+      "word_body_to_current_xml": {
+        "source_characters": 18783,
+        "recovered_characters": 18783,
+        "equal_in_order": true,
+        "source_sha256": "cb97ecfc64d2a5ef2e60f0902aff7cb5b9eaa0e246dd852bcd9905d06ecc012d",
+        "recovered_sha256": "cb97ecfc64d2a5ef2e60f0902aff7cb5b9eaa0e246dd852bcd9905d06ecc012d",
+        "first_mismatch": null
+      },
+      "word_counts": {
+        "paragraph_count": 351,
+        "table_count": 0,
+        "shapes_count": 0,
+        "inline_shapes_count": 0,
+        "revision_count": 0,
+        "comment_count": 0,
+        "footnote_count": 0,
+        "endnote_count": 0
+      },
+      "xml_change_counts": {},
+      "revision_texts": [],
+      "embedded_media": [],
+      "shapes": [],
+      "source_body_table_count": 0,
+      "markdown_table_count": 0,
+      "source_sha256_matches_conversion_manifest": true,
+      "input_markdown_sha256": "da426cfa03155b9439d303096f9cd55bbade96c02f386081ae58ffdbd42c8983",
+      "input_markdown_sha256_matches_conversion_manifest": true,
+      "published_fulltext_bindings": [
+        {
+          "path": "data/_fulltext/l1-6918bfa29041/ef88727f1782/d342b68f45ce/full.md",
+          "sha256": "d342b68f45ce84c284aee1fda2c5eb005399ffc5b40daaaae70e5fda4af58c29",
+          "same_as_reviewed_input": false
+        }
+      ],
+      "decision": "accept_existing_conversion",
+      "acceptance_basis": [
+        "Actual original file SHA256 equals conversion manifest binding.",
+        "Original DOCX XML or read-only Word DOC WordOpenXML current body equals converted Markdown character for character in order after whitespace normalization.",
+        "Read-only original Word Content.Text independently equals current body XML after removing whitespace and Word control markers.",
+        "Zero original tables, images, shapes, tracked revisions, comments, footnotes and endnotes; no hidden figure or revision text requires recovery.",
+        "The DOC conversion also passes existing HTML versus Markdown text order independently.",
+        "This is complete body-content machine verification; page count and rendered pagination coverage are not claimed."
+      ],
+      "limitations": [
+        "Not human original signoff.",
+        "Word footer page labels are present in original and recorded by conversion; semantic body verification does not claim pagination fidelity."
+      ],
+      "article_count": 146
+    },
+    {
+      "id": "l1-6983835b2f9e",
+      "source_path": "data/_sources/L1/l1-6983835b2f9e/original.doc",
+      "source_sha256": "7da2de17931515b4448564d9ec64d5ba437bd68aa4b17439458a292092eb3419",
+      "converted_path": "data/_converted/word/l1-6983835b2f9e/full.md",
+      "converted_sha256": "ac565d1c4da76c8e0f7aa2fa9a0017e9443bee0aaf299fa345f5239f16fa84d2",
+      "verification_type": "independent_machine_source_reaudit",
+      "human_review_asserted": false,
+      "word_opened_readonly": true,
+      "word_version": "16.0",
+      "original_to_markdown_text": {
+        "source_characters": 5972,
+        "recovered_characters": 5972,
+        "equal_in_order": true,
+        "source_sha256": "4e4b1c78b3455ffe6ed431ec7c2cb46f9861cfb4f7a5ae2583ae539aae8fa765",
+        "recovered_sha256": "4e4b1c78b3455ffe6ed431ec7c2cb46f9861cfb4f7a5ae2583ae539aae8fa765",
+        "first_mismatch": null
+      },
+      "word_body_to_current_xml": {
+        "source_characters": 5972,
+        "recovered_characters": 5972,
+        "equal_in_order": true,
+        "source_sha256": "4e4b1c78b3455ffe6ed431ec7c2cb46f9861cfb4f7a5ae2583ae539aae8fa765",
+        "recovered_sha256": "4e4b1c78b3455ffe6ed431ec7c2cb46f9861cfb4f7a5ae2583ae539aae8fa765",
+        "first_mismatch": null
+      },
+      "word_counts": {
+        "paragraph_count": 139,
+        "table_count": 0,
+        "shapes_count": 0,
+        "inline_shapes_count": 0,
+        "revision_count": 0,
+        "comment_count": 0,
+        "footnote_count": 0,
+        "endnote_count": 0
+      },
+      "xml_change_counts": {},
+      "revision_texts": [],
+      "embedded_media": [],
+      "shapes": [],
+      "source_body_table_count": 0,
+      "markdown_table_count": 0,
+      "html_sha256": "8e4dbc9ed11f05178996d2042355d3abc1f5e34f84a16dbcba44056ec80e0130",
+      "html_to_markdown_text": {
+        "source_characters": 5972,
+        "recovered_characters": 5972,
+        "equal_in_order": true,
+        "source_sha256": "4e4b1c78b3455ffe6ed431ec7c2cb46f9861cfb4f7a5ae2583ae539aae8fa765",
+        "recovered_sha256": "4e4b1c78b3455ffe6ed431ec7c2cb46f9861cfb4f7a5ae2583ae539aae8fa765",
+        "first_mismatch": null
+      },
+      "source_body_to_html_main_text": {
+        "source_characters": 5972,
+        "recovered_characters": 5972,
+        "equal_in_order": true,
+        "source_sha256": "4e4b1c78b3455ffe6ed431ec7c2cb46f9861cfb4f7a5ae2583ae539aae8fa765",
+        "recovered_sha256": "4e4b1c78b3455ffe6ed431ec7c2cb46f9861cfb4f7a5ae2583ae539aae8fa765",
+        "first_mismatch": null
+      },
+      "cover_table_texts": [],
+      "table_checks": [],
+      "html_main_table_count": 0,
+      "html_cover_table_count": 0,
+      "html_to_markdown_tables": {
+        "same_count": true,
+        "all_table_rows_cells_colspan_equal": true,
+        "all_rowspan_attributes_equal": true
+      },
+      "source_sha256_matches_conversion_manifest": true,
+      "input_markdown_sha256": "ac565d1c4da76c8e0f7aa2fa9a0017e9443bee0aaf299fa345f5239f16fa84d2",
+      "input_markdown_sha256_matches_conversion_manifest": true,
+      "published_fulltext_bindings": [
+        {
+          "path": "data/_fulltext/l1-6983835b2f9e/7da2de179315/f10dc5760ed4/full.md",
+          "sha256": "f10dc5760ed41514b2a76f7eb8e9fa64a467c911603337be50b8dba900b6f098",
+          "same_as_reviewed_input": false
+        }
+      ],
+      "decision": "accept_existing_conversion",
+      "acceptance_basis": [
+        "Actual original file SHA256 equals conversion manifest binding.",
+        "Original DOCX XML or read-only Word DOC WordOpenXML current body equals converted Markdown character for character in order after whitespace normalization.",
+        "Read-only original Word Content.Text independently equals current body XML after removing whitespace and Word control markers.",
+        "Zero original tables, images, shapes, tracked revisions, comments, footnotes and endnotes; no hidden figure or revision text requires recovery.",
+        "The DOC conversion also passes existing HTML versus Markdown text order independently.",
+        "This is complete body-content machine verification; page count and rendered pagination coverage are not claimed."
+      ],
+      "limitations": [
+        "Not human original signoff.",
+        "Word footer page labels are present in original and recorded by conversion; semantic body verification does not claim pagination fidelity."
+      ],
+      "article_count": 30
+    }
+  ],
+  "final_decision": "All three Word documents have accepted machine-reviewed semantic conversions; central requires the corrected conversion artifact.",
+  "page_coverage_policy": "Word semantic-body acceptance uses complete character-order, table-cell and source-feature verification; PDF-style rendered page coverage remains null and is not used to claim a human or visual page audit."
+}

@@ -1,0 +1,207 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-10-13",
+  "review_scope": "Eight PDF entries with missing publication pages and one secondary SSE historical guide. Source-page verification only; no data catalog, recovery manifests, source receipts, or application code modified.",
+  "legal_validity": "not_checked_current",
+  "summary": {
+    "verified_source_pages": 8,
+    "unresolved_authoritative_source": 1,
+    "new_official_pdf_downloads": 4,
+    "new_official_pdfs_identical_to_existing": 4
+  },
+  "evidence_receipts": {
+    "publication_pages": "artifacts/review-source-page-evidence/verified-pages.json",
+    "attachment_comparisons": "artifacts/review-source-page-evidence/attachment-comparisons.json"
+  },
+  "documents": [
+    {
+      "id": "l1-288348db871e",
+      "title": "公开募集开放式证券投资基金流动性风险管理规定",
+      "decision": "source_page_verified",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101877/c1029552/content.shtml",
+      "issued_date": "2017-08-31",
+      "effective_from": "2017-10-01",
+      "raw_sha256": "813558004fa2d8d6c87050ef634b49d47a8e913d99c76590f281d711554ecf93",
+      "source_page_evidence_path": "artifacts/review-source-page-evidence/l1-288348db871e.html",
+      "source_page_sha256": "5ba1fd287a94eb5144c43676b307433cf51b7c25a874d2f4f47990c56833dcaf",
+      "source_page_http_status": 200,
+      "attachment_match": {
+        "kind": "official_attachment_identical_sha256",
+        "url": "https://www.csrc.gov.cn/csrc/c101877/c1029552/1029552/files/附件：《公开募集开放式证券投资基金流动性风险管理规定》.pdf",
+        "path": "artifacts/review-source-page-evidence/l1-288348db871e.official.pdf",
+        "sha256": "813558004fa2d8d6c87050ef634b49d47a8e913d99c76590f281d711554ecf93",
+        "bytes": 171625,
+        "pages": 17
+      },
+      "basis": "证监会第2017年12号公告发布页正文落款2017年8月31日，明确2017年10月1日起施行，并直接链接正式附件。该附件与现存上交所官方再刊PDF逐字节SHA256相同。",
+      "recommendation": "可补source_page_url；保持已有raw、download_url及official_republication属性，不必替换原件。若改为issuer_original，须同时采用此次CSRC附件收据，不能只改属性。"
+    },
+    {
+      "id": "l1-6f014fe27f98",
+      "title": "公开募集证券投资基金运作管理办法",
+      "decision": "source_page_verified",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1653978/content.shtml",
+      "issued_date": "2014-07-07",
+      "effective_from": "2014-08-08",
+      "raw_sha256": "b8d078253e3048aebb2e057e953ee442ec41c864c4461c0008d4042f8a952511",
+      "source_page_evidence_path": "artifacts/review-source-page-evidence/l1-6f014fe27f98.html",
+      "source_page_sha256": "d53303588ef1d1ed8a0464b6e38b0247d0560a93adea32fc0be06463bd96043f",
+      "source_page_http_status": 200,
+      "attachment_match": {
+        "kind": "exact_existing_download_url",
+        "url": "https://www.csrc.gov.cn/csrc/c106256/c1653978/1653978/files/104号《公开募集证券投资基金运作管理办法》.pdf",
+        "download_repeated": false
+      },
+      "basis": "证监会规章页题名完全匹配，沿革明确2014年7月7日第104号令公布、2014年8月8日起施行，正文至第五十九条，图片版附件经URL百分号解码后与现存下载URL相同。",
+      "recommendation": "可补source_page_url；使用已绑定原件和下载收据，无需重复下载。"
+    },
+    {
+      "id": "l1-bed25b74e40c",
+      "title": "关于实施《公开募集证券投资基金销售机构监督管理办法》的规定",
+      "decision": "source_page_verified",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101877/c1039189/content.shtml",
+      "issued_date": "2020-08-28",
+      "effective_from": "2020-10-01",
+      "raw_sha256": "c817a4016bb047fbc9c9e4256e4de9973be120aad2894a4ed1e0ffec789e69eb",
+      "source_page_evidence_path": "artifacts/review-source-page-evidence/l1-bed25b74e40c.html",
+      "source_page_sha256": "dffb1ca28ae49141479f0c6de173f0b6672d5ce610a474f423e5863b3b6a0d69",
+      "source_page_http_status": 200,
+      "attachment_match": {
+        "kind": "official_attachment_identical_sha256",
+        "url": "https://www.csrc.gov.cn/csrc/c101877/c1039189/1039189/files/《关于实施〈公开募集证券投资基金销售机构监督管理办法〉的规定》.pdf",
+        "path": "artifacts/review-source-page-evidence/l1-bed25b74e40c.official.pdf",
+        "sha256": "c817a4016bb047fbc9c9e4256e4de9973be120aad2894a4ed1e0ffec789e69eb",
+        "bytes": 199638,
+        "pages": 11
+      },
+      "basis": "证监会第2020年58号公告落款2020年8月28日，明确2020年10月1日起施行，并直接链接正式配套规定附件；与现存上交所再刊PDF逐字节SHA256相同，附件末条为二十九。",
+      "recommendation": "可补source_page_url；保持已有raw、download_url及official_republication属性，不必替换原件。"
+    },
+    {
+      "id": "l1-66dd2b604e86",
+      "title": "内地与香港股票市场交易互联互通机制若干规定（2016年历史原版）",
+      "decision": "source_page_verified",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c106256/c1654020/content.shtml",
+      "issued_date": "2016-09-30",
+      "effective_from": "2016-09-30",
+      "raw_sha256": "b9be17f3d826b166b1309da8f34e3c8a3372d1e1e4cf11c1b15c599c89163fa6",
+      "source_page_evidence_path": "artifacts/review-source-page-evidence/l1-66dd2b604e86.html",
+      "source_page_sha256": "e5aae9e84e00a07c8f7dead9ace5fdac7ef77907442aac03f24572d70fad427e",
+      "source_page_http_status": 200,
+      "attachment_match": {
+        "kind": "official_attachment_identical_sha256",
+        "url": "https://www.csrc.gov.cn/csrc/c106256/c1654020/1654020/files/128号《内地与香港股票市场交易互联互通机制若干规定》.pdf",
+        "path": "artifacts/review-source-page-evidence/l1-66dd2b604e86.official.pdf",
+        "sha256": "b9be17f3d826b166b1309da8f34e3c8a3372d1e1e4cf11c1b15c599c89163fa6",
+        "bytes": 174740,
+        "pages": 9
+      },
+      "basis": "证监会规章页沿革明确2016年9月30日第128号令公布并施行，全文至第十九条；其现名图片版附件与已存6dc3...pdf虽URL不同但逐字节SHA256相同。该页没有2022修正沿革，不能改配2022日期。",
+      "recommendation": "可补source_page_url；仅补2016原版来源，保留独立l1-stock-connect-2022版本，不能合并或替代。"
+    },
+    {
+      "id": "l1-de65cbfb0ded",
+      "title": "深圳证券交易所深港通业务实施办法（2024年修订）",
+      "decision": "source_page_verified",
+      "source_page_url": "https://www.szse.cn/lawrules/rule/inno/szhk/t20240614_607685.html",
+      "issued_date": "2024-06-14",
+      "effective_from": "2024-06-14",
+      "raw_sha256": "64c0a06cae1cd633a37c7b68faf6a331e08a75b54362ec824f21e1a1021b54f5",
+      "source_page_evidence_path": "artifacts/review-source-page-evidence/l1-de65cbfb0ded.html",
+      "source_page_sha256": "4ecb5d2eb6ff0f91f72a88899e4b07a78c80f602cfe16514f6c32a61b384edee",
+      "source_page_http_status": 200,
+      "attachment_match": {
+        "kind": "official_attachment_identical_sha256",
+        "url": "https://docs.static.szse.cn/www/lawrules/rule/inno/szhk/W020240614673497419312.pdf",
+        "path": "artifacts/review-source-page-evidence/l1-de65cbfb0ded.official.pdf",
+        "sha256": "64c0a06cae1cd633a37c7b68faf6a331e08a75b54362ec824f21e1a1021b54f5",
+        "bytes": 330046,
+        "pages": 43
+      },
+      "basis": "深交所官方动态列表API返回该正式发布页。页题名2024年修订，文号深证上〔2024〕462号，落款及页面日期2024年6月14日，自发布之日起施行。附件1URL较旧种子多/szhk/，必要获取后与现存原件逐字节SHA256相同；封面第八次修订和第一百四十七条施行日期一致。",
+      "rejected_candidate": "https://www.szse.cn/lawrules/rule/inno/t20240614_607712.html returned HTTP 404 and is not evidence.",
+      "recommendation": "可补source_page_url；现存下载URL和收据保持不变即可，来源页附件URL差异已由相同SHA256弥合。"
+    },
+    {
+      "id": "l1-d02c79127cb8",
+      "title": "证券期货业信息系统分类与代码",
+      "decision": "source_page_verified",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101954/c7608135/content.shtml",
+      "issued_date": "2026-01-09",
+      "effective_from": "2026-01-09",
+      "raw_sha256": "e460c855bea69e9a5e664042fbd06d4a66cc35cc81a211d134d9caff274c1b9d",
+      "source_page_evidence_path": "artifacts/review-source-page-evidence/l1-d02c79127cb8.html",
+      "source_page_sha256": "90b9bf993596b4f09ff9c6f4bb5af2ce44777a6f635535ec4138bce980a4af33",
+      "source_page_http_status": 200,
+      "attachment_match": {
+        "kind": "exact_existing_download_url",
+        "url": "https://www.csrc.gov.cn/csrc/c101954/c7608135/7608135/files/附件2：《证券期货业信息系统分类与代码》.pdf",
+        "download_repeated": false
+      },
+      "basis": "证监会〔2026〕2号公告列出JR/T 0348—2026，与密码技术应用指引分列为两项标准，落款2026年1月9日，自公布之日起施行。附件2精确链接现存PDF，不选附件1。",
+      "recommendation": "可补source_page_url；本结论仅解除来源页缺失，不能解除现存转换图像或公式等其他阻断。"
+    },
+    {
+      "id": "l1-3953d7041492",
+      "title": "重要货币市场基金监管暂行规定",
+      "decision": "source_page_verified",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101954/c7123693/content.shtml",
+      "issued_date": "2023-02-17",
+      "effective_from": "2023-05-16",
+      "raw_sha256": "0fc19bb98125f320e85244f0977ec52470e55ddd316678aa2d382a7446a6e2cd",
+      "source_page_evidence_path": "artifacts/review-source-page-evidence/l1-3953d7041492.html",
+      "source_page_sha256": "11cd34eb7b3b4c01f821481dcf1a1906fee8f04bdd81b5ae5f1a66c4b953a4fa",
+      "source_page_http_status": 200,
+      "attachment_match": {
+        "kind": "exact_existing_download_url",
+        "url": "https://www.csrc.gov.cn/csrc/c101954/c7123693/7123693/files/附件1：重要货币市场基金监管暂行规定.pdf",
+        "download_repeated": false
+      },
+      "basis": "证监会、中国人民银行〔2023〕42号公告落款2023年2月17日，明确2023年5月16日起施行，附件1精确链接现存正式规定PDF，附件2为立法说明且未误选。",
+      "recommendation": "可补source_page_url；使用已绑定原件和下载收据，无需重复下载。"
+    },
+    {
+      "id": "l1-59db1324b327",
+      "title": "香港互认基金管理规定",
+      "decision": "source_page_verified",
+      "source_page_url": "https://www.csrc.gov.cn/csrc/c101954/c7526405/content.shtml",
+      "issued_date": "2024-12-17",
+      "effective_from": "2025-01-01",
+      "raw_sha256": "fdb25deca3e0e9f97b4a4c4f995292fcff6ac0b3ef3216c3ed0aedce9b6cc87c",
+      "source_page_evidence_path": "artifacts/review-source-page-evidence/l1-59db1324b327.html",
+      "source_page_sha256": "3b8dd99bdc9dc9ae5fe734581fe0168f820e47f963219185182f8781e994ebb8",
+      "source_page_http_status": 200,
+      "attachment_match": {
+        "kind": "exact_existing_download_url",
+        "url": "https://www.csrc.gov.cn/csrc/c101954/c7526405/7526405/files/附件1：香港互认基金管理规定.pdf",
+        "download_repeated": false
+      },
+      "basis": "证监会〔2024〕17号公告落款2024年12月17日，明确2025年1月1日起施行，附件1精确链接现存正式规定PDF；附件2标题含暂行规定但为修订说明，未当作正文。",
+      "recommendation": "可补source_page_url；使用已绑定原件和下载收据，无需重复下载。"
+    },
+    {
+      "id": "sse-security-code-allocation-guide-2023-r6",
+      "title": "上海证券交易所证券交易业务指南第4号——证券代码段分配指南（2023年第6次修订）",
+      "decision": "authoritative_same_version_not_established",
+      "source_page_url": null,
+      "existing_source_page_url": "https://www.cnstock.com/image/202311/24/20231124175032784.pdf",
+      "raw_sha256": "d01059224a635c6a2597e9ebdc4db647a09364446260a23de99f35f8301f9e9c",
+      "origin_kind": "secondary",
+      "issued_date": null,
+      "basis": "原有中国证券网PDF和收据仍只证明转载版本。上交所旧入口/guide/stock/返回403；可访问的交易管理业务指南现列表未列2023年第6次修订。已发现2026年第3次修订正式通知，但其版本不同，不作替换。官方query.sse.com.cn搜索请求25秒超时，未获得可用结果。尚未建立2023年第6次修订官方发布页与官方原件绑定，不能将转载PDF改为原发，也不能由转载URL日期推定法定发布日期。",
+      "different_version_not_used": {
+        "url": "https://www.sse.com.cn/lawandrules/guide/stock/jyglywznylc/zn/c/c_20260831_10830435.shtml",
+        "title": "关于扩展分配并启用跨市场股票（沪深京）ETF相关代码段的通知",
+        "version": "2026年第3次修订",
+        "issued_date": "2026-08-31"
+      },
+      "recommendation": "保留converted_unverified及secondary阻断。未来取得标题为2023年第6次修订的官方附件后先比对SHA256；若不同，逐页核对版本、14页正文和表格，不静默替换为新版。"
+    }
+  ],
+  "notes": [
+    "成功官方页面使用默认TLS证书校验；User-Agent为Mozilla/5.0 FondOntology-SourceAudit/1.0。",
+    "四个附件URL与现存下载URL精确相同；另外四个必要下载的官方附件均与现存原件SHA256相同。",
+    "网页PubDate可能为2026年迁移生成时间，发布日期依据正文公告落款或规章沿革，不依据迁移生成时间。",
+    "本审核不确认历史法规当前有效性，也不替代其他代理对Markdown全文及特殊内容的审核。"
+  ]
+}

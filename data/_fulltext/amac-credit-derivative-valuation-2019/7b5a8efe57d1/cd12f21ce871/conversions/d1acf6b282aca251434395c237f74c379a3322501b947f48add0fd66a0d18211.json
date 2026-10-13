@@ -1,0 +1,184 @@
+{
+  "identity_review": {
+    "human_reviewed": false,
+    "scope": "machine_conversion_and_structure_only"
+  },
+  "markdown_path": "_fulltext/amac-credit-derivative-valuation-2019/7b5a8efe57d1/cd12f21ce871/full.md",
+  "markdown_sha256": "cd12f21ce87160da966161883347a007449f7db2d6daa80a24383d8b6194c3b7",
+  "method": "mineru-bound-content-list",
+  "observations": {
+    "article_count": null,
+    "excluded_title_headers": [],
+    "extraction_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_converted\\L2\\files\\original-f59dff748b6ba4ec7f51b8e455b86b982b8e5b58128b6955c4030d3c78390945\\extraction.json",
+    "extraction_sha256": "40a660fad09298261fc8f6cbb8fae4877e898b14ee99419dd2f0619ab993dcb7",
+    "extractor_model_version": "pipeline",
+    "fulltext_review": {
+      "accepted_blocks": [
+        {
+          "basis": "2026-10-13重新对照原件公式截图：原式末尾无=0，转换LaTeX正文末尾多出=0；不是LaTeX显示语法差异。",
+          "block": 82,
+          "page": 7,
+          "reason": "confirmed_latex_transcription_mismatch",
+          "type": "equation"
+        },
+        {
+          "basis": "2026-10-13重新对照原件公式截图：原式首个求和为sum从i=j+1到n并乘(T_i-T_{i-1})，转换为stackrel及无关分式；积分上限T_n亦识别异常。",
+          "block": 107,
+          "page": 9,
+          "reason": "confirmed_latex_transcription_mismatch",
+          "type": "equation"
+        }
+      ],
+      "basis": "gpt-6-astra/high对原PDF第7、9页完整渲染与公式裁剪逐项核验，发现的两处具体差异及附注已纠正；不以金融理论改写原件，不冒称全篇人工核验。",
+      "markdown_sha256": "cd12f21ce87160da966161883347a007449f7db2d6daa80a24383d8b6194c3b7",
+      "reviewer": "independent_model",
+      "source_sha256": "7b5a8efe57d198998dfef857f23136cfd3f1ba2891ef2941a7325afd03087216"
+    },
+    "ignored_empty_text_blocks": [
+      {
+        "block_index": 13,
+        "block_type": "text",
+        "page": 3,
+        "reason": "empty_text"
+      },
+      {
+        "block_index": 156,
+        "block_type": "text",
+        "page": 12,
+        "reason": "empty_text"
+      }
+    ],
+    "missing_images": [],
+    "omitted_recognition_images": [
+      {
+        "block_index": 24,
+        "page": 4,
+        "path": "images/1a5c1fae02b06a62cd88632921e821c6b14bef40c766cd5eecc75126792b60d8.jpg",
+        "reason": "structured_body_available",
+        "type": "table"
+      },
+      {
+        "block_index": 58,
+        "page": 6,
+        "path": "images/aca5a8b1b35dbb66b2a30b441cfd0924cf0f51a31103f749381d15bbcd3be4b0.jpg",
+        "reason": "structured_body_available",
+        "type": "equation"
+      },
+      {
+        "block_index": 70,
+        "page": 7,
+        "path": "images/551dd3c65bb2d7f78be49f4b49ced444dd2e2149a078385394c4ad64422a64ef.jpg",
+        "reason": "structured_body_available",
+        "type": "equation"
+      },
+      {
+        "block_index": 82,
+        "page": 7,
+        "path": "images/eed69eb34df2fa2a634bc6bb28233802000c3085ae57a43dea7b792439fb0e16.jpg",
+        "reason": "structured_body_available",
+        "type": "equation"
+      },
+      {
+        "block_index": 94,
+        "page": 8,
+        "path": "images/ba494100fcea320077cbae5f8af86c43a8409838c7ce1ebb641aeb624618311e.jpg",
+        "reason": "structured_body_available",
+        "type": "equation"
+      },
+      {
+        "block_index": 107,
+        "page": 9,
+        "path": "images/921390973588b2175be7957862b71535a0086f8901c775e304ce2ff81121f97f.jpg",
+        "reason": "structured_body_available",
+        "type": "equation"
+      },
+      {
+        "block_index": 125,
+        "page": 10,
+        "path": "images/bc432087716849528227a53965280a7c64b4c9c7c25a5482aa5a9302c50755b1.jpg",
+        "reason": "structured_body_available",
+        "type": "equation"
+      },
+      {
+        "block_index": 128,
+        "page": 10,
+        "path": "images/759e89b8dd1a844b5563269918d9c64a8017a483be1d520bb550714729ffb9d1.jpg",
+        "reason": "structured_body_available",
+        "type": "equation"
+      },
+      {
+        "block_index": 131,
+        "page": 10,
+        "path": "images/b6c4f2b730f3a7ed16f238c4ed7a171e438fdf1dd508d4efc297fd1a2dc918c9.jpg",
+        "reason": "structured_body_available",
+        "type": "equation"
+      },
+      {
+        "block_index": 142,
+        "page": 11,
+        "path": "images/df3bbee6a003e1054fe76d4aa3900fbb39f9fcd1a58a1e9d9605e6ff9a2cd7e1.jpg",
+        "reason": "structured_body_available",
+        "type": "equation"
+      },
+      {
+        "block_index": 153,
+        "page": 11,
+        "path": "images/e15f276cccb1b05e6f40a57f7ace0afdde7197874d6779fcbfa5abe9f90c1f44.jpg",
+        "reason": "structured_body_available",
+        "type": "equation"
+      },
+      {
+        "block_index": 158,
+        "page": 12,
+        "path": "images/468b9e8d19062260dad5621417083d29532083d0e51c224ca79202fc3a3b9c4a.jpg",
+        "reason": "structured_body_available",
+        "type": "equation"
+      }
+    ],
+    "original_format": "pdf",
+    "page_count": 12,
+    "page_coverage": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "page_scope": "mineru_reported_pages_unreviewed",
+    "pdf_acceptance_scope": "machine_structure_source_and_coverage_checks_not_verbatim_human_review",
+    "raw_pdf_path": "E:\\LX\\LX_fund\\FondOntology\\data\\_sources\\L2\\amac-credit-derivative-valuation-2019\\original.pdf",
+    "retained_image_paths": [],
+    "reviewed_conversion": {
+      "basis": "原PDF第7、9页独立视觉核验：纠正block82乘号及指数结构；保留用户已正确修改的block107公式；补block108附注下标1。",
+      "input_markdown_sha256": "a6ba6f874e8e7ead5f5ed49b28e6f157097e9861bd15f6c00fca9caca4dac85e",
+      "markdown_sha256": "cd12f21ce87160da966161883347a007449f7db2d6daa80a24383d8b6194c3b7",
+      "replacements": [
+        {
+          "block_index": 82,
+          "new": "$$\nV_{\\mathrm{CRMW}} = \\frac{\\left(1-e^{t_1\\cdot\\ln(1-D)}\\right)\\cdot FV\\cdot(1-R)}{(1+r_1)^{t_1}} + \\cdots + \\frac{e^{t_1\\cdot\\ln(1-D)}\\cdot(1-D)^{n-2}\\cdot D\\cdot FV\\cdot(1-R)}{(1+r_n)^{t_n}}\n$$"
+        },
+        {
+          "block_index": 107,
+          "new": "$$\n\\begin{aligned}\nV_{\\mathrm{CRMW}} ={}& FV \\times (1-R) \\times \\int_t^{T_n} \\frac{1}{(1+r_{s-t})^{s-t}} \\times h \\times e^{-h(s-t)}\\,ds \\\\\n&-100 \\times C_1 \\Bigg[\n\\sum_{i=j+1}^{n} (T_i-T_{i-1}) \\times \\frac{1}{(1+r_{T_i-t})^{T_i-t}} \\times \\left(1-e^{-h(T_i-t)}\\right) \\\\\n&\\qquad+\\int_t^{T_{j+1}} (s-T_j) \\frac{1}{(1+r_{s-t})^{s-t}} \\times h \\times e^{-h(s-t)}\\,ds \\\\\n&\\qquad+\\sum_{k=j+1}^{n-1} \\int_{T_k}^{T_{k+1}} (s-T_k) \\frac{1}{(1+r_{s-t})^{s-t}} \\times h \\times e^{-h(s-t)}\\,ds\n\\Bigg]\n\\end{aligned}\n$$"
+        },
+        {
+          "block_index": 108,
+          "new": "注： $T_j < t < T_{j+1}$"
+        }
+      ],
+      "source_sha256": "7b5a8efe57d198998dfef857f23136cfd3f1ba2891ef2941a7325afd03087216"
+    },
+    "unsupported": []
+  },
+  "raw_path": "_sources/L2/amac-credit-derivative-valuation-2019/original.pdf",
+  "schema_version": 1,
+  "source_sha256": "7b5a8efe57d198998dfef857f23136cfd3f1ba2891ef2941a7325afd03087216",
+  "version": "data-restoration-v1"
+}
