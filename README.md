@@ -215,14 +215,16 @@ Fund）、属性约束（字段必须命中 CNFO/CNFC 词表，未知字段拒�
 **不表示现行法律效力已经核验**。原件、回执、数据库和运行产物位于被忽略的
 `data/official-laws-v1/`、`artifacts/official-laws-v1/`，不随 Git 自动分发。
 
-问题、条文 oracle、参考答案分开保存，32 题冻结后执行；系统不接收 gold。
-先文档/版本范围解析，再整条检索，最后独立只读审计与评分；未新增数据库服务。
+问题、条文 oracle、参考答案分开保存，32 题冻结后执行；系统不读取 oracle。
+**旧题多数在题干中提示法名和版本，测量的是已知法源内检索，不能代表自然事实问题的全库检索。**
+普通事实问题应直接检索权限和日期允许的全部正文；只有用户明确指定文档时才缩小文档范围。
+运行后独立只读审计与评分；未新增数据库服务。
 原 32 题上，BM25 Top-3 检索门禁满足 31/32，仍有一题多条文漏召回；
 该结果衡量证据完整性，不等于 31/32 答案正确。
 
 GPT-6 Astra（high）领域复核发现四处题义/参考表达问题，已建立 `official_laws_v1_r1_*`
 和 `retrieval_holdout_v2_r1_*` 勘误版本；原冻结文件保留，目标条文与证据分组不改。
-两套题都已曝光，仍为 `draft`，AI 复核不等于独立人工认证。当前回归入口为 r1：
+两套题都已曝光，仍为 `draft`，AI 复核不等于独立人工认证。带法源提示的历史回归入口为 r1：
 
     .venv\Scripts\python.exe -X utf8 tools\document_rag.py --db artifacts/official-laws-v1/corpus.sqlite --snapshot official-laws-v1 --as-of 2026-10-12 --cases evaluation/cases/official_laws_v1_r1_questions.json --top-k 3 --candidate-k 20 --retrieval-strategy bm25 --output artifacts/domain-draft-r1/official.actual.json
     .venv\Scripts\python.exe -X utf8 tools\evaluate_legal_retrieval.py --actual artifacts/domain-draft-r1/official.actual.json --corpus-db artifacts/official-laws-v1/corpus.sqlite --questions evaluation/cases/official_laws_v1_r1_questions.json --oracle evaluation/cases/official_laws_v1_r1_oracle.json --output artifacts/domain-draft-r1/official.retrieval.json --verify-trace
@@ -232,13 +234,20 @@ GPT-6 Astra（high）领域复核发现四处题义/参考表达问题，已建�
 领域审核、勘误验证与本地功能提交见 `docs/domain-draft-iteration-20261012.md`。
 
 后续已完成四策略消融：BM25 / 父子 BM25 / hybrid RRF / BM25 + rerank 的旧集检索门禁
-分别为 31/32、30/32、31/32、32/32。新冻结 18 题上 BM25 和 rerank 均 18/18，
+分别为 31/32、30/32、31/32、32/32。另一次冻结的带提示 18 题上 BM25 和 rerank 均 18/18，
 因此默认仍为离线 BM25，重排仅显式启用，不把小样本满分当作全局升级依据。
 Ragas 使用 `deepseek-v4.1-flash` 并显式关闭 thinking 后，同三题两组均 9/9 有效；
 早期超时报告保留。参考答案仍为 draft，摘录式回答的小样本评分不构成业务验收。
 详情、延迟代价及局限见
 `docs/rag-retrieval-ablation-20261012.md`。`--retrieval-strategy` 与
 `--allow-retrieval-network` 控制实验策略和网络；未增加数据库服务。
+
+2026-10-13 已将普通事实问答主基线纠正为 `natural_facts_v1_*`：16道新题不提供法名、
+版本、条号或目标范围，经 Astra high 复核后冻结；每题实际记录的范围均核对为4文档226条。
+BM25 Top-5、Top-3都仅11/16题证据齐全，多条证据题3/8、跨文档0/2。该集合仍为AI
+命题/审核的draft，运行后已曝光，不能称为海量检索或人审验收。
+失分条文排名、无提示门禁、复现方法和下一步候选召回路线见
+`docs/natural-fact-evaluation-20261013.md`；当前没有据此更改生产默认策略。
 
 ## 法条 Markdown 与 Ragas（旧研究入口）
 

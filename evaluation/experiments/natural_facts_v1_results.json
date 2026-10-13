@@ -1,0 +1,586 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "natural_facts_v1_unscoped_baseline",
+  "recorded_at_utc": "2026-10-13T02:55:03+00:00",
+  "review_status": "draft",
+  "human_reviewed": false,
+  "business_acceptance": false,
+  "exposed_after_first_run": true,
+  "freeze_sha256": "3edbd06c209240390861d7cbf7f185173d7338168cce96285fcdffb4ecdf7761",
+  "protocol_sha256": "9d3ae9f7dd938640d7dbf847d789bf2e6570d70c9fdb32a080ff783da5990ce5",
+  "verified_unchanged_old_releases": [
+    "official_laws_v1",
+    "official_laws_v1_r1",
+    "retrieval_holdout_v2",
+    "retrieval_holdout_v2_r1"
+  ],
+  "code": {
+    "head_at_execution": "3dedf4f96d18881c4ab35f5136d408d2b9a967a5",
+    "production_retrieval_changed": false,
+    "search_scope_implementation_sha256": "7f433da1250eff9307420dc0d04fc017b610c1efdbf596ad70c61a46039f90fb",
+    "search_scope_cli_sha256": "0fc9f73eda8e65000b3d468bdac533884c6a566fb16fdd4743711fa9fe736f81"
+  },
+  "runs": [
+    {
+      "name": "bm25_top5",
+      "role": "primary",
+      "top_k": 5,
+      "candidate_k_config": 20,
+      "lexical_candidates_truncated_to_candidate_k": false,
+      "code_version": "b46eb0bd9da797883a9d5e87f8ab1e9f0362ddcf154cf3a594afc1a94eeaadf7",
+      "corpus_version": "0d45f5b7aa81b860fe94a85007a750006047572c818457d5c7f4a2b73d50b10e",
+      "local_actual_mtime_utc": "2026-10-13T02:51:36+00:00",
+      "timestamp_limit": "Filesystem observation, not protected execution time attestation.",
+      "denominator": 16,
+      "pass_count": 11,
+      "nonpass_count": 5,
+      "metrics": {
+        "error_rate": 0,
+        "expected_status_match_rate": 1,
+        "first_target_mrr": 0.8958333333333334,
+        "required_group_coverage": 0.8333333333333334,
+        "scope_violation_rate": 0,
+        "target_article_recall": 0.8333333333333334,
+        "unresolved_rate": 0
+      },
+      "source_cue_case_count": 0,
+      "full_corpus_scope_pass_count": 16,
+      "per_case_searchable_documents": 4,
+      "per_case_searchable_complete_articles": 226,
+      "target_only_evidence_precision_macro": 0.25,
+      "target_articles_hit": 20,
+      "target_articles_total": 27,
+      "single_article": {
+        "denominator": 8,
+        "pass_count": 8
+      },
+      "multi_article": {
+        "denominator": 8,
+        "pass_count": 3
+      },
+      "cross_document": {
+        "denominator": 2,
+        "pass_count": 0
+      },
+      "required_articles_exceeding_budget": 0,
+      "candidate20_complete_evidence_ceiling": {
+        "count": 13,
+        "denominator": 16,
+        "meaning": "Diagnostic upper bound with perfect selection restricted to the recorded lexical top 20 and a sufficient final evidence budget; not an executed reranker result."
+      },
+      "retrieval_query_latency_ms": {
+        "median": 0.6589500117115676,
+        "p95_nearest_rank": 0.8757000323385,
+        "excludes_index_startup": true,
+        "single_run_not_performance_benchmark": true
+      },
+      "evidence_characters": {
+        "mean": 930.8125,
+        "total": 14893
+      },
+      "cli_exits": {
+        "retrieval": 0,
+        "verified_scoring": 1,
+        "strict_scope_audit": 0
+      },
+      "artifacts": {
+        "artifacts/natural-facts-v1/bm25-top5.actual.json": "98f4fde29e2181829db789b947a2c873a80309d53719d0f23edd301d87f964ce",
+        "artifacts/natural-facts-v1/bm25-top5.actual.traces.jsonl": "6a24322a1ff443dfa0d07a012b067708320dc485f6fdb067b1ee0c90eea164ed",
+        "artifacts/natural-facts-v1/bm25-top5.retrieval.json": "0a788e2f7074301fc3ec614d2934b820852cef97034358ce12356c363eb4ca1e",
+        "artifacts/natural-facts-v1/bm25-top5.search-scope.json": "a48fe1d7fb3a58608e4bf996553ae8efb8a0c5fd9cde87ab747da54474e32449"
+      },
+      "cases": [
+        {
+          "id": "nf-001",
+          "target_count": 4,
+          "hit_count": 2,
+          "all_required_evidence_retrieved": false,
+          "multiple_articles": true,
+          "cross_document": true,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": [
+            {
+              "doc_id": "csrc-operations-2014",
+              "article_number": 25,
+              "recorded_bm25_rank": 6
+            },
+            {
+              "doc_id": "csrc-disclosure-2020",
+              "article_number": 21,
+              "recorded_bm25_rank": 16
+            }
+          ]
+        },
+        {
+          "id": "nf-002",
+          "target_count": 2,
+          "hit_count": 2,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": true,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-003",
+          "target_count": 1,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": false,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-004",
+          "target_count": 2,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": false,
+          "multiple_articles": true,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": [
+            {
+              "doc_id": "csrc-disclosure-2020",
+              "article_number": 3,
+              "recorded_bm25_rank": 99
+            }
+          ]
+        },
+        {
+          "id": "nf-005",
+          "target_count": 3,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": false,
+          "multiple_articles": true,
+          "cross_document": true,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": [
+            {
+              "doc_id": "csrc-disclosure-2020",
+              "article_number": 21,
+              "recorded_bm25_rank": 54
+            },
+            {
+              "doc_id": "csrc-disclosure-2020",
+              "article_number": 22,
+              "recorded_bm25_rank": 57
+            }
+          ]
+        },
+        {
+          "id": "nf-006",
+          "target_count": 1,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": false,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-007",
+          "target_count": 1,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": false,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-008",
+          "target_count": 2,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": false,
+          "multiple_articles": true,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": [
+            {
+              "doc_id": "csrc-disclosure-2020",
+              "article_number": 26,
+              "recorded_bm25_rank": 59
+            }
+          ]
+        },
+        {
+          "id": "nf-009",
+          "target_count": 2,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": false,
+          "multiple_articles": true,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": [
+            {
+              "doc_id": "csrc-operations-2014",
+              "article_number": 35,
+              "recorded_bm25_rank": 10
+            }
+          ]
+        },
+        {
+          "id": "nf-010",
+          "target_count": 1,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": false,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-011",
+          "target_count": 1,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": false,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-012",
+          "target_count": 2,
+          "hit_count": 2,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": true,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-013",
+          "target_count": 2,
+          "hit_count": 2,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": true,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-014",
+          "target_count": 1,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": false,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-015",
+          "target_count": 1,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": false,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-016",
+          "target_count": 1,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": false,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        }
+      ]
+    },
+    {
+      "name": "bm25_top3",
+      "role": "constrained_budget_diagnostic",
+      "top_k": 3,
+      "candidate_k_config": 20,
+      "lexical_candidates_truncated_to_candidate_k": false,
+      "code_version": "b46eb0bd9da797883a9d5e87f8ab1e9f0362ddcf154cf3a594afc1a94eeaadf7",
+      "corpus_version": "0d45f5b7aa81b860fe94a85007a750006047572c818457d5c7f4a2b73d50b10e",
+      "local_actual_mtime_utc": "2026-10-13T02:52:19+00:00",
+      "timestamp_limit": "Filesystem observation, not protected execution time attestation.",
+      "denominator": 16,
+      "pass_count": 11,
+      "nonpass_count": 5,
+      "metrics": {
+        "error_rate": 0,
+        "expected_status_match_rate": 1,
+        "first_target_mrr": 0.8958333333333334,
+        "required_group_coverage": 0.8333333333333334,
+        "scope_violation_rate": 0,
+        "target_article_recall": 0.8333333333333334,
+        "unresolved_rate": 0
+      },
+      "source_cue_case_count": 0,
+      "full_corpus_scope_pass_count": 16,
+      "per_case_searchable_documents": 4,
+      "per_case_searchable_complete_articles": 226,
+      "target_only_evidence_precision_macro": 0.41666666666666663,
+      "target_articles_hit": 20,
+      "target_articles_total": 27,
+      "single_article": {
+        "denominator": 8,
+        "pass_count": 8
+      },
+      "multi_article": {
+        "denominator": 8,
+        "pass_count": 3
+      },
+      "cross_document": {
+        "denominator": 2,
+        "pass_count": 0
+      },
+      "required_articles_exceeding_budget": 1,
+      "candidate20_complete_evidence_ceiling": {
+        "count": 13,
+        "denominator": 16,
+        "meaning": "Diagnostic upper bound with perfect selection restricted to the recorded lexical top 20 and a sufficient final evidence budget; not an executed reranker result."
+      },
+      "retrieval_query_latency_ms": {
+        "median": 0.7581000099889934,
+        "p95_nearest_rank": 1.3965999823994935,
+        "excludes_index_startup": true,
+        "single_run_not_performance_benchmark": true
+      },
+      "evidence_characters": {
+        "mean": 573.1875,
+        "total": 9171
+      },
+      "cli_exits": {
+        "retrieval": 0,
+        "verified_scoring": 1,
+        "strict_scope_audit": 0
+      },
+      "artifacts": {
+        "artifacts/natural-facts-v1/bm25-top3.actual.json": "12ba4d1f1fdfac9fc032162b1ea35f5d7507b795d3d6f1a08684aa6cca101be1",
+        "artifacts/natural-facts-v1/bm25-top3.actual.traces.jsonl": "2d0b8d186d31df9880ba7fc33642ee15b347ec7b1e565d316fd893fa66745d59",
+        "artifacts/natural-facts-v1/bm25-top3.retrieval.json": "297389c04b4f4b440a9340591be8b7a072f79b5bdd1ea5502ba8941b1253057c",
+        "artifacts/natural-facts-v1/bm25-top3.search-scope.json": "3c550012d649919f1455d0d20004c511314f7256165bf644fdf0ba614690aafd"
+      },
+      "cases": [
+        {
+          "id": "nf-001",
+          "target_count": 4,
+          "hit_count": 2,
+          "all_required_evidence_retrieved": false,
+          "multiple_articles": true,
+          "cross_document": true,
+          "minimum_required_articles_exceeds_output_budget": true,
+          "missing_targets": [
+            {
+              "doc_id": "csrc-operations-2014",
+              "article_number": 25,
+              "recorded_bm25_rank": 6
+            },
+            {
+              "doc_id": "csrc-disclosure-2020",
+              "article_number": 21,
+              "recorded_bm25_rank": 16
+            }
+          ]
+        },
+        {
+          "id": "nf-002",
+          "target_count": 2,
+          "hit_count": 2,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": true,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-003",
+          "target_count": 1,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": false,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-004",
+          "target_count": 2,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": false,
+          "multiple_articles": true,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": [
+            {
+              "doc_id": "csrc-disclosure-2020",
+              "article_number": 3,
+              "recorded_bm25_rank": 99
+            }
+          ]
+        },
+        {
+          "id": "nf-005",
+          "target_count": 3,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": false,
+          "multiple_articles": true,
+          "cross_document": true,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": [
+            {
+              "doc_id": "csrc-disclosure-2020",
+              "article_number": 21,
+              "recorded_bm25_rank": 54
+            },
+            {
+              "doc_id": "csrc-disclosure-2020",
+              "article_number": 22,
+              "recorded_bm25_rank": 57
+            }
+          ]
+        },
+        {
+          "id": "nf-006",
+          "target_count": 1,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": false,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-007",
+          "target_count": 1,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": false,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-008",
+          "target_count": 2,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": false,
+          "multiple_articles": true,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": [
+            {
+              "doc_id": "csrc-disclosure-2020",
+              "article_number": 26,
+              "recorded_bm25_rank": 59
+            }
+          ]
+        },
+        {
+          "id": "nf-009",
+          "target_count": 2,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": false,
+          "multiple_articles": true,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": [
+            {
+              "doc_id": "csrc-operations-2014",
+              "article_number": 35,
+              "recorded_bm25_rank": 10
+            }
+          ]
+        },
+        {
+          "id": "nf-010",
+          "target_count": 1,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": false,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-011",
+          "target_count": 1,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": false,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-012",
+          "target_count": 2,
+          "hit_count": 2,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": true,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-013",
+          "target_count": 2,
+          "hit_count": 2,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": true,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-014",
+          "target_count": 1,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": false,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-015",
+          "target_count": 1,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": false,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        },
+        {
+          "id": "nf-016",
+          "target_count": 1,
+          "hit_count": 1,
+          "all_required_evidence_retrieved": true,
+          "multiple_articles": false,
+          "cross_document": false,
+          "minimum_required_articles_exceeds_output_budget": false,
+          "missing_targets": []
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "tests_run": 582,
+    "passed": 580,
+    "skipped": 2,
+    "failures": 0,
+    "errors": 0,
+    "skip_reason": "Optional Ragas installed-component checks are unavailable in the main environment; no Ragas implementation changed.",
+    "log_path": "artifacts/full-regression-natural-facts-20261013.log",
+    "log_sha256": "ce623ea87607273747526d9ba6bc40418fc913c1632f4c5bb3c99db7e1bc8b2b"
+  },
+  "limits": [
+    "Small fixed source corpus: not large-scale retrieval.",
+    "Source-authored same-team AI-reviewed development questions, not representative user traffic or independent human gold.",
+    "Fixed source texts have not_checked_current validity; no current-law claim.",
+    "Scope audit establishes recorded-set/database consistency, not actual full-index execution certification.",
+    "Target-only precision can count valid but unannotated supporting evidence as non-target; not semantic precision.",
+    "No answer generation or Ragas judge in these baseline runs.",
+    "Old source-cued aggregate scores and new question scores are not paired measurements."
+  ]
+}

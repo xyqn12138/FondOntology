@@ -268,3 +268,43 @@ Review evidence: `docs/domain-draft-review-20261012.md` and
 `docs/domain-draft-r1-acceptance-20261012.md`. Validation, remaining limits and
 the next evaluation route: `docs/domain-draft-iteration-20261012.md`. Run the R1
 inputs into new artifact paths; preserve original actuals and failed judge runs.
+
+## Natural-input baseline correction, 2026-10-13
+
+The old official/R1 and holdout/R1 sets contain source cues. Their recorded
+ordinary queries search one document each, not the full corpus. Preserve their
+frozen bytes and scores as source-cued regression diagnostics; those results do
+not establish natural-question retrieval quality.
+
+`cases/natural_facts_v1_*` is a new 16-case, source-authored draft development set,
+created by GPT-6.1-sol high and reviewed by GPT-6 Astra high before freezing and
+first execution. Its only runtime case fields are `id`, `question`, and a common
+`as_of`; document identity, article targets, business strata and references stay
+in evaluation files. The oracle permits all four corpus documents. Gold targets
+are never query authorization filters. This is same-team AI work, not independent
+human review or representative user traffic; the released set is now exposed.
+
+`tools/audit_search_scope.py --questions QUESTIONS --output REPORT` reports source
+cues without rejecting legitimate explicit-source queries. Add
+`--require-unscoped` for the strict natural-input benchmark contract. Add both
+`--actual ACTUAL --corpus-db DB` to bind questions through the independent artifact
+auditor and compare the recorded eligible set with the complete date-available
+body set rebuilt from read-only SQLite. Outputs distinguish full source article
+counts from searchable complete articles and detect title/direct-address bypasses.
+Exit 0/1/2 means diagnostic pass, contract-policy violation, or setup/audit error.
+No-cue heuristics do not certify naturalness; eligible-set equality does not
+certify actual execution over the full index or current legal validity.
+
+The preregistered protocol is `experiments/natural_facts_v1_protocol.json`; results
+and artifact hashes are in `experiments/natural_facts_v1_results.json`. Offline
+BM25 Top-5 and Top-3 each pass 11/16 complete-evidence gates, including only 3/8
+multi-article and 0/2 cross-document cases. All 16 recorded scopes match four
+documents and 226 articles. Top-3 additionally cannot hold the four necessary
+articles of one case; its failure stays in the denominator. Lexical top-20 cannot
+contain complete gold for three cases even with perfect reranking. These are
+candidate-coverage findings, not executed model-reranking results.
+
+No Ragas judge or answer-generation score is claimed here. Corpus size remains a
+small fixed-source experiment, and all source validity fields remain unchecked
+for current law. Reproduction, exact missing ranks and the revised BKN-aligned
+evaluation route: `docs/natural-fact-evaluation-20261013.md`.
