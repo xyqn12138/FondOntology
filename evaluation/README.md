@@ -1,5 +1,26 @@
 # External QA evaluation, version 1
 
+## Current frozen-source natural QA
+
+The active dataset for the frozen 43-document corpus is
+`cases/real_user_qa_v1/`. Only `questions.json` enters retrieval or generation;
+oracle, references and review metadata are evaluation-only. Questions imitate
+investor, business and system tasks without specifying document titles, versions,
+article numbers or document filters. Its source registry contains all 43 frozen
+documents, not only the documents needed by each answer.
+
+This is an AI-authored, independently model-reviewed **draft development/challenge
+set**, not certified real-user traffic or a blind holdout. The builder performs
+source/offset/hash and runtime-leakage checks without executing RAG. Validate with
+`python tools/build_natural_qa_release.py --validate`; evaluate future recorded
+retrieval with `tools/evaluate_natural_qa.py`. Span coverage does not certify answer
+correctness; clarification and missing-data responses require separate review.
+See `cases/real_user_qa_v1/README.md` and
+`docs/real-user-qa-design-20261013.md` for the protocol.
+
+The four-document pilots and their scores below remain historical diagnostics;
+they are not the baseline for this 43-document dataset.
+
 This is a usable P0 protocol/scorer baseline, **not independent business
 acceptance**. All checked-in examples are hand-authored `synthetic_contract`
 fixtures. They do not prove real-document correctness or user E2E success.

@@ -1,0 +1,97 @@
+# 基于冻结源数据的真实用户QA
+
+本轮重建题库，运行时仅输入真实业务问题，检索范围为
+`fund-rag-source-v1-20261013`冻结的43份ready正文。
+旧题库与旧评分保留历史，不迁移其目标文档过滤，不用其分数作为新题库基线。
+
+## 本轮题库构成
+
+44题：投资者13题、业务人员18题、系统人员13题。
+36题可回答、4题需澄清、4题缺少实时或个人事实。
+正向依据覆盖24/43份冻结文档，12题需要跨文档证据；
+未覆盖的19份文档是后续覆盖缺口，不宣称已完成全业务验收。
+本轮没有运行实际RAG、生成或Ragas，只有题库和离线契约验证。
+业务与技术题中存在同一估值知识点的不同角色视角；44题不等于44个独立知识能力样本。
+结果解释时需注明这种聚类重叠，不能用题数放大独立覆盖程度。
+
+## 提问约束
+
+问题按投资者、业务人员、系统开发或运营人员的实际任务编写。
+给出区分业务所需的基金类型、交易场景或报送平台，允许自然字段名与代码；
+不写法规全称、文件版本、条号、入库文档ID，避免“依据某办法第几条”式提问。
+系统需要自己从全库找到依据。信息不够时应追问，不能命题时在金标准中悄悄补条件。
+实质规则冲突时区分适用场景或说明范围，不任意挑一个版本冒充唯一现行答案。
+
+题库包括可回答的事实、业务流程、比较和技术表格问题，以及需要澄清和资料不足的控制题。
+例如“客户申请交上来以后先核对什么”需要规则依据；
+“这只基金赎回最晚几天到账”缺少产品与订单条件，应先追问；
+“我的申购成功了吗”缺少账户查询数据，不能编造交易状态。
+这些例子解释题型，不是实测输出。
+
+## 运行输入与金标准隔离
+
+`evaluation/cases/real_user_qa_v1/questions.json`仅含`id/question/as_of`，
+直接供`tools/document_rag.py --cases`读取。
+`as_of=2026-10-13`是统一运行环境，不是题面给出的文件发布日期。
+来源、参考答案、必须回答的要点、禁止编造的结论、分类和开发/挑战分组
+只保存在`oracle.json`。Ragas参考单独保存在`references.json`，实际输出生成后才合并。
+不得把这些文件里的doc_id、证据原文或答案交给检索、query rewrite、HyDE或生成提示。
+
+每段正向证据绑定冻结正文SHA256与原文字符范围，不依赖当前chunk ID。
+后续父子切片或重建索引仍可使用同一题库；评分可累积多个chunk的证据覆盖，
+但不能将只命中文档或只命中条号算成覆盖了必要证据。
+完整原文范围覆盖是保守诊断，较长引用会影响分数；它不等同语义充分性或答案正确率。
+澄清和资料不足题不凭检索为空判断成功，其实际回答需要单独按要点评审。
+类别标记是主要行动，不要求措辞互斥；安全的部分回答、追问和说明事实缺失可以并存。
+
+生成工具`tools/build_natural_qa_release.py`在写入前检查来源冻结、原文引用唯一性、
+正文范围及题面来源线索，发布文件用`freeze.json`绑定哈希。
+复核使用`--validate`；已发布文件改动会被拒绝，需要显式发布修订。
+格式检查不能证明语言自然或法律准确，另有独立模型逐题审核。
+模型命题与模型审核均不等于人工领域签核，参考答案保留draft。
+
+## 量化协议
+
+先固定Top-5为主诊断、Top-10为额外预算诊断；同一策略对所有问题使用同一预算。
+不要为了单题金标准增加候选或输出数量。BM25实现返回所有正向词项候选，
+`candidate_k`仅在支持截断的策略中构成相同候选预算，比较时须记录这一差异。
+新索引必须保留同样43份正文及其哈希。索引、切分、问题版本与模型配置分别记录。
+
+| 衡量对象 | 分母或判断方法 |
+| --- | --- |
+| 全库搜索与泄漏 | 所有问题检查运行字段；独立检查实际轨迹的可检索集合与完整日期可用正文集合一致 |
+| 必要证据覆盖 | 可回答题逐段检查原文范围覆盖，报告全部必要证据覆盖题数与比例；错误保留分母 |
+| 答案质量 | 逐题必须回答要点覆盖率、无支持断言数、数值/期限/对象错误；不得用检索覆盖率代替 |
+| 澄清能力 | 信息不足题是否追问影响结论的条件、是否提前作唯一结论 |
+| 数据边界 | 资料不足题是否明确缺少事实、是否编造实时价格、个人交易或公司状态 |
+| Ragas | 小样本faithfulness、response_relevancy；有正向证据的题另评context_precision/context_recall |
+| 成本与速度 | 相同配置下的延迟、上下文字符量、模型调用与token成本，单列启动建索引时间 |
+
+所有分数按user/business/system、单源/多源、可回答/澄清/资料不足分别报告。
+错误及拒答不从分母删除，不把“检索命中”当“答案正确”。Ragas裁判仅辅助量化，
+不能取代数值、适用条件和证据的人工核验；控制题不能以空reference_contexts获得检索高分。
+裁判沿用用户指定模型配置，但本轮没有调用模型裁判。
+
+本题库为开发/挑战集，不宣称真实用户样本或独立盲测。
+首次执行后即为已暴露回归集；修正题目要记录版本及原因，不能按实际输出反改金标准。
+真正盲测需另一批未参与调优的外部题目，并在调优前隔离保存。
+
+## 验证与首次运行
+
+仅检查新题库，不调用RAG或付费模型：
+
+```powershell
+.venv/Scripts/python.exe -X utf8 tools/build_natural_qa_release.py --validate
+.venv/Scripts/python.exe -X utf8 tools/audit_search_scope.py --questions evaluation/cases/real_user_qa_v1/questions.json --registry evaluation/cases/real_user_qa_v1/sources.json --require-unscoped --output artifacts/qa-redesign/input-scope.json
+```
+
+题库审核和哈希冻结完成后，才建立新基线，实际输出不得写入题库：
+
+```powershell
+.venv/Scripts/python.exe -X utf8 tools/document_rag.py --db artifacts/data-corpus/corpus.sqlite --snapshot data-reviewed-20261013 --as-of 2026-10-13 --cases evaluation/cases/real_user_qa_v1/questions.json --top-k 5 --candidate-k 40 --retrieval-strategy bm25 --output artifacts/qa-redesign/bm25-top5.json
+.venv/Scripts/python.exe -X utf8 tools/evaluate_natural_qa.py --actual artifacts/qa-redesign/bm25-top5.json --corpus-db artifacts/data-corpus/corpus.sqlite --output artifacts/qa-redesign/bm25-top5-evidence.json
+```
+
+上述是待执行的检索基线；未加`--generate`时是提取式结果，不能声称完成生成回答测评。
+先挑固定的小样本生成并核验轨迹，再合并同一ID的外部参考做Ragas评估；
+项目裁判入口保留最多3题、18次调用等限制。不得筛选表现最好题目来报告总体成绩。
