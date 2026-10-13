@@ -1,4 +1,4 @@
-"""Audit local legal Markdown and import only an explicit selection manifest."""
+"""Legacy Markdown audit/selection import for frozen benchmark reproduction."""
 
 from __future__ import annotations
 

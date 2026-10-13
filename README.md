@@ -81,15 +81,23 @@ Stage 2 Semantic Enforcement   Stage 3 Semantic Querying
     .venv\Scripts\python.exe tools\qa_cli.py "钱强的基金有什么？"   # 投资者实体锚点 → 持仓链查询
     .venv\Scripts\python.exe tools\qa_cli.py "魏辉的基金有什么？"   # 基金经理锚点 → playsFundRole→roleInFund 链
 
-**文档证据库（首期 SQLite）**：T-BOX/ABOX 仍以 Turtle 为本体与仿真事实真源；
-官方法规、基金披露和研究资料作为不可变文档版本导入 SQLite，发布为带版本的
-corpus snapshot 后才允许 RAG 消费。导入、发布和校验示例见
-`docs/corpus-sqlite-implementation.md`；使用已发布快照时必须同时提供数据库、快照
-和 `as_of` 日期；真实资料的目录、manifest 字段和发布门槛见
-`docs/corpus-ingestion.md`：
+**法条语料唯一入口**：`data/source_catalog.json` 显式登记原件、来源收据、全文
+Markdown 和转换记录。原件位于 `data/_sources/`，恢复全文位于
+`data/_fulltext/`。旧 `L0`～`L3` 摘要保留供追溯，不作为全文导入。
+仅 `ready` 条目可进入权威检索；下载成功、条号连续或页覆盖齐全均不代表
+OCR 公式、表格和版本已核验。恢复范围与待核验事项见 `data/README.md`，
+导入契约见 `docs/data-catalog-import.md`。
 
-    .venv\Scripts\python.exe tools\corpus_cli.py --db evidence.sqlite list
-    .venv\Scripts\python.exe tools\qa_cli.py --no-llm --corpus-db evidence.sqlite --corpus-snapshot approved-v1 --as-of 2026-10-10 "问题"
+    .venv\Scripts\python.exe tools\import_data_corpus.py
+    .venv\Scripts\python.exe tools\import_data_corpus.py --manifest-out artifacts/data-corpus/import.jsonl --db artifacts/data-corpus/corpus.sqlite --import-ready --snapshot-id data-official-20261013
+
+SQLite、JSONL 和 corpus snapshot 均为此数据目录的派生产物，不作为独立法条来源。
+T-BOX/ABOX 仍以 Turtle 为本体与仿真事实真源。使用已发布快照时必须同时提供
+数据库、快照和 `as_of` 日期。旧采集 registry、任意 manifest 导入和研究工具
+用于历史复现；其结果不自动获得本轮权威目录资格：
+
+    .venv\Scripts\python.exe tools\corpus_cli.py --db artifacts/data-corpus/corpus.sqlite list
+    .venv\Scripts\python.exe tools\qa_cli.py --no-llm --corpus-db artifacts/data-corpus/corpus.sqlite --corpus-snapshot data-official-20261013 --as-of 2026-10-13 "问题"
 
 回归/研究快照需显式 `--allow-nontrusted`，回答会标注其非权威性质。
 PDF 教材通过 MinerU 转换、双哈希登记和研究快照接入，流程见

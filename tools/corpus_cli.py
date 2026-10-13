@@ -1,4 +1,4 @@
-"""Offline document corpus management; never changes TBOX or ABOX."""
+"""Low-level legacy corpus management; new data imports use import_data_corpus.py."""
 
 from __future__ import annotations
 

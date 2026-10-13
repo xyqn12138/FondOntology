@@ -14,6 +14,8 @@ from typing import Iterator
 
 from .pdf_extraction import EXTRACTOR_VERSION as PDF_EXTRACTOR_VERSION
 from .pdf_extraction import load_extraction_json, parse_extraction, pdf_page_count
+from .data_text import CHUNKER_VERSION as DATA_CHUNKER_VERSION
+from .data_text import catalog_body_sections
 from .legal_text import (
     CHUNKER_VERSION as LEGAL_CHUNKER_VERSION,
     EXTRACTOR_VERSION as LEGAL_EXTRACTOR_VERSION,
@@ -386,8 +388,13 @@ class CorpusRepository:
             if previous is None or previous["document_id"] != document_id:
                 raise CorpusError("supersedes must reference a version of the same document")
         config = record.get("chunker_config", {"max_chars": 800, "overlap": 0})
+        is_catalog = isinstance(config, dict) and config.get("strategy") == DATA_CHUNKER_VERSION
         is_legal = isinstance(config, dict) and config.get("strategy") == LEGAL_CHUNKER_VERSION
-        if is_legal:
+        if is_catalog:
+            if is_pdf or is_html:
+                raise CorpusError("Data catalog body chunking requires UTF-8 Markdown")
+            catalog_sections = catalog_body_sections(text, config)
+        elif is_legal:
             if (not isinstance(config, dict)
                     or set(config) != {"strategy", "max_chars", "overlap", "expected_articles"}
                     or type(config.get("expected_articles")) is not int):
@@ -404,11 +411,12 @@ class CorpusRepository:
         if (type(max_chars) is not int or type(overlap) is not int
                 or max_chars <= 0 or overlap < 0 or overlap >= max_chars):
             raise CorpusError("Invalid chunk sizes")
-        if is_legal and overlap != 0:
+        if (is_legal or is_catalog) and overlap != 0:
             raise CorpusError("Legal article chunking requires overlap=0")
         legal_sections = (legal_article_sections(text, expected_articles=config["expected_articles"])
                           if is_legal else None)
-        chunker_version = LEGAL_CHUNKER_VERSION if is_legal else CHUNKER_VERSION
+        chunker_version = (DATA_CHUNKER_VERSION if is_catalog else
+                           LEGAL_CHUNKER_VERSION if is_legal else CHUNKER_VERSION)
         links = record.get("entity_links", [])
         if not isinstance(links, list):
             raise CorpusError("entity_links must be a list")
@@ -488,6 +496,9 @@ class CorpusRepository:
             if is_legal:
                 sections = [(section["heading"], section["char_start"], section["char_end"], section)
                             for section in legal_sections]
+            elif is_catalog:
+                sections = [(section["heading"], section["char_start"], section["char_end"], section)
+                            for section in catalog_sections]
         for ordinal, (heading, start, end, block_locator) in enumerate(sections):
             section_id = _id("section_", [version_id, ordinal, start, end, heading])
             section_locator = {**locator, **block_locator, "section": heading, "char_start": start,
@@ -506,6 +517,14 @@ class CorpusRepository:
                     "section_char_start": start,
                     "section_char_end": end,
                 })
+            elif is_catalog:
+                section_locator.update({
+                    "content_kind": ("legal_article" if "article_number" in block_locator
+                                     else "supplementary_body" if config["expected_articles"] is not None
+                                     else "technical_body"),
+                    "title": document["title"], "body_start_line": config["body_start_line"],
+                    "section_char_start": start, "section_char_end": end,
+                })
             if is_html:
                 section_locator.update({
                     "raw_html_sha256": checksum,
@@ -519,7 +538,7 @@ class CorpusRepository:
                  _json(section_locator), ("unreviewed" if is_pdf
                                           else "utf8_text_not_independently_verified")),
             )
-            if is_legal:
+            if is_legal or is_catalog and "article_number" in block_locator:
                 chunk_ranges = [(0, start, end)]
             else:
                 chunk_ranges = (
@@ -533,7 +552,7 @@ class CorpusRepository:
                                           chunker_version, config])
                 chunk_locator = {**section_locator, "char_start": chunk_start,
                                  "char_end": chunk_end}
-                if is_legal:
+                if is_legal or is_catalog and "article_number" in block_locator:
                     chunk_locator["oversized"] = len(chunk_text) > max_chars
                 connection.execute(
                     "INSERT INTO chunks VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -947,6 +966,8 @@ class CorpusRepository:
                     except UnicodeDecodeError:
                         errors.append(f"Invalid stored UTF-8: {version_id}")
                         continue
+                if version["chunker_version"] == DATA_CHUNKER_VERSION:
+                    errors.extend(self._verify_catalog_body(connection, version, original))
                 if (version["chunker_version"] == LEGAL_CHUNKER_VERSION
                         and legal_sections is None):
                     try:
@@ -1077,3 +1098,63 @@ class CorpusRepository:
         return {"snapshot_id": snapshot_id, "ok": not errors, "errors": errors,
                 "versions": len(snapshot["version_ids"]),
                 "chunks": chunk_count}
+
+    @staticmethod
+    def _verify_catalog_body(connection, version, original):
+        errors = []
+        version_id = version["version_id"]
+        try:
+            config = json.loads(version["chunker_config_json"])
+            if (type(config["max_chars"]) is not int or config["max_chars"] <= 0
+                    or config["overlap"] != 0):
+                raise ValueError("Invalid data body chunk sizes")
+            expected_sections = catalog_body_sections(original, config)
+            base_locator = json.loads(version["locator_json"])
+        except (ValueError, KeyError, TypeError) as error:
+            return [f"Invalid data body configuration: {version_id}: {error}"]
+        sections = connection.execute(
+            "SELECT * FROM sections WHERE version_id=? ORDER BY ordinal", (version_id,)
+        ).fetchall()
+        if len(sections) != len(expected_sections):
+            errors.append(f"Data body section coverage mismatch: {version_id}")
+        for ordinal, (section, expected) in enumerate(zip(sections, expected_sections)):
+            start, end = expected["char_start"], expected["char_end"]
+            section_id = _id("section_", [version_id, ordinal, start, end, expected["heading"]])
+            locator = {
+                **base_locator, **expected, "section": expected["heading"],
+                "char_start": start, "char_end": end,
+                "content_kind": ("legal_article" if "article_number" in expected
+                                 else "supplementary_body" if config["expected_articles"] is not None
+                                 else "technical_body"),
+                "title": version["title"], "body_start_line": config["body_start_line"],
+                "section_char_start": start, "section_char_end": end,
+            }
+            if (section["section_id"] != section_id or section["ordinal"] != ordinal
+                    or section["heading"] != expected["heading"]
+                    or section["char_start"] != start or section["char_end"] != end
+                    or section["text"] != original[start:end]
+                    or json.loads(section["locator_json"]) != locator):
+                errors.append(f"Data body section mismatch: {section['section_id']}")
+            ranges = [(start, end)] if "article_number" in expected else []
+            if not ranges:
+                for chunk_start in range(start, end, config["max_chars"]):
+                    chunk_end = min(chunk_start + config["max_chars"], end)
+                    ranges.append((chunk_start, chunk_end))
+            chunks = connection.execute(
+                "SELECT * FROM chunks WHERE section_id=? ORDER BY ordinal", (section["section_id"],)
+            ).fetchall()
+            if len(chunks) != len(ranges):
+                errors.append(f"Data body chunk coverage mismatch: {section['section_id']}")
+            for chunk_ordinal, (chunk, span) in enumerate(zip(chunks, ranges)):
+                chunk_start, chunk_end = span
+                chunk_locator = {**locator, "char_start": chunk_start, "char_end": chunk_end}
+                if "article_number" in expected:
+                    chunk_locator["oversized"] = chunk_end - chunk_start > config["max_chars"]
+                chunk_id = _id("chunk_", [version_id, section_id, chunk_ordinal,
+                                          chunk_start, chunk_end, DATA_CHUNKER_VERSION, config])
+                if (chunk["chunk_id"] != chunk_id or chunk["ordinal"] != chunk_ordinal
+                        or chunk["chunker_version"] != DATA_CHUNKER_VERSION
+                        or chunk["char_start"] != chunk_start or chunk["char_end"] != chunk_end
+                        or json.loads(chunk["locator_json"]) != chunk_locator):
+                    errors.append(f"Data body chunk mismatch: {chunk['chunk_id']}")
+        return errors

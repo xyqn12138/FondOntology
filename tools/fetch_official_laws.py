@@ -1,4 +1,4 @@
-"""Download only pinned official HTML sources, then prepare an offline manifest."""
+"""Legacy pinned official HTML acquisition for frozen benchmark reproduction."""
 
 from __future__ import annotations
 

@@ -1,5 +1,11 @@
 # 真实文档资料接入契约
 
+> 2026-10-13 数据恢复入口：`data/` 是正式全文与来源记录的唯一权威目录。
+> 新数据仅通过 `data/source_catalog.json` 的显式 ready 白名单与
+> `tools/import_data_corpus.py` 导入；SQLite/生成清单只允许位于 `artifacts/`。
+> 细则见 `docs/data-catalog-import.md`。下文通用 manifest 分层保留用于历史实验复现，
+> 不能替代来源 catalog，也不能从旧 registry 或目录 glob 静默回退。
+
 本目录约定是文档证据库的**输入规范**，不是官方资料仓库。没有经过授权、来源核验和
 版本登记的文件不得直接复制到发布快照。
 
