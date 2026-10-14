@@ -93,26 +93,43 @@ OCR 公式、表格和版本已核验。恢复范围与待核验事项见 `data/
     .venv\Scripts\python.exe tools\import_data_corpus.py --manifest-out artifacts/data-corpus/import.jsonl --db artifacts/data-corpus/corpus.sqlite --import-ready --snapshot-id data-official-20261013
 
 SQLite、JSONL 和 corpus snapshot 均为此数据目录的派生产物，不作为独立法条来源。
+当前冻结的43份来源版本为 `fund-rag-source-v1-20261013`，对应快照
+`data-reviewed-20261013`。冻结自然问题题库见 `evaluation/cases/real_user_qa_v1/`；
+旧指定文档题库成绩不能作为该全库检索题库的基线。
 T-BOX/ABOX 仍以 Turtle 为本体与仿真事实真源。使用已发布快照时必须同时提供
 数据库、快照和 `as_of` 日期。旧采集 registry、任意 manifest 导入和研究工具
 用于历史复现；其结果不自动获得本轮权威目录资格：
 
     .venv\Scripts\python.exe tools\corpus_cli.py --db artifacts/data-corpus/corpus.sqlite list
-    .venv\Scripts\python.exe tools\qa_cli.py --no-llm --corpus-db artifacts/data-corpus/corpus.sqlite --corpus-snapshot data-official-20261013 --as-of 2026-10-13 "问题"
+    .venv\Scripts\python.exe tools\qa_cli.py --no-llm --corpus-db artifacts/data-corpus/corpus.sqlite --corpus-snapshot data-reviewed-20261013 --as-of 2026-10-13 "问题"
 
 回归/研究快照需显式 `--allow-nontrusted`，回答会标注其非权威性质。
 PDF 教材通过 MinerU 转换、双哈希登记和研究快照接入，流程见
 `docs/pdf-corpus-mineru.md`；未知发布日期还须显式 `--include-undated-research`。
 教材不等于现行法规或产品披露原件，代码回归通过率不等于真实业务准确率。
 
-库级调用入口：
+库级接口分为明确的图谱问数和文档RAG两条路由，不能靠改写模型自动切换：
 
     from fondontology.qa.graph import build_stack
-    from fondontology.qa.engine import answer_question
+    from fondontology.qa.service import KnowledgeGraphRequest, KnowledgeGraphService
     stack = build_stack("ontology/modules/cnfo-domain.ttl", "artifacts/cnfo/abox/cnfo-sim-abox.ttl")
-    ans = answer_question("开放式基金与封闭式基金是否互斥", stack)
-    print(ans.text, ans.verdict, ans.explanation)   # 含 gate/UCR 报告
-    ans = answer_question("钱强的基金有什么？", stack)   # 锚点问题：投资者 → 持仓 → 份额 → 基金
+    result = KnowledgeGraphService(stack).answer(KnowledgeGraphRequest("开放式基金与封闭式基金是否互斥", use_llm=False))
+    print(result.text, result.trace["verdict"])
+
+    from fondontology.qa.service import DocumentRequest, DocumentService, RetrievalPlan
+    result = DocumentService().answer(DocumentRequest(
+        question="一只公募换了基金经理，最晚什么时候要披露？",
+        db_path="artifacts/data-corpus/corpus.sqlite",
+        snapshot_id="data-reviewed-20261013", as_of="2026-10-13",
+        plan=RetrievalPlan(strategy="bm25", top_k=5, candidate_k=40)))
+    print(result.status, result.text)
+
+RAG内部按范围、查询转换、召回、排序、生成与独立审计拆分。
+默认仍是无模型改写的BM25；Rewrite/HyDE须显式选择，不能默认全部叠加。
+组合方式、网络闸门、执行溯源和剩余兼容边界见
+`docs/modular-qa-architecture-20261014.md`。
+原 `qa.engine.answer_question` 和 `qa.rag.document_pipeline.answer_document` 保留兼容；
+上面的文档示例是检索输出，不是生成回答或法律结论。
 
 当前源文件参考本地 FIBO `SEC/Funds` 模块的基金、基金单位、基金组合、角色和约束建模方式，但不导入 FIBO 命名空间；类名和属性名以中国基金业务语境为准。
 
