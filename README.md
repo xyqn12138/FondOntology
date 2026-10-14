@@ -71,7 +71,8 @@ Stage 2 Semantic Enforcement   Stage 3 Semantic Querying
     # r["imported"] / r["failed"] / r["validations"]
 
 **仓库整理**：本体构建期脚手架（extract_*/std_mapping/v05_defs/gen_v05_report）
-已归档至 `archive/tools/`（非运行链路）；`cnfo-sim.sqlite` 为可选关系镜像
+已确认不在运行链路并于2026-10-14删除，可从 Git 历史恢复；清单及保留边界见
+`docs/workspace-cleanup-20261014.md`。`cnfo-sim.sqlite` 为可选关系镜像
 （`tools/gen_sim_abox.py --sqlite` 开启，问数/浏览器均不消费）。
 
     .venv\Scripts\python.exe tools\qa_bench.py --stage citation  # 10 条 NL 问答，UCR=0，引用零越权
