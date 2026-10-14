@@ -46,7 +46,8 @@ def _cache_state(strategy: dict) -> str:
 def _paired_identity(audit: dict, envelope: dict) -> dict:
     provenance = envelope["provenance"]
     configuration = provenance["retrieval_config"]
-    variable_fields = {"retrieval", "retrieval_strategy", "retrieval_cache", "allow_retrieval_network"}
+    variable_fields = {"retrieval", "retrieval_strategy", "retrieval_cache", "allow_retrieval_network",
+                       "query_transform"}
     return {
         "snapshot": audit["snapshot_id"], "members": audit["snapshot_members_sha256"],
         "code_version": provenance["code_version"],
@@ -65,7 +66,8 @@ def summarize_run(audit: dict, questions: list[dict], oracle: list[dict]) -> dic
         targets = expected[row["id"]]["target_articles"]
         positive = sum(any(_matches(item, target) for target in targets) for item in evidence)
         strategy = row.get("strategy_trace", {})
-        events = strategy.get("resource_events", [])
+        events = (strategy.get("resource_events", [])
+                  + strategy.get("query_transform", {}).get("resource_events", []))
         diagnostics.append({
             "id": row["id"], "expected_status": expected[row["id"]]["expected_status"],
             "target_only_precision": positive / len(evidence) if evidence else 0.0,

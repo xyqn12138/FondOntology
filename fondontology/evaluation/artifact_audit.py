@@ -90,14 +90,93 @@ def _score(value: Any, where: str, *, positive: bool = False) -> None:
              and (not positive or value > 0), f"{where}: invalid finite score")
 
 
+def _audit_query_transform(trace: dict, declared: dict) -> str:
+    strategy = trace["strategy_trace"]
+    mode = trace["config"].get("query_transform", "identity")
+    _require(mode in {"identity", "rewrite", "hyde"}
+             and mode == declared.get("query_transform", "identity"),
+             "query transformation declaration mismatch")
+    original = trace.get("scope", {}).get("body_query", "")
+    transformed = strategy.get("query_transform")
+    if mode == "identity":
+        _require(transformed is None, "identity retrieval contains a query transformation")
+        return original
+    _require(mode != "hyde" or strategy["requested_strategy"] == "hybrid_rrf",
+             "HyDE requires a dense retrieval channel")
+    if strategy.get("reason") in {"unresolved_scope", "direct_address"}:
+        _require(transformed is None, "scope bypass unexpectedly transformed query")
+        return original
+    _obj(transformed, {"mode", "status", "input", "output", "input_sha256", "output_sha256",
+                       "provider", "model", "network", "prompt_version", "elapsed_ms",
+                       "resource_events", "reason"}, set(), "query transformation")
+    _require(transformed["mode"] == mode and transformed["input"] == original
+             and transformed["input_sha256"] == _sha(original.encode("utf-8")),
+             "query transformation original input mismatch")
+    _require(transformed["prompt_version"] == "retrieval-query-transform-v1",
+             "query transformation prompt version mismatch")
+    for name in ("provider", "model"):
+        _text(transformed[name], f"query transformation {name}")
+    _require(type(transformed["network"]) is bool
+             and (not transformed["network"] or trace["config"]["allow_retrieval_network"]),
+             "query transformation network lacks authorization")
+    _require(type(transformed["elapsed_ms"]) in {int, float}
+             and math.isfinite(transformed["elapsed_ms"]) and transformed["elapsed_ms"] >= 0,
+             "query transformation timing invalid")
+    events = transformed["resource_events"]
+    _require(isinstance(events, list) and len(events) <= 1, "query transformation call budget exceeded")
+    for event in events:
+        _obj(event, {"kind", "input_count", "status", "request_sha256", "elapsed_ms"},
+             {"http_status", "response_sha256", "usage", "error_type",
+              "response_validation_status", "response_validation_error_type"}, "query provider event")
+        _require(transformed["network"] and event["kind"] == "query_transform"
+                 and event["input_count"] == 1 and event["status"] in {"ok", "error", "running"},
+                 "invalid query provider event")
+        for name in ("request_sha256", "response_sha256"):
+            if name in event:
+                _require(isinstance(event[name], str) and re.fullmatch(r"[0-9a-f]{64}", event[name]),
+                         "invalid query provider event hash")
+        _require(type(event["elapsed_ms"]) in {int, float}
+                 and math.isfinite(event["elapsed_ms"]) and event["elapsed_ms"] >= 0,
+                 "invalid query provider event timing")
+        for name in ("error_type", "response_validation_error_type"):
+            if name in event:
+                _require(isinstance(event[name], str)
+                         and re.fullmatch(r"[A-Za-z_][A-Za-z_0-9]*", event[name]),
+                         "query provider error must be type only")
+        if "usage" in event:
+            _require(isinstance(event["usage"], dict)
+                     and all(name in {"total_tokens", "prompt_tokens", "input_tokens", "output_tokens"}
+                             and type(value) is int and value >= 0
+                             for name, value in event["usage"].items()), "invalid query provider usage")
+    if transformed["status"] == "error":
+        _require(strategy["status"] == "error"
+                 and strategy.get("reason") == transformed["reason"]
+                 and transformed["output"] is None and transformed["output_sha256"] is None
+                 and not strategy["channels"] and not strategy["stages"],
+                 "failed query transformation silently continued")
+        return original
+    _require(transformed["status"] == "completed" and transformed["reason"] is None,
+             "invalid query transformation completion")
+    output = transformed["output"]
+    _text(output, "query transformation output")
+    _require(len(original) <= 16000 and len(output) <= 4000
+             and transformed["output_sha256"] == _sha(output.encode("utf-8")),
+             "query transformation output budget/hash mismatch")
+    _require(all(event["status"] == "ok" and event.get("http_status") == 200
+                 and event.get("response_validation_status") == "ok" for event in events),
+             "query transformation completed with failed provider event")
+    return output
+
+
 def _audit_strategy(trace: dict[str, Any], declared: dict[str, Any],
                     chunks: dict[str, Any], texts: dict[str, str]) -> None:
     strategy = _obj(trace["strategy_trace"], {
         "requested_strategy", "effective_strategy", "status", "candidate_k", "rrf_k",
         "child_target_chars", "channels", "child_matches", "model_config", "cache",
         "stages", "fusion", "rerank", "resource_events",
-    }, {"reason"}, "strategy_trace")
+    }, {"reason", "query_transform"}, "strategy_trace")
     config = trace["config"]
+    dense_query = _audit_query_transform(trace, declared)
     for name in ("retrieval_strategy", "candidate_k", "rrf_k", "child_target_chars",
                  "retrieval_cache", "allow_retrieval_network"):
         _require(name in config and name in declared and config[name] == declared[name],
@@ -244,7 +323,7 @@ def _audit_strategy(trace: dict[str, Any], declared: dict[str, Any],
     expected_cache = {}
     for kind, inputs in (
         ("embed_documents", [chunks[identifier]["text"] for identifier in scope["eligible_chunk_ids"]]),
-        ("embed_query", [scope.get("body_query", "")]),
+        ("embed_query", [dense_query]),
     ):
         expected_cache[kind] = []
         for text in inputs:
@@ -658,7 +737,9 @@ def audit_artifact(input_path: Path, corpus_db: Path, *, trace_path: Path | None
                         _require(config[name] == retrieval_config[name], f"trace/envelope {name} mismatch")
                 if "strategy_trace" not in trace:
                     _require(config.get("retrieval_strategy", "bm25") == "bm25"
-                             and retrieval_config.get("retrieval_strategy", "bm25") == "bm25",
+                             and retrieval_config.get("retrieval_strategy", "bm25") == "bm25"
+                             and config.get("query_transform", "identity") == "identity"
+                             and retrieval_config.get("query_transform", "identity") == "identity",
                              "non-legacy retrieval strategy lacks a strategy trace")
                 requested_docs = config.get("doc_ids")
                 requested_versions = config.get("version_ids")

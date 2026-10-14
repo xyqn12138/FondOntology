@@ -18,14 +18,15 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from fondontology.qa.engine import answer_question
+from fondontology.qa.service import KnowledgeGraphRequest, KnowledgeGraphService
 from fondontology.qa.graph import build_stack
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def run(stack, question: str, *, detail: bool, use_llm: bool | None, rag_store=None) -> int:
-    ans = answer_question(question, stack, use_llm=use_llm, rag_store=rag_store)
+    ans = KnowledgeGraphService(stack, rag_store=rag_store).answer(
+        KnowledgeGraphRequest(question, use_llm=use_llm)).payload
     print(ans.text)
     if detail:
         print()

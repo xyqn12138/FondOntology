@@ -15,8 +15,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from fondontology.corpus import CorpusError
 from fondontology.qa.rag.document_pipeline import (
-    PROMPT_VERSION, UNRESOLVED_RESPONSE, answer_document,
+    PROMPT_VERSION, UNRESOLVED_RESPONSE,
 )
+from fondontology.qa.service import DocumentRequest, DocumentService, RetrievalPlan
 from fondontology.qa.rag.store import load_corpus_store
 from fondontology.qa.rag.document_retrieval import STRATEGIES
 
@@ -95,8 +96,13 @@ def _code_identity() -> dict:
             identity["dependencies"][package] = "not-installed"
     for path in (
         root / "fondontology/qa/rag/document_pipeline.py",
+        root / "fondontology/qa/rag/generation.py",
         root / "fondontology/qa/rag/document_scope.py",
         root / "fondontology/qa/rag/document_retrieval.py",
+        root / "fondontology/qa/rag/retrieval_stages.py",
+        root / "fondontology/qa/rag/query_transforms.py",
+        root / "fondontology/qa/rag/ranking.py",
+        root / "fondontology/qa/service.py",
         root / "tools/document_rag.py",
         root / "fondontology/qa/rag/store.py",
         root / "fondontology/qa/rag/retrieve.py",
@@ -158,6 +164,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--top-k", type=int, default=5)
     parser.add_argument("--retrieval-strategy", choices=STRATEGIES, default="bm25")
     parser.add_argument("--candidate-k", type=int, default=20)
+    parser.add_argument("--query-transform", choices=("identity", "rewrite", "hyde"),
+                        default="identity")
     parser.add_argument("--retrieval-cache", type=Path)
     parser.add_argument("--allow-retrieval-network", action="store_true")
     parser.add_argument("--allow-nontrusted", action="store_true")
@@ -172,6 +180,8 @@ def main(argv: list[str] | None = None) -> int:
         parser.error("--top-k must be positive")
     if args.candidate_k < 1 or args.candidate_k < args.top_k:
         parser.error("--candidate-k must be positive and at least --top-k")
+    if args.query_transform == "hyde" and args.retrieval_strategy != "hybrid_rrf":
+        parser.error("--query-transform hyde requires --retrieval-strategy hybrid_rrf")
     if args.cases and (args.entity_iri or args.doc_id is not None or args.version_id is not None):
         parser.error("Use case-level entity_iri/doc_ids/version_ids when --cases is supplied")
     traces_path = args.traces or args.output.with_suffix(".traces.jsonl")
@@ -210,23 +220,20 @@ def main(argv: list[str] | None = None) -> int:
                         args.db, args.snapshot, as_of=case_as_of,
                         allow_nontrusted=args.allow_nontrusted,
                         include_undated_research=args.include_undated_research)
-                result = answer_document(
-                    case["question"], db_path=args.db, snapshot_id=args.snapshot,
-                    as_of=case_as_of, top_k=args.top_k,
+                service = DocumentService(
+                    store=stores[case_as_of], resources=_provider_resources
+                    if args.retrieval_strategy in ("hybrid_rrf", "bm25_rerank") else None)
+                result = service.answer(DocumentRequest(
+                    question=case["question"], db_path=args.db, snapshot_id=args.snapshot,
+                    as_of=case_as_of,
+                    plan=RetrievalPlan(args.retrieval_strategy, args.query_transform,
+                                       args.top_k, args.candidate_k),
                     entity_iri=case.get("entity_iri"), allow_nontrusted=args.allow_nontrusted,
                     include_undated_research=args.include_undated_research, generate=args.generate,
-                    store=stores[case_as_of], doc_ids=case.get("doc_ids"),
-                    version_ids=case.get("version_ids"),
-                    **({
-                        "retrieval_strategy": args.retrieval_strategy,
-                        "candidate_k": args.candidate_k,
-                        "retrieval_cache": args.retrieval_cache,
-                        "allow_retrieval_network": args.allow_retrieval_network,
-                        "resources": _provider_resources
-                        if args.retrieval_strategy in ("hybrid_rrf", "bm25_rerank") else None,
-                    } if (args.retrieval_strategy != "bm25" or args.candidate_k != 20
-                          or args.retrieval_cache is not None
-                          or args.allow_retrieval_network) else {}))
+                    doc_ids=None if case.get("doc_ids") is None else tuple(case["doc_ids"]),
+                    version_ids=None if case.get("version_ids") is None else tuple(case["version_ids"]),
+                    retrieval_cache=args.retrieval_cache,
+                    allow_retrieval_network=args.allow_retrieval_network)).payload
             except Exception as error:
                 result = _failed_result(
                     case["question"], case_as_of, case.get("entity_iri"),
@@ -235,6 +242,7 @@ def main(argv: list[str] | None = None) -> int:
                     "doc_ids": case.get("doc_ids"), "version_ids": case.get("version_ids"),
                     "scope_policy": "document-body-scope-v1",
                     "retrieval_strategy": args.retrieval_strategy,
+                    "query_transform": args.query_transform,
                     "candidate_k": args.candidate_k,
                     "retrieval_cache": str(args.retrieval_cache.resolve())
                     if args.retrieval_cache else None,
@@ -266,6 +274,7 @@ def main(argv: list[str] | None = None) -> int:
                     else args.retrieval_strategy,
                     "top_k": args.top_k, "as_of": args.as_of,
                     "retrieval_strategy": args.retrieval_strategy,
+                    "query_transform": args.query_transform,
                     "candidate_k": args.candidate_k, "rrf_k": 60,
                     "child_target_chars": 240,
                     "retrieval_cache": str(args.retrieval_cache.resolve())

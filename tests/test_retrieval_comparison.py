@@ -20,7 +20,9 @@ class RetrievalComparisonTests(unittest.TestCase):
         ]
         audit = {"verified": True, "verification_kind": "local_artifact_consistency_only", "rows": [
             {"id": "answerable", "status": "error", "evidence": [], "retrieval_latency_ms": None,
-             "strategy_trace": {"resource_events": [{"kind": "rerank", "status": "error"}]}},
+             "strategy_trace": {"resource_events": [{"kind": "rerank", "status": "error"}],
+                                "query_transform": {"resource_events": [
+                                    {"kind": "query_transform", "status": "ok"}]}}},
             {"id": "negative", "status": "unresolved", "evidence": [], "retrieval_latency_ms": 1.0},
         ]}
         result = summarize_run(audit, questions, oracle)
@@ -29,6 +31,7 @@ class RetrievalComparisonTests(unittest.TestCase):
         self.assertEqual(result["diagnostics"]["target_only_precision"], 0)
         self.assertIsNone(result["diagnostics"]["retrieval_latency_ms"]["mean"])
         self.assertEqual(result["diagnostics"]["http_transport_error_count"], 1)
+        self.assertEqual(result["diagnostics"]["http_request_count"], 2)
         self.assertEqual(result["by_expected_status"]["retrieved"]["denominator"], 1)
 
     def test_nearest_rank_percentile_and_empty_group_are_explicit(self):
@@ -58,7 +61,8 @@ class RetrievalComparisonTests(unittest.TestCase):
         identity = _paired_identity(audit, envelope)
         candidate = deepcopy(envelope)
         candidate["provenance"]["retrieval_config"].update(
-            retrieval_strategy="hybrid_rrf", allow_retrieval_network=True, retrieval_cache="cache")
+            retrieval_strategy="hybrid_rrf", query_transform="hyde",
+            allow_retrieval_network=True, retrieval_cache="cache")
         self.assertEqual(identity, _paired_identity(audit, candidate))
         for field, value in (("candidate_k", 40), ("rrf_k", 30), ("case_scopes", []),
                              ("per_case_dates", {"question": "2025-01-01"})):

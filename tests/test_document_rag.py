@@ -91,7 +91,7 @@ class DocumentRagTest(unittest.TestCase):
         output = self.root / "actual.json"
         cases = load_cases(FIXTURE / "cases.json")
         with redirect_stdout(io.StringIO()), patch(
-                "tools.document_rag.answer_document", wraps=answer_document) as call:
+                "fondontology.qa.rag.document_pipeline.answer_document", wraps=answer_document) as call:
             code = main([
                 "--db", str(self.db), "--snapshot", "both", "--as-of", "2026-10-11",
                 "--cases", str(FIXTURE / "cases.json"), "--allow-nontrusted",
@@ -101,7 +101,8 @@ class DocumentRagTest(unittest.TestCase):
         self.assertEqual(set(call.call_args.kwargs), {
             "db_path", "snapshot_id", "as_of", "top_k", "entity_iri",
             "allow_nontrusted", "include_undated_research", "generate", "store",
-            "doc_ids", "version_ids"})
+            "doc_ids", "version_ids", "retrieval_strategy", "candidate_k", "retrieval_cache",
+            "allow_retrieval_network", "resources", "query_transform", "query_transform_resource"})
         payload = json.loads(output.read_text(encoding="utf-8"))
         row = payload["rows"][0]
         self.assertEqual(set(row), {"id", "user_input", "response", "retrieved_contexts"})

@@ -19,7 +19,7 @@ __all__ = [
     "verify", "graph", "semantics", "query_planner", "sparql_builder",
     "abox_query", "evidence", "context", "templates", "engine",
     "index", "resolver", "validator", "lexicon", "intent", "explainer",
-    "enforce",
+    "enforce", "service",
 ]
 
 
