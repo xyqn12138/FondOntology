@@ -99,7 +99,7 @@ def main(argv=None) -> int:
                 outputs["domain-review.json"] = args.review.read_bytes()
             freeze = {
                 "schema_version": "1.0", "dataset_id": "real_user_qa_v1",
-                "frozen_date": "2026-10-13", "as_of": "2026-10-13",
+                "frozen_date": "2026-10-14", "as_of": "2026-10-13",
                 "case_count": len(rows), "source_version": lock["source_version"],
                 "catalog_sha256": lock["catalog_sha256"],
                 "review_status": "draft", "independent_human_review": False,

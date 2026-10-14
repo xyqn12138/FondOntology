@@ -1,0 +1,833 @@
+{
+  "schema_version": "1.0",
+  "review_status": "draft",
+  "review_phase": "complete_independent_model_review",
+  "reviewer_kind": "independent_model",
+  "human_reviewed": false,
+  "source_version": "fund-rag-source-v1-20261013",
+  "catalog_sha256": "68e1e977ebae02c1d6659111a211a6c8579a57496f788c29ad5a542c19688800",
+  "review_constraints": {
+    "external_law_searched": false,
+    "old_question_bank_read": false,
+    "actual_outputs_read": false,
+    "rag_executed": false,
+    "scoring_executed": false,
+    "legal_currency_certified": false,
+    "positive_evidence_scope": "Frozen ready Markdown text; not independent re-verification of every original PDF.",
+    "eligible_evidence_document_count": 43,
+    "source_document_markdown_hashes_verified": true,
+    "author_questions_only_natural_context": true,
+    "partial_answer_with_clarification_allowed": true,
+    "previous_contract_findings_preserved": true,
+    "previous_contract_findings_note": "Prior code-review findings are preserved as recorded; this final pass reviewed author cases and frozen source text and did not re-run RAG, scoring, or certify legal currency."
+  },
+  "author_input_sha256": {
+    "business.json": "f0becd0bdb060f9fbd8f572d57d61b83f153aad92aa5591388a45c65c4ecac6a",
+    "technical.json": "c98e9ee6c4d1a6e1f9be6894f8108f6ccd63d4f1b5bbced8a396b93e5191af0f",
+    "boundary.json": "5b59c1ff77851e2b0d2d1d04bc6359fd4e91f15df43b646c7c8b4eed9cc5e38c"
+  },
+  "contract_findings": [
+    {
+      "id": "contract-review-provenance",
+      "priority": "P2",
+      "status": "resolved",
+      "file": "fondontology/evaluation/natural_qa.py",
+      "function": "validate_release",
+      "finding": "The release validator does not require freeze.review_status=draft, freeze.independent_human_review=false, or the expected oracle.authorship. A rehashed artifact can claim human review and still pass this validator.",
+      "requested_revision": "Explicitly validate draft and non-human authorship provenance in freeze and oracle. Keep independent model acceptance separate from human certification.",
+      "resolution": "Re-read validate_release: freeze draft/humanfalse and exact oracle model authorship are now required."
+    },
+    {
+      "id": "contract-date-source-binding",
+      "priority": "P2",
+      "status": "resolved",
+      "file": "fondontology/evaluation/natural_qa.py",
+      "function": "validate_release",
+      "finding": "protocol.as_of, protocol.catalog_sha256 and protocol.baseline_snapshot are not checked against freeze/lock. Runtime questions use freeze.as_of, so protocol metadata can disagree while validation passes.",
+      "requested_revision": "Check shared dates and source/snapshot identity across protocol, freeze, questions and source lock.",
+      "resolution": "Re-read validate_release: protocol catalog hash, baseline snapshot and as_of are checked against lock/freeze."
+    },
+    {
+      "id": "contract-runtime-scope-limit",
+      "priority": "P2",
+      "status": "documented_limitation",
+      "finding": "Separate questions/oracle/references and the exact runtime field whitelist establish input separation. They alone cannot prove that a future retrieval process did not read gold files or alter eligibility. Recorded full-corpus eligible-set equality is a trace audit, not proof of actual retriever execution over all members.",
+      "requested_revision": "Preserve the documented limit; any future execution must consume questions only and audit exact eligible-set equality independently. Do not present this draft build as an executed RAG validation."
+    }
+  ],
+  "cases": [
+    {
+      "id": "rq-b01",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "题面明确股票型公募和名称中的医药方向；70%与60%分别低于冻结文本两个80%门槛。答案区分基金资产与非现金基金资产分母，没有补入特殊品种豁免。",
+      "source_evidence": [
+        {
+          "doc_id": "l1-6f014fe27f98",
+          "line": 136
+        },
+        {
+          "doc_id": "l1-6f014fe27f98",
+          "line": 150
+        }
+      ],
+      "evidence_note": "Removed bond-fund classification and the next-article lead-in; retained both distinct 80% denominators."
+    },
+    {
+      "id": "rq-b02",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "普通公募FOF身份足以适用所引集中度与嵌套限制；单只基金25%超过20%，另买FOF亦落入禁止项。不得将一般基金持有其他基金限制中的FOF例外误扩成无限制。",
+      "source_evidence": [
+        {
+          "doc_id": "l1-6f014fe27f98",
+          "line": 152
+        },
+        {
+          "doc_id": "l1-6f014fe27f98",
+          "line": 162
+        }
+      ],
+      "evidence_note": "Separate exact spans preserve the prohibition lead-in and FOF restriction; no unrelated general 10% item is required."
+    },
+    {
+      "id": "rq-b03",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "普通开放式公募净赎回12%超过10%，比例处理、当日最低办理量及未办理部分撤销/顺延定价都有直接依据。答案同时纳入现金不足时审慎评估与合同中单一持有人大额延期安排，不支持大客户任意优先。",
+      "source_evidence": [
+        {
+          "doc_id": "l1-6f014fe27f98",
+          "line": 114
+        },
+        {
+          "doc_id": "l1-288348db871e",
+          "line": 78
+        }
+      ]
+    },
+    {
+      "id": "rq-b04",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "以基准日解释今年为2026年；自然的新发普通主动股票基金条件排除了施行前存量基金过渡期混淆。5日短于7日，对应最低1.5%、全额归基金财产，除赎回费外优惠及禁止先收后返有直接证据。未再要求用户预先知道已采用某费率版本。",
+      "source_evidence": [
+        {
+          "doc_id": "l1-087279ad5f40",
+          "line": 38
+        },
+        {
+          "doc_id": "l1-087279ad5f40",
+          "line": 56
+        },
+        {
+          "doc_id": "l1-087279ad5f40",
+          "line": 76
+        }
+      ],
+      "resolved_issues": [
+        {
+          "priority": "P2",
+          "status": "resolved",
+          "finding": "Prior scenario signaled an already-adopted fee version and lacked direct refund-prohibition evidence.",
+          "requested_revision": "Use natural issuance timing and directly support the no-refund conclusion.",
+          "resolution": "Final question uses a newly issued 2026 ordinary active equity fund; effective and transition clauses were inspected, and article 20 directly supports the refund prohibition. Unrelated fee-band tail and heading were removed."
+        }
+      ],
+      "evidence_note": "The complete negative lead-in through item (3) is retained as continuous context; adjacent prohibited practices are not additional answer requirements."
+    },
+    {
+      "id": "rq-b05",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "境内公募季报期限为季度结束起15个工作日，完整报告与提示性公告的媒介区分准确；合同生效不足两个月是可以不编制当期报告的例外。答案未将不足两个月扩成永久豁免或断言本题已逾期。",
+      "source_evidence": [
+        {
+          "doc_id": "l1-625a9db0ed9a",
+          "line": 114
+        }
+      ]
+    },
+    {
+      "id": "rq-b06",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "基金经理变动被列明为重大事件，须在两日内编制并披露临时报告。两日未被改成两个工作日，季报不能替代及时临时披露。",
+      "source_evidence": [
+        {
+          "doc_id": "l1-625a9db0ed9a",
+          "line": 122
+        },
+        {
+          "doc_id": "l1-625a9db0ed9a",
+          "line": 144
+        }
+      ]
+    },
+    {
+      "id": "rq-b07",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "题面提供基金已成立和信息重大变化两个前提；三个工作日内更新招募说明书与产品资料概要并上规定网站得到直接支持。网页简介不能替代正式文件，月底处理只被表述为可能逾期。",
+      "source_evidence": [
+        {
+          "doc_id": "l1-625a9db0ed9a",
+          "line": 86
+        }
+      ]
+    },
+    {
+      "id": "rq-b08",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "销售结算资金与平台自有/破产财产分离，原卡注销对应结算账户变更流程；申请主体、机构备案责任及未申请时归集存放均准确。资金权属保护没有被误写为即时足额到账保证。",
+      "source_evidence": [
+        {
+          "doc_id": "l1-1e4a66f9b18c",
+          "line": 12
+        },
+        {
+          "doc_id": "l1-6983835b2f9e",
+          "line": 102
+        }
+      ]
+    },
+    {
+      "id": "rq-b09",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "题面提供主动购买、无主动推介、非最低风险类和符合准入条件，答案仍保留资格审核、特别书面或电子警示及知晓自担确认的程序。可以销售未被误写为必须销售。",
+      "source_evidence": [
+        {
+          "doc_id": "l1-7e66f1c5846c",
+          "line": 68
+        },
+        {
+          "doc_id": "amac-investor-suitability-2017",
+          "line": 288
+        }
+      ]
+    },
+    {
+      "id": "rq-b10",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "最低风险类别是题面已给定的测评结果而非根据父亲年龄推断。冻结指引的机构禁止销售及投资者不得购买规则支持否定结论，主动要求与免责声明不能越过该限制。",
+      "source_evidence": [
+        {
+          "doc_id": "amac-investor-suitability-2017",
+          "line": 260
+        },
+        {
+          "doc_id": "amac-investor-suitability-2017",
+          "line": 270
+        },
+        {
+          "doc_id": "amac-investor-suitability-2017",
+          "line": 274
+        }
+      ],
+      "evidence_note": "Separate exact spans preserve the sales prohibition lead-in and item (5), plus the investor purchase prohibition."
+    },
+    {
+      "id": "rq-b11",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "320万元只满足所述金融资产条件，单只10万元仍低于100万元；风险识别和承担能力仍是条件。禁止拆分份额或收益权降低标准有独立依据，答案未偷加特殊身份。",
+      "source_evidence": [
+        {
+          "doc_id": "l1-2c28ec1dd684",
+          "line": 68
+        },
+        {
+          "doc_id": "private-investment-fund-regulation-2023",
+          "line": 75
+        }
+      ]
+    },
+    {
+      "id": "rq-b12",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "备案非实质能力判断且不保证财产安全/收益，与私募不得承诺本金不受损或最低收益组合，足以否定6%保底宣传。没有从宣传违法直接认定实际诈骗或犯罪。",
+      "source_evidence": [
+        {
+          "doc_id": "private-investment-fund-regulation-2023",
+          "line": 79
+        },
+        {
+          "doc_id": "amac-private-fund-registration-2023",
+          "line": 24
+        }
+      ],
+      "evidence_note": "Only the principal/minimum-return prohibition and registration non-guarantee paragraph are required."
+    },
+    {
+      "id": "rq-b13",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "题面已明确整体募集规模及各投资者首期实缴符合最低要求，补足了募集完毕判断所需前提；签约加首期入基金财产账户不需等全部后续认缴款。20个工作日是管理人报送期限，材料类别正确且未混同协会办结期限。",
+      "source_evidence": [
+        {
+          "doc_id": "private-investment-fund-regulation-2023",
+          "line": 81
+        },
+        {
+          "doc_id": "amac-private-fund-registration-2023",
+          "line": 370
+        }
+      ],
+      "resolved_issues": [
+        {
+          "priority": "P2",
+          "status": "resolved",
+          "finding": "First-payment receipt alone did not establish minimum initial funding conditions.",
+          "requested_revision": "Explicitly supply overall fundraising and per-investor first-payment minimum premises.",
+          "resolution": "Final question states that fundraising scale and every investor's initial contribution meet the minimum requirements; the reference no longer silently supplies this premise."
+        }
+      ]
+    },
+    {
+      "id": "rq-b14",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "备案完成前仅为现金管理目的使用银行活期、国债、央票、货基等认可工具，不能扩成允许任意投资。提交成功与材料齐备起算的办结、公示区分正确；补材料情形未被当作自然届满即成功。",
+      "source_evidence": [
+        {
+          "doc_id": "amac-private-fund-registration-2023",
+          "line": 392
+        }
+      ]
+    },
+    {
+      "id": "rq-b15",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "备案后私募股权基金的赎回/退出限制与份额转让、退出投资项目减资等明列排除情形区分准确。未将例外误当作每日可赎回、保证成交或立即回款。",
+      "source_evidence": [
+        {
+          "doc_id": "amac-private-fund-registration-2023",
+          "line": 344
+        }
+      ],
+      "evidence_note": "The shared exclusion context and listed exceptions remain; the unrelated open-subscription paragraph was removed."
+    },
+    {
+      "id": "rq-b16",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "合同另有约定可构成原则托管规则的例外，但不托管仍需明确财产安全制度措施和纠纷解决机制，单写管理人保管不足。答案限定一般条款，明确合同例外不是对其他要求的无限豁免。",
+      "source_evidence": [
+        {
+          "doc_id": "l1-2c28ec1dd684",
+          "line": 114
+        },
+        {
+          "doc_id": "private-investment-fund-regulation-2023",
+          "line": 70
+        }
+      ],
+      "evidence_note": "The separate custodial-duty article was removed; remaining excerpts concern opting out of custody and required safeguards.",
+      "behavior_note": "Safe general guidance may coexist with clarification of product type and special circumstances. Do not require an unconditional statement that every private fund may opt out of custody."
+    },
+    {
+      "id": "rq-b17",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "未执行的违规指令应拒绝执行、立即通知并及时报告；已生效交易不能被写成事后拒绝执行。持续跟进、督促披露及造成损害时督促赔偿得到另一冻结托管条款支持。",
+      "source_evidence": [
+        {
+          "doc_id": "securities-investment-fund-law-2015",
+          "line": 167
+        },
+        {
+          "doc_id": "l1-48073b4b4805",
+          "line": 74
+        }
+      ]
+    },
+    {
+      "id": "rq-b18",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "题面已明确出席比例合格，答案正确改用更换托管人的特别表决门槛：参加大会所持表决权三分之二以上，60%不足。备案公告义务保留，未改成以总人数计票或须先批准才投票。",
+      "source_evidence": [
+        {
+          "doc_id": "securities-investment-fund-law-2015",
+          "line": 410
+        }
+      ],
+      "evidence_note": "The retained text directly supplies the special two-thirds threshold and filing/publication; general-majority context is unnecessary for rejecting 60%."
+    },
+    {
+      "id": "rq-b19",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "题设境外托管疏忽造成财产损失，境内托管人承担相应责任的结论及委托前尽调/遴选、风险应急和持续监督均有依据。未将托管责任扩成对市场投资损失保本。",
+      "source_evidence": [
+        {
+          "doc_id": "l1-3ff1f1ad400f",
+          "line": 114
+        },
+        {
+          "doc_id": "l1-48073b4b4805",
+          "line": 92
+        }
+      ]
+    },
+    {
+      "id": "rq-b20",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "冻结外汇条款对净汇出额实行余额管理且明确包括外汇与人民币；按币种通过境内外汇/人民币托管账户办理足以否定普通公司账户替代。没有把余额上限误写成历史累计汇出总额。",
+      "source_evidence": [
+        {
+          "doc_id": "l1-b5ac01bafe1c",
+          "line": 15
+        },
+        {
+          "doc_id": "l1-b5ac01bafe1c",
+          "line": 31
+        }
+      ],
+      "evidence_note": "Removed conversion and FX-purchase details; retained the balance quota and custody-account routing."
+    },
+    {
+      "id": "rq-b21",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "题面给出在香港设立且获准内地销售的互认基金，适用特别披露口径有事实基础。香港监管及法律文件约定与另有规定、合理措施确保两地同步的条件保留；具体逾期仍需补充资料，可作安全的部分回答并澄清。",
+      "source_evidence": [
+        {
+          "doc_id": "l1-625a9db0ed9a",
+          "line": 270
+        },
+        {
+          "doc_id": "l1-59db1324b327",
+          "line": 52
+        }
+      ],
+      "evidence_note": "Removed enforcement content; retained general-rule exception, special timing, synchronization and access provisions.",
+      "behavior_note": "A supported general answer may coexist with a request for the fund's disclosure terms; the question does not establish an exact overdue finding."
+    },
+    {
+      "id": "rq-b22",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "普通公募FOF与ETF联接基金两个主体均由题面给出，分别使用ETF估值日收盘价与份额净值符合冻结FOF指引。未将证券公司估值口径或流程统一偏好替代主体适用规则。",
+      "source_evidence": [
+        {
+          "doc_id": "amac-fof-valuation-2017",
+          "line": 29
+        }
+      ]
+    },
+    {
+      "id": "rq-b23",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "融资已过去一段时间、业绩显著低于预算与轮次优先权差异均由题面给出。参考价需重新评估、不同权利义务分别估值有依据；材料不足以给具体折价比例或唯一模型。",
+      "source_evidence": [
+        {
+          "doc_id": "amac-unlisted-equity-valuation-2018",
+          "line": 35
+        },
+        {
+          "doc_id": "amac-unlisted-equity-valuation-2018",
+          "line": 67
+        }
+      ]
+    },
+    {
+      "id": "rq-b24",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "公募证券投资基金主体已明确，答案保留可参考及其他部门另有规定从其规定的条件。采用本指引时带限售期大宗交易股票按S×(1−LoMD)，仅停牌排除在范围之外；没有无条件强制模型或伪造折扣参数。",
+      "source_evidence": [
+        {
+          "doc_id": "amac-restricted-stock-valuation-2017",
+          "line": 13
+        },
+        {
+          "doc_id": "amac-restricted-stock-valuation-2017",
+          "line": 27
+        }
+      ],
+      "resolved_issues": [
+        {
+          "priority": "P2",
+          "status": "resolved",
+          "finding": "Subject applicability and the guideline's optional/qualified status were insufficiently explicit.",
+          "requested_revision": "Identify the public securities fund and retain may-refer and other-department-rule qualifications.",
+          "resolution": "Final question identifies a public securities investment fund; reference and answer points preserve conditional use and contrary specific provisions. Duplicate applicability evidence was removed."
+        }
+      ],
+      "evidence_note": "Applicability qualifications appear once beside the definition; the formula span supplies S and LoMD."
+    },
+    {
+      "id": "rq-t01",
+      "decision": "accept",
+      "issues": [],
+      "source_evidence": [
+        {
+          "doc_id": "central-data-exchange-protocol-v2.2-20260320",
+          "line": 4413
+        }
+      ],
+      "rationale": "The fixed fee example and interpretation of equal maximum/minimum fees are supported; do not generalize the encoding convention to every vendor system.",
+      "resolved_issues": [
+        {
+          "priority": "P2",
+          "finding": "The parameter convention belongs to an exchange interface, but the question only identifies general subscription-fee parameters.",
+          "requested_revision": "Add natural TA-to-sales central data exchange platform context without specifying a document or version.",
+          "status": "resolved",
+          "resolution": "Revised author file re-read; requested context or minimum necessary evidence is now present."
+        }
+      ]
+    },
+    {
+      "id": "rq-t02",
+      "decision": "accept",
+      "issues": [],
+      "source_evidence": [
+        {
+          "doc_id": "central-data-exchange-protocol-v2.2-20260320",
+          "line": 4230
+        },
+        {
+          "doc_id": "central-data-exchange-protocol-v2.2-20260320",
+          "line": 4859
+        }
+      ],
+      "rationale": "WholeFlag and conditional ModifyWay requirements match source columns and notes. All records must share full/incremental mode.",
+      "evidence_note": "Revised evidence uses unique adjacent WholeFlag/ModifyWay dictionary rows; unrelated CloseUnit removed."
+    },
+    {
+      "id": "rq-t03",
+      "decision": "accept",
+      "issues": [],
+      "source_evidence": [
+        {
+          "doc_id": "gb-t-39662-2020",
+          "line": 473
+        },
+        {
+          "doc_id": "fund-central-backup-interface-v2.2-20260320",
+          "line": 275
+        }
+      ],
+      "rationale": "The question supplies a real conflict and identifies public-fund TA reporting. The reference compares actual opposing arrangements and requires receiver-interface confirmation; its 2026 branch is conditional rather than secretly assumed. It does not declare the national standard repealed."
+    },
+    {
+      "id": "rq-t04",
+      "decision": "accept",
+      "issues": [],
+      "source_evidence": [
+        {
+          "doc_id": "fund-central-backup-interface-v2.2-20260320",
+          "line": 307
+        }
+      ],
+      "rationale": "Deadline, confirmation-day filename and trading-day interpretation follow the explicit T/T+1/T+2 example."
+    },
+    {
+      "id": "rq-t05",
+      "decision": "accept",
+      "issues": [],
+      "source_evidence": [
+        {
+          "doc_id": "fund-central-backup-interface-v2.2-20260320",
+          "line": 293
+        }
+      ],
+      "rationale": "All substantive workflow and receipt claims are supported. ACC only establishes format acceptance.",
+      "naturalness_suggestion": "Resolved: no-business-day subquestion and corresponding answer points removed.",
+      "resolved_issues": [
+        {
+          "priority": "P2",
+          "finding": "The required evidence span includes irrelevant self-built/sub-TA reporting responsibilities, inflating the complete-span requirement.",
+          "requested_revision": "Use separate minimum necessary unique excerpts for ordering, no-data submission if retained, and receipt meanings.",
+          "status": "resolved",
+          "resolution": "Revised author file re-read; requested context or minimum necessary evidence is now present."
+        }
+      ]
+    },
+    {
+      "id": "rq-t06",
+      "decision": "accept",
+      "issues": [],
+      "source_evidence": [
+        {
+          "doc_id": "fund-central-backup-interface-v2.2-20260320",
+          "line": 1924
+        },
+        {
+          "doc_id": "fund-central-backup-interface-v2.2-20260320",
+          "line": 1928
+        }
+      ],
+      "rationale": "The questions concern one coherent reconciliation-level dimension. Keys, required flags 0/1/3, excluded flag 2, level-specific balance measures and zero-share flag-3 reporting are supported."
+    },
+    {
+      "id": "rq-t07",
+      "decision": "accept",
+      "issues": [],
+      "source_evidence": [
+        {
+          "doc_id": "fund-central-backup-interface-v2.2-20260320",
+          "line": 1922
+        },
+        {
+          "doc_id": "fund-central-backup-interface-v2.2-20260320",
+          "line": 1936
+        }
+      ],
+      "rationale": "Incremental clearing, branch migration and previously-held full-file zero records are correctly distinguished from never-held accounts.",
+      "resolved_issues": [
+        {
+          "priority": "P2",
+          "finding": "The full-reporting gold excerpt unnecessarily includes hanging-position sales-code instructions.",
+          "requested_revision": "Use only the unique paragraph beginning 5) 发送全量份额对账时 for the second evidence span.",
+          "status": "resolved",
+          "resolution": "Revised author file re-read; requested context or minimum necessary evidence is now present."
+        }
+      ]
+    },
+    {
+      "id": "rq-t08",
+      "decision": "accept",
+      "issues": [],
+      "source_evidence": [
+        {
+          "doc_id": "l1-d02c79127cb8",
+          "line": 94
+        },
+        {
+          "doc_id": "l1-d02c79127cb8",
+          "line": 132
+        }
+      ],
+      "rationale": "C0501/C0502/C0503 and five-character code construction match the source table and code rules. Concrete system responsibilities give sufficient context without document hints."
+    },
+    {
+      "id": "rq-t09",
+      "decision": "accept",
+      "issues": [],
+      "source_evidence": [
+        {
+          "doc_id": "amac-fund-advisory-interface-2021",
+          "line": 211
+        },
+        {
+          "doc_id": "amac-fund-advisory-interface-2021",
+          "line": 225
+        }
+      ],
+      "rationale": "The unusual encrypt-to-string-before-compression ordering is explicitly in this source and must not be corrected from generic engineering convention. Required .ok behavior is supported.",
+      "resolved_issues": [
+        {
+          "priority": "P2",
+          "finding": "The required .ok excerpt unnecessarily includes who assigns organization codes.",
+          "requested_revision": "Trim the second span to the unique .txt.ok requirement sentence.",
+          "status": "resolved",
+          "resolution": "Revised author file re-read; requested context or minimum necessary evidence is now present."
+        }
+      ]
+    },
+    {
+      "id": "rq-t10",
+      "decision": "accept",
+      "issues": [],
+      "source_evidence": [
+        {
+          "doc_id": "amac-fund-advisory-interface-2021",
+          "line": 389
+        },
+        {
+          "doc_id": "amac-fund-advisory-interface-2021",
+          "line": 395
+        }
+      ],
+      "rationale": "Revised question focuses on full reporting, confirmation-day zero records and unpaid-income changes; all are supported by the two minimum necessary source sentences.",
+      "naturalness_suggestion": "Resolved: unrelated total/available-share definition subquestion and gold removed."
+    },
+    {
+      "id": "rq-t11",
+      "decision": "accept",
+      "issues": [],
+      "source_evidence": [
+        {
+          "doc_id": "amac-restricted-stock-valuation-2017",
+          "line": 13
+        },
+        {
+          "doc_id": "amac-restricted-stock-valuation-2017",
+          "line": 27
+        }
+      ],
+      "rationale": "10% discount and 18 yuan value directly follow the stated S/P and formula. The source expressly excludes suspended, newly issued unlisted and pledged securities in this scope. Historical guidance is identified as frozen reference, not certified current law."
+    },
+    {
+      "id": "rq-t12",
+      "decision": "accept",
+      "issues": [],
+      "source_evidence": [
+        {
+          "doc_id": "amac-fof-valuation-2017",
+          "line": 29
+        },
+        {
+          "doc_id": "amac-fof-valuation-2017",
+          "line": 43
+        }
+      ],
+      "rationale": "Ordinary FOF ETF close, feeder ETF NAV, domestic LOF NAV and no-trading material-change exceptions match the frozen source. The answer preserves optional valuation alternatives."
+    },
+    {
+      "id": "rq-c01",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "Product, application and channel context is missing. The reference correctly distinguishes acceptance/payment from actual arrival and does not assert universal absence of deadlines.",
+      "source_evidence": [
+        {
+          "doc_id": "l1-6f014fe27f98",
+          "line": 106,
+          "quote": "基金管理人应当自接受投资者有效赎回申请之日起七个工作日内支付赎回款项，但中国证监会规定的特殊基金品种除外。"
+        },
+        {
+          "doc_id": "l1-6f014fe27f98",
+          "line": 124,
+          "quote": "已经接受的赎回申请可以延缓支付赎回款项，但延缓期限不得超过二十个工作日"
+        }
+      ],
+      "behavior_note": "Conditional general guidance is allowed when clearly distinguished from an unconditional arrival guarantee."
+    },
+    {
+      "id": "rq-c02",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "The wording does not identify public/private fundraising or filing workflow. Clarification prevents importing a gold document's unstated prerequisites.",
+      "source_evidence": [
+        {
+          "doc_id": "amac-private-fund-registration-2023",
+          "line": 370,
+          "quote": "第三十九条 私募基金管理人应当自私募基金募集完毕之日起20个工作日内，向协会报送下列材料，办理备案手续："
+        },
+        {
+          "doc_id": "amac-private-fund-registration-2023",
+          "line": 390,
+          "quote": "募集完毕是指私募基金的已认缴投资者已签署基金合同，且首期实缴募集资金已进入托管账户等基金财产账户。"
+        },
+        {
+          "doc_id": "l1-6f014fe27f98",
+          "line": 80,
+          "quote": "第十三条 中国证监会自收到基金管理人验资报告和基金备案材料之日起三个工作日内予以书面确认；自中国证监会书面确认之日起，基金备案手续办理完毕，基金合同生效。"
+        }
+      ]
+    },
+    {
+      "id": "rq-c03",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "No platform, report or field is identified; a universal storage-unit assertion cannot be warranted from this question.",
+      "source_evidence": [
+        {
+          "doc_id": "central-data-exchange-protocol-v2.2-20260320",
+          "line": 601,
+          "scope": "AnnualIncome field defines its unit as 元."
+        },
+        {
+          "doc_id": "central-data-exchange-protocol-v2.2-20260320",
+          "line": 1846,
+          "scope": "DividendPerUnit requires a per-distribution-unit amount, used with DrawBonusUnit."
+        }
+      ],
+      "behavior_note": "Do not turn the reference into an unsupported claim that every platform necessarily uses different units."
+    },
+    {
+      "id": "rq-c04",
+      "decision": "accept",
+      "issues": [],
+      "rationale": "Acquisition route and restriction type affect applicability. The frozen restricted-stock guidance explicitly excludes some restricted situations and allows private-fund reference according to contract.",
+      "source_evidence": [
+        {
+          "doc_id": "amac-restricted-stock-valuation-2017",
+          "section": "一、总则（二）",
+          "quote": "不包括停牌、新发行未上市、回购交易中的质押券等流通受限股票。"
+        },
+        {
+          "doc_id": "amac-restricted-stock-valuation-2017",
+          "section": "一、总则（六）",
+          "quote": "（六）私募基金投资流通受限股票的，可根据合同约定，参考本指引执行。"
+        }
+      ],
+      "behavior_note": "Accept an answer beginning 不一定 followed by applicable conditions and clarification; do not demand a question-only response."
+    },
+    {
+      "id": "rq-o01",
+      "decision": "accept",
+      "issues": [],
+      "source_evidence": [],
+      "rationale": "Frozen rules and interface texts provide no live product-return rankings. The reference avoids invented products and requires comparable intervals/categories. This is an environment/data boundary, not a legal assertion."
+    },
+    {
+      "id": "rq-o02",
+      "decision": "accept",
+      "issues": [],
+      "source_evidence": [],
+      "rationale": "No personal order feed exists in the static corpus. General confirmation deadlines cannot prove the order's state. The relative date is deterministically 2026-10-12 under the proposed as_of date."
+    },
+    {
+      "id": "rq-o03",
+      "decision": "accept",
+      "issues": [],
+      "source_evidence": [],
+      "rationale": "Neither the company nor an actual decision/status record is supplied. General sanctions provisions cannot establish an individual company's status.",
+      "behavior_note": "Clarification may accompany abstention. Judge explicit inability to conclude and evidence request, not an exclusive behavior label."
+    },
+    {
+      "id": "rq-o04",
+      "decision": "accept",
+      "issues": [],
+      "source_evidence": [],
+      "rationale": "No positions or prices are available. Asking for sanitized holdings and dated prices is an appropriate next step without fabricating a total.",
+      "behavior_note": "Clarification may accompany abstention. A general calculation formula is allowed if it is not represented as the user's actual account value."
+    }
+  ],
+  "technical_evidence_check": {
+    "case_count": 12,
+    "span_count": 21,
+    "all_spans_exact_unique_body_matches": true,
+    "source_document_count": 7
+  },
+  "summary": {
+    "reviewed_case_count": 44,
+    "accepted_case_count": 44,
+    "revise_case_count": 0,
+    "complete_author_batch_approved": true,
+    "remaining": "No unresolved case revisions. This is independent model approval of the exact author inputs bound below; artifacts remain draft and have not received human review, legal-currency certification, or executed RAG validation."
+  },
+  "reviewer_model": "gpt-6-astra",
+  "reasoning_effort": "high",
+  "full_batch_approved": true,
+  "reviewed_date": "2026-10-14",
+  "as_of": "2026-10-13",
+  "business_evidence_check": {
+    "case_count": 24,
+    "span_count": 44,
+    "all_spans_exact_unique_body_matches": true,
+    "source_document_count": 19,
+    "evidence_character_count": 6173
+  },
+  "final_evidence_check": {
+    "case_count": 44,
+    "answer_case_count": 36,
+    "boundary_case_count": 8,
+    "authored_positive_span_count": 65,
+    "all_positive_spans_exact_unique_body_matches": true,
+    "eligible_document_count": 43,
+    "ready_markdown_hash_mismatch_count": 0,
+    "source_document_count": 24,
+    "boundary_note": "Eight clarify/abstain cases intentionally have no author gold retrieval spans. Earlier source context and behavior qualifications are preserved in their individual reviews."
+  }
+}

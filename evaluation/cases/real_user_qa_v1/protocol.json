@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "dataset_id": "real_user_qa_v1",
+  "source_version": "fund-rag-source-v1-20261013",
+  "catalog_sha256": "68e1e977ebae02c1d6659111a211a6c8579a57496f788c29ad5a542c19688800",
+  "baseline_snapshot": "data-reviewed-20261013",
+  "baseline_members_sha256": "89e0617d14d79dfa2c0d667fd05beac906918ae79d2ac38e3bc6d0e2edde1000",
+  "as_of": "2026-10-13",
+  "require_unscoped": true,
+  "runtime_fields": [
+    "id",
+    "question",
+    "as_of"
+  ],
+  "gold_policy": "Oracle and references never enter retrieval or generation; merge after execution.",
+  "retrieval_budget": {
+    "top_k": [
+      5,
+      10
+    ],
+    "primary": 5,
+    "candidate_k": 40,
+    "per_case_gold_budget_adjustment": false
+  },
+  "metrics": [
+    "complete_evidence_span_rate",
+    "execution_errors",
+    "recorded_full_corpus_scope_equality",
+    "answer_point_coverage",
+    "unsupported_claims",
+    "clarification_behavior",
+    "abstention_behavior",
+    "ragas_faithfulness",
+    "ragas_response_relevancy",
+    "latency",
+    "context_characters"
+  ],
+  "behavior_policy": "Expected behavior is the primary action, not mutually exclusive wording. Partial safe answers, clarification and data-boundary disclosure may coexist. Do not score these from retrieval status.",
+  "review_policy": "AI-authored draft; independent model review is not human certification.",
+  "exposure_policy": "Development/challenge set, not a blind holdout; first execution makes it exposed regression.",
+  "date_policy": "as_of filters available documents; does not certify current legal validity.",
+  "baseline_execution": "not_executed_by_release_builder"
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "dataset_id": "real_user_qa_v1",
+  "frozen_date": "2026-10-14",
+  "as_of": "2026-10-13",
+  "case_count": 44,
+  "source_version": "fund-rag-source-v1-20261013",
+  "catalog_sha256": "68e1e977ebae02c1d6659111a211a6c8579a57496f788c29ad5a542c19688800",
+  "review_status": "draft",
+  "independent_human_review": false,
+  "author_input_sha256": {
+    "business.json": "f0becd0bdb060f9fbd8f572d57d61b83f153aad92aa5591388a45c65c4ecac6a",
+    "technical.json": "c98e9ee6c4d1a6e1f9be6894f8108f6ccd63d4f1b5bbced8a396b93e5191af0f",
+    "boundary.json": "5b59c1ff77851e2b0d2d1d04bc6359fd4e91f15df43b646c7c8b4eed9cc5e38c"
+  },
+  "files": {
+    "sources.json": "ed0c819e8446ee1e5e95e8043d1f147a1e530225835ce600f6fba9a7b8d8f466",
+    "questions.json": "8c56cdee64cee5f6c865f106812267bcbb9daa8f1965f30f4f44f65a0ac076f3",
+    "oracle.json": "a1fe0bd13c90e4ce1a19954601de50366100e461e8ddd2ffe5b7efb766d1c0cc",
+    "references.json": "f83546561447e1b0c28c436319260ac60f62c5e415973c13a514e4c1c0a33865",
+    "protocol.json": "289dbbf04f6871484769fa4cdffc1f6d757348dce07161b395d428a5058c5bf8",
+    "domain-review.json": "9dc01d6308d947c4804c8ec22cc0f3bd9160e9013e05c22384c508cf44f3c7e2"
+  },
+  "validation": {
+    "source_version": "fund-rag-source-v1-20261013",
+    "catalog_sha256": "68e1e977ebae02c1d6659111a211a6c8579a57496f788c29ad5a542c19688800",
+    "case_count": 44,
+    "source_cue_case_count": 0,
+    "by_category": {
+      "business": 18,
+      "user": 13,
+      "system": 13
+    },
+    "by_behavior": {
+      "answer": 36,
+      "clarify": 4,
+      "abstain": 4
+    },
+    "by_task": {
+      "boundary": 21,
+      "workflow": 14,
+      "fact": 4,
+      "comparison": 5
+    },
+    "target_document_count": 24,
+    "cross_document_case_count": 11
+  },
+  "post_freeze_policy": "Corrections require a new explicit revision; never fit gold to actuals."
+}
